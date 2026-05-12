@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aayuh — AI Health Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --sage: #4a7c59; --sage-light: #7aab8a; --sage-pale: #eef4f0; --sage-dark: #2e5039;
+    --amber: #c8813a; --amber-light: #f0c080; --amber-pale: #fdf5ec;
+    --cream: #faf8f4; --ink: #1a1a18; --ink-soft: #7a7a72; --ink-faint: #b8b8b0;
+    --border: rgba(26,26,24,0.1); --border-mid: rgba(26,26,24,0.18);
+    --red-pale: #fdf0ee;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 3rem; background: rgba(250,248,244,0.9); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.65rem; font-weight: 600; color: var(--ink); letter-spacing: 0.02em; text-decoration: none; }
+  .nav-logo span { color: var(--sage); }
+  .nav-links { display: flex; gap: 2.2rem; align-items: center; }
+  .nav-links a { font-size: 0.82rem; font-weight: 400; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--sage); }
+  .nav-cta { font-size: 0.82rem; font-weight: 500; padding: 0.45rem 1.2rem; border: 1px solid var(--sage); border-radius: 40px; color: var(--sage); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.2s; }
+  .nav-cta:hover { background: var(--sage); color: white; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(74,124,89,0.07) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(200,129,58,0.06) 0%, transparent 60%); }
+  .hero-ornament { position: absolute; top: 12%; right: 8%; width: 340px; height: 340px; border-radius: 50%; border: 1px solid rgba(74,124,89,0.12); pointer-events: none; animation: orbit 18s linear infinite; }
+  .hero-ornament::before { content: ''; position: absolute; inset: 20px; border-radius: 50%; border: 1px solid rgba(74,124,89,0.08); }
+  .hero-ornament-2 { position: absolute; bottom: 10%; left: 5%; width: 220px; height: 220px; border-radius: 50%; border: 1px solid rgba(200,129,58,0.1); pointer-events: none; animation: orbit 24s linear infinite reverse; }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 1.4rem; display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; animation: fadeUp 0.8s ease both; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--sage); opacity: 0.3; max-width: 40px; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 300; line-height: 1.05; color: var(--ink); margin-bottom: 1.2rem; position: relative; z-index: 1; animation: fadeUp 0.9s 0.1s ease both; }
+  .hero-title em { font-style: italic; color: var(--sage); }
+  .hero-title .line2 { display: block; font-weight: 600; }
+  .hero-sub { font-size: 1.05rem; color: var(--ink-soft); max-width: 500px; margin: 0 auto 2.8rem; font-weight: 300; line-height: 1.75; position: relative; z-index: 1; animation: fadeUp 1s 0.2s ease both; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; animation: fadeUp 1s 0.3s ease both; }
+  .btn-primary { padding: 0.85rem 2.2rem; background: var(--sage); color: white; border: none; border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; text-decoration: none; letter-spacing: 0.03em; transition: all 0.25s; display: inline-block; font-family: 'DM Sans', sans-serif; }
+  .btn-primary:hover { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(74,124,89,0.25); }
+  .btn-ghost { padding: 0.85rem 2.2rem; background: transparent; color: var(--ink); border: 1px solid var(--border-mid); border-radius: 50px; font-size: 0.9rem; font-weight: 400; cursor: pointer; text-decoration: none; letter-spacing: 0.03em; transition: all 0.25s; display: inline-block; font-family: 'DM Sans', sans-serif; }
+  .btn-ghost:hover { border-color: var(--sage); color: var(--sage); }
+  .hero-trust { margin-top: 4rem; display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; animation: fadeUp 1s 0.4s ease both; }
+  .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--ink-soft); }
+  .trust-icon { width: 20px; height: 20px; }
+
+  /* SECTIONS */
+  .section { padding: 6rem 3rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--sage); }
+  .section-desc { font-size: 1rem; color: var(--ink-soft); max-width: 520px; font-weight: 300; line-height: 1.75; }
+
+  /* STEPS */
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3.5rem; }
+  .step-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+  .step-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.07); }
+  .step-card::before { content: attr(data-num); position: absolute; top: -12px; right: 16px; font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 600; color: rgba(74,124,89,0.06); line-height: 1; }
+  .step-icon { width: 40px; height: 40px; background: var(--sage-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .step-icon svg { width: 20px; height: 20px; stroke: var(--sage); fill: none; stroke-width: 1.5; }
+  .step-title { font-weight: 500; font-size: 1rem; margin-bottom: 0.5rem; color: var(--ink); }
+  .step-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+
+  /* CHECKER */
+  .checker-section { padding: 6rem 3rem; background: white; }
+  .checker-inner { max-width: 860px; margin: 0 auto; }
+  .checker-header { text-align: center; margin-bottom: 3rem; }
+  .form-card { background: var(--cream); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 0.78rem; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+  .form-input, .form-select { height: 46px; border: 1px solid var(--border-mid); border-radius: 10px; padding: 0 14px; font-size: 0.93rem; font-family: 'DM Sans', sans-serif; background: white; color: var(--ink); transition: border-color 0.2s, box-shadow 0.2s; appearance: none; -webkit-appearance: none; }
+  .form-input:focus, .form-select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,89,0.12); }
+  .form-textarea { border: 1px solid var(--border-mid); border-radius: 10px; padding: 12px 14px; font-size: 0.93rem; font-family: 'DM Sans', sans-serif; background: white; color: var(--ink); resize: vertical; min-height: 100px; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; line-height: 1.6; }
+  .form-textarea:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74,124,89,0.12); }
+  .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { font-size: 0.78rem; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-mid); color: var(--ink-soft); cursor: pointer; background: white; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .chip:hover { border-color: var(--sage); color: var(--sage); background: var(--sage-pale); }
+  .chip.on { border-color: var(--sage); color: var(--sage); background: var(--sage-pale); }
+  .submit-btn { width: 100%; height: 52px; background: var(--sage); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .submit-btn:hover:not(:disabled) { background: var(--sage-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(74,124,89,0.25); }
+  .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* Loading */
+  .loading-state { text-align: center; padding: 3rem 1rem; }
+  .pulse-ring { width: 56px; height: 56px; margin: 0 auto 1.2rem; position: relative; }
+  .pulse-ring::before, .pulse-ring::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--sage); animation: pulse-out 1.6s ease-out infinite; }
+  .pulse-ring::after { animation-delay: 0.8s; }
+  .pulse-dot { width: 14px; height: 14px; background: var(--sage); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+  @keyframes pulse-out { 0% { transform: scale(0.3); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+  .loading-state p { font-size: 0.9rem; color: var(--ink-soft); }
+  .loading-sub { font-size: 0.78rem; color: var(--ink-faint); margin-top: 4px; }
+
+  /* Results */
+  .results-wrap { margin-top: 2rem; }
+  .results-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; color: var(--ink); margin-bottom: 0.4rem; }
+  .triage-overall { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
+  .triage-label { font-size: 0.78rem; color: var(--ink-soft); }
+  .triage-badge { font-size: 0.7rem; font-weight: 500; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .t-emergency { background: #FCEBEB; color: #A32D2D; }
+  .t-urgent { background: var(--amber-pale); color: #854F0B; }
+  .t-routine { background: var(--sage-pale); color: var(--sage-dark); }
+
+  /* Condition card */
+  .condition-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; margin-bottom: 14px; transition: box-shadow 0.2s; animation: fadeUp 0.5s ease both; }
+  .condition-card:nth-child(2) { animation-delay: 0.05s; }
+  .condition-card:nth-child(3) { animation-delay: 0.1s; }
+  .condition-card:nth-child(4) { animation-delay: 0.15s; }
+  .condition-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
+  .cond-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 12px; }
+  .cond-name { font-weight: 500; font-size: 1.08rem; color: var(--ink); }
+  .cond-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px; font-weight: 300; }
+
+  /* Match meter */
+  .match-section { margin-bottom: 14px; }
+  .match-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+  .match-label { font-size: 0.72rem; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
+  .match-pct-wrap { display: flex; align-items: baseline; gap: 3px; }
+  .match-pct { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--ink); line-height: 1; }
+  .match-pct-unit { font-size: 0.75rem; color: var(--ink-soft); }
+  .match-track { height: 7px; border-radius: 4px; background: var(--sage-pale); overflow: hidden; }
+  .match-fill { height: 7px; border-radius: 4px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+  .fill-low  { background: linear-gradient(90deg, #c8813a, #e0a060); }
+  .fill-mid  { background: linear-gradient(90deg, #4a9b6a, #70c090); }
+  .fill-high { background: linear-gradient(90deg, #2e7d55, #4a7c59); }
+  .match-caption { font-size: 0.75rem; color: var(--ink-faint); margin-top: 4px; }
+
+  /* Remaining symptoms */
+  .remaining-section { background: var(--sage-pale); border-radius: 10px; padding: 1rem 1.2rem; }
+  .remaining-title { font-size: 0.72rem; font-weight: 500; color: var(--sage-dark); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+  .remaining-title::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+  .remaining-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rem-chip { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; background: white; border: 1px solid rgba(74,124,89,0.2); color: var(--sage-dark); }
+
+  .disclaimer-box { background: var(--cream); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1.5rem; font-size: 0.78rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+
+  /* FEATURES */
+  .features-section { padding: 5rem 3rem; background: var(--sage-pale); }
+  .features-inner { max-width: 1100px; margin: 0 auto; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .feature-icon { width: 44px; height: 44px; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .feature-icon svg { width: 20px; height: 20px; stroke: var(--sage); fill: none; stroke-width: 1.5; }
+  .feature-title { font-weight: 500; font-size: 1rem; color: var(--ink); margin-bottom: 0.4rem; }
+  .feature-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+
+  /* FOOTER */
+  footer { background: var(--ink); padding: 3.5rem 3rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: white; }
+  .footer-logo span { color: var(--sage-light); }
+  .footer-tag { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 4px; font-weight: 300; }
+  .footer-disclaimer { font-size: 0.75rem; color: rgba(255,255,255,0.25); max-width: 460px; line-height: 1.65; font-weight: 300; }
+
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .section, .checker-section, .features-section { padding: 4rem 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 2.5rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Aa<span>yuh</span></a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#checker">Check symptoms</a>
+    <a href="#checker" class="nav-cta">Try now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-ornament-2"></div>
+  <div class="hero-eyebrow">Intelligent health analysis</div>
+  <h1 class="hero-title">
+    Know your body,<br>
+    <em>understand</em> <span class="line2">your health.</span>
+  </h1>
+  <p class="hero-sub">
+    Describe your symptoms and Aayuh instantly maps them to possible conditions — showing your match score and what symptoms to watch for next.
+  </p>
+  <div class="hero-btns">
+    <a href="#checker" class="btn-primary">Check symptoms now</a>
+    <a href="#how" class="btn-ghost">How it works</a>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--sage)"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      Clinically-informed analysis
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--sage)"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      Private &amp; secure
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--sage)"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Results in seconds
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">From symptoms to <em>clarity</em><br>in seconds.</h2>
+    <p class="section-desc">Our intelligent health engine analyses your symptoms, matches clinical patterns, and shows exactly how close each condition is — and what to watch for next.</p>
+    <div class="steps-grid">
+      <div class="step-card" data-num="01">
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
+        <div class="step-title">Enter your profile</div>
+        <div class="step-desc">Provide your age and biological sex to calibrate the analysis for your demographic.</div>
+      </div>
+      <div class="step-card" data-num="02">
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div>
+        <div class="step-title">Describe your symptoms</div>
+        <div class="step-desc">Type freely in plain language or tap quick-select chips. No medical knowledge required.</div>
+      </div>
+      <div class="step-card" data-num="03">
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <div class="step-title">See your match score</div>
+        <div class="step-desc">Each condition shows a symptom match percentage — how much of the disease's full picture your current symptoms cover.</div>
+      </div>
+      <div class="step-card" data-num="04">
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div>
+        <div class="step-title">Know what to watch for</div>
+        <div class="step-desc">For each condition, see the remaining symptoms that would complete the clinical picture — so you can monitor your health proactively.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKER -->
+<section class="checker-section" id="checker">
+  <div class="checker-inner">
+    <div class="checker-header">
+      <div class="section-eyebrow" style="text-align:center;">Symptom checker</div>
+      <h2 class="section-title" style="text-align:center;">Check your <em>symptoms</em> now.</h2>
+      <p class="section-desc" style="text-align:center;margin:0 auto;">Enter your details. Aayuh will match your symptoms to possible conditions and show exactly what to watch for.</p>
+    </div>
+
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="ageIn">Age</label>
+          <input type="number" class="form-input" id="ageIn" min="1" max="120" placeholder="e.g. 28" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="sexIn">Biological sex</label>
+          <select class="form-select" id="sexIn">
+            <option value="">Select...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="symIn">Describe your symptoms</label>
+        <textarea class="form-textarea" id="symIn" placeholder="e.g. I have had a severe headache for 2 days, mild fever, sore throat and feel very tired..."></textarea>
+        <div class="chips-wrap">
+          <span class="chip" onclick="chip(this,'headache')">Headache</span>
+          <span class="chip" onclick="chip(this,'fever')">Fever</span>
+          <span class="chip" onclick="chip(this,'cough')">Cough</span>
+          <span class="chip" onclick="chip(this,'fatigue')">Fatigue</span>
+          <span class="chip" onclick="chip(this,'nausea')">Nausea</span>
+          <span class="chip" onclick="chip(this,'chest pain')">Chest pain</span>
+          <span class="chip" onclick="chip(this,'shortness of breath')">Shortness of breath</span>
+          <span class="chip" onclick="chip(this,'sore throat')">Sore throat</span>
+          <span class="chip" onclick="chip(this,'dizziness')">Dizziness</span>
+          <span class="chip" onclick="chip(this,'abdominal pain')">Abdominal pain</span>
+          <span class="chip" onclick="chip(this,'rash')">Rash</span>
+          <span class="chip" onclick="chip(this,'joint pain')">Joint pain</span>
+          <span class="chip" onclick="chip(this,'back pain')">Back pain</span>
+          <span class="chip" onclick="chip(this,'vomiting')">Vomiting</span>
+          <span class="chip" onclick="chip(this,'runny nose')">Runny nose</span>
+          <span class="chip" onclick="chip(this,'chills')">Chills</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="runDiagnosis()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+      Analyse symptoms
+    </button>
+
+    <div class="loading-state" id="loadState" style="display:none;">
+      <div class="pulse-ring"><div class="pulse-dot"></div></div>
+      <p id="loadMsg">Analysing your symptoms...</p>
+      <p class="loading-sub">Matching against clinical patterns</p>
+    </div>
+
+    <div class="results-wrap" id="resultsWrap" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="section-eyebrow">Why Aayuh</div>
+    <h2 class="section-title">Built for <em>clarity</em><br>and confidence.</h2>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <div class="feature-title">Symptom match score</div>
+        <div class="feature-desc">See exactly what percentage of each condition's symptom profile your current symptoms cover — not just a vague probability.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div>
+        <div class="feature-title">Remaining symptoms</div>
+        <div class="feature-desc">For each condition, Aayuh shows which additional symptoms would complete the full clinical picture — so you know what to monitor.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+        <div class="feature-title">Private &amp; secure</div>
+        <div class="feature-desc">No accounts, no tracking. Your health data never leaves your browser session and is never stored anywhere.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></div>
+        <div class="feature-title">Natural language</div>
+        <div class="feature-desc">No medical jargon required. Describe how you feel in plain words and Aayuh handles the clinical interpretation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Aa<span>yuh</span></div>
+      <div class="footer-tag">Intelligent health analysis</div>
+    </div>
+    <div class="footer-disclaimer">
+      Aayuh is an informational tool only. It does not provide medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional. In an emergency, contact emergency services immediately.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ──────────────────────────────────────────────────────────────
+  // CHANGE 1: Proxy URL — no API key in this file at all
+  // ──────────────────────────────────────────────────────────────
+  const PROXY_URL = 'http://localhost:3001/chat';
+
+  function chip(el, sym) {
+    el.classList.toggle('on');
+    const ta = document.getElementById('symIn');
+    let v = ta.value.trim();
+    if (el.classList.contains('on')) {
+      ta.value = v ? v + ', ' + sym : sym;
+    } else {
+      const re = new RegExp(',?\\s*' + sym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ',?\\s*', 'gi');
+      ta.value = ta.value.replace(re, ' ').replace(/^[,\s]+|[,\s]+$/g, '').trim();
+    }
+  }
+
+  function setLoad(msg) {
+    document.getElementById('loadMsg').textContent = msg;
+    document.getElementById('loadState').style.display = 'block';
+    document.getElementById('resultsWrap').style.display = 'none';
+  }
+  function hideLoad() { document.getElementById('loadState').style.display = 'none'; }
+
+  function showError(msg) {
+    const rw = document.getElementById('resultsWrap');
+    rw.innerHTML = `<div style="background:#fdf0ee;border:1px solid #F09595;border-radius:12px;padding:1.4rem 1.6rem;color:#A32D2D;font-size:0.9rem;line-height:1.6;">
+      <strong style="display:block;margin-bottom:6px;font-size:1rem;">Unable to analyse symptoms</strong>${msg}
+    </div>`;
+    rw.style.display = 'block';
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // CHANGE 2: callAI now fetches PROXY_URL — no Authorization
+  //           header, no API key anywhere in this file
+  // ──────────────────────────────────────────────────────────────
+  async function callAI(sym, age, sex) {
+    const prompt = `You are a clinical symptom analysis AI. A patient reports:
+Age: ${age} years | Sex: ${sex} | Reported symptoms: ${sym}
+
+Analyse and return ONLY a raw JSON object — absolutely no markdown, no backticks, no extra text:
+{
+  "conditions": [
+    {
+      "name": "Condition name",
+      "triage": "routine",
+      "description": "One clear sentence describing this condition.",
+      "symptom_match_pct": 65,
+      "remaining_symptoms": ["symptom A", "symptom B", "symptom C"]
+    }
+  ],
+  "triage": "routine"
+}
+
+Rules:
+- List 3 to 5 most likely conditions ranked by symptom_match_pct descending
+- symptom_match_pct: integer from 15 to 90 — how much of this disease's total symptom profile the patient's reported symptoms cover
+- remaining_symptoms: 2 to 5 concise symptom names the patient has NOT mentioned but are classically associated with this condition — these are what to watch for
+- description: plain English, one sentence, no jargon
+- triage per condition: "routine", "urgent", or "emergency"
+- Top-level triage: most critical level across all conditions listed`;
+
+    const r = await fetch(PROXY_URL, {        // ← hits localhost:3001, not Groq
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+        max_tokens: 1200
+      })
+    });
+
+    if (r.status === 502) throw new Error('Proxy server error. Make sure server.js is running on port 3001.');
+    if (!r.ok) throw new Error('The analysis service encountered an error (' + r.status + '). Please try again.');
+
+    const rd = await r.json();
+    const raw = rd.choices?.[0]?.message?.content || '';
+    const txt = raw.trim().replace(/```json|```/g, '').trim();
+    if (!txt) throw new Error('No response received from the analysis engine. Please try again.');
+
+    let parsed;
+    try { parsed = JSON.parse(txt); }
+    catch {
+      const match = txt.match(/\{[\s\S]*\}/);
+      if (match) {
+        try { parsed = JSON.parse(match[0]); }
+        catch { throw new Error('Could not read the analysis response. Please try again.'); }
+      } else {
+        throw new Error('Could not read the analysis response. Please try again.');
+      }
+    }
+    return parsed;
+  }
+
+  function triageInfo(t) {
+    if (t === 'emergency') return ['Emergency', 't-emergency'];
+    if (t === 'urgent') return ['Urgent care', 't-urgent'];
+    return ['Routine', 't-routine'];
+  }
+
+  function renderResults(data) {
+    const { conditions, triage } = data;
+    const [tLabel, tClass] = triageInfo(triage);
+
+    let html = `<h3 class="results-title">Possible conditions</h3>`;
+    html += `<div class="triage-overall">
+      <span class="triage-label">Recommended care:</span>
+      <span class="triage-badge ${tClass}">${tLabel}</span>
+    </div>`;
+
+    (conditions || []).forEach((c) => {
+      const pct = Math.min(90, Math.max(15, Math.round(c.symptom_match_pct || 50)));
+      const fillClass = pct >= 65 ? 'fill-high' : pct >= 40 ? 'fill-mid' : 'fill-low';
+      const [ctLabel, ctClass] = triageInfo(c.triage || 'routine');
+      const remaining = (c.remaining_symptoms || []).slice(0, 5);
+      const needed = 100 - pct;
+
+      html += `<div class="condition-card">
+        <div class="cond-top">
+          <div class="cond-name">${c.name}</div>
+          <span class="triage-badge ${ctClass}">${ctLabel}</span>
+        </div>
+        ${c.description ? `<div class="cond-desc">${c.description}</div>` : ''}
+        <div class="match-section">
+          <div class="match-header">
+            <span class="match-label">Symptom match</span>
+            <div class="match-pct-wrap">
+              <span class="match-pct">${pct}</span>
+              <span class="match-pct-unit">% of full picture</span>
+            </div>
+          </div>
+          <div class="match-track">
+            <div class="match-fill ${fillClass}" style="width:0%" data-width="${pct}"></div>
+          </div>
+          <div class="match-caption">${needed}% more symptoms would complete the full clinical picture</div>
+        </div>
+        ${remaining.length > 0 ? `
+        <div class="remaining-section">
+          <div class="remaining-title">Watch for these additional symptoms</div>
+          <div class="remaining-list">
+            ${remaining.map(s => `<span class="rem-chip">${s}</span>`).join('')}
+          </div>
+        </div>` : ''}
+      </div>`;
+    });
+
+    html += `<div class="disclaimer-box">Aayuh is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional. In an emergency, call emergency services immediately.</div>`;
+
+    const rw = document.getElementById('resultsWrap');
+    rw.innerHTML = html;
+    rw.style.display = 'block';
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        rw.querySelectorAll('.match-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }, 80);
+    });
+
+    rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function runDiagnosis() {
+    const age = document.getElementById('ageIn').value.trim();
+    const sex = document.getElementById('sexIn').value;
+    const sym = document.getElementById('symIn').value.trim();
+
+    if (!age || !sex || !sym) {
+      alert('Please complete all fields — age, sex, and symptoms — before analysing.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    setLoad('Analysing your symptoms...');
+
+    try {
+      const result = await callAI(sym, age, sex);
+      hideLoad();
+      renderResults(result);
+    } catch (e) {
+      hideLoad();
+      showError(e.message);
+    }
+
+    btn.disabled = false;
+  }
+</script>
+</body>
+</html>

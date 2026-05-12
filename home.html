@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - AAYUH!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🚫 DISABLE CACHE -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00796b">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      margin: 0;
+    }
+
+    .login-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 800px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .login-info {
+      flex: 1;
+      padding: 2rem;
+      background: linear-gradient(135deg, #00796b, #004d40);
+      color: white;
+    }
+
+    .login-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .login-info p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .login-box {
+      flex: 1;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      color: #00796b;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00796b;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #00796b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: #004d40;
+    }
+
+    .login-link {
+      margin-top: 1rem;
+    }
+
+    .login-link a {
+      color: #00796b;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .back-link, .download-link {
+      margin-top: 1rem;
+    }
+
+    .back-link a, .download-link a {
+      color: #00796b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Forgot Password Modal */
+    #forgotModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #forgotModalBox {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    #forgotModalBox h3 {
+      color: #00796b;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-container">
+  <div class="login-info">
+    <h1><i class="fas fa-heartbeat"></i> AAYUH!</h1>
+    <p>
+      India's comprehensive health companion. Track medicines, check symptoms,
+      find doctors, and manage your medical history all in one place.
+    </p>
+  </div>
+
+  <div class="login-box">
+    <h2>Welcome Back</h2>
+
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button id="loginBtn">Login</button>
+
+    <p id="errorMsg" style="color:red;"></p>
+    <p id="successMsg" style="color:green;"></p>
+
+    <!-- Forgot Password -->
+    <div class="login-link">
+      <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+    </div>
+
+    <!-- Signup -->
+    <div class="login-link">
+      <p style="margin-bottom:6px;font-size:14px;">Don’t have an account?</p>
+      <a href="register.html">
+        <button style="background:white;color:#00796b;border:2px solid #00796b;font-weight:600;">
+          Sign Up
+        </button>
+      </a>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">← Back to Home</a>
+    </div>
+
+    <div class="download-link">
+      <a href="downloads/AAYUH_website.zip" download>
+        <i class="fas fa-download"></i> Download Website
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotModal">
+  <div id="forgotModalBox">
+    <h3>Reset Password</h3>
+
+    <input type="email" id="resetEmail" placeholder="Enter your email">
+
+    <button id="sendResetLink">Send Verification Link</button>
+
+    <p id="resetMsg" style="font-size:14px;margin-top:10px;"></p>
+
+    <p style="margin-top:12px;">
+      <a href="#" id="closeModal">Cancel</a>
+    </p>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+    authDomain: "aayuh-c9a87.firebaseapp.com",
+    projectId: "aayuh-c9a87"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+  const loginBtn = document.getElementById("loginBtn");
+  const errorMsg = document.getElementById("errorMsg");
+  const successMsg = document.getElementById("successMsg");
+
+  loginBtn.addEventListener("click", async () => {
+    errorMsg.textContent = "";
+    successMsg.textContent = "";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+      errorMsg.textContent = "Please enter email and password";
+      return;
+    }
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      successMsg.textContent = "Login successful! Redirecting...";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 700);
+    } catch (err) {
+      errorMsg.textContent = err.message;
+    }
+  });
+
+  auth.onAuthStateChanged(user => {
+    if (user && !location.pathname.includes("dashboard")) {
+      window.location.href = "dashboard.html";
+    }
+  });
+
+  /* Forgot Password Logic */
+  const forgotLink = document.getElementById("forgotPasswordLink");
+  const forgotModal = document.getElementById("forgotModal");
+  const closeModal = document.getElementById("closeModal");
+  const sendResetLink = document.getElementById("sendResetLink");
+  const resetMsg = document.getElementById("resetMsg");
+
+  forgotLink.onclick = (e) => {
+    e.preventDefault();
+    resetMsg.textContent = "";
+    forgotModal.style.display = "flex";
+  };
+
+  closeModal.onclick = (e) => {
+    e.preventDefault();
+    forgotModal.style.display = "none";
+  };
+
+  sendResetLink.onclick = async () => {
+    const email = document.getElementById("resetEmail").value.trim();
+
+    if (!email) {
+      resetMsg.style.color = "red";
+      resetMsg.textContent = "Please enter your email";
+      return;
+    }
+
+    try {
+      await auth.sendPasswordResetEmail(email);
+      resetMsg.style.color = "green";
+      resetMsg.textContent = "Verification link sent to your email";
+    } catch (err) {
+      resetMsg.style.color = "red";
+      resetMsg.textContent = err.message;
+    }
+  };
+</script>
+
+</body>
+</html>

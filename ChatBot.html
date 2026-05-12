@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AAYUH! — BBot AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --teal:#00897b;--teal-d:#00534a;--teal-x:#003d36;--teal-m:#00bfa5;
+  --bg:#f5fbf9;--sur:#fff;--sur2:#eef8f5;
+  --tx:#0a2622;--tx2:#3d6b64;--mu:#7aada6;
+  --bd:#cceae4;--bd2:#e8f8f4;
+  --red:#dc2626;--ora:#f97316;
+  --sh:0 4px 24px rgba(0,80,70,.10);
+  --sh2:0 12px 40px rgba(0,80,70,.16);
+  --r:16px;--r2:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);}
+body{
+  display:flex;flex-direction:column;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% -10%,rgba(0,191,165,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 100%,rgba(0,137,123,.06) 0%,transparent 55%);
+}
+button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:99px;}
+
+/* HEADER */
+.header{
+  background:rgba(0,42,36,.97);backdrop-filter:blur(20px);
+  padding:0 24px;height:64px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(0,191,165,.18);
+  box-shadow:0 4px 28px rgba(0,0,0,.28);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;
+  background:linear-gradient(120deg,#fff 30%,var(--teal-m));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-badge{
+  font-family:'Outfit',sans-serif;font-size:.62rem;font-weight:700;
+  background:rgba(0,191,165,.2);border:1px solid rgba(0,191,165,.3);
+  color:#6ee7b7;border-radius:6px;padding:2px 8px;
+  -webkit-text-fill-color:#6ee7b7;letter-spacing:.4px;
+}
+.header-r{display:flex;align-items:center;gap:10px;}
+.hbtn{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;color:rgba(255,255,255,.8);
+  padding:7px 16px;font-size:.78rem;font-weight:600;
+  text-decoration:none;transition:all .2s;
+}
+.hbtn:hover{background:rgba(255,255,255,.16);color:#fff;}
+.model-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(0,191,165,.15);border:1px solid rgba(0,191,165,.3);
+  border-radius:99px;padding:4px 12px;font-size:.72rem;font-weight:700;
+  color:#6ee7b7;letter-spacing:.3px;
+}
+.model-dot{width:6px;height:6px;background:#00bfa5;border-radius:50%;animation:pulse 2s infinite;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;max-width:860px;width:100%;margin:0 auto;padding:20px 20px 0;min-height:0;}
+
+/* DISCLAIMER */
+.disclaimer{
+  background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);
+  border-radius:var(--r2);padding:10px 16px;margin-bottom:10px;
+  font-size:.74rem;color:#9a3412;line-height:1.5;
+  display:flex;gap:8px;align-items:flex-start;flex-shrink:0;
+}
+
+/* PROXY WARNING */
+.proxy-warn{
+  background:rgba(220,38,38,.07);border:1.5px solid rgba(220,38,38,.25);
+  border-radius:var(--r2);padding:10px 16px;margin-bottom:10px;
+  font-size:.74rem;color:#991b1b;line-height:1.6;
+  display:none;gap:8px;align-items:flex-start;flex-shrink:0;
+}
+.proxy-warn code{background:rgba(220,38,38,.1);border-radius:4px;padding:1px 6px;font-family:monospace;}
+
+/* PROFILE BANNER */
+.profile-banner{
+  background:var(--sur);border:1.5px solid var(--bd);border-radius:var(--r);
+  padding:12px 16px;margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--sh);animation:up .4s ease;flex-shrink:0;
+}
+@keyframes up{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.pb-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,rgba(0,191,165,.15),rgba(0,137,123,.1));border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.pb-info{flex:1;min-width:0;}
+.pb-title{font-size:.78rem;font-weight:700;color:var(--tx);margin-bottom:3px;}
+.pb-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.pb-tag{background:var(--sur2);border:1px solid var(--bd);border-radius:99px;padding:2px 9px;font-size:.66rem;font-weight:600;color:var(--tx2);}
+.pb-tag.cond{background:rgba(220,38,38,.07);border-color:rgba(220,38,38,.2);color:#991b1b;}
+
+/* CHAT WRAP */
+.chat-wrap{
+  flex:1;background:var(--sur);
+  border:1.5px solid var(--bd);border-radius:var(--r) var(--r) 0 0;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:var(--sh);min-height:0;
+}
+.chat-head{
+  padding:14px 18px;border-bottom:1.5px solid var(--bd2);
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.bot-av{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--teal-m),var(--teal-d));display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 14px rgba(0,137,123,.3);flex-shrink:0;}
+.bot-info h2{font-size:.92rem;font-weight:700;color:var(--tx);}
+.bot-info p{font-size:.7rem;color:var(--mu);margin-top:1px;}
+.online-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;margin-left:auto;box-shadow:0 0 0 3px rgba(34,197,94,.2);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.clr-btn{background:var(--sur2);border:1.5px solid var(--bd);border-radius:var(--r2);padding:6px 12px;font-size:.72rem;font-weight:700;color:var(--tx2);transition:all .2s;margin-left:6px;}
+.clr-btn:hover{background:rgba(220,38,38,.08);border-color:rgba(220,38,38,.3);color:var(--red);}
+
+/* MESSAGES */
+.messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;min-height:0;}
+.msg{display:flex;gap:9px;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.msg.user{flex-direction:row-reverse;align-self:flex-end;max-width:82%;}
+.msg.bot{align-self:flex-start;max-width:86%;}
+.msg-av{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:2px;}
+.bot .msg-av{background:linear-gradient(135deg,var(--teal-m),var(--teal-d));}
+.user .msg-av{background:var(--sur2);border:1.5px solid var(--bd);}
+.msg-col{display:flex;flex-direction:column;gap:4px;min-width:0;}
+.bubble{padding:11px 15px;border-radius:13px;font-size:.87rem;line-height:1.7;color:var(--tx);}
+.bot .bubble{background:var(--sur2);border:1.5px solid var(--bd2);border-bottom-left-radius:4px;}
+.user .bubble{background:linear-gradient(135deg,var(--teal-m),var(--teal-d));color:#fff;border-bottom-right-radius:4px;}
+.bubble p{margin:3px 0;}
+.bubble p:first-child{margin-top:0;}
+.bubble p:last-child{margin-bottom:0;}
+.bubble ul,.bubble ol{padding-left:17px;margin:5px 0;}
+.bubble li{margin-bottom:3px;}
+.bubble strong{font-weight:700;}
+.ts{font-size:.64rem;color:var(--mu);padding:0 3px;}
+.msg.user .ts{text-align:right;}
+.bubble.refused{background:rgba(220,38,38,.07);border-color:rgba(220,38,38,.2);color:#991b1b;}
+.bubble.error{background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.25);color:#9a3412;}
+
+/* ATTACHED PREVIEW IN BUBBLE */
+.attach-preview{
+  display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;
+}
+.attach-thumb{
+  position:relative;border-radius:10px;overflow:hidden;
+  border:1.5px solid rgba(255,255,255,.3);
+}
+.attach-thumb img{width:120px;height:90px;object-fit:cover;display:block;}
+.attach-file-chip{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.3);
+  border-radius:9px;padding:6px 11px;font-size:.74rem;font-weight:600;color:#fff;
+  max-width:180px;
+}
+.attach-file-chip svg{flex-shrink:0;}
+
+/* TYPING */
+.typing-wrap{display:flex;gap:9px;align-self:flex-start;animation:msgIn .3s ease;}
+.typing-bubble{background:var(--sur2);border:1.5px solid var(--bd2);border-radius:13px;border-bottom-left-radius:4px;padding:13px 16px;display:flex;gap:5px;align-items:center;}
+.typing-bubble span{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:bounce 1.2s infinite;opacity:.6;}
+.typing-bubble span:nth-child(2){animation-delay:.2s;}
+.typing-bubble span:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.6;}30%{transform:translateY(-6px);opacity:1;}}
+
+/* SUGGESTIONS */
+.suggestions{padding:10px 14px;display:flex;gap:7px;flex-wrap:wrap;border-top:1px solid var(--bd2);background:var(--sur);flex-shrink:0;}
+.sug{background:var(--sur2);border:1.5px solid var(--bd);border-radius:99px;padding:5px 13px;font-size:.73rem;font-weight:600;color:var(--teal-d);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.sug:hover{background:rgba(0,191,165,.1);border-color:var(--teal);}
+
+/* ATTACHMENT STAGING AREA */
+.staging{
+  display:none;flex-wrap:wrap;gap:8px;
+  padding:10px 14px;border-top:1px solid var(--bd2);
+  background:var(--sur2);flex-shrink:0;
+}
+.staging.has-items{display:flex;}
+.stage-item{
+  position:relative;display:flex;align-items:center;gap:6px;
+  background:#fff;border:1.5px solid var(--bd);border-radius:10px;
+  padding:5px 10px 5px 7px;font-size:.74rem;font-weight:600;color:var(--tx2);
+  max-width:200px;
+}
+.stage-item img{width:36px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.stage-item .fname{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:110px;font-size:.72rem;
+}
+.stage-item .fsize{font-size:.62rem;color:var(--mu);}
+.stage-remove{
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(220,38,38,.12);color:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;cursor:pointer;flex-shrink:0;
+  margin-left:2px;transition:background .15s;
+}
+.stage-remove:hover{background:rgba(220,38,38,.25);}
+.file-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.fi-pdf{background:rgba(220,38,38,.1);}
+.fi-doc{background:rgba(26,95,168,.1);}
+.fi-txt{background:rgba(0,137,123,.1);}
+.fi-img{background:rgba(0,137,123,.08);}
+
+/* INPUT AREA */
+.input-area{
+  padding:12px 14px;border-top:1.5px solid var(--bd);
+  background:var(--sur);display:flex;gap:9px;align-items:flex-end;
+  border-radius:0 0 var(--r) var(--r);flex-shrink:0;
+}
+textarea{
+  flex:1;border:1.5px solid var(--bd);border-radius:var(--r2);
+  padding:10px 13px;font-family:'Outfit',sans-serif;
+  font-size:.87rem;color:var(--tx);resize:none;outline:none;
+  min-height:44px;max-height:120px;transition:border .2s;
+  background:var(--bg);line-height:1.5;
+}
+textarea:focus{border-color:var(--teal);background:#fff;box-shadow:0 0 0 3px rgba(0,191,165,.1);}
+textarea::placeholder{color:var(--mu);}
+
+/* TOOLBAR BUTTONS */
+.tool-btn{
+  width:40px;height:40px;border-radius:var(--r2);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--sur2);border:1.5px solid var(--bd);
+  color:var(--tx2);font-size:1rem;
+  transition:all .18s;flex-shrink:0;cursor:pointer;
+}
+.tool-btn:hover{background:rgba(0,191,165,.12);border-color:var(--teal);color:var(--teal);}
+.tool-btn input[type=file]{display:none;}
+
+.send-btn{
+  width:44px;height:44px;border:none;border-radius:var(--r2);
+  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
+  color:#fff;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,137,123,.3);
+}
+.send-btn:hover{transform:scale(1.06);box-shadow:0 6px 20px rgba(0,137,123,.4);}
+.send-btn:disabled{background:#b2dfdb;box-shadow:none;cursor:not-allowed;transform:none;}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:rgba(8,34,28,.96);backdrop-filter:blur(12px);
+  color:#fff;border-radius:99px;padding:10px 22px;
+  font-size:.8rem;font-weight:700;z-index:999;
+  opacity:0;transition:all .3s;pointer-events:none;
+  white-space:nowrap;box-shadow:var(--sh2);
+  border:1px solid rgba(255,255,255,.1);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FILE LIMIT NOTICE */
+.limit-note{font-size:.68rem;color:var(--mu);padding:4px 14px 6px;text-align:center;flex-shrink:0;background:var(--sur);}
+
+@media(max-width:600px){
+  .header{padding:0 13px;}
+  .main{padding:10px 10px 0;}
+  .msg.user,.msg.bot{max-width:93%;}
+  .model-badge span{display:none;}
+  .attach-thumb img{width:90px;height:68px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">AAYUH! <span class="logo-badge">BBot AI</span></div>
+  <div class="header-r">
+    <div class="model-badge">
+      <div class="model-dot"></div>
+      <span>AI Powered</span>
+    </div>
+    <a class="hbtn" href="dashboard.html">← Dashboard</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    ⚠️ <span><strong>Medical Disclaimer:</strong> BBot provides general health information only. It is NOT a substitute for professional medical advice. Always consult a qualified doctor for personal medical concerns or emergencies.</span>
+  </div>
+
+  <!-- PROXY WARNING -->
+  <div class="proxy-warn" id="proxyWarn">
+    ⚡ <span><strong>Proxy server not running.</strong> Open a terminal in <code>D:\AAYUH</code> and run: <code>node server.js</code></span>
+  </div>
+
+  <!-- PROFILE BANNER -->
+  <div class="profile-banner" id="profileBanner" style="display:none">
+    <div class="pb-icon">🧬</div>
+    <div class="pb-info">
+      <div class="pb-title">Personalized for your health profile</div>
+      <div class="pb-tags" id="profileTags"></div>
+    </div>
+  </div>
+
+  <!-- CHAT WRAP -->
+  <div class="chat-wrap">
+    <div class="chat-head">
+      <div class="bot-av">🩺</div>
+      <div class="bot-info">
+        <h2>BBot</h2>
+        <p>Powered by AI Assistant · Medical Questions Only</p>
+      </div>
+      <div class="online-dot"></div>
+      <button class="clr-btn" onclick="clearChat()">🗑️ Clear</button>
+    </div>
+
+    <div class="messages" id="messages"></div>
+
+    <!-- SUGGESTIONS -->
+    <div class="suggestions" id="suggestions">
+      <button class="sug" onclick="quickSend('What are symptoms of diabetes?')">🩸 Diabetes</button>
+      <button class="sug" onclick="quickSend('How to lower blood pressure naturally?')">❤️ Blood pressure</button>
+      <button class="sug" onclick="quickSend('What are signs of a heart attack?')">🫀 Heart attack</button>
+      <button class="sug" onclick="quickSend('What vitamins should I take daily?')">💊 Daily vitamins</button>
+      <button class="sug" onclick="quickSend('How do antibiotics work?')">🧬 Antibiotics</button>
+      <button class="sug" onclick="quickSend('What are early signs of cancer?')">🔬 Cancer signs</button>
+    </div>
+
+    <!-- STAGING AREA (files ready to send) -->
+    <div class="staging" id="staging"></div>
+
+    <!-- INPUT -->
+    <div class="input-area">
+
+      <!-- IMAGE UPLOAD -->
+      <label class="tool-btn" title="Attach image">
+        📷
+        <input type="file" id="imgInput" accept="image/*" multiple onchange="stageFiles(this.files,'image')"/>
+      </label>
+
+      <!-- FILE UPLOAD (PDF, DOC, TXT) -->
+      <label class="tool-btn" title="Attach file (PDF, DOC, TXT)">
+        📎
+        <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt,.csv" multiple onchange="stageFiles(this.files,'file')"/>
+      </label>
+
+      <textarea id="userInput"
+        placeholder="Ask a medical question, or attach an image/file…"
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"></textarea>
+
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="limit-note">Max 5 files · Images up to 5 MB · Files up to 10 MB · PDF text is extracted automatically</div>
+  </div>
+
+  <div style="height:18px;flex-shrink:0;"></div>
+</div>
+
+<div id="toast"></div>
+
+<!-- Hidden PDF.js for text extraction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIG — no API key here, proxy only
+// ══════════════════════════════════════════════════════
+const PROXY_URL  = 'http://localhost:3001/chat';
+const AI_MODEL = 'llama-3.3-70b-versatile'; // model name hidden from UI
+
+// PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let userProfile = {};
+let chatHistory = [];
+let sending     = false;
+let stagedFiles = [];   // [{name, size, type, dataUrl, extractedText}]
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', async () => {
+  userProfile = JSON.parse(localStorage.getItem('aayuh_profile') || '{}');
+  renderProfileBanner();
+
+  // Ping proxy
+  try {
+    const r = await fetch(PROXY_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:AI_MODEL, messages:[], max_tokens:1})
+    });
+    // Any response (even error) means proxy is running
+    document.getElementById('proxyWarn').style.display = 'none';
+  } catch {
+    document.getElementById('proxyWarn').style.display = 'flex';
+  }
+
+  showWelcome();
+});
+
+// ══════════════════════════════════════════════════════
+// FILE STAGING
+// ══════════════════════════════════════════════════════
+async function stageFiles(files, kind) {
+  if (stagedFiles.length + files.length > 5) {
+    showToast('⚠️ Max 5 attachments per message'); return;
+  }
+
+  for (const f of files) {
+    const maxMB = kind === 'image' ? 5 : 10;
+    if (f.size > maxMB * 1024 * 1024) {
+      showToast(`⚠️ ${f.name} exceeds ${maxMB}MB limit`); continue;
+    }
+
+    const entry = { name: f.name, size: f.size, type: kind, dataUrl: null, extractedText: null };
+
+    if (kind === 'image') {
+      entry.dataUrl = await readAsDataURL(f);
+    } else {
+      // Extract text from PDFs; read raw for others
+      if (f.type === 'application/pdf') {
+        entry.extractedText = await extractPdfText(f);
+      } else {
+        entry.extractedText = await readAsText(f);
+      }
+    }
+
+    stagedFiles.push(entry);
+  }
+
+  // Reset inputs so same file can be re-added
+  document.getElementById('imgInput').value  = '';
+  document.getElementById('fileInput').value = '';
+
+  renderStaging();
+}
+
+function readAsDataURL(file) {
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.readAsDataURL(file);
+  });
+}
+
+function readAsText(file) {
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.readAsText(file);
+  });
+}
+
+async function extractPdfText(file) {
+  if (typeof pdfjsLib === 'undefined') return '[PDF text extraction unavailable]';
+  try {
+    const ab  = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+    let text  = '';
+    for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) {
+      const page    = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map(s => s.str).join(' ') + '\n\n';
+    }
+    return text.trim().slice(0, 6000) || '[No readable text found in PDF]';
+  } catch {
+    return '[Could not extract PDF text]';
+  }
+}
+
+function fmtSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function fileIcon(name) {
+  const ext = name.split('.').pop().toLowerCase();
+  if (ext === 'pdf') return {icon:'📄', cls:'fi-pdf'};
+  if (['doc','docx'].includes(ext)) return {icon:'📝', cls:'fi-doc'};
+  if (ext === 'csv') return {icon:'📊', cls:'fi-txt'};
+  return {icon:'📃', cls:'fi-txt'};
+}
+
+function renderStaging() {
+  const area = document.getElementById('staging');
+  if (!stagedFiles.length) { area.className='staging'; area.innerHTML=''; return; }
+  area.className = 'staging has-items';
+  area.innerHTML = stagedFiles.map((f,i) => {
+    if (f.type === 'image') {
+      return `<div class="stage-item">
+        <img src="${f.dataUrl}" alt="${esc(f.name)}"/>
+        <div>
+          <div class="fname">${esc(f.name)}</div>
+          <div class="fsize">${fmtSize(f.size)}</div>
+        </div>
+        <div class="stage-remove" onclick="removeStaged(${i})">✕</div>
+      </div>`;
+    }
+    const {icon, cls} = fileIcon(f.name);
+    return `<div class="stage-item">
+      <div class="file-icon ${cls}">${icon}</div>
+      <div>
+        <div class="fname">${esc(f.name)}</div>
+        <div class="fsize">${fmtSize(f.size)}</div>
+      </div>
+      <div class="stage-remove" onclick="removeStaged(${i})">✕</div>
+    </div>`;
+  }).join('');
+}
+
+function removeStaged(i) {
+  stagedFiles.splice(i, 1);
+  renderStaging();
+}
+
+// ══════════════════════════════════════════════════════
+// SYSTEM PROMPT
+// ══════════════════════════════════════════════════════
+function buildSystemPrompt() {
+  let ctx = '';
+  const name   = userProfile.fullName || 'there';
+  const age    = userProfile.dob ? calcAge(userProfile.dob) : null;
+  const gender = userProfile.gender || null;
+  const blood  = userProfile.bloodGroup || null;
+  const height = userProfile.height || null;
+  const weight = userProfile.weight || null;
+  const conds  = [...(userProfile.conditions||[]).filter(c=>c!=='none'), ...(userProfile.customConditions||[])];
+  const act    = userProfile.activity || null;
+
+  if (age||gender||blood||height||weight||conds.length||act) {
+    ctx = `\n\nUSER HEALTH PROFILE:\n`;
+    if (name)   ctx += `- Name: ${name}\n`;
+    if (age)    ctx += `- Age: ${age} years old\n`;
+    if (gender) ctx += `- Gender: ${gender}\n`;
+    if (blood)  ctx += `- Blood Group: ${blood}\n`;
+    if (height && weight) {
+      const bmi = (weight/Math.pow(height/100,2)).toFixed(1);
+      ctx += `- Height: ${height}cm, Weight: ${weight}kg, BMI: ${bmi}\n`;
+    }
+    if (conds.length) ctx += `- Medical Conditions: ${conds.join(', ')}\n`;
+    if (act)          ctx += `- Activity Level: ${act}\n`;
+    ctx += `\nTake this profile into account. Mention contraindications or special considerations based on the user's conditions.`;
+  }
+
+  return `You are BBot, a specialized AI medical information assistant built into the Aayuh health platform.
+
+STRICT RULES — follow at ALL times:
+1. ONLY answer questions related to medicine, health, anatomy, symptoms, diseases, medications, treatments, nutrition for health, mental health, first aid, and medical terminology.
+2. If the user asks ANYTHING outside medical/health topics (coding, sports, politics, entertainment, math, general chat, etc.), reply ONLY with: "I'm BBot and I'm only designed to answer medical and health-related questions. Please ask me something related to health or medicine."
+3. Always remind users that your answers are general information — they must consult a licensed doctor for personal medical advice.
+4. NEVER diagnose a specific individual. Provide general information only.
+5. Use clear, simple language. Use bullet points when listing symptoms or steps.
+6. Be empathetic, calm, and professional at all times.
+7. For emergencies, immediately say to call emergency services: 108 (India), 911 (US), 999 (UK).
+8. If the user attaches an image (e.g. a rash, wound, scan, report), describe what you observe in general medical terms, state clearly you cannot diagnose from images, and advise seeing a doctor.
+9. If the user attaches a document or PDF (e.g. a lab report, prescription, medical record), help interpret the general medical terms and values, but state clearly you cannot provide a personal diagnosis.
+10. Format responses clearly — use **bold** for important terms, bullet points for lists.
+11. Keep answers concise but complete.
+${ctx}`;
+}
+
+// ══════════════════════════════════════════════════════
+// BUILD USER CONTENT with attachments
+// ══════════════════════════════════════════════════════
+function buildUserContent(text) {
+  // If no attachments, just a string
+  if (!stagedFiles.length) return text;
+
+  // Build multi-part content for the proxy
+  // Images go as base64, files go as appended text
+  const parts = [];
+  let extraText = text;
+
+  const images = stagedFiles.filter(f => f.type === 'image');
+  const docs   = stagedFiles.filter(f => f.type === 'file');
+
+  if (docs.length) {
+    docs.forEach(d => {
+      extraText += `\n\n[Attached file: ${d.name}]\n${d.extractedText || '[No text extracted]'}`;
+    });
+  }
+
+  // Via proxy: send a single text message that includes
+  // extracted file text. Images are described by filename;
+  // we include the
+  // data URLs as a note so BBot can acknowledge them.
+  if (images.length) {
+    const imgNames = images.map(i => i.name).join(', ');
+    extraText += `\n\n[User has attached ${images.length} image(s): ${imgNames}. Acknowledge the attachment and provide relevant medical guidance noting you cannot diagnose from images alone.]`;
+  }
+
+  return extraText;
+}
+
+// ══════════════════════════════════════════════════════
+// SEND MESSAGE
+// ══════════════════════════════════════════════════════
+async function sendMessage() {
+  if (sending) return;
+
+  const input   = document.getElementById('userInput');
+  const rawText = input.value.trim();
+
+  if (!rawText && !stagedFiles.length) return;
+
+  const displayText = rawText || '📎 Sent attachment(s)';
+  const fullContent = buildUserContent(rawText || 'Please review the attached file(s) and provide relevant medical information.');
+
+  input.value = '';
+  input.style.height = 'auto';
+  hideSuggestions();
+  sending = true;
+  document.getElementById('sendBtn').disabled = true;
+
+  // Show user bubble with attachments
+  appendUserMsg(displayText, [...stagedFiles]);
+  const attachedForHistory = [...stagedFiles];
+  stagedFiles = [];
+  renderStaging();
+
+  chatHistory.push({ role: 'user', content: fullContent });
+  showTyping();
+
+  try {
+    const messages = [
+      { role: 'system', content: buildSystemPrompt() },
+      ...chatHistory
+    ];
+
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: AI_MODEL, messages, temperature: 0.4, max_tokens: 1400 })
+    });
+
+    hideTyping();
+    document.getElementById('proxyWarn').style.display = 'none';
+
+    if (!res.ok) {
+      const err = await res.json().catch(()=>({}));
+      appendMsg('bot', `⚠️ Error: ${err?.error?.message || 'HTTP '+res.status}`, 'error');
+      finishSend(); return;
+    }
+
+    const data  = await res.json();
+    const reply = data?.choices?.[0]?.message?.content;
+
+    if (!reply) { appendMsg('bot','⚠️ No response. Please try again.','error'); finishSend(); return; }
+
+    const isRefused = reply.toLowerCase().includes("only designed to answer medical");
+    appendMsg('bot', reply, isRefused ? 'refused' : '');
+    chatHistory.push({ role: 'assistant', content: reply });
+    saveChatHistory();
+
+  } catch (e) {
+    hideTyping();
+    document.getElementById('proxyWarn').style.display = 'flex';
+    appendMsg('bot',
+      '⚠️ **Cannot connect to proxy server.**\n\nRun in your terminal:\n`node server.js`\n\nThen try again.',
+      'error');
+  }
+
+  finishSend();
+}
+
+function finishSend() {
+  sending = false;
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
+function appendUserMsg(text, files) {
+  const wrap = document.getElementById('messages');
+  const div  = document.createElement('div');
+  div.className = 'msg user';
+
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = '👤';
+
+  const col = document.createElement('div');
+  col.className = 'msg-col';
+
+  const bub = document.createElement('div');
+  bub.className = 'bubble';
+
+  // Show attachment previews inside bubble
+  if (files.length) {
+    const prev = document.createElement('div');
+    prev.className = 'attach-preview';
+    files.forEach(f => {
+      if (f.type === 'image') {
+        prev.innerHTML += `<div class="attach-thumb"><img src="${f.dataUrl}" alt="${esc(f.name)}"/></div>`;
+      } else {
+        const {icon} = fileIcon(f.name);
+        prev.innerHTML += `<div class="attach-file-chip">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          ${esc(f.name)}
+        </div>`;
+      }
+    });
+    bub.appendChild(prev);
+  }
+
+  if (text && text !== '📎 Sent attachment(s)') {
+    const p = document.createElement('p');
+    p.textContent = text;
+    bub.appendChild(p);
+  }
+
+  const ts = document.createElement('div');
+  ts.className = 'ts';
+  ts.textContent = now();
+
+  col.appendChild(bub);
+  col.appendChild(ts);
+  div.appendChild(av);
+  div.appendChild(col);
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function appendMsg(role, text, cls='') {
+  const wrap = document.getElementById('messages');
+  const div  = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const av = document.createElement('div');
+  av.className = 'msg-av';
+  av.textContent = role === 'bot' ? '🩺' : '👤';
+
+  const col = document.createElement('div');
+  col.className = 'msg-col';
+
+  const bub = document.createElement('div');
+  bub.className = `bubble ${cls}`;
+  bub.innerHTML = formatText(text);
+
+  const ts = document.createElement('div');
+  ts.className = 'ts';
+  ts.textContent = now();
+
+  col.appendChild(bub);
+  col.appendChild(ts);
+  div.appendChild(av);
+  div.appendChild(col);
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function showTyping() {
+  const wrap = document.getElementById('messages');
+  const div  = document.createElement('div');
+  div.className = 'typing-wrap'; div.id = 'typing';
+  div.innerHTML = `<div class="msg-av" style="background:linear-gradient(135deg,#00bfa5,#00534a);border-radius:9px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;">🩺</div>
+    <div class="typing-bubble"><span></span><span></span><span></span></div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+function hideTyping() { const t=document.getElementById('typing'); if(t) t.remove(); }
+
+function showWelcome() {
+  const name  = userProfile.fullName || 'there';
+  const conds = [...(userProfile.conditions||[]).filter(c=>c!=='none'), ...(userProfile.customConditions||[])];
+  let extra = conds.length ? `\n\nI can see you have **${conds.join(', ')}** in your health profile — I'll factor this into my answers.` : '';
+  appendMsg('bot',
+    `👋 Hello, ${name}! I'm **BBot**, your AI medical assistant.\n\nI can help with:\n- Symptoms & diseases\n- Medications & treatments\n- Lab reports & prescriptions (attach PDF)\n- Skin, wound or scan photos (attach image)\n- First aid & mental health${extra}\n\n📎 Use the **camera** and **paperclip** buttons to attach images or files.\n\n⚠️ I provide **general health information only** — always consult a doctor for personal advice.`
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// PROFILE BANNER
+// ══════════════════════════════════════════════════════
+function renderProfileBanner() {
+  const tags=document.getElementById('profileTags'), banner=document.getElementById('profileBanner');
+  const items=[];
+  if (userProfile.bloodGroup) items.push({text:'🩸 '+userProfile.bloodGroup,cls:''});
+  if (userProfile.height && userProfile.weight) {
+    const bmi=(userProfile.weight/Math.pow(userProfile.height/100,2)).toFixed(1);
+    items.push({text:'📊 BMI '+bmi,cls:''});
+  }
+  const conds=[...(userProfile.conditions||[]).filter(c=>c!=='none'),...(userProfile.customConditions||[])];
+  conds.forEach(c=>items.push({text:'⚠️ '+cap(c),cls:'cond'}));
+  if (userProfile.activity) items.push({text:'🏃 '+cap(userProfile.activity),cls:''});
+  if (items.length) {
+    banner.style.display='flex';
+    tags.innerHTML=items.map(i=>`<span class="pb-tag ${i.cls}">${i.text}</span>`).join('');
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// HISTORY
+// ══════════════════════════════════════════════════════
+function saveChatHistory() {
+  localStorage.setItem('aayuh_bbot_history', JSON.stringify(chatHistory.slice(-20)));
+}
+function clearChat() {
+  chatHistory=[]; stagedFiles=[]; renderStaging();
+  document.getElementById('messages').innerHTML='';
+  showSuggestions(); showWelcome(); saveChatHistory();
+  showToast('🗑️ Chat cleared');
+}
+
+// ══════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════
+function formatText(t) {
+  t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t = t.replace(/`([^`]+)`/g,'<code style="background:rgba(0,137,123,.1);padding:1px 5px;border-radius:4px;font-size:.82rem;font-family:monospace;">$1</code>');
+  const lines=t.split('\n'); let out='',inUl=false,inOl=false;
+  for (const line of lines) {
+    const isBullet=/^[\-\*•]\s/.test(line.trim()), isNum=/^\d+\.\s/.test(line.trim());
+    if (isBullet) {
+      if (inOl){out+='</ol>';inOl=false;} if(!inUl){out+='<ul>';inUl=true;}
+      out+=`<li>${line.trim().replace(/^[\-\*•]\s/,'')}</li>`;
+    } else if (isNum) {
+      if (inUl){out+='</ul>';inUl=false;} if(!inOl){out+='<ol>';inOl=true;}
+      out+=`<li>${line.trim().replace(/^\d+\.\s/,'')}</li>`;
+    } else {
+      if(inUl){out+='</ul>';inUl=false;} if(inOl){out+='</ol>';inOl=false;}
+      if(line.trim()) out+=`<p>${line}</p>`;
+    }
+  }
+  if(inUl)out+='</ul>'; if(inOl)out+='</ol>';
+  return out;
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function calcAge(dob){return dob?Math.floor((Date.now()-new Date(dob).getTime())/(1000*60*60*24*365.25)):null;}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+function quickSend(text){document.getElementById('userInput').value=text;autoResize(document.getElementById('userInput'));sendMessage();}
+function hideSuggestions(){document.getElementById('suggestions').style.display='none';}
+function showSuggestions(){document.getElementById('suggestions').style.display='flex';}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('userInput').blur();});
+</script>
+</body>
+</html>

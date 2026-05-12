@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical History Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:#f0f4f2; --surface:#fff; --primary:#1a7a5e; --primary2:#0f5c45;
+      --accent:#e8f5f0; --text:#1c2c28; --muted:#6b8880; --border:#dce8e4;
+      --red:#e74c3c; --red-bg:#fde8e6; --shadow:0 2px 14px rgba(26,122,94,.09); --radius:14px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px 60px}
+    .container{max-width:960px;margin:auto}
+
+    /* Header */
+    .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;padding-bottom:18px;border-bottom:1.5px solid var(--border)}
+    .page-header h1{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--primary)}
+    .header-right{display:flex;align-items:center;gap:12px}
+    #userBadge{font-size:.8rem;color:var(--muted);background:var(--accent);border:1px solid var(--border);border-radius:20px;padding:5px 14px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .back-link{color:var(--primary);text-decoration:none;font-size:.9rem;font-weight:500;padding:7px 16px;border:1.5px solid var(--primary);border-radius:30px;transition:all .2s}
+    .back-link:hover{background:var(--primary);color:#fff}
+
+    /* Upload card */
+    .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-bottom:20px}
+    .card h3{font-size:.85rem;color:var(--muted);margin-bottom:16px;letter-spacing:.08em;text-transform:uppercase}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-grid .full{grid-column:1/-1}
+    input[type=text],input[type=date],textarea,select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text);background:#fafcfb;transition:border-color .2s,box-shadow .2s;outline:none}
+    input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,122,94,.1)}
+    textarea{resize:vertical;min-height:90px}
+
+    #dropZone{border:2px dashed var(--border);border-radius:10px;padding:22px 16px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafcfb}
+    #dropZone:hover,#dropZone.drag-over{border-color:var(--primary);background:var(--accent)}
+    #dropLabel{color:var(--muted);font-size:.88rem;pointer-events:none;margin-top:4px;display:block}
+    #fileInput{display:none}
+    .formats-note{font-size:.76rem;color:var(--muted);margin-top:7px;text-align:center}
+    #filePreviewList{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .file-chip{display:flex;align-items:center;gap:5px;background:var(--accent);border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 8px;font-size:.77rem;color:var(--text);max-width:200px}
+    .chip-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .chip-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.72rem;padding:0 3px;line-height:1}
+    .chip-remove:hover{color:var(--red)}
+
+    #uploadBtn{width:100%;padding:13px;margin-top:16px;background:var(--primary);color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px}
+    #uploadBtn:hover:not(:disabled){background:var(--primary2);transform:translateY(-1px)}
+    #uploadBtn:disabled{opacity:.6;cursor:not-allowed}
+
+    /* Filter bar */
+    .filter-bar{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:16px}
+    .filter-bar label{font-size:.76rem;color:var(--muted);display:block;margin-bottom:5px;font-weight:500;letter-spacing:.04em}
+    .filter-field{flex:1;min-width:150px}
+    .filter-btns{display:flex;gap:8px;align-items:flex-end}
+    .btn-apply{padding:11px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;border:none;background:var(--primary);color:#fff;transition:background .2s,transform .1s}
+    .btn-apply:hover{background:var(--primary2);transform:translateY(-1px)}
+    .btn-clear{padding:11px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.92rem;cursor:pointer;background:transparent;border:1.5px solid var(--border);color:var(--muted);transition:all .2s}
+    .btn-clear:hover{border-color:var(--red);color:var(--red)}
+
+    #activeFilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+    .filter-tag{display:flex;align-items:center;gap:6px;background:var(--primary);color:#fff;border-radius:20px;padding:4px 12px;font-size:.78rem;font-weight:500}
+    .filter-tag button{background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:.8rem;line-height:1}
+    .filter-tag button:hover{color:#fff}
+
+    #reportSummary{font-size:.85rem;color:var(--muted);margin-bottom:16px;font-weight:500;min-height:20px}
+
+    /* ── Report card: full-width list style ── */
+    .report-list{display:flex;flex-direction:column;gap:20px}
+
+    .report-card{
+      background:var(--surface);border-radius:var(--radius);
+      box-shadow:var(--shadow);overflow:hidden;
+      transition:box-shadow .22s,opacity .3s;
+    }
+    .report-card:hover{box-shadow:0 8px 28px rgba(26,122,94,.14)}
+    .report-card.deleting{opacity:0;transform:scale(.98);pointer-events:none;transition:all .3s}
+
+    /* Card header strip */
+    .card-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 20px;border-bottom:1px solid var(--border);
+      background:linear-gradient(90deg,var(--accent) 0%,#fff 100%);
+      flex-wrap:wrap;gap:10px;
+    }
+    .card-header-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+    .card-report-title{font-weight:700;font-size:1.05rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card-meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+    .meta-chip{font-size:.74rem;color:var(--primary);background:var(--accent);border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-weight:500;white-space:nowrap}
+    .card-header-right{display:flex;align-items:center;gap:8px}
+    .files-count-badge{font-size:.74rem;color:var(--muted);background:#f4f8f6;border:1px solid var(--border);border-radius:20px;padding:3px 10px}
+    .btn-delete-report{padding:7px 14px;background:var(--red-bg);color:var(--red);border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:5px;white-space:nowrap}
+    .btn-delete-report:hover{background:#f9c4be}
+
+    /* Description */
+    .card-description{
+      padding:14px 20px;font-size:.9rem;color:var(--text);
+      line-height:1.65;border-bottom:1px solid var(--border);
+      background:#fdfffe;white-space:pre-wrap;word-break:break-word;
+    }
+    .card-description.collapsed{
+      display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+      overflow:hidden;white-space:normal;
+    }
+    .toggle-desc{
+      display:inline-block;margin:4px 20px 0;font-size:.8rem;color:var(--primary);
+      cursor:pointer;font-weight:600;user-select:none;
+    }
+    .toggle-desc:hover{text-decoration:underline}
+
+    /* Files section */
+    .files-section{padding:16px 20px}
+    .files-section-label{font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+
+    .files-grid{display:flex;flex-wrap:wrap;gap:12px}
+
+    /* Individual file tile */
+    .file-tile{
+      display:flex;flex-direction:column;
+      border:1.5px solid var(--border);border-radius:10px;
+      overflow:hidden;background:#fafcfb;
+      width:140px;flex-shrink:0;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .file-tile:hover{border-color:var(--primary);box-shadow:0 4px 14px rgba(26,122,94,.1)}
+
+    .file-tile-preview{
+      width:100%;height:100px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--accent),#d4ede4);
+      overflow:hidden;
+    }
+    .file-tile-preview img{width:100%;height:100%;object-fit:cover}
+    .file-tile-icon{font-size:2.4rem}
+
+    .file-tile-info{padding:7px 8px}
+    .file-tile-name{font-size:.7rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:5px}
+    .file-tile-type{display:inline-block;font-size:.6rem;font-weight:700;color:#fff;padding:2px 7px;border-radius:10px;letter-spacing:.05em}
+    .file-tile-actions{display:flex;gap:4px;margin-top:6px}
+    .btn-tile-view{flex:1;padding:5px 0;background:var(--accent);color:var(--primary);border-radius:5px;text-align:center;text-decoration:none;font-size:.73rem;font-weight:600;transition:background .2s}
+    .btn-tile-view:hover{background:#c5e8d9}
+    .btn-tile-del{padding:5px 7px;background:var(--red-bg);color:var(--red);border:none;border-radius:5px;font-size:.73rem;cursor:pointer;transition:background .2s}
+    .btn-tile-del:hover{background:#f9c4be}
+
+    /* States */
+    .loading-state{text-align:center;padding:52px 20px;color:var(--muted);font-size:.95rem;line-height:2.4}
+    .empty-state{text-align:center;padding:52px 20px;color:var(--muted)}
+    .empty-icon{font-size:3rem;display:block;margin-bottom:12px}
+    .empty-state p{font-size:.9rem;line-height:1.7}
+    .empty-state.error .empty-icon{color:var(--red)}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(10,28,22,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s}
+    .modal-overlay.visible{opacity:1;pointer-events:all}
+    .modal-box{background:var(--surface);border-radius:18px;padding:32px 28px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.22);transform:scale(.94);transition:transform .25s;text-align:center}
+    .modal-overlay.visible .modal-box{transform:scale(1)}
+    .modal-icon{font-size:2.8rem;margin-bottom:12px}
+    .modal-box h2{font-size:1.15rem;color:var(--text);margin-bottom:8px}
+    .modal-box p{font-size:.88rem;color:var(--muted);margin-bottom:24px;line-height:1.6}
+    .modal-actions{display:flex;gap:10px;justify-content:center}
+    #confirmDeleteBtn{padding:10px 28px;background:var(--red);color:#fff;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s}
+    #confirmDeleteBtn:hover{background:#c0392b}
+    #cancelDeleteBtn{padding:10px 22px;background:transparent;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;color:var(--muted);transition:border-color .2s,color .2s}
+    #cancelDeleteBtn:hover{border-color:var(--primary);color:var(--primary)}
+    #modalMessage{font-size:.88rem;color:var(--muted);margin-bottom:24px;line-height:1.6}
+
+    .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(30px);background:#1c2c28;color:#fff;padding:12px 28px;border-radius:30px;font-size:.9rem;z-index:9999;opacity:0;transition:all .35s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .toast.error{background:var(--red)}
+    .toast.warn{background:#e67e22}
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spin{display:inline-block;animation:spin .8s linear infinite}
+
+    @media(max-width:600px){
+      .form-grid{grid-template-columns:1fr}
+      .page-header h1{font-size:1.4rem}
+      #userBadge{display:none}
+      .filter-bar{flex-direction:column}
+      .filter-field{min-width:100%}
+      .filter-btns{width:100%}
+      .card-header{flex-direction:column;align-items:flex-start}
+      .file-tile{width:120px}
+      .file-tile-preview{height:80px}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="page-header">
+    <h1>🩺 Medical History</h1>
+    <div class="header-right">
+      <span id="userBadge"></span>
+      <a href="dashboard.html" class="back-link">← Dashboard</a>
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <h3>Add New Report</h3>
+    <div class="form-grid">
+      <input type="text" id="title"       placeholder="Report Title (e.g. Blood Test, X-Ray)" class="full">
+      <textarea          id="description" placeholder="Description / Prescription / Notes — visible on every report" class="full"></textarea>
+      <input type="text" id="doctor"      placeholder="Doctor / Hospital Name">
+      <input type="date" id="reportDate">
+      <div class="full">
+        <div id="dropZone">
+          <div style="font-size:2rem;margin-bottom:5px">📂</div>
+          <span id="dropLabel">Drop files here or click to browse — all files go into ONE report</span>
+          <input type="file" id="fileInput" multiple
+            accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv">
+        </div>
+        <div id="filePreviewList"></div>
+        <p class="formats-note">Supported: JPG · PNG · PDF · DOC · DOCX · XLS · XLSX · PPT · PPTX · TXT · CSV</p>
+      </div>
+    </div>
+    <button id="uploadBtn"><span>📤</span> Upload Report</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <div class="filter-field">
+      <label>Doctor / Hospital Name</label>
+      <input type="text" id="filterDoctor" placeholder="e.g. Apollo, Dr. Kumar…">
+    </div>
+    <div class="filter-field">
+      <label>Report Date</label>
+      <input type="date" id="filterDate">
+    </div>
+    <div class="filter-field" style="min-width:140px;max-width:180px">
+      <label>File Type</label>
+      <select id="filterType">
+        <option value="">All Types</option>
+        <option value="image">🖼️ Images</option>
+        <option value="pdf">📄 PDF</option>
+        <option value="doc">📝 Word Doc</option>
+        <option value="excel">📊 Excel</option>
+        <option value="ppt">📋 PowerPoint</option>
+        <option value="text">📃 Text / CSV</option>
+      </select>
+    </div>
+    <div class="filter-btns">
+      <button class="btn-apply" id="applyBtn">🔎 Apply Filters</button>
+      <button class="btn-clear" id="clearBtn">✕ Clear</button>
+    </div>
+  </div>
+
+  <div id="activeFilters"></div>
+  <div id="reportSummary"></div>
+  <div id="reportList"><div class="loading-state"><span class="spin" style="font-size:1.5rem">⏳</span><br>Checking login…</div></div>
+
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">🗑️</div>
+    <h2 id="modalTitle">Delete this report?</h2>
+    <p id="modalMessage">This will permanently remove the entire report and all its files. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button id="cancelDeleteBtn">Cancel</button>
+      <button id="confirmDeleteBtn">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp }              from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, getDocs,
+  deleteDoc, doc, query, where, orderBy, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getStorage, ref as sRef, uploadBytesResumable, getDownloadURL, deleteObject
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const app = initializeApp({
+  apiKey:           "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+  authDomain:       "aayuh-c9a87.firebaseapp.com",
+  projectId:        "aayuh-c9a87",
+  storageBucket:    "aayuh-c9a87.firebasestorage.app",
+  messagingSenderId:"459370049467",
+  appId:            "1:459370049467:web:4354a11c6b43d3f6dede9e"
+});
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+
+let ME_EMAIL  = null;
+let ME_UID    = null;
+// allGroups = array of grouped report objects (one per upload session)
+let allGroups = [];
+
+const ICONS  = {pdf:'📄',image:'🖼️',doc:'📝',excel:'📊',ppt:'📋',text:'📃',other:'📁'};
+const COLORS = {pdf:'#e74c3c',image:'#3498db',doc:'#2980b9',excel:'#27ae60',ppt:'#e67e22',text:'#8e44ad',other:'#7f8c8d'};
+
+/* ─── helpers ──────────────────────────────────────────────────────── */
+function getFileType(file){
+  const mime=file.type||'', ext=file.name.split('.').pop().toLowerCase();
+  if(mime.includes('pdf')||ext==='pdf') return 'pdf';
+  if(mime.includes('image')||['jpg','jpeg','png','gif','webp','bmp'].includes(ext)) return 'image';
+  if(['doc','docx'].includes(ext)||mime.includes('word')) return 'doc';
+  if(['xls','xlsx'].includes(ext)||mime.includes('excel')||mime.includes('spreadsheet')) return 'excel';
+  if(['ppt','pptx'].includes(ext)||mime.includes('presentation')) return 'ppt';
+  if(['txt','csv'].includes(ext)) return 'text';
+  return 'other';
+}
+
+function toast(msg,type='success'){
+  const t=document.createElement('div');
+  t.className='toast '+type; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),400);},3500);
+}
+
+function setLoading(msg){
+  document.getElementById('reportList').innerHTML=
+    `<div class="loading-state"><span class="spin" style="font-size:1.4rem">⏳</span><br>${msg}</div>`;
+}
+
+/* ─── multi-file queue ──────────────────────────────────────────────── */
+let selectedFiles=[];
+function refreshChips(){
+  const wrap=document.getElementById('filePreviewList');
+  const label=document.getElementById('dropLabel');
+  wrap.innerHTML='';
+  if(!selectedFiles.length){
+    label.textContent='Drop files here or click to browse — all files go into ONE report';
+    label.style.color=''; return;
+  }
+  label.textContent=`${selectedFiles.length} file(s) — all will be part of one report`;
+  label.style.color='#1a7a5e';
+  selectedFiles.forEach((f,i)=>{
+    const c=document.createElement('div'); c.className='file-chip';
+    c.innerHTML=`<span>${ICONS[getFileType(f)]||'📁'}</span>
+      <span class="chip-name" title="${f.name}">${f.name}</span>
+      <button class="chip-remove" data-i="${i}">✕</button>`;
+    wrap.appendChild(c);
+  });
+  wrap.querySelectorAll('.chip-remove').forEach(b=>{
+    b.onclick=e=>{e.stopPropagation();selectedFiles.splice(+b.dataset.i,1);refreshChips();};
+  });
+}
+function addFiles(list){
+  const names=new Set(selectedFiles.map(f=>f.name));
+  Array.from(list).forEach(f=>{if(!names.has(f.name)) selectedFiles.push(f);});
+  refreshChips();
+}
+
+/* ─── UPLOAD — saves all files as ONE report with a shared group_id ─── */
+async function doUpload(){
+  if(!ME_EMAIL){toast('Not logged in.','error');return;}
+  const title=document.getElementById('title').value.trim();
+  const desc =document.getElementById('description').value.trim();
+  const doct =document.getElementById('doctor').value.trim();
+  const date =document.getElementById('reportDate').value;
+  if(!title||!desc||!doct||!date){toast('Fill all text fields.','warn');return;}
+  if(!selectedFiles.length){toast('Choose at least one file.','warn');return;}
+
+  const btn=document.getElementById('uploadBtn');
+  btn.disabled=true;
+  const total=selectedFiles.length;
+  let done=0;
+
+  // A unique group_id ties all files of this upload together as ONE report
+  const groupId=`grp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const groupTimestamp=Date.now();
+
+  try{
+    for(const file of selectedFiles){
+      const ext =file.name.split('.').pop();
+      const path=`reports/${ME_UID}/${groupId}_${done}.${ext}`;
+      const ref =sRef(storage,path);
+      btn.innerHTML=`<span class="spin">⏳</span> Uploading file ${done+1}/${total}…`;
+
+      await new Promise((res,rej)=>{
+        const task=uploadBytesResumable(ref,file);
+        task.on('state_changed',
+          s=>{btn.innerHTML=`<span class="spin">⏳</span> File ${done+1}/${total} — ${Math.round(s.bytesTransferred/s.totalBytes*100)}%`;},
+          rej,res);
+      });
+
+      const url=await getDownloadURL(ref);
+      const ft =getFileType(file);
+
+      // Every file gets the same group_id, title, description, doctor, date
+      await addDoc(collection(db,'medical_history'),{
+        group_id:     groupId,          // ← groups files into one report
+        user_email:   ME_EMAIL,
+        user_id:      ME_UID,
+        title,
+        description:  desc,
+        doctor:       doct,
+        date,
+        file_url:     url,
+        file_path:    path,
+        file_type:    ft,
+        original_name:file.name,
+        timestamp:    groupTimestamp,   // same timestamp = same report
+        file_index:   done             // preserves file order within group
+      });
+      done++;
+    }
+
+    toast(`✅ Report uploaded with ${done} file(s)!`);
+    ['title','description','doctor','reportDate'].forEach(id=>document.getElementById(id).value='');
+    selectedFiles=[]; refreshChips();
+    document.getElementById('fileInput').value='';
+    await loadAllReports();
+  }catch(e){
+    toast('Upload failed: '+(e.message||e),'error');
+    console.error(e);
+  }finally{
+    btn.innerHTML='<span>📤</span> Upload Report';
+    btn.disabled=false;
+  }
+}
+
+/* ─── LOAD + GROUP ──────────────────────────────────────────────────── */
+async function loadAllReports(){
+  if(!ME_EMAIL && !ME_UID){ showNotLoggedIn(); return; }
+  setLoading('Loading your reports…');
+  let rawDocs=[];
+
+  // Try multiple query strategies (handles missing Firestore index gracefully)
+  try{
+    const q=query(collection(db,'medical_history'),where('user_email','==',ME_EMAIL),orderBy('timestamp','desc'));
+    const snap=await getDocs(q);
+    rawDocs=snap.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(e1){
+    try{
+      const q2=query(collection(db,'medical_history'),where('user_email','==',ME_EMAIL));
+      const snap2=await getDocs(q2);
+      rawDocs=snap2.docs.map(d=>({id:d.id,...d.data()}));
+    }catch(e2){
+      try{
+        const q3=query(collection(db,'medical_history'),where('user_id','==',ME_UID));
+        const snap3=await getDocs(q3);
+        rawDocs=snap3.docs.map(d=>({id:d.id,...d.data()}));
+      }catch(e3){
+        try{
+          const snapAll=await getDocs(collection(db,'medical_history'));
+          const all=snapAll.docs.map(d=>({id:d.id,...d.data()}));
+          rawDocs=all.filter(r=>r.user_email===ME_EMAIL||r.user_id===ME_UID);
+        }catch(e4){
+          document.getElementById('reportList').innerHTML=
+            `<div class="empty-state error"><span class="empty-icon">⚠️</span>
+             <p>Could not load reports.<br><code style="font-size:.75rem">${e4.message}</code></p></div>`;
+          return;
+        }
+      }
+    }
+  }
+
+  // Sort all raw docs newest first
+  rawDocs.sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+
+  // ── GROUP by group_id — each group = one card on screen ──────────────
+  // Docs saved before group_id existed get their own doc.id as the group key
+  const groupMap=new Map();
+  rawDocs.forEach(doc=>{
+    const key=doc.group_id||doc.id;   // old records: each is its own group
+    if(!groupMap.has(key)){
+      groupMap.set(key,{
+        group_id:    key,
+        title:       doc.title,
+        description: doc.description,
+        doctor:      doc.doctor,
+        date:        doc.date,
+        timestamp:   doc.timestamp,
+        files:[]
+      });
+    }
+    groupMap.get(key).files.push(doc);
+  });
+
+  // Sort files within each group by file_index (upload order)
+  groupMap.forEach(g=>{
+    g.files.sort((a,b)=>(a.file_index||0)-(b.file_index||0));
+    // Derive dominant file type (most common type among files)
+    const typeCounts={};
+    g.files.forEach(f=>{typeCounts[f.file_type]=(typeCounts[f.file_type]||0)+1;});
+    g.dominant_type=Object.keys(typeCounts).sort((a,b)=>typeCounts[b]-typeCounts[a])[0]||'other';
+  });
+
+  // Convert map to array, sorted newest first
+  allGroups=Array.from(groupMap.values()).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+
+  applyAndRender();
+}
+
+/* ─── FILTER + RENDER ───────────────────────────────────────────────── */
+function applyAndRender(){
+  const doctorVal=(document.getElementById('filterDoctor').value||'').trim().toLowerCase();
+  const dateVal  = document.getElementById('filterDate').value  || '';
+  const typeVal  = document.getElementById('filterType').value  || '';
+
+  // Active filter tags
+  const tagWrap=document.getElementById('activeFilters');
+  tagWrap.innerHTML='';
+  function makeTag(label,clearFn){
+    const tag=document.createElement('div'); tag.className='filter-tag';
+    tag.innerHTML=`${label}<button>✕</button>`;
+    tag.querySelector('button').onclick=()=>{clearFn();applyAndRender();};
+    tagWrap.appendChild(tag);
+  }
+  if(doctorVal) makeTag('👨‍⚕️ '+doctorVal,()=>document.getElementById('filterDoctor').value='');
+  if(dateVal)   makeTag('📅 '+dateVal,      ()=>document.getElementById('filterDate').value='');
+  if(typeVal)   makeTag('📁 '+typeVal,       ()=>document.getElementById('filterType').value='');
+
+  const anyFilter=doctorVal||dateVal||typeVal;
+
+  const filtered=allGroups.filter(g=>{
+    if(doctorVal && !(g.doctor||'').toLowerCase().includes(doctorVal)) return false;
+    if(dateVal   && g.date!==dateVal) return false;
+    // For type filter: match if ANY file in group matches
+    if(typeVal   && !g.files.some(f=>f.file_type===typeVal)) return false;
+    return true;
+  });
+
+  const summary=document.getElementById('reportSummary');
+  summary.textContent=anyFilter
+    ? `Showing ${filtered.length} of ${allGroups.length} report(s) — filters active`
+    : (allGroups.length ? `${allGroups.length} report(s) total` : '');
+
+  renderGroups(filtered, anyFilter);
+}
+
+/* ─── RENDER grouped report cards ──────────────────────────────────── */
+function renderGroups(groups, filtersActive){
+  const list=document.getElementById('reportList');
+  list.innerHTML='';
+
+  if(!groups.length){
+    const msg=filtersActive
+      ? `No reports match these filters.<br>
+         <small style="color:var(--muted)">Try clearing the filters to see all ${allGroups.length} report(s).</small>`
+      : 'No reports yet. Upload your first medical report above.';
+    list.innerHTML=`<div class="empty-state"><span class="empty-icon">🗂️</span><p>${msg}</p></div>`;
+    return;
+  }
+
+  groups.forEach(g=>{
+    const card=document.createElement('div');
+    card.className='report-card';
+    card.id='grpcard-'+g.group_id;
+
+    const totalFiles=g.files.length;
+    const safeGid=g.group_id.replace(/'/g,"\\'");
+    const descFull=(g.description||'').replace(/</g,'&lt;');
+    const descShort=descFull.length>200;
+
+    // Build file tiles HTML
+    const tilesHtml=g.files.map((f,i)=>{
+      const t=f.file_type||'other';
+      const col=COLORS[t]||'#7f8c8d';
+      const icon=ICONS[t]||'📁';
+      const fname=f.original_name||(f.file_url||'').split('/').pop()||'file';
+      const sid=f.id;
+      const sp=(f.file_path||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+      const previewHtml=t==='image'
+        ?`<div class="file-tile-preview">
+            <img src="${f.file_url}" alt="${fname}" loading="lazy"
+              onerror="this.parentElement.innerHTML='<span class=file-tile-icon>🖼️</span>'">
+          </div>`
+        :`<div class="file-tile-preview"><span class="file-tile-icon">${icon}</span></div>`;
+
+      return `<div class="file-tile">
+        ${previewHtml}
+        <div class="file-tile-info">
+          <div class="file-tile-name" title="${fname}">${fname}</div>
+          <span class="file-tile-type" style="background:${col}">${t.toUpperCase()}</span>
+          <div class="file-tile-actions">
+            <a href="${f.file_url}" target="_blank" class="btn-tile-view">👁 View</a>
+            <button class="btn-tile-del" onclick="window.__delFile('${sid}','${sp}','${safeGid}')" title="Remove this file">🗑</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    card.innerHTML=`
+      <!-- Header -->
+      <div class="card-header">
+        <div class="card-header-left">
+          <div>
+            <div class="card-report-title">${(g.title||'Untitled').replace(/</g,'&lt;')}</div>
+            <div class="card-meta-row">
+              <span class="meta-chip">👨‍⚕️ ${g.doctor||'—'}</span>
+              <span class="meta-chip">📅 ${g.date||'—'}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-header-right">
+          <span class="files-count-badge">📎 ${totalFiles} file${totalFiles>1?'s':''}</span>
+          <button class="btn-delete-report" onclick="window.__delGroup('${safeGid}')">🗑️ Delete Report</button>
+        </div>
+      </div>
+
+      <!-- Description — always visible, collapsible if long -->
+      <div class="card-description${descShort?' collapsed':''}" id="desc-${g.group_id}">${descFull}</div>
+      ${descShort?`<span class="toggle-desc" id="toggle-${g.group_id}" onclick="window.__toggleDesc('${g.group_id}')">▼ Show more</span>`:''}
+
+      <!-- Files grid -->
+      <div class="files-section">
+        <div class="files-section-label">Attached Files (${totalFiles})</div>
+        <div class="files-grid">${tilesHtml}</div>
+      </div>`;
+
+    list.appendChild(card);
+  });
+}
+
+/* ─── Toggle description expand/collapse ───────────────────────────── */
+window.__toggleDesc=function(gid){
+  const el=document.getElementById('desc-'+gid);
+  const btn=document.getElementById('toggle-'+gid);
+  if(el.classList.contains('collapsed')){
+    el.classList.remove('collapsed');
+    btn.textContent='▲ Show less';
+  } else {
+    el.classList.add('collapsed');
+    btn.textContent='▼ Show more';
+  }
+};
+
+/* ─── Delete entire report group ───────────────────────────────────── */
+window.__delGroup=function(groupId){
+  const g=allGroups.find(x=>x.group_id===groupId);
+  if(!g) return;
+  showModal(
+    '🗑️',
+    'Delete entire report?',
+    `This will permanently delete "${g.title}" and all ${g.files.length} attached file(s). Cannot be undone.`,
+    async()=>{
+      const card=document.getElementById('grpcard-'+groupId);
+      if(card) card.classList.add('deleting');
+      try{
+        // Delete all files from storage
+        await Promise.all(g.files.map(f=>f.file_path
+          ? deleteObject(sRef(storage,f.file_path)).catch(()=>{})
+          : Promise.resolve()
+        ));
+        // Delete all Firestore docs in this group
+        for(const f of g.files){
+          await deleteDoc(doc(db,'medical_history',f.id));
+        }
+        allGroups=allGroups.filter(x=>x.group_id!==groupId);
+        toast('🗑️ Report deleted.');
+        applyAndRender();
+      }catch(e){
+        toast('Delete failed: '+e.message,'error');
+        if(card) card.classList.remove('deleting');
+      }
+    }
+  );
+};
+
+/* ─── Delete single file from a group ──────────────────────────────── */
+window.__delFile=function(fileId, filePath, groupId){
+  const g=allGroups.find(x=>x.group_id===groupId);
+  const f=g?.files.find(x=>x.id===fileId);
+  if(!f) return;
+  const isLast=g.files.length===1;
+  showModal(
+    '🗑️',
+    isLast ? 'Delete entire report?' : 'Remove this file?',
+    isLast
+      ? `"${f.original_name}" is the only file in this report. Deleting it will remove the entire report.`
+      : `Remove "${f.original_name}" from this report? The other files and details will remain.`,
+    async()=>{
+      try{
+        if(filePath) await deleteObject(sRef(storage,filePath)).catch(()=>{});
+        await deleteDoc(doc(db,'medical_history',fileId));
+        if(isLast){
+          allGroups=allGroups.filter(x=>x.group_id!==groupId);
+          toast('🗑️ Report deleted.');
+        } else {
+          g.files=g.files.filter(x=>x.id!==fileId);
+          toast('File removed.');
+        }
+        applyAndRender();
+      }catch(e){
+        toast('Delete failed: '+e.message,'error');
+      }
+    }
+  );
+};
+
+/* ─── Generic modal ─────────────────────────────────────────────────── */
+function showModal(icon,title,msg,onConfirm){
+  document.getElementById('modalIcon').textContent=icon;
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalMessage').textContent=msg;
+  const modal=document.getElementById('deleteModal');
+  const okBtn=document.getElementById('confirmDeleteBtn');
+  const noBtn=document.getElementById('cancelDeleteBtn');
+  modal.classList.add('visible');
+  const doIt=()=>{cleanup();modal.classList.remove('visible');onConfirm();};
+  const cancel=()=>{cleanup();modal.classList.remove('visible');};
+  function cleanup(){okBtn.removeEventListener('click',doIt);noBtn.removeEventListener('click',cancel);}
+  okBtn.addEventListener('click',doIt);
+  noBtn.addEventListener('click',cancel);
+}
+
+function showNotLoggedIn(){
+  document.getElementById('reportList').innerHTML=
+    `<div class="empty-state error"><span class="empty-icon">🔒</span>
+     <p>Not logged in.<br><a href="login.html" style="color:var(--primary);font-weight:600">Log in</a> to view your history.</p></div>`;
+}
+
+/* ─── DOM Ready ─────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('uploadBtn').addEventListener('click',doUpload);
+  document.getElementById('applyBtn').addEventListener('click',applyAndRender);
+  document.getElementById('clearBtn').addEventListener('click',()=>{
+    ['filterDoctor','filterDate','filterType'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('activeFilters').innerHTML='';
+    applyAndRender();
+  });
+
+  document.getElementById('deleteModal').addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('visible');
+  });
+
+  const dropZone=document.getElementById('dropZone');
+  const fileInput=document.getElementById('fileInput');
+  dropZone.addEventListener('click',()=>fileInput.click());
+  dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('drag-over');});
+  dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop',e=>{
+    e.preventDefault();dropZone.classList.remove('drag-over');
+    if(e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+  fileInput.addEventListener('change',()=>{
+    if(fileInput.files.length) addFiles(fileInput.files);
+    fileInput.value='';
+  });
+
+  onAuthStateChanged(auth,async user=>{
+    if(user){
+      ME_EMAIL=user.email; ME_UID=user.uid;
+      const b=document.getElementById('userBadge');
+      if(b) b.textContent='👤 '+user.email;
+      await loadAllReports();
+    } else {
+      ME_EMAIL=null; ME_UID=null;
+      showNotLoggedIn();
+    }
+  });
+});
+</script>
+</body>
+</html>

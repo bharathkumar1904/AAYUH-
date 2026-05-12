@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - AAYUH!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { 
+      font-family: 'Segoe UI', sans-serif; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      height: 100vh; 
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      margin: 0;
+    }
+    .register-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 900px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .register-info {
+      flex: 1;
+      padding: 2rem;
+      background: linear-gradient(135deg, #00796b, #004d40);
+      color: white;
+    }
+    .register-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .register-info p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    .register-box { 
+      flex: 1;
+      padding: 2rem; 
+      text-align: center;
+    }
+    .register-box h2 {
+      color: #00796b;
+      margin-bottom: 1.5rem;
+    }
+    input { 
+      width: 100%; 
+      padding: 12px 15px; 
+      margin: 8px 0; 
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    input:focus {
+      outline: none;
+      border-color: #00796b;
+    }
+    button { 
+      width: 100%; 
+      padding: 12px; 
+      margin: 10px 0; 
+      background: #00796b; 
+      color: white; 
+      border: none; 
+      border-radius: 8px;
+      cursor: pointer; 
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    button:hover { 
+      background: #004d40; 
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .back-link {
+      margin-top: 1rem;
+    }
+    .back-link a {
+      color: #00796b;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+    .login-link {
+      margin-top: 1rem;
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #00796b;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .register-container {
+        flex-direction: column;
+        margin: 1rem;
+      }
+      .register-info {
+        order: 2;
+      }
+      .register-box {
+        order: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="register-container">
+  <div class="register-info">
+    <h1><i class="fas fa-heartbeat"></i> AAYUH!</h1>
+    <p>Join thousands of users who trust AAYUH! for their health management. Get access to medicine database, symptom checker, medical history storage, and more.</p>
+  </div>
+  
+  <div class="register-box">
+    <h2>Create Account</h2>
+    <input type="text" id="fullName" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password (min 6 characters)" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+    <button id="registerBtn">Sign Up</button>
+    <p id="errorMsg" style="color:red; margin-top: 10px;"></p>
+    <p id="successMsg" style="color:green; margin-top: 10px;"></p>
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+    <div class="back-link">
+      <a href="index.html">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+    authDomain: "aayuh-c9a87.firebaseapp.com",
+    projectId: "aayuh-c9a87",
+    storageBucket: "aayuh-c9a87.firebasestorage.app",
+    messagingSenderId: "459370049467",
+    appId: "1:459370049467:web:4354a11c6b43d3f6dede9e",
+    measurementId: "G-GNFKCBES0L"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const auth = firebase.auth();
+
+  document.getElementById("registerBtn").addEventListener("click", function () {
+
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    const fullName = fullNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+    const btn = document.getElementById("registerBtn");
+
+    errorMsg.textContent = "";
+    successMsg.textContent = "";
+
+    if (!fullName || !email || !password || !confirmPassword) {
+      errorMsg.textContent = "Please fill all fields.";
+      return;
+    }
+
+    if (password.length < 6) {
+      errorMsg.textContent = "Password must be at least 6 characters.";
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      errorMsg.textContent = "Passwords do not match.";
+      return;
+    }
+
+    btn.textContent = "Creating Account...";
+    btn.disabled = true;
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(function (userCredential) {
+
+        const user = userCredential.user;
+
+        return user.updateProfile({
+          displayName: fullName
+        }).then(function () {
+          return user.sendEmailVerification();
+        });
+
+      })
+      .then(function () {
+
+        successMsg.textContent =
+          "Account created! Verification email sent. Please verify before login.";
+
+        auth.signOut();
+
+        btn.textContent = "Sign Up";
+        btn.disabled = false;
+
+      })
+      .catch(function (error) {
+
+        errorMsg.textContent = error.message;
+        btn.textContent = "Sign Up";
+        btn.disabled = false;
+
+      });
+
+  });
+
+  document.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      document.getElementById("registerBtn").click();
+    }
+  });
+</script>
+</body>
+</html>

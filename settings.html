@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Settings</title>
+
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f3f3f3;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #007bff;
+      margin-bottom: 5px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .save { background: #007bff; }
+    .update { background: #28a745; }
+    .logout { background: #dc3545; }
+    button i { margin-right: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>⚙️ Settings</h2>
+    <p>Email: <span id="userEmail"></span></p>
+
+    <label>Full Name</label>
+    <input type="text" id="fullName" placeholder="Your Name" />
+
+    <label>Phone Number</label>
+    <input type="text" id="phoneNumber" placeholder="Your Phone" />
+
+    <button class="save" id="saveBtn"><i class="fa fa-save"></i> Save Changes</button>
+
+    <label>Change Password</label>
+    <input type="password" id="newPassword" placeholder="New Password" />
+    <button class="update" id="updatePasswordBtn"><i class="fa fa-key"></i> Update Password</button>
+
+    <button class="logout" id="logoutBtn"><i class="fa fa-sign-out-alt"></i> Logout</button>
+  </div>
+
+  <script type="module">
+    // ====== FIREBASE CONFIGURATION ======
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      updatePassword, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+      authDomain: "aayuh-c9a87.firebaseapp.com",
+      projectId: "aayuh-c9a87",
+      storageBucket: "aayuh-c9a87.firebasestorage.app",
+      messagingSenderId: "459370049467",
+      appId: "1:459370049467:web:4354a11c6b43d3f6dede9e",
+      measurementId: "G-GNFKCBES0L"
+    };
+
+    // ====== INITIALIZE FIREBASE ======
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ====== DOM ELEMENTS ======
+    const fullNameInput = document.getElementById('fullName');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const saveBtn = document.getElementById('saveBtn');
+    const updatePasswordBtn = document.getElementById('updatePasswordBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userEmail = document.getElementById('userEmail');
+    const newPasswordInput = document.getElementById('newPassword');
+
+    // ====== CHECK LOGIN STATE ======
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        userEmail.textContent = user.email;
+
+        // Load user settings from Firestore
+        const docRef = doc(db, "userSettings", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          fullNameInput.value = data.fullName || "";
+          phoneNumberInput.value = data.phoneNumber || "";
+        }
+      } else {
+        // Redirect to index.html if not logged in
+        window.location.href = "index.html";
+      }
+    });
+
+    // ====== SAVE SETTINGS ======
+    saveBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await setDoc(doc(db, "userSettings", user.uid), {
+          fullName: fullNameInput.value,
+          phoneNumber: phoneNumberInput.value,
+          email: user.email
+        }, { merge: true });
+
+        alert('✅ Profile updated successfully!');
+      }
+    });
+
+    // ====== UPDATE PASSWORD ======
+    updatePasswordBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      const newPassword = newPasswordInput.value.trim();
+      
+      if (user && newPassword.length >= 6) {
+        try {
+          await updatePassword(user, newPassword);
+          alert('🔐 Password updated successfully!');
+          newPasswordInput.value = "";
+        } catch (error) {
+          alert('❌ ' + error.message);
+        }
+      } else {
+        alert('⚠️ Password must be at least 6 characters long.');
+      }
+    });
+
+    // ====== LOGOUT ======
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aayuh – Medicine Info</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f8f7;
+      padding: 30px;
+    }
+    h2 {
+      color: #00796b;
+    }
+    .note {
+      margin: 15px 0;
+      padding: 12px;
+      background-color: #e3f2fd;
+      border-left: 5px solid #2196f3;
+      border-radius: 4px;
+      color: #0d47a1;
+      font-size: 15px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 280px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #00796b;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e0f2f1;
+      border-left: 5px solid #00796b;
+      border-radius: 4px;
+    }
+    #disclaimer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #555;
+      background-color: #fff3cd;
+      padding: 15px;
+      border-left: 5px solid #ffc107;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>🔍 Search for Medicine Information</h2>
+
+<div class="note">
+💡 Please search using <b>generic names</b> (e.g., Paracetamol, Ibuprofen, Azithromycin) instead of Indian brand names (e.g., Dolo 650, Crocin, Azithral) for better results.
+</div>
+
+<input type="text" id="medicineInput" placeholder="Enter medicine name">
+<button onclick="searchMedicine()">Search</button>
+
+<div id="result"></div>
+
+<div id="disclaimer">
+⚠️ Information is fetched from a public drug database.  
+This is for educational purposes only.  
+Always consult a doctor before using any medicine.
+</div>
+
+<script>
+/* ---------------- Indian Brand → Generic Map ---------------- */
+const indianBrandMap = {
+  "dolo 650": "paracetamol",
+  "crocin": "paracetamol",
+  "calpol": "paracetamol",
+  "sumo": "paracetamol",
+  "azithral": "azithromycin",
+  "allegra": "fexofenadine",
+  "cetzine": "cetirizine",
+  "okacet": "cetirizine",
+  "montek lc": "montelukast",
+  "pan 40": "pantoprazole",
+  "omez": "omeprazole"
+};
+
+/* ---------------- Simplify medical text ---------------- */
+function simplify(text) {
+  if (!text) return "Information not available.";
+  return text.replace(/\n/g, " ").split(".").slice(0, 2).join(".") + ".";
+}
+
+/* ---------------- Simple usage explanations ---------------- */
+function getSimpleUsage(name) {
+  name = name.toLowerCase();
+
+  if (name.includes("paracetamol")) {
+    return {
+      timing: "After food, every 4–6 hours if needed",
+      explanation:
+        "Used to reduce fever and body pain. Do not take more than 4 tablets a day."
+    };
+  }
+
+  if (name.includes("ibuprofen")) {
+    return {
+      timing: "After food",
+      explanation:
+        "Used for pain and swelling. Always take after meals to protect your stomach."
+    };
+  }
+
+  if (name.includes("cetirizine") || name.includes("fexofenadine")) {
+    return {
+      timing: "Once daily (preferably night)",
+      explanation:
+        "Used for allergy symptoms like sneezing, itching, or runny nose."
+    };
+  }
+
+  if (name.includes("azithromycin") || name.includes("amoxicillin")) {
+    return {
+      timing: "Morning or night at fixed time",
+      explanation:
+        "Antibiotic medicine. Complete the full course even if you feel better."
+    };
+  }
+
+  return {
+    timing: "As prescribed by a doctor",
+    explanation:
+      "Use only under medical advice."
+  };
+}
+
+/* ---------------- Main search function ---------------- */
+async function searchMedicine() {
+  const input = document.getElementById("medicineInput").value.trim();
+  const result = document.getElementById("result");
+
+  if (!input) {
+    result.innerHTML = "❌ Please enter a medicine name.";
+    return;
+  }
+
+  let searchName = input.toLowerCase();
+
+  if (indianBrandMap[searchName]) {
+    searchName = indianBrandMap[searchName];
+  }
+
+  result.innerHTML = "🔄 Fetching medicine information...";
+
+  try {
+    const response = await fetch(
+      `https://api.fda.gov/drug/label.json?search=${encodeURIComponent(searchName)}&limit=1`
+    );
+
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+    const med = data.results[0];
+
+    const use = simplify(med.indications_and_usage?.[0]);
+    const dosage = simplify(med.dosage_and_administration?.[0]);
+    const sideEffects = simplify(med.adverse_reactions?.[0]);
+    const simple = getSimpleUsage(searchName);
+
+    result.innerHTML = `
+      <h3>${med.openfda?.generic_name?.[0] || searchName}</h3>
+
+      <p><strong>Use:</strong> ${use}</p>
+      <p><strong>Dosage:</strong> ${dosage}</p>
+      <p><strong>⏰ Timing:</strong> ${simple.timing}</p>
+      <p><strong>Side Effects:</strong> ${sideEffects}</p>
+
+      <hr>
+
+      <p><strong>🧠 Simple Explanation:</strong><br>
+      ${simple.explanation}</p>
+    `;
+  } catch {
+    result.innerHTML = `
+      ❌ Medicine not found in database.<br><br>
+
+      💡 <strong>Tip:</strong> This may be an Indian brand name.<br>
+      Try searching using the generic name.<br><br>
+
+      <b>Examples:</b><br>
+      Dolo 650 → Paracetamol<br>
+      Azithral → Azithromycin<br>
+      Crocin → Paracetamol
+    `;
+  }
+}
+</script>
+
+</body>
+</html>
