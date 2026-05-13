@@ -40,20 +40,9 @@ nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px 
 .nav-srch button{background:var(--g);border:none;padding:10px 16px;color:#fff;font-size:.83rem;font-weight:700;transition:background .2s;white-space:nowrap;}
 .nav-srch button:hover{background:var(--g2);}
 .nav-r{margin-left:auto;display:flex;gap:10px;align-items:center;}
-.icobtn{position:relative;background:var(--g4);border:1.5px solid var(--bd);border-radius:var(--r2);width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;transition:all .2s;cursor:pointer;}
-.icobtn:hover{background:var(--g3);border-color:var(--g);}
 .badge{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;font-size:.6rem;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--sur);}
-.cartbtn{display:flex;align-items:center;gap:8px;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:10px 18px;font-weight:700;font-size:.84rem;transition:all .2s;cursor:pointer;}
+.cartbtn{position:relative;display:flex;align-items:center;gap:8px;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:10px 18px;font-weight:700;font-size:.84rem;transition:all .2s;cursor:pointer;}
 .cartbtn:hover{background:var(--g2);}
-
-/* DB PILL */
-.db-pill{display:flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:99px;border:1.5px solid var(--bd);color:var(--mu);background:var(--bg);transition:all .3s;white-space:nowrap;}
-.db-pill.connected{border-color:var(--g);color:var(--g2);background:var(--g3);}
-.db-pill.error{border-color:var(--red);color:var(--red);background:#fef2f2;}
-.db-dot{width:7px;height:7px;border-radius:50%;background:var(--mu);transition:background .3s;}
-.db-pill.connected .db-dot{background:var(--g);animation:pulse 2s infinite;}
-.db-pill.error .db-dot{background:var(--red);}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
 /* HERO */
 .hero{background:linear-gradient(130deg,var(--navy) 0%,#1a4a38 55%,#1db87e 100%);padding:60px 40px 52px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;position:relative;overflow:hidden;}
@@ -101,9 +90,6 @@ nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px 
 .otc{background:#dcfce7;color:#166534;}
 .rx{background:#fee2e2;color:#991b1b;}
 .dtag{position:absolute;top:10px;right:10px;background:var(--ora);color:#fff;font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:5px;}
-.wish{position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,.92);border:1px solid var(--bd);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:all .2s;box-shadow:0 1px 6px rgba(0,0,0,.08);cursor:pointer;}
-.wish:hover{background:#fef2f2;border-color:#fca5a5;}
-.wish.on{background:#fef2f2;border-color:#fca5a5;}
 .cbody{padding:13px 14px;flex:1;display:flex;flex-direction:column;gap:4px;}
 .ccat{font-size:.65rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.5px;}
 .cname{font-family:'Lora',serif;font-size:.96rem;font-weight:600;line-height:1.3;color:var(--tx);}
@@ -200,19 +186,6 @@ nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px 
 .bamz-lg{background:var(--amz);color:#fff;border:none;border-radius:var(--r2);padding:13px;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s;text-decoration:none;}
 .bamz-lg:hover{background:var(--amz2);}
 
-/* SETUP BANNER */
-.setup-banner{background:linear-gradient(135deg,var(--navy),#1a4a38);border-radius:var(--r);padding:28px 32px;margin-bottom:28px;display:flex;gap:20px;align-items:flex-start;}
-.setup-banner .ico{font-size:2.4rem;flex-shrink:0;}
-.setup-banner h3{font-family:'Lora',serif;color:#fff;font-size:1.1rem;margin-bottom:8px;}
-.setup-banner p{color:rgba(255,255,255,.65);font-size:.83rem;line-height:1.7;margin-bottom:14px;}
-.setup-banner code{display:block;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:10px 14px;font-size:.77rem;color:#6ee7b7;font-family:monospace;line-height:1.8;margin-bottom:8px;}
-.setup-banner .fields{display:flex;flex-direction:column;gap:8px;}
-.setup-banner input{width:100%;border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r2);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:.84rem;color:#fff;background:rgba(255,255,255,.08);outline:none;transition:border .2s;}
-.setup-banner input::placeholder{color:rgba(255,255,255,.35);}
-.setup-banner input:focus{border-color:var(--g);}
-.btn-connect{background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:11px 22px;font-weight:700;font-size:.86rem;transition:background .2s;width:100%;cursor:pointer;}
-.btn-connect:hover{background:var(--g2);}
-
 /* ADMIN LOGIN */
 .admin-login-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
 .admin-login-bg.show{opacity:1;pointer-events:all;}
@@ -222,7 +195,7 @@ nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px 
 .admin-login-box p{font-size:.8rem;color:var(--mu);margin-bottom:22px;line-height:1.5;}
 .admin-login-box input{width:100%;border:1.5px solid var(--bd);border-radius:var(--r2);padding:11px 14px;font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;margin-bottom:12px;transition:border .2s;}
 .admin-login-box input:focus{border-color:var(--g);}
-.admin-login-box .lerr{font-size:.78rem;color:var(--red);margin-bottom:10px;min-height:18px;}
+.lerr{font-size:.78rem;color:var(--red);margin-bottom:10px;min-height:18px;}
 .btn-login{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:12px;font-weight:700;font-size:.9rem;transition:background .2s;cursor:pointer;}
 .btn-login:hover{background:var(--g2);}
 .btn-cancel-login{width:100%;background:none;border:1.5px solid var(--bd);border-radius:var(--r2);padding:10px;font-weight:600;font-size:.82rem;color:var(--mu);margin-top:8px;transition:all .2s;cursor:pointer;}
@@ -285,13 +258,10 @@ nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px 
 #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--navy);color:#fff;border-radius:var(--r2);padding:12px 22px;font-size:.84rem;font-weight:600;z-index:1000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh2);}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* HIDDEN ADMIN BTN */
-#adminFloatBtn{position:fixed;bottom:20px;right:20px;width:46px;height:46px;border-radius:50%;background:rgba(15,45,36,.18);border:1.5px solid rgba(15,45,36,.2);font-size:1.15rem;cursor:pointer;z-index:300;transition:all .2s;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1);}
-#adminFloatBtn:hover{background:var(--g);border-color:var(--g);transform:scale(1.1);}
-
 /* FOOTER */
 footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:26px 20px;font-size:.74rem;line-height:1.8;}
 footer strong{color:rgba(255,255,255,.9);}
+#adminHint{opacity:0;font-size:.65rem;display:block;margin-top:6px;cursor:default;user-select:none;}
 
 /* RESPONSIVE */
 @media(max-width:768px){
@@ -303,7 +273,6 @@ footer strong{color:rgba(255,255,255,.9);}
   .mimg{border-radius:var(--r) var(--r) 0 0;min-height:180px;}
   .fg2{grid-template-columns:1fr;}
   .ap-body{padding:16px;}
-  .db-pill span{display:none;}
 }
 @media(max-width:480px){
   .pgrid{grid-template-columns:repeat(2,1fr);gap:11px;}
@@ -324,11 +293,6 @@ footer strong{color:rgba(255,255,255,.9);}
     <button id="navSrchBtn">🔍 Search</button>
   </div>
   <div class="nav-r">
-    <div class="db-pill" id="dbPill" title="Supabase connection status">
-      <div class="db-dot"></div>
-      <span id="dbPillTxt">Connecting…</span>
-    </div>
-    <button class="icobtn" id="wishBtn" title="Wishlist">🤍<span class="badge" id="wbadge" style="display:none">0</span></button>
     <button class="cartbtn" id="cartBtn">🛒 Cart <span class="badge" id="cbadge">0</span></button>
   </div>
 </nav>
@@ -360,35 +324,6 @@ footer strong{color:rgba(255,255,255,.9);}
 
 <!-- MAIN -->
 <div class="page">
-
-  <!-- SUPABASE SETUP BANNER -->
-  <div class="setup-banner" id="setupBanner" style="display:none">
-    <div class="ico">🔌</div>
-    <div style="flex:1;">
-      <h3>Connect Your Supabase Database</h3>
-      <p>Products and admin logs will be stored in Supabase PostgreSQL. Create a free account at <strong style="color:#6ee7b7">supabase.com</strong>, then run this SQL in your project's SQL Editor:</p>
-      <code>CREATE TABLE IF NOT EXISTS products (
-  id BIGSERIAL PRIMARY KEY, name TEXT NOT NULL, brand TEXT,
-  cat TEXT DEFAULT 'other', type TEXT DEFAULT 'OTC',
-  price NUMERIC NOT NULL, mrp NUMERIC, link TEXT, img TEXT,
-  emoji TEXT DEFAULT '💊', rating NUMERIC DEFAULT 4.0,
-  reviews INTEGER DEFAULT 0, description TEXT,
-  wished BOOLEAN DEFAULT false, created_at TIMESTAMPTZ DEFAULT NOW()
-);
-CREATE TABLE IF NOT EXISTS admin_access_log (
-  id BIGSERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(),
-  success BOOLEAN, ip TEXT, city TEXT, country TEXT,
-  browser TEXT, os TEXT, screen_res TEXT, timezone TEXT, language TEXT
-);</code>
-      <p style="margin-bottom:10px;">Then paste your Project URL and anon key below:</p>
-      <div class="fields">
-        <input type="text" id="sbUrl" placeholder="https://xxxxxxxxxxx.supabase.co"/>
-        <input type="text" id="sbKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9… (anon key)"/>
-        <button class="btn-connect" id="btnConnect">🔌 Connect to Supabase</button>
-      </div>
-    </div>
-  </div>
-
   <div id="products">
     <!-- INLINE SEARCH -->
     <div style="display:flex;gap:10px;align-items:center;background:var(--sur);border:1.5px solid var(--bd);border-radius:var(--r);padding:14px 18px;margin-bottom:20px;box-shadow:var(--sh);">
@@ -433,11 +368,8 @@ CREATE TABLE IF NOT EXISTS admin_access_log (
   We participate in the Amazon Associates Program. Affiliate links may earn a small commission at no extra cost to you.<br>
   ⚠️ Always consult a qualified doctor before purchasing any medicine.<br>
   &copy; 2025 Aayuh Health Platform
-  <span style="opacity:.3;font-size:.65rem;display:block;margin-top:6px;cursor:default" id="adminHint" title="">· · ·</span>
+  <span id="adminHint">· · ·</span>
 </footer>
-
-<!-- HIDDEN ADMIN FLOAT BUTTON -->
-<button id="adminFloatBtn" title="Admin Panel">⚙️</button>
 
 <!-- CART OVERLAY + DRAWER -->
 <div class="ov" id="ov"></div>
@@ -471,7 +403,7 @@ CREATE TABLE IF NOT EXISTS admin_access_log (
   <div class="admin-login-box">
     <div class="ico">🔐</div>
     <h2>Admin Access</h2>
-    <p>Enter the admin password to access the product management panel.</p>
+    <p>This area is restricted. Enter your admin password to continue.</p>
     <input type="password" id="pwdInput" placeholder="Enter admin password"/>
     <div class="lerr" id="lerr"></div>
     <button class="btn-login" id="btnLogin">🔓 Login</button>
@@ -576,22 +508,25 @@ CREATE TABLE IF NOT EXISTS admin_access_log (
 
 <script>
 // ══════════════════════════════════════════════════
-// CONFIG — change these values
+// 🔐 HARDCODED CONFIG — only you see this
 // ══════════════════════════════════════════════════
+const SB_URL     = 'https://jimyydyapycnjkwxlxyx.supabase.co';
+const SB_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppbXl5ZHlhcHljbmprd3hseHl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NTE4MjQsImV4cCI6MjA5NDEyNzgyNH0.Jt9zi2nlF5P0066IG4h8TfYW6RmV95mZ0wmYVapDL3A';
 const AFFILIATE  = 'https://amzn.to/4sVoPP5';
-const ADMIN_PASS = 'aayuh2025'; // ← Change this!
+const ADMIN_PASS = 'aayuh2025'; // ← Change this to something strong!
 
 // ══════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════
-let _supabase    = null;
-let sbReady      = false;
-let products     = [];
-let cart         = [];
-let activeCat    = 'all';
-let query        = '';
-let imgData      = '';
+let _supabase     = null;
+let sbReady       = false;
+let products      = [];
+let cart          = [];
+let activeCat     = 'all';
+let query         = '';
+let imgData       = '';
 let adminLoggedIn = false;
+let adminTimer    = null;
 
 // ══════════════════════════════════════════════════
 // HELPERS
@@ -601,7 +536,6 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function catLbl(c){ return{pain:'Pain Relief',vitamin:'Vitamins',diabetes:'Diabetes',heart:'Heart Health',cold:'Cold & Flu',skincare:'Skin Care',digestive:'Digestive',immunity:'Immunity',devices:'Devices',other:'Other'}[c]||c; }
 function stars(r){ const f=Math.floor(r||4),h=(r||4)%1>=.5?1:0; return'★'.repeat(f)+(h?'½':'')+'☆'.repeat(Math.max(0,5-f-h)); }
 function updateStat(){ $('statNum').textContent = products.length + '+'; }
-
 let _toastTimer;
 function toast(msg){
   const t=$('toast'); t.textContent=msg; t.classList.add('show');
@@ -609,52 +543,26 @@ function toast(msg){
 }
 
 // ══════════════════════════════════════════════════
-// SUPABASE
+// SUPABASE INIT — auto-connects on page load
 // ══════════════════════════════════════════════════
-function getConfig(){
-  return { url: localStorage.getItem('sb_url')||'', key: localStorage.getItem('sb_key')||'' };
-}
-
-function setDbStatus(s){
-  const pill=$('dbPill'), txt=$('dbPillTxt');
-  pill.className='db-pill';
-  if(s==='connected'){ pill.classList.add('connected'); txt.textContent='Supabase ✓'; }
-  else if(s==='error'){ pill.classList.add('error'); txt.textContent='DB Error'; }
-  else if(s==='unconfigured'){ txt.textContent='Setup DB'; }
-  else { txt.textContent='Connecting…'; }
-}
-
-async function initSupabase(url, key){
-  if(!url||!key){ setDbStatus('unconfigured'); $('setupBanner').style.display='flex'; renderSkeletons(); return; }
+async function initSupabase(){
   try {
-    _supabase = window.supabase.createClient(url, key);
+    _supabase = window.supabase.createClient(SB_URL, SB_KEY);
     const { error } = await _supabase.from('products').select('id').limit(1);
     if(error) throw error;
     sbReady = true;
-    setDbStatus('connected');
-    $('setupBanner').style.display='none';
     await loadProducts();
-    toast('✅ Connected to Supabase!');
   } catch(e){
-    console.error('Supabase:', e);
-    setDbStatus('error');
-    $('setupBanner').style.display='flex';
-    renderError('Could not connect to Supabase. Check your URL and anon key. Error: ' + (e.message||e));
+    console.error('Supabase error:', e);
+    // Fallback to seed data so users still see products
+    products = SEEDS.map((p,i)=>({...p,id:i+1,wished:false,created_at:new Date().toISOString()}));
+    updateStat(); render();
+    $('rsub').textContent = 'Showing sample products';
   }
 }
 
-function saveConfig(){
-  const url = $('sbUrl').value.trim();
-  const key = $('sbKey').value.trim();
-  if(!url||!key){ toast('⚠️ Please enter both URL and anon key'); return; }
-  localStorage.setItem('sb_url', url);
-  localStorage.setItem('sb_key', key);
-  setDbStatus('connecting');
-  initSupabase(url, key);
-}
-
 // ══════════════════════════════════════════════════
-// SEEDS
+// SEED DATA
 // ══════════════════════════════════════════════════
 const SEEDS = [
   {name:'Dolo 650',brand:'Micro Labs',cat:'pain',type:'OTC',price:28,mrp:35,link:AFFILIATE,img:'',emoji:'💊',rating:4.5,reviews:12840,description:'Trusted fever and pain relief tablet.'},
@@ -673,9 +581,8 @@ const SEEDS = [
 // LOAD & SEED PRODUCTS
 // ══════════════════════════════════════════════════
 async function loadProducts(){
-  if(!sbReady){ renderSkeletons(); return; }
   renderSkeletons();
-  $('rsub').textContent = 'Loading from Supabase…';
+  $('rsub').textContent='Loading products…';
   const { data, error } = await _supabase.from('products').select('*').order('created_at',{ascending:false});
   if(error){ renderError(error.message); return; }
   products = data || [];
@@ -684,19 +591,17 @@ async function loadProducts(){
 }
 
 async function seedDefaults(){
-  toast('⏳ Seeding default products…');
   const { data, error } = await _supabase.from('products').insert(SEEDS).select();
   if(error){ renderError('Seed failed: '+error.message); return; }
   products = data || [];
   updateStat(); render();
-  toast('✅ Store seeded with 10 default products!');
 }
 
 // ══════════════════════════════════════════════════
 // RENDER
 // ══════════════════════════════════════════════════
 function renderSkeletons(){
-  $('pgrid').innerHTML = Array(8).fill(0).map(()=>`
+  $('pgrid').innerHTML=Array(8).fill(0).map(()=>`
     <div class="skel-card">
       <div class="skel skel-img"></div>
       <div class="skel skel-line w60"></div>
@@ -707,35 +612,33 @@ function renderSkeletons(){
 }
 
 function renderError(msg){
-  $('pgrid').innerHTML=`<div class="empty"><div class="ei">⚠️</div><h3>Database Error</h3><p>${esc(msg)}</p></div>`;
-  $('rsub').textContent='Error loading products';
+  $('pgrid').innerHTML=`<div class="empty"><div class="ei">⚠️</div><h3>Could not load products</h3><p>${esc(msg)}</p></div>`;
+  $('rsub').textContent='Error';
 }
 
 function render(){
-  const g = $('pgrid');
-  const q = query.toLowerCase().trim();
-  const filtered = products.filter(p=>{
-    const mc = activeCat==='all' || p.cat===activeCat;
-    const ms = !q || p.name.toLowerCase().includes(q) || (p.brand||'').toLowerCase().includes(q);
-    return mc && ms;
+  const q=query.toLowerCase().trim();
+  const filtered=products.filter(p=>{
+    const mc=activeCat==='all'||p.cat===activeCat;
+    const ms=!q||p.name.toLowerCase().includes(q)||(p.brand||'').toLowerCase().includes(q);
+    return mc&&ms;
   });
-  $('rsub').textContent = filtered.length
-    ? `${filtered.length} product${filtered.length>1?'s':''} found`
-    : 'No products match your search';
+  $('rsub').textContent=filtered.length
+    ?`${filtered.length} product${filtered.length>1?'s':''} found`
+    :'No products match your search';
   if(!filtered.length){
-    g.innerHTML=`<div class="empty"><div class="ei">🔍</div><h3>No products found</h3><p>Try a different search or category.</p></div>`;
+    $('pgrid').innerHTML=`<div class="empty"><div class="ei">🔍</div><h3>No products found</h3><p>Try a different search or category.</p></div>`;
     return;
   }
-  g.innerHTML = filtered.map((p,i)=>{
-    const disc = p.mrp && p.mrp > p.price ? Math.round((1-p.price/p.mrp)*100) : 0;
-    const inC  = cart.find(c=>c.id===p.id);
+  $('pgrid').innerHTML=filtered.map((p,i)=>{
+    const disc=p.mrp&&p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;
+    const inC=cart.find(c=>c.id===p.id);
     return `<div class="card" style="animation-delay:${Math.min(i,12)*0.05}s" data-id="${p.id}">
       <div class="cimg">
-        ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+        ${p.img?`<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}
         <div class="ph" style="${p.img?'display:none':''}">${p.emoji||'💊'}</div>
         <span class="ctag ${p.type==='Rx'?'rx':'otc'}">${p.type}</span>
-        ${disc ? `<span class="dtag">-${disc}%</span>` : ''}
-        <button class="wish ${p.wished?'on':''}" data-wish="${p.id}">${p.wished?'❤️':'🤍'}</button>
+        ${disc?`<span class="dtag">-${disc}%</span>`:''}
       </div>
       <div class="cbody">
         <div class="ccat">${catLbl(p.cat)}</div>
@@ -759,23 +662,19 @@ function render(){
 // SEARCH & FILTER
 // ══════════════════════════════════════════════════
 function doSearch(q){
-  query = q;
-  $('navSrch').value = q;
-  $('inlineSrch').value = q;
-  $('inlineClear').style.display = q ? 'block' : 'none';
-  $('clrSrch').style.display = q ? 'block' : 'none';
-  const banner = $('srchBanner');
-  if(q.trim()){ banner.style.display='flex'; $('srchTerm').textContent=q; }
-  else { banner.style.display='none'; }
+  query=q;
+  $('navSrch').value=q;
+  $('inlineSrch').value=q;
+  $('inlineClear').style.display=q?'block':'none';
+  $('clrSrch').style.display=q?'block':'none';
+  if(q.trim()){ $('srchBanner').style.display='flex'; $('srchTerm').textContent=q; }
+  else { $('srchBanner').style.display='none'; }
   render();
 }
-
 function clearSearch(){
   query='';
-  $('navSrch').value='';
-  $('inlineSrch').value='';
-  $('inlineClear').style.display='none';
-  $('clrSrch').style.display='none';
+  $('navSrch').value=''; $('inlineSrch').value='';
+  $('inlineClear').style.display='none'; $('clrSrch').style.display='none';
   $('srchBanner').style.display='none';
   render();
 }
@@ -786,7 +685,7 @@ function clearSearch(){
 function addCart(id){
   const p=products.find(x=>x.id==id); if(!p) return;
   const ex=cart.find(c=>c.id==id);
-  ex ? ex.qty++ : cart.push({...p,qty:1});
+  ex?ex.qty++:cart.push({...p,qty:1});
   updateCartBadge(); renderCart(); toast(`🛒 ${p.name} added!`); render();
 }
 function rmCart(id){ cart=cart.filter(c=>c.id!=id); updateCartBadge(); renderCart(); render(); }
@@ -796,11 +695,10 @@ function changeQty(id,d){
 }
 function clearCart(){ cart=[]; updateCartBadge(); renderCart(); render(); toast('🗑️ Cart cleared'); }
 function updateCartBadge(){ $('cbadge').textContent=cart.reduce((s,c)=>s+c.qty,0); }
-
 function renderCart(){
-  const w=$('ditems'), f=$('dfoot');
+  const w=$('ditems'),f=$('dfoot');
   if(!cart.length){
-    w.innerHTML=`<div class="cempty"><div class="ei">🛒</div><p>Your cart is empty</p><small style="font-size:.73rem;color:var(--mu)">Add products to get started</small></div>`;
+    w.innerHTML=`<div class="cempty"><div class="ei">🛒</div><p>Your cart is empty</p></div>`;
     f.style.display='none'; return;
   }
   f.style.display='block';
@@ -824,22 +722,8 @@ function renderCart(){
   }).join('');
   $('ctotal').textContent='₹'+sub.toLocaleString();
 }
-
 function openCart(){ $('drawer').classList.add('open'); $('ov').classList.add('show'); renderCart(); }
 function closeCart(){ $('drawer').classList.remove('open'); $('ov').classList.remove('show'); }
-
-// ══════════════════════════════════════════════════
-// WISHLIST
-// ══════════════════════════════════════════════════
-function toggleWish(id){
-  const p=products.find(x=>x.id==id); if(!p) return;
-  p.wished=!p.wished;
-  toast(p.wished?'❤️ Added to wishlist!':'Removed from wishlist');
-  const cnt=products.filter(x=>x.wished).length;
-  const wb=$('wbadge');
-  wb.style.display=cnt?'flex':'none'; wb.textContent=cnt;
-  render();
-}
 
 // ══════════════════════════════════════════════════
 // PRODUCT MODAL
@@ -847,9 +731,9 @@ function toggleWish(id){
 function openModal(id){
   const p=products.find(x=>x.id==id); if(!p) return;
   const disc=p.mrp&&p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;
-  const mi=$('mImg'), mp=$('mPh');
+  const mi=$('mImg'),mp=$('mPh');
   if(p.img){ mi.src=p.img; mi.style.display='block'; mp.style.display='none'; }
-  else { mi.style.display='none'; mp.style.display='block'; mp.textContent=p.emoji||'💊'; }
+  else{ mi.style.display='none'; mp.style.display='block'; mp.textContent=p.emoji||'💊'; }
   $('mInf').innerHTML=`
     <div class="mcat">${catLbl(p.cat)}</div>
     <div class="mnm">${esc(p.name)}</div>
@@ -866,7 +750,7 @@ function openModal(id){
 function closeModal(){ $('mbg').classList.remove('show'); document.body.style.overflow=''; }
 
 // ══════════════════════════════════════════════════
-// ADMIN — DEVICE INFO
+// ADMIN — DEVICE INFO & LOG
 // ══════════════════════════════════════════════════
 async function getDeviceInfo(){
   let ip='unknown',city='',country='';
@@ -874,21 +758,20 @@ async function getDeviceInfo(){
   const ua=navigator.userAgent;
   const browser=ua.includes('Edg')?'Edge':ua.includes('Chrome')?'Chrome':ua.includes('Firefox')?'Firefox':ua.includes('Safari')?'Safari':'Other';
   const os=ua.includes('Windows')?'Windows':ua.includes('Mac')?'macOS':ua.includes('Android')?'Android':(ua.includes('iPhone')||ua.includes('iPad'))?'iOS':'Other';
-  return { ip, city, country, browser, os, screen_res:`${screen.width}x${screen.height}`, language:navigator.language, timezone:Intl.DateTimeFormat().resolvedOptions().timeZone };
+  return{ip,city,country,browser,os,screen_res:`${screen.width}x${screen.height}`,language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone};
 }
 async function logAdminAccess(success){
   if(!sbReady) return;
   const d=await getDeviceInfo();
-  await _supabase.from('admin_access_log').insert({ success,ip:d.ip,city:d.city,country:d.country,browser:d.browser,os:d.os,screen_res:d.screen_res,timezone:d.timezone,language:d.language });
+  await _supabase.from('admin_access_log').insert({success,ip:d.ip,city:d.city,country:d.country,browser:d.browser,os:d.os,screen_res:d.screen_res,timezone:d.timezone,language:d.language});
 }
 
 // ══════════════════════════════════════════════════
-// ADMIN — LOGIN
+// ADMIN — LOGIN (hidden, only accessible via secret)
 // ══════════════════════════════════════════════════
 function showAdminLogin(){
   $('adminLoginBg').classList.add('show');
-  $('pwdInput').value='';
-  $('lerr').textContent='';
+  $('pwdInput').value=''; $('lerr').textContent='';
   setTimeout(()=>$('pwdInput').focus(),120);
 }
 function hideAdminLogin(){ $('adminLoginBg').classList.remove('show'); }
@@ -898,18 +781,23 @@ async function doLogin(){
   if(pwd===ADMIN_PASS){
     adminLoggedIn=true;
     hideAdminLogin();
-    logAdminAccess(true); // non-blocking
+    logAdminAccess(true);
     openAdminPanel();
+    // Auto-logout after 30 minutes of inactivity
+    clearTimeout(adminTimer);
+    adminTimer=setTimeout(()=>{
+      if(adminLoggedIn){ logoutAdmin(); toast('⏱️ Admin session expired'); }
+    }, 30*60*1000);
   } else {
     $('lerr').textContent='⚠ Incorrect password. Try again.';
-    $('pwdInput').value='';
-    $('pwdInput').focus();
-    logAdminAccess(false); // non-blocking
+    $('pwdInput').value=''; $('pwdInput').focus();
+    logAdminAccess(false);
   }
 }
 
 function logoutAdmin(){
   adminLoggedIn=false;
+  clearTimeout(adminTimer);
   $('adminPanelBg').classList.remove('show');
   document.body.style.overflow='';
   toast('🔒 Logged out of admin panel');
@@ -923,7 +811,6 @@ function openAdminPanel(){
   document.body.style.overflow='hidden';
   switchTab(1);
 }
-
 function switchTab(n){
   [1,2,3].forEach(i=>{
     $('tab'+i).classList.toggle('on',i===n);
@@ -932,8 +819,6 @@ function switchTab(n){
   if(n===2) renderManage();
   if(n===3) loadAccessLog();
 }
-
-// ── IMAGE PREVIEW ─────────────────────────────────
 function prevImg(file){
   if(!file) return;
   if(file.size>5*1024*1024){ toast('⚠️ Image too large (max 5MB)'); return; }
@@ -941,49 +826,35 @@ function prevImg(file){
   r.onload=e=>{ imgData=e.target.result; $('imgPrev').src=imgData; $('imgPrev').style.display='block'; };
   r.readAsDataURL(file);
 }
-
-// ── ADD PRODUCT ───────────────────────────────────
 async function addProduct(){
-  if(!sbReady){ toast('⚠️ Supabase not connected'); return; }
-  const name   = $('fName').value.trim();
-  const brand  = $('fBrand').value.trim();
-  const cat    = $('fCat').value;
-  const type   = $('fType').value;
-  const price  = parseFloat($('fPrice').value);
-  const mrp    = parseFloat($('fMrp').value)||0;
-  const rating = parseFloat($('fRating').value)||4.0;
-  const reviews= parseInt($('fReviews').value)||0;
-  const link   = $('fLink').value.trim()||AFFILIATE;
+  if(!sbReady){ toast('⚠️ Database not connected'); return; }
+  const name=$('fName').value.trim();
+  const brand=$('fBrand').value.trim();
+  const cat=$('fCat').value;
+  const type=$('fType').value;
+  const price=parseFloat($('fPrice').value);
+  const mrp=parseFloat($('fMrp').value)||0;
+  const rating=parseFloat($('fRating').value)||4.0;
+  const reviews=parseInt($('fReviews').value)||0;
+  const link=$('fLink').value.trim()||AFFILIATE;
   const description=$('fDesc').value.trim();
-  const msg=$('fmsg'), btn=$('btnAdd');
-
+  const msg=$('fmsg'),btn=$('btnAdd');
   if(!name){ msg.style.color='var(--red)'; msg.textContent='⚠ Name is required'; return; }
   if(!price||price<=0){ msg.style.color='var(--red)'; msg.textContent='⚠ Valid price required'; return; }
-
   btn.textContent='⏳ Saving…'; btn.disabled=true; msg.textContent='';
-
-  const { data, error } = await _supabase.from('products').insert({
-    name, brand, cat, type, price, mrp, rating, reviews,
-    link, img:imgData, emoji:'💊', description, wished:false
+  const{data,error}=await _supabase.from('products').insert({
+    name,brand,cat,type,price,mrp,rating,reviews,link,img:imgData,emoji:'💊',description,wished:false
   }).select();
-
   btn.textContent='✅ Add Product'; btn.disabled=false;
-
   if(error){ msg.style.color='var(--red)'; msg.textContent='❌ '+error.message; return; }
-
   products.unshift(data[0]);
   ['fName','fBrand','fPrice','fMrp','fRating','fReviews','fDesc'].forEach(i=>$(i).value='');
-  $('fLink').value='';
-  $('fImg').value='';
-  $('imgPrev').style.display='none';
-  imgData='';
-  msg.style.color='var(--g)'; msg.textContent='✅ Saved to Supabase!';
+  $('fLink').value=''; $('fImg').value=''; $('imgPrev').style.display='none'; imgData='';
+  msg.style.color='var(--g)'; msg.textContent='✅ Saved!';
   setTimeout(()=>msg.textContent='',3000);
   updateStat(); render();
   toast(`✅ "${name}" added!`);
 }
-
-// ── MANAGE PRODUCTS ───────────────────────────────
 function renderManage(){
   const q=($('mpSearch').value||'').toLowerCase();
   const list=products.filter(p=>!q||p.name.toLowerCase().includes(q)||(p.brand||'').toLowerCase().includes(q));
@@ -991,7 +862,7 @@ function renderManage(){
   const w=$('mpList');
   if(!list.length){ w.innerHTML=`<div class="mp-empty">No products found.</div>`; return; }
   w.innerHTML=list.map(p=>`
-    <div class="mp-item" id="mpi${p.id}">
+    <div class="mp-item">
       <div class="mp-img">${p.img?`<img src="${esc(p.img)}" alt="">`:`<div class="ph">${p.emoji||'💊'}</div>`}</div>
       <div class="mp-inf">
         <div class="mp-nm">${esc(p.name)}</div>
@@ -1001,12 +872,11 @@ function renderManage(){
       <button class="btn-del" data-del="${p.id}">🗑️ Delete</button>
     </div>`).join('');
 }
-
 async function delProduct(id){
   const p=products.find(x=>x.id==id); if(!p) return;
-  if(!confirm(`Delete "${p.name}" from Supabase?`)) return;
+  if(!confirm(`Delete "${p.name}"?`)) return;
   if(sbReady){
-    const { error }=await _supabase.from('products').delete().eq('id',id);
+    const{error}=await _supabase.from('products').delete().eq('id',id);
     if(error){ toast('❌ Delete failed: '+error.message); return; }
   }
   products=products.filter(x=>x.id!=id);
@@ -1014,13 +884,11 @@ async function delProduct(id){
   updateCartBadge(); updateStat(); render(); renderManage();
   toast(`🗑️ "${p.name}" deleted`);
 }
-
-// ── ACCESS LOG ────────────────────────────────────
 async function loadAccessLog(){
   const w=$('logList');
-  if(!sbReady){ w.innerHTML=`<p style="color:var(--mu);font-size:.85rem;padding:20px 0">Connect Supabase to see access logs.</p>`; return; }
+  if(!sbReady){ w.innerHTML=`<p style="color:var(--mu);font-size:.85rem;padding:20px 0">Database not connected.</p>`; return; }
   w.innerHTML=`<p style="color:var(--mu);font-size:.82rem;padding:12px 0">⏳ Loading…</p>`;
-  const { data, error }=await _supabase.from('admin_access_log').select('*').order('timestamp',{ascending:false}).limit(50);
+  const{data,error}=await _supabase.from('admin_access_log').select('*').order('timestamp',{ascending:false}).limit(50);
   if(error){ w.innerHTML=`<p style="color:var(--red);font-size:.82rem">${esc(error.message)}</p>`; return; }
   if(!data||!data.length){ w.innerHTML=`<div class="mp-empty">No login attempts logged yet.</div>`; return; }
   w.innerHTML=data.map(log=>{
@@ -1042,115 +910,76 @@ async function loadAccessLog(){
 }
 
 // ══════════════════════════════════════════════════
-// EVENT DELEGATION — single listener for all clicks
+// EVENT DELEGATION
 // ══════════════════════════════════════════════════
-document.addEventListener('click', function(e){
-  const t = e.target;
-
-  // Category pills
-  const pill = t.closest('.cpill');
-  if(pill){
-    activeCat = pill.dataset.cat;
-    document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('on'));
-    pill.classList.add('on');
-    render(); return;
-  }
-
-  // Wish button
-  if(t.dataset.wish){ e.stopPropagation(); toggleWish(t.dataset.wish); return; }
-
-  // Add to cart (card or modal)
-  if(t.dataset.add){
-    addCart(t.dataset.add);
-    if(t.dataset.close) closeModal();
-    return;
-  }
-
-  // Open product modal (card click)
-  const card = t.closest('.card');
-  if(card && !t.closest('.cfoot') && !t.closest('.wish')){ openModal(card.dataset.id); return; }
-
-  // Cart qty buttons
-  if(t.dataset.qty){ changeQty(t.dataset.qty, parseInt(t.dataset.d)); return; }
-
-  // Cart remove
+document.addEventListener('click',function(e){
+  const t=e.target;
+  const pill=t.closest('.cpill');
+  if(pill){ activeCat=pill.dataset.cat; document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('on')); pill.classList.add('on'); render(); return; }
+  if(t.dataset.add){ addCart(t.dataset.add); if(t.dataset.close) closeModal(); return; }
+  const card=t.closest('.card');
+  if(card&&!t.closest('.cfoot')){ openModal(card.dataset.id); return; }
+  if(t.dataset.qty){ changeQty(t.dataset.qty,parseInt(t.dataset.d)); return; }
   if(t.dataset.rm){ rmCart(t.dataset.rm); return; }
-
-  // Manage panel delete
   if(t.dataset.del){ delProduct(t.dataset.del); return; }
-
-  // Modal close on backdrop
   if(t.id==='mbg'){ closeModal(); return; }
-
-  // Admin panel close on backdrop
   if(t.id==='adminPanelBg'){ $('adminPanelBg').classList.remove('show'); document.body.style.overflow=''; return; }
 });
 
 // ══════════════════════════════════════════════════
-// WIRE UP ALL BUTTONS AFTER DOM READY
+// WIRE UP BUTTONS
 // ══════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', function(){
-
-  // Nav search
-  $('navSrch').addEventListener('input', e=>doSearch(e.target.value));
-  $('navSrch').addEventListener('keydown', e=>{ if(e.key==='Enter'){ doSearch(e.target.value); e.target.blur(); }});
-  $('navSrchBtn').addEventListener('click', ()=>doSearch($('navSrch').value));
-
-  // Inline search
-  $('inlineSrch').addEventListener('input', e=>doSearch(e.target.value));
-  $('inlineSrch').addEventListener('keydown', e=>{ if(e.key==='Enter') doSearch(e.target.value); });
-  $('inlineClear').addEventListener('click', clearSearch);
-  $('clrSrch').addEventListener('click', clearSearch);
-  $('srchBannerClear').addEventListener('click', clearSearch);
+document.addEventListener('DOMContentLoaded',function(){
+  // Search
+  $('navSrch').addEventListener('input',e=>doSearch(e.target.value));
+  $('navSrch').addEventListener('keydown',e=>{ if(e.key==='Enter'){ doSearch(e.target.value); e.target.blur(); }});
+  $('navSrchBtn').addEventListener('click',()=>doSearch($('navSrch').value));
+  $('inlineSrch').addEventListener('input',e=>doSearch(e.target.value));
+  $('inlineSrch').addEventListener('keydown',e=>{ if(e.key==='Enter') doSearch(e.target.value); });
+  $('inlineClear').addEventListener('click',clearSearch);
+  $('clrSrch').addEventListener('click',clearSearch);
+  $('srchBannerClear').addEventListener('click',clearSearch);
 
   // Cart
-  $('cartBtn').addEventListener('click', openCart);
-  $('ov').addEventListener('click', closeCart);
-  $('cartClose').addEventListener('click', closeCart);
-  $('checkoutBtn').addEventListener('click', ()=>{ if(!cart.length) return; window.open(AFFILIATE,'_blank','noopener'); toast('🚀 Redirecting to Amazon…'); });
-  $('clearCartBtn').addEventListener('click', clearCart);
-  $('wishBtn').addEventListener('click', ()=>toast('❤️ Wishlist — coming soon!'));
+  $('cartBtn').addEventListener('click',openCart);
+  $('ov').addEventListener('click',closeCart);
+  $('cartClose').addEventListener('click',closeCart);
+  $('checkoutBtn').addEventListener('click',()=>{ if(!cart.length) return; window.open(AFFILIATE,'_blank','noopener'); toast('🚀 Redirecting to Amazon…'); });
+  $('clearCartBtn').addEventListener('click',clearCart);
 
-  // Modal close
-  $('modalClose').addEventListener('click', closeModal);
+  // Modal
+  $('modalClose').addEventListener('click',closeModal);
 
-  // Supabase connect
-  $('btnConnect').addEventListener('click', saveConfig);
+  // ── HIDDEN ADMIN ACCESS ────────────────────────
+  // Method 1: Triple-click the footer dots
+  let clickCount=0, clickTimer=null;
+  $('adminHint').addEventListener('click',function(){
+    clickCount++;
+    clearTimeout(clickTimer);
+    clickTimer=setTimeout(()=>{ clickCount=0; },600);
+    if(clickCount>=3){ clickCount=0; showAdminLogin(); }
+  });
 
-  // Admin float button
-  $('adminFloatBtn').addEventListener('click', showAdminLogin);
+  // Admin login/logout
+  $('btnLogin').addEventListener('click',doLogin);
+  $('btnCancelLogin').addEventListener('click',hideAdminLogin);
+  $('pwdInput').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+  $('btnLogout').addEventListener('click',logoutAdmin);
 
-  // Admin hint (footer double-click)
-  $('adminHint').addEventListener('dblclick', showAdminLogin);
-
-  // Admin login
-  $('btnLogin').addEventListener('click', doLogin);
-  $('btnCancelLogin').addEventListener('click', hideAdminLogin);
-  $('pwdInput').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
-
-  // Admin panel tabs
-  $('tab1').addEventListener('click', ()=>switchTab(1));
-  $('tab2').addEventListener('click', ()=>switchTab(2));
-  $('tab3').addEventListener('click', ()=>switchTab(3));
-
-  // Admin logout
-  $('btnLogout').addEventListener('click', logoutAdmin);
+  // Admin tabs
+  $('tab1').addEventListener('click',()=>switchTab(1));
+  $('tab2').addEventListener('click',()=>switchTab(2));
+  $('tab3').addEventListener('click',()=>switchTab(3));
 
   // Add product
-  $('btnAdd').addEventListener('click', addProduct);
+  $('btnAdd').addEventListener('click',addProduct);
+  $('imgUpArea').addEventListener('click',()=>$('fImg').click());
+  $('fImg').addEventListener('change',e=>{ if(e.target.files[0]) prevImg(e.target.files[0]); });
+  $('mpSearch').addEventListener('input',renderManage);
+  $('btnRefreshLog').addEventListener('click',loadAccessLog);
 
-  // Image upload
-  $('imgUpArea').addEventListener('click', ()=>$('fImg').click());
-  $('fImg').addEventListener('change', e=>{ if(e.target.files[0]) prevImg(e.target.files[0]); });
-
-  // Manage search
-  $('mpSearch').addEventListener('input', renderManage);
-
-  // Refresh log
-  $('btnRefreshLog').addEventListener('click', loadAccessLog);
-
-  // Escape key
-  document.addEventListener('keydown', e=>{
+  // Escape
+  document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
       closeModal(); closeCart();
       if($('adminLoginBg').classList.contains('show')) hideAdminLogin();
@@ -1158,19 +987,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   });
 
-  // ── INIT ──────────────────────────────────────
-  const cfg = getConfig();
-  if(cfg.url && cfg.key){
-    initSupabase(cfg.url, cfg.key);
-  } else {
-    setDbStatus('unconfigured');
-    $('setupBanner').style.display='flex';
-    // Show demo products while Supabase is not configured
-    products = SEEDS.map((p,i)=>({...p, id:i+1, wished:false, created_at:new Date().toISOString()}));
-    updateStat();
-    render();
-    $('rsub').textContent = 'Demo mode — connect Supabase to save products';
-  }
+  // ── START ──────────────────────────────────────
+  initSupabase();
 });
 </script>
 </body>

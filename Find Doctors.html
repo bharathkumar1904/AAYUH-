@@ -1,156 +1,995 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AAYUH! | Terms & Conditions</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      line-height: 1.6;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aayuh Pharmacy — Medicines & Health Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --g:#17a663;--g2:#0e8a52;--g3:#d2f0e2;--g4:#eef6f1;
+  --navy:#0f2d24;--bg:#f7faf9;--sur:#fff;
+  --tx:#111c17;--mu:#5a7368;--bd:#d9ece3;
+  --red:#dc2626;--ora:#f97316;--amz:#ff9900;--amz2:#e68a00;
+  --sh:0 4px 24px rgba(15,45,36,.10);
+  --sh2:0 12px 40px rgba(15,45,36,.14);
+  --r:14px;--r2:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:99px;}
 
-    header {
-      background-color: #007b83;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-    }
+/* STRIP */
+.strip{background:var(--navy);color:rgba(255,255,255,.75);font-size:.72rem;font-weight:500;text-align:center;padding:7px 16px;}
+.strip span{color:#6ee7b7;}
 
-    main {
-      max-width: 900px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+/* NAV */
+nav{position:sticky;top:0;z-index:400;background:var(--sur);border-bottom:1.5px solid var(--bd);height:66px;display:flex;align-items:center;padding:0 28px;gap:16px;box-shadow:0 1px 8px rgba(15,45,36,.07);}
+.logo{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;color:var(--g);white-space:nowrap;cursor:pointer;}
+.logo sup{font-size:.52rem;background:var(--g);color:#fff;border-radius:4px;padding:1px 5px;vertical-align:super;font-family:'Outfit',sans-serif;font-weight:700;}
+.nav-srch{flex:1;max-width:500px;display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--bd);border-radius:var(--r2);overflow:hidden;transition:border .2s,box-shadow .2s;}
+.nav-srch:focus-within{border-color:var(--g);box-shadow:0 0 0 3px rgba(23,166,99,.12);}
+.nav-srch input{flex:1;border:none;background:transparent;padding:10px 14px;font-family:'Outfit',sans-serif;font-size:.87rem;color:var(--tx);outline:none;}
+.nav-srch input::placeholder{color:var(--mu);}
+.nav-srch button{background:var(--g);border:none;padding:10px 16px;color:#fff;font-size:.83rem;font-weight:700;transition:background .2s;white-space:nowrap;}
+.nav-srch button:hover{background:var(--g2);}
+.nav-r{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.badge{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;font-size:.6rem;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--sur);}
+.cartbtn{position:relative;display:flex;align-items:center;gap:8px;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:10px 18px;font-weight:700;font-size:.84rem;transition:all .2s;cursor:pointer;}
+.cartbtn:hover{background:var(--g2);}
 
-    h2 {
-      color: #007b83;
-      margin-top: 30px;
-      font-size: 20px;
-    }
+/* HERO */
+.hero{background:linear-gradient(130deg,var(--navy) 0%,#1a4a38 55%,#1db87e 100%);padding:60px 40px 52px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-80px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(109,231,175,.13) 0%,transparent 70%);pointer-events:none;}
+.hero-eye{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:5px 14px;font-size:.7rem;font-weight:700;color:#a7f3d0;letter-spacing:.5px;text-transform:uppercase;margin-bottom:14px;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(1.8rem,3.5vw,2.7rem);color:#fff;line-height:1.2;margin-bottom:12px;}
+.hero h1 em{font-style:italic;color:#6ee7b7;}
+.hero p{color:rgba(255,255,255,.7);font-size:.93rem;line-height:1.7;max-width:460px;margin-bottom:24px;}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:99px;padding:4px 12px;font-size:.75rem;color:rgba(255,255,255,.7);margin-bottom:18px;}
+.hero-stats{display:flex;gap:28px;margin-top:20px;}
+.stat{display:flex;flex-direction:column;gap:2px;}
+.stat b{font-size:1.35rem;font-weight:800;color:#fff;}
+.stat small{font-size:.7rem;color:rgba(255,255,255,.5);font-weight:500;}
+.hero-ico{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:22px 28px;font-size:3rem;text-align:center;line-height:1.8;backdrop-filter:blur(8px);}
 
-    p {
-      margin: 10px 0;
-      text-align: justify;
-    }
+/* TRUST */
+.trust{background:var(--sur);border-bottom:1.5px solid var(--bd);display:flex;justify-content:center;flex-wrap:wrap;}
+.ti{display:flex;align-items:center;gap:7px;padding:11px 22px;border-right:1px solid var(--bd);font-size:.77rem;font-weight:600;color:var(--mu);}
+.ti:last-child{border-right:none;}
 
-    ul {
-      margin: 10px 20px;
-    }
+/* PAGE */
+.page{max-width:1280px;margin:0 auto;padding:36px 24px;}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px;}
+.sh-t{font-family:'Lora',serif;font-size:1.3rem;font-weight:600;}
+.sh-s{font-size:.78rem;color:var(--mu);margin-top:3px;}
+.sh-lnk{font-size:.8rem;font-weight:700;color:var(--g);cursor:pointer;}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #555;
-    }
+/* CATEGORIES */
+.cats{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:32px;}
+.cpill{display:flex;align-items:center;gap:6px;background:var(--sur);border:1.5px solid var(--bd);border-radius:99px;padding:7px 16px;font-size:.79rem;font-weight:600;color:var(--mu);cursor:pointer;transition:all .18s;user-select:none;}
+.cpill:hover,.cpill.on{background:var(--g3);border-color:var(--g);color:var(--g2);}
 
-    @media (max-width: 600px) {
-      main {
-        margin: 15px;
-        padding: 20px;
-      }
-    }
+/* PRODUCT GRID */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;margin-bottom:52px;}
 
-    .warning {
-      background: #fff8e1;
-      border-left: 4px solid #f59e0b;
-      padding: 10px 15px;
-      border-radius: 6px;
-      color: #7c6000;
-      margin: 15px 0;
-    }
-  </style>
+/* CARD */
+.card{background:var(--sur);border:1.5px solid var(--bd);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s;animation:up .4s ease both;cursor:pointer;}
+.card:hover{transform:translateY(-5px);box-shadow:var(--sh2);}
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.cimg{position:relative;height:180px;background:var(--g4);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.cimg img{width:100%;height:100%;object-fit:contain;padding:12px;transition:transform .3s;}
+.card:hover .cimg img{transform:scale(1.07);}
+.cimg .ph{font-size:4rem;opacity:.4;}
+.ctag{position:absolute;top:10px;left:10px;font-size:.58rem;font-weight:800;padding:3px 7px;border-radius:4px;letter-spacing:.4px;text-transform:uppercase;}
+.otc{background:#dcfce7;color:#166534;}
+.rx{background:#fee2e2;color:#991b1b;}
+.dtag{position:absolute;top:10px;right:10px;background:var(--ora);color:#fff;font-size:.63rem;font-weight:800;padding:3px 8px;border-radius:5px;}
+.cbody{padding:13px 14px;flex:1;display:flex;flex-direction:column;gap:4px;}
+.ccat{font-size:.65rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.5px;}
+.cname{font-family:'Lora',serif;font-size:.96rem;font-weight:600;line-height:1.3;color:var(--tx);}
+.cbrand{font-size:.73rem;color:var(--mu);}
+.cstars{display:flex;align-items:center;gap:4px;margin-top:2px;}
+.stars{color:#f59e0b;font-size:.78rem;letter-spacing:-1px;}
+.rct{font-size:.7rem;color:var(--mu);}
+.cprice{display:flex;align-items:baseline;gap:7px;margin-top:auto;padding-top:7px;}
+.pnow{font-size:1.13rem;font-weight:800;}
+.pwas{font-size:.76rem;color:var(--mu);text-decoration:line-through;}
+.psave{font-size:.7rem;font-weight:700;color:var(--g);}
+.cfoot{padding:11px 13px;border-top:1px solid var(--bd);display:flex;gap:7px;}
+.badd{flex:1;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:9px 8px;font-weight:700;font-size:.79rem;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .2s;cursor:pointer;}
+.badd:hover{background:var(--g2);}
+.badd.done{background:#166534;}
+.bamz{flex:1;background:var(--amz);color:#fff;border:none;border-radius:var(--r2);padding:9px 8px;font-weight:700;font-size:.79rem;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .2s;text-decoration:none;}
+.bamz:hover{background:var(--amz2);}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,var(--g4) 25%,var(--g3) 50%,var(--g4) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skel-card{background:var(--sur);border:1.5px solid var(--bd);border-radius:var(--r);overflow:hidden;}
+.skel-img{height:180px;}
+.skel-line{height:12px;border-radius:4px;margin:8px 14px;}
+.skel-line.w60{width:60%;}
+.skel-line.w80{width:80%;}
+.skel-line.w40{width:40%;}
+.skel-btn{height:36px;margin:11px 13px;border-radius:var(--r2);}
+
+/* EMPTY */
+.empty{grid-column:1/-1;text-align:center;padding:72px 20px;color:var(--mu);}
+.empty .ei{font-size:3.2rem;margin-bottom:12px;}
+.empty h3{font-family:'Lora',serif;font-size:1.1rem;color:var(--tx);margin-bottom:6px;}
+
+/* CART DRAWER */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:600;opacity:0;pointer-events:none;transition:opacity .25s;}
+.ov.show{opacity:1;pointer-events:all;}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--sur);z-index:700;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 40px rgba(0,0,0,.12);}
+.drawer.open{transform:translateX(0);}
+.dhead{padding:20px 22px;border-bottom:1.5px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.dhead h2{font-family:'Lora',serif;font-size:1.1rem;}
+.xbtn{background:var(--g4);border:1.5px solid var(--bd);border-radius:var(--r2);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--mu);transition:all .2s;cursor:pointer;}
+.xbtn:hover{background:#fee2e2;border-color:#fca5a5;color:var(--red);}
+.ditems{flex:1;overflow-y:auto;padding:14px;}
+.cempty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--mu);}
+.cempty .ei{font-size:3rem;}
+.cempty p{font-size:.88rem;font-weight:500;}
+.citem{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--bd);animation:up .25s ease;}
+.ci-img{width:66px;height:66px;border-radius:var(--r2);background:var(--g4);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.ci-img img{width:100%;height:100%;object-fit:contain;padding:4px;}
+.ci-img .ph{font-size:1.8rem;}
+.ci-inf{flex:1;min-width:0;}
+.ci-nm{font-weight:700;font-size:.84rem;line-height:1.3;margin-bottom:2px;}
+.ci-br{font-size:.7rem;color:var(--mu);margin-bottom:5px;}
+.ci-pr{font-size:.87rem;font-weight:800;color:var(--g);}
+.qrow{display:flex;align-items:center;border:1.5px solid var(--bd);border-radius:var(--r2);overflow:hidden;width:fit-content;margin-top:5px;}
+.qrow button{background:var(--g4);border:none;width:28px;height:28px;font-size:.95rem;color:var(--tx);transition:background .15s;cursor:pointer;}
+.qrow button:hover{background:var(--g3);}
+.qrow span{width:32px;text-align:center;font-size:.82rem;font-weight:700;border-left:1px solid var(--bd);border-right:1px solid var(--bd);line-height:28px;}
+.rmbtn{background:none;border:none;color:var(--mu);font-size:.73rem;margin-top:4px;padding:0;display:flex;align-items:center;gap:3px;transition:color .15s;cursor:pointer;}
+.rmbtn:hover{color:var(--red);}
+.dfoot{padding:18px 22px;border-top:1.5px solid var(--bd);}
+.subrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.subrow .lb{font-size:.84rem;color:var(--mu);font-weight:500;}
+.subrow .am{font-size:1.22rem;font-weight:800;}
+.bchk{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:14px;font-weight:800;font-size:.93rem;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;}
+.bchk:hover{background:var(--g2);}
+.bclr{width:100%;background:none;border:1.5px solid var(--bd);border-radius:var(--r2);padding:10px;font-weight:600;font-size:.8rem;color:var(--mu);margin-top:8px;transition:all .2s;cursor:pointer;}
+.bclr:hover{border-color:var(--red);color:var(--red);}
+.cnote{font-size:.7rem;color:var(--mu);text-align:center;margin-top:9px;line-height:1.5;}
+
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .22s;}
+.mbg.show{opacity:1;pointer-events:all;}
+.modal{background:var(--sur);border-radius:var(--r);max-width:660px;width:100%;max-height:90vh;overflow-y:auto;transform:scale(.96);transition:transform .25s;box-shadow:var(--sh2);}
+.mbg.show .modal{transform:scale(1);}
+.modal-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.mimg{background:var(--g4);min-height:250px;display:flex;align-items:center;justify-content:center;padding:24px;border-radius:var(--r) 0 0 var(--r);position:relative;}
+.mimg img{max-height:210px;object-fit:contain;width:100%;}
+.mimg .ph{font-size:5.5rem;}
+.mclose{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.9);border:1px solid var(--bd);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:.88rem;color:var(--mu);cursor:pointer;}
+.minf{padding:26px 22px;display:flex;flex-direction:column;gap:9px;}
+.mcat{font-size:.65rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.5px;}
+.mnm{font-family:'Lora',serif;font-size:1.25rem;font-weight:600;line-height:1.25;}
+.mbr{font-size:.78rem;color:var(--mu);}
+.mdes{font-size:.8rem;color:var(--mu);line-height:1.7;}
+.mpr{display:flex;align-items:baseline;gap:8px;}
+.mpr .big{font-size:1.45rem;font-weight:800;}
+.mpr .old{font-size:.83rem;color:var(--mu);text-decoration:line-through;}
+.mpr .sv{font-size:.75rem;font-weight:700;color:var(--g);}
+.mac{display:flex;gap:8px;flex-direction:column;}
+.badd-lg{background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:13px;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s;cursor:pointer;}
+.badd-lg:hover{background:var(--g2);}
+.bamz-lg{background:var(--amz);color:#fff;border:none;border-radius:var(--r2);padding:13px;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s;text-decoration:none;}
+.bamz-lg:hover{background:var(--amz2);}
+
+/* ADMIN LOGIN */
+.admin-login-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
+.admin-login-bg.show{opacity:1;pointer-events:all;}
+.admin-login-box{background:var(--sur);border-radius:var(--r);width:100%;max-width:380px;padding:36px 32px;box-shadow:var(--sh2);text-align:center;}
+.admin-login-box .ico{font-size:2.5rem;margin-bottom:10px;}
+.admin-login-box h2{font-family:'Lora',serif;font-size:1.25rem;margin-bottom:6px;}
+.admin-login-box p{font-size:.8rem;color:var(--mu);margin-bottom:22px;line-height:1.5;}
+.admin-login-box input{width:100%;border:1.5px solid var(--bd);border-radius:var(--r2);padding:11px 14px;font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;margin-bottom:12px;transition:border .2s;}
+.admin-login-box input:focus{border-color:var(--g);}
+.lerr{font-size:.78rem;color:var(--red);margin-bottom:10px;min-height:18px;}
+.btn-login{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:12px;font-weight:700;font-size:.9rem;transition:background .2s;cursor:pointer;}
+.btn-login:hover{background:var(--g2);}
+.btn-cancel-login{width:100%;background:none;border:1.5px solid var(--bd);border-radius:var(--r2);padding:10px;font-weight:600;font-size:.82rem;color:var(--mu);margin-top:8px;transition:all .2s;cursor:pointer;}
+.btn-cancel-login:hover{border-color:var(--red);color:var(--red);}
+
+/* ADMIN PANEL */
+.admin-panel-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:800;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
+.admin-panel-bg.show{opacity:1;pointer-events:all;}
+.admin-panel{background:var(--sur);border-radius:var(--r);width:100%;max-width:760px;margin:auto;box-shadow:var(--sh2);overflow:hidden;}
+.ap-head{background:var(--navy);padding:20px 26px;display:flex;align-items:center;justify-content:space-between;}
+.ap-head h2{font-family:'Lora',serif;color:#fff;font-size:1.15rem;display:flex;align-items:center;gap:8px;}
+.ap-head p{font-size:.75rem;color:rgba(255,255,255,.55);margin-top:2px;}
+.btn-logout{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:var(--r2);padding:7px 16px;font-size:.78rem;font-weight:600;transition:all .2s;cursor:pointer;}
+.btn-logout:hover{background:rgba(255,255,255,.18);}
+.ap-tabs{display:flex;border-bottom:1.5px solid var(--bd);}
+.ap-tab{flex:1;padding:13px;font-size:.83rem;font-weight:700;background:none;border:none;border-bottom:2.5px solid transparent;color:var(--mu);transition:all .2s;cursor:pointer;}
+.ap-tab.on{color:var(--g);border-bottom-color:var(--g);background:var(--g4);}
+.ap-tab:hover:not(.on){background:var(--bg);}
+.ap-body{padding:24px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.fg label{font-size:.76rem;font-weight:700;color:var(--mu);}
+.fg input,.fg select,.fg textarea{border:1.5px solid var(--bd);border-radius:var(--r2);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:.85rem;color:var(--tx);background:var(--bg);outline:none;transition:border .2s;width:100%;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--g);background:#fff;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.imgup{border:2px dashed var(--bd);border-radius:var(--r2);padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);}
+.imgup:hover{border-color:var(--g);background:var(--g3);}
+.imgup input{display:none;}
+.imgup .uico{font-size:1.7rem;margin-bottom:5px;}
+.imgup p{font-size:.76rem;color:var(--mu);}
+#imgPrev{width:80px;height:80px;object-fit:contain;border-radius:var(--r2);border:1.5px solid var(--bd);margin:8px auto 0;background:#fff;padding:4px;display:none;}
+.btn-submit{background:var(--g);color:#fff;border:none;border-radius:var(--r2);padding:12px 28px;font-weight:700;font-size:.88rem;transition:background .2s;cursor:pointer;}
+.btn-submit:hover{background:var(--g2);}
+.mp-list{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;}
+.mp-item{display:flex;align-items:center;gap:13px;padding:13px;border:1.5px solid var(--bd);border-radius:var(--r2);background:var(--bg);transition:box-shadow .2s;}
+.mp-item:hover{box-shadow:var(--sh);}
+.mp-img{width:58px;height:58px;border-radius:var(--r2);background:var(--sur);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.mp-img img{width:100%;height:100%;object-fit:contain;padding:3px;}
+.mp-img .ph{font-size:1.7rem;}
+.mp-inf{flex:1;min-width:0;}
+.mp-nm{font-weight:700;font-size:.86rem;line-height:1.3;}
+.mp-br{font-size:.72rem;color:var(--mu);}
+.mp-pr{font-size:.82rem;font-weight:700;color:var(--g);margin-top:2px;}
+.btn-del{background:#fee2e2;border:1.5px solid #fca5a5;color:var(--red);border-radius:var(--r2);padding:7px 14px;font-size:.78rem;font-weight:700;transition:all .2s;flex-shrink:0;cursor:pointer;}
+.btn-del:hover{background:var(--red);color:#fff;}
+.mp-empty{text-align:center;padding:40px;color:var(--mu);font-size:.85rem;}
+
+/* ACCESS LOG */
+.log-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);}
+.log-row:last-child{border-bottom:none;}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.log-ok{background:var(--g);}
+.log-fail{background:var(--red);}
+.log-meta{font-size:.7rem;color:var(--mu);margin-top:2px;}
+.log-time{font-size:.72rem;color:var(--mu);margin-left:auto;white-space:nowrap;flex-shrink:0;}
+.log-badge{font-size:.58rem;font-weight:800;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.3px;}
+.lb-ok{background:#dcfce7;color:#166534;}
+.lb-fail{background:#fee2e2;color:#991b1b;}
+
+/* TOAST */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--navy);color:#fff;border-radius:var(--r2);padding:12px 22px;font-size:.84rem;font-weight:600;z-index:1000;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh2);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.5);text-align:center;padding:26px 20px;font-size:.74rem;line-height:1.8;}
+footer strong{color:rgba(255,255,255,.9);}
+#adminHint{opacity:0;font-size:.65rem;display:block;margin-top:6px;cursor:default;user-select:none;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 14px;gap:8px;}
+  .nav-srch{max-width:100%;flex:1;}
+  .hero{grid-template-columns:1fr;padding:36px 20px;}
+  .hero-ico{display:none;}
+  .modal-body{grid-template-columns:1fr;}
+  .mimg{border-radius:var(--r) var(--r) 0 0;min-height:180px;}
+  .fg2{grid-template-columns:1fr;}
+  .ap-body{padding:16px;}
+}
+@media(max-width:480px){
+  .pgrid{grid-template-columns:repeat(2,1fr);gap:11px;}
+  .cimg{height:140px;}
+}
+</style>
 </head>
 <body>
 
-  <header>Terms & Conditions – AAYUH!</header>
+<!-- TOP STRIP -->
+<div class="strip">🚚 Free delivery above <span>₹499</span> &nbsp;·&nbsp; 🛡️ 100% Genuine Medicines &nbsp;·&nbsp; 📞 24/7 Health Support</div>
 
-  <main>
-    <p><strong>Last Updated:</strong> October 2025</p>
+<!-- NAV -->
+<nav>
+  <div class="logo">Aayuh<sup>RX</sup></div>
+  <div class="nav-srch">
+    <input type="text" id="navSrch" placeholder="Search medicines, vitamins, brands..."/>
+    <button id="navSrchBtn">🔍 Search</button>
+  </div>
+  <div class="nav-r">
+    <button class="cartbtn" id="cartBtn">🛒 Cart <span class="badge" id="cbadge">0</span></button>
+  </div>
+</nav>
 
-    <p>Welcome to <strong>AAYUH!</strong> (“we,” “our,” “us”). By accessing or using our website, mobile site, or any service under the AAYUH! platform (“Service”), you agree to comply with and be bound by these Terms and Conditions.</p>
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eye">🏥 Aayuh Pharmacy · Trusted Since 2024</div>
+    <div class="hero-pill">🔒 Amazon Verified · Secure Checkout</div>
+    <h1>Your Health,<br><em>Delivered</em><br>to Your Door</h1>
+    <p>Genuine medicines, vitamins & health essentials with fast delivery and expert support.</p>
+    <div class="hero-stats">
+      <div class="stat"><b id="statNum">—</b><small>Products</small></div>
+      <div class="stat"><b>100%</b><small>Genuine</small></div>
+      <div class="stat"><b>24/7</b><small>Support</small></div>
+    </div>
+  </div>
+  <div class="hero-ico">💊<br>🩺<br>🌿</div>
+</div>
 
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing or using AAYUH!, you agree to these Terms. If you do not agree, please do not use our website or services.</p>
+<!-- TRUST BAR -->
+<div class="trust">
+  <div class="ti">✅ Verified Products</div>
+  <div class="ti">🚀 Express Delivery</div>
+  <div class="ti">💳 Secure Payment</div>
+  <div class="ti">↩️ Easy Returns</div>
+  <div class="ti">🛡️ Amazon Backed</div>
+</div>
 
-    <h2>2. About AAYUH!</h2>
-    <p>AAYUH! is a health information and medicine learning platform designed to:</p>
-    <ul>
-      <li>Help users search for medicines and understand their usage.</li>
-      <li>Provide symptom-based suggestions for educational purposes.</li>
-      <li>Suggest nearby hospitals using Google Maps API integration.</li>
-      <li>Allow users to maintain their medical history digitally.</li>
-    </ul>
-
-    <div class="warning">
-      <strong>Important Medical Disclaimer:</strong> AAYUH! does <u>not</u> provide medical advice, diagnosis, or treatment. 
-      The content and suggestions shown are for general informational and educational purposes only. 
-      Before taking any medicine, treatment, or health-related action based on our suggestions, you must 
-      <strong>consult a qualified doctor or healthcare professional.</strong>  
-      We are <strong>not legally responsible</strong> for any health issues, side effects, or damages that may occur due to reliance on our content or services.
+<!-- MAIN -->
+<div class="page">
+  <div id="products">
+    <!-- INLINE SEARCH -->
+    <div style="display:flex;gap:10px;align-items:center;background:var(--sur);border:1.5px solid var(--bd);border-radius:var(--r);padding:14px 18px;margin-bottom:20px;box-shadow:var(--sh);">
+      <span style="font-size:1.2rem;">🔍</span>
+      <input type="text" id="inlineSrch" placeholder="Search medicines by name or brand..."
+        style="flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--tx);background:transparent;"/>
+      <button id="inlineClear" style="display:none;background:var(--g3);border:1.5px solid var(--g);border-radius:99px;padding:5px 14px;font-size:.78rem;font-weight:700;color:var(--g2);cursor:pointer;white-space:nowrap;">✕ Clear</button>
     </div>
 
-    <h2>3. Medical Disclaimer and Legal Protection</h2>
-    <p>The information provided by AAYUH! should never replace professional medical consultation. 
-    If you experience any health problem or emergency, please contact your doctor immediately. 
-    By using this website, you acknowledge and agree that:</p>
-    <ul>
-      <li>AAYUH! is not responsible for any injury, illness, or loss resulting from reliance on any information or suggestion from this website.</li>
-      <li>You use all features, including medicine and symptom suggestions, at your own risk.</li>
-      <li>We recommend verifying all health-related content with licensed medical practitioners.</li>
-    </ul>
-    <p>This disclaimer legally protects AAYUH! and its founders, developers, and affiliates from liability claims related to health outcomes caused by the misuse or misunderstanding of the website’s information.</p>
+    <div class="sh">
+      <div><div class="sh-t">All Products</div><div class="sh-s" id="rsub">Loading…</div></div>
+      <span class="sh-lnk" id="clrSrch" style="display:none">✕ Clear</span>
+    </div>
 
-    <h2>4. User Accounts</h2>
-    <ul>
-      <li>Users must create an account using email or Google login (via Firebase).</li>
-      <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
-      <li>You agree not to share, sell, or transfer your account to any other person.</li>
-    </ul>
+    <!-- SEARCH BANNER -->
+    <div id="srchBanner" style="display:none;background:var(--g3);border:1.5px solid var(--g);border-radius:var(--r2);padding:11px 16px;margin-bottom:18px;align-items:center;justify-content:space-between;gap:10px;">
+      <span style="font-size:.85rem;font-weight:600;color:var(--g2);">🔍 Showing results for: <b id="srchTerm" style="color:var(--tx)"></b></span>
+      <button id="srchBannerClear" style="background:none;border:1.5px solid var(--g);border-radius:99px;padding:4px 12px;font-size:.75rem;font-weight:700;color:var(--g2);cursor:pointer;">✕ Clear Search</button>
+    </div>
 
-    <h2>5. Use of Information</h2>
-    <p>All information provided on AAYUH! is for educational and informational purposes only. We do not guarantee 100% accuracy of medical data, hospital suggestions, or API results.</p>
+    <!-- CATEGORIES -->
+    <div class="cats" id="catRow">
+      <div class="cpill on" data-cat="all">💊 All</div>
+      <div class="cpill" data-cat="pain">🤕 Pain Relief</div>
+      <div class="cpill" data-cat="vitamin">🌟 Vitamins</div>
+      <div class="cpill" data-cat="diabetes">🩸 Diabetes</div>
+      <div class="cpill" data-cat="heart">❤️ Heart Health</div>
+      <div class="cpill" data-cat="cold">🤧 Cold & Flu</div>
+      <div class="cpill" data-cat="skincare">🧴 Skin Care</div>
+      <div class="cpill" data-cat="digestive">🫁 Digestive</div>
+      <div class="cpill" data-cat="immunity">🛡️ Immunity</div>
+      <div class="cpill" data-cat="devices">🔬 Devices</div>
+    </div>
 
-    <h2>6. Privacy</h2>
-    <p>Your privacy is important to us. Please refer to our <a href="privacy.html" style="color:#007b83; text-decoration:none;">Privacy Policy</a> to understand how we collect and use your personal information.</p>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</div>
 
-    <h2>7. Third-Party Services</h2>
-    <p>AAYUH! may integrate third-party APIs such as Google Maps API and Firebase. These operate under their own terms and privacy policies. We are not responsible for their data handling or outages.</p>
+<!-- FOOTER -->
+<footer>
+  <strong>Aayuh Pharmacy</strong> — Your Trusted Health Partner<br>
+  We participate in the Amazon Associates Program. Affiliate links may earn a small commission at no extra cost to you.<br>
+  ⚠️ Always consult a qualified doctor before purchasing any medicine.<br>
+  &copy; 2025 Aayuh Health Platform
+  <span id="adminHint">· · ·</span>
+</footer>
 
-    <h2>8. Intellectual Property</h2>
-    <p>All content, design, code, and logos on AAYUH! are owned or licensed by us. You may not copy, reproduce, or distribute any part of our website without permission.</p>
+<!-- CART OVERLAY + DRAWER -->
+<div class="ov" id="ov"></div>
+<div class="drawer" id="drawer">
+  <div class="dhead"><h2>🛒 Your Cart</h2><button class="xbtn" id="cartClose">✕</button></div>
+  <div class="ditems" id="ditems"></div>
+  <div id="dfoot" style="display:none" class="dfoot">
+    <div class="subrow"><span class="lb">Subtotal</span><span class="am" id="ctotal">₹0</span></div>
+    <button class="bchk" id="checkoutBtn">🛒 Proceed to Buy on Amazon</button>
+    <button class="bclr" id="clearCartBtn">🗑️ Clear Cart</button>
+    <div class="cnote">You'll be redirected to Amazon to complete your purchase securely.</div>
+  </div>
+</div>
 
-    <h2>9. Limitation of Liability</h2>
-    <p>We are not liable for any loss, damage, or injury resulting from the use or misuse of AAYUH!. Use of AAYUH! is at your own risk.</p>
+<!-- PRODUCT MODAL -->
+<div class="mbg" id="mbg">
+  <div class="modal" id="theModal">
+    <div class="modal-body">
+      <div class="mimg">
+        <img id="mImg" src="" alt="" style="display:none"/>
+        <div id="mPh" class="ph"></div>
+        <button class="mclose" id="modalClose">✕</button>
+      </div>
+      <div class="minf" id="mInf"></div>
+    </div>
+  </div>
+</div>
 
-    <h2>10. Changes to Terms</h2>
-    <p>We may modify these Terms at any time. Changes will be posted on this page with an updated “Last Updated” date.</p>
+<!-- ADMIN LOGIN -->
+<div class="admin-login-bg" id="adminLoginBg">
+  <div class="admin-login-box">
+    <div class="ico">🔐</div>
+    <h2>Admin Access</h2>
+    <p>This area is restricted. Enter your admin password to continue.</p>
+    <input type="password" id="pwdInput" placeholder="Enter admin password"/>
+    <div class="lerr" id="lerr"></div>
+    <button class="btn-login" id="btnLogin">🔓 Login</button>
+    <button class="btn-cancel-login" id="btnCancelLogin">Cancel</button>
+  </div>
+</div>
 
-    <h2>11. Termination</h2>
-    <p>We may suspend or terminate your access if you violate these Terms or misuse the platform.</p>
+<!-- ADMIN PANEL -->
+<div class="admin-panel-bg" id="adminPanelBg">
+  <div class="admin-panel" id="adminPanel">
+    <div class="ap-head">
+      <div>
+        <h2>⚙️ Admin Panel <span style="font-size:.7rem;background:rgba(255,255,255,.12);padding:2px 8px;border-radius:4px;margin-left:6px;">Supabase</span></h2>
+        <p>Products & logs stored in Supabase PostgreSQL</p>
+      </div>
+      <button class="btn-logout" id="btnLogout">🔒 Logout</button>
+    </div>
+    <div class="ap-tabs">
+      <button class="ap-tab on" id="tab1">➕ Add Product</button>
+      <button class="ap-tab" id="tab2">📦 Manage Products</button>
+      <button class="ap-tab" id="tab3">🔍 Access Log</button>
+    </div>
 
-    <h2>12. Governing Law</h2>
-    <p>These Terms are governed by and construed in accordance with the laws of India. Any disputes shall be subject to the jurisdiction of the courts in <strong>India</strong>.</p>
+    <!-- TAB 1: ADD PRODUCT -->
+    <div class="ap-body" id="apTab1">
+      <div class="fg2">
+        <div class="fg"><label>Product Name *</label><input type="text" id="fName" placeholder="e.g. Dolo 650mg"/></div>
+        <div class="fg"><label>Brand / Manufacturer</label><input type="text" id="fBrand" placeholder="e.g. Micro Labs"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg">
+          <label>Category</label>
+          <select id="fCat">
+            <option value="pain">Pain Relief</option>
+            <option value="vitamin">Vitamins</option>
+            <option value="diabetes">Diabetes</option>
+            <option value="heart">Heart Health</option>
+            <option value="cold">Cold & Flu</option>
+            <option value="skincare">Skin Care</option>
+            <option value="digestive">Digestive</option>
+            <option value="immunity">Immunity</option>
+            <option value="devices">Devices</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Type</label>
+          <select id="fType">
+            <option value="OTC">OTC (No Prescription Needed)</option>
+            <option value="Rx">Rx (Prescription Required)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Selling Price (₹) *</label><input type="number" id="fPrice" placeholder="120" min="0"/></div>
+        <div class="fg"><label>MRP / Original Price (₹)</label><input type="number" id="fMrp" placeholder="150" min="0"/></div>
+      </div>
+      <div class="fg2">
+        <div class="fg"><label>Rating (1–5)</label><input type="number" id="fRating" placeholder="4.5" min="1" max="5" step="0.1"/></div>
+        <div class="fg"><label>Review Count</label><input type="number" id="fReviews" placeholder="1000" min="0"/></div>
+      </div>
+      <div class="fg"><label>Amazon Affiliate Link</label><input type="url" id="fLink" placeholder="https://amzn.to/..."/></div>
+      <div class="fg"><label>Description</label><textarea id="fDesc" rows="3" placeholder="Brief product description…"></textarea></div>
+      <div class="fg">
+        <label>Product Image</label>
+        <div class="imgup" id="imgUpArea">
+          <input type="file" id="fImg" accept="image/*"/>
+          <div class="uico">📷</div>
+          <p>Click to upload image (JPG/PNG/WebP · Max 5MB)</p>
+          <img id="imgPrev" alt="preview"/>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+        <button class="btn-submit" id="btnAdd">✅ Add Product</button>
+        <span id="fmsg" style="font-size:.8rem;color:var(--g);"></span>
+      </div>
+    </div>
 
-    <h2>13. Contact Us</h2>
-    <p>If you have any questions, contact us at:<br>
-    📧 <strong>bharathkumar.ltd@gmail.com</strong><br>
-    📍 <strong>India</strong></p>
-  </main>
+    <!-- TAB 2: MANAGE PRODUCTS -->
+    <div class="ap-body" id="apTab2" style="display:none">
+      <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span style="font-size:.82rem;color:var(--mu);" id="mpCount">Loading…</span>
+        <input type="text" id="mpSearch" placeholder="🔍 Search products…"
+          style="border:1.5px solid var(--bd);border-radius:var(--r2);padding:8px 12px;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;width:200px;"/>
+      </div>
+      <div class="mp-list" id="mpList"></div>
+    </div>
 
-  <footer>
-    &copy; 2025 AAYUH! | All Rights Reserved
-  </footer>
+    <!-- TAB 3: ACCESS LOG -->
+    <div class="ap-body" id="apTab3" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <span style="font-size:.82rem;color:var(--mu);">Last 50 admin login attempts (stored in Supabase)</span>
+        <button id="btnRefreshLog" style="background:var(--g3);border:1.5px solid var(--g);border-radius:var(--r2);padding:6px 14px;font-size:.78rem;font-weight:700;color:var(--g2);cursor:pointer;">🔄 Refresh</button>
+      </div>
+      <div id="logList" style="max-height:440px;overflow-y:auto;"></div>
+    </div>
+  </div>
+</div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+// 🔐 HARDCODED CONFIG — only you see this
+// ══════════════════════════════════════════════════
+const SB_URL     = 'https://jimyydyapycnjkwxlxyx.supabase.co';
+const SB_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppbXl5ZHlhcHljbmprd3hseHl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NTE4MjQsImV4cCI6MjA5NDEyNzgyNH0.Jt9zi2nlF5P0066IG4h8TfYW6RmV95mZ0wmYVapDL3A';
+const AFFILIATE  = 'https://amzn.to/4sVoPP5';
+const ADMIN_PASS = 'aayuh2025'; // ← Change this to something strong!
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let _supabase     = null;
+let sbReady       = false;
+let products      = [];
+let cart          = [];
+let activeCat     = 'all';
+let query         = '';
+let imgData       = '';
+let adminLoggedIn = false;
+let adminTimer    = null;
+
+// ══════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function catLbl(c){ return{pain:'Pain Relief',vitamin:'Vitamins',diabetes:'Diabetes',heart:'Heart Health',cold:'Cold & Flu',skincare:'Skin Care',digestive:'Digestive',immunity:'Immunity',devices:'Devices',other:'Other'}[c]||c; }
+function stars(r){ const f=Math.floor(r||4),h=(r||4)%1>=.5?1:0; return'★'.repeat(f)+(h?'½':'')+'☆'.repeat(Math.max(0,5-f-h)); }
+function updateStat(){ $('statNum').textContent = products.length + '+'; }
+let _toastTimer;
+function toast(msg){
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(_toastTimer); _toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ══════════════════════════════════════════════════
+// SUPABASE INIT — auto-connects on page load
+// ══════════════════════════════════════════════════
+async function initSupabase(){
+  try {
+    _supabase = window.supabase.createClient(SB_URL, SB_KEY);
+    const { error } = await _supabase.from('products').select('id').limit(1);
+    if(error) throw error;
+    sbReady = true;
+    await loadProducts();
+  } catch(e){
+    console.error('Supabase error:', e);
+    // Fallback to seed data so users still see products
+    products = SEEDS.map((p,i)=>({...p,id:i+1,wished:false,created_at:new Date().toISOString()}));
+    updateStat(); render();
+    $('rsub').textContent = 'Showing sample products';
+  }
+}
+
+// ══════════════════════════════════════════════════
+// SEED DATA
+// ══════════════════════════════════════════════════
+const SEEDS = [
+  {name:'Dolo 650',brand:'Micro Labs',cat:'pain',type:'OTC',price:28,mrp:35,link:AFFILIATE,img:'',emoji:'💊',rating:4.5,reviews:12840,description:'Trusted fever and pain relief tablet.'},
+  {name:'Combiflam',brand:'Sanofi',cat:'pain',type:'OTC',price:45,mrp:55,link:AFFILIATE,img:'',emoji:'🔴',rating:4.4,reviews:9200,description:'Ibuprofen + Paracetamol combination for pain and fever.'},
+  {name:'Vitamin D3 60K IU',brand:'HealthVit',cat:'vitamin',type:'OTC',price:180,mrp:240,link:AFFILIATE,img:'',emoji:'🌟',rating:4.6,reviews:18200,description:'Weekly Vitamin D3 supplement for bone and immunity health.'},
+  {name:'Neurobion Forte',brand:'P&G Health',cat:'vitamin',type:'OTC',price:42,mrp:50,link:AFFILIATE,img:'',emoji:'💛',rating:4.7,reviews:22100,description:'Vitamin B complex for nerve health and energy.'},
+  {name:'Dr. Morepen Glucometer',brand:'Dr. Morepen',cat:'diabetes',type:'OTC',price:599,mrp:899,link:AFFILIATE,img:'',emoji:'🩸',rating:4.3,reviews:31500,description:'Accurate blood glucose monitoring device.'},
+  {name:'Omega 3 Fish Oil 1000mg',brand:'Himalayan Organics',cat:'heart',type:'OTC',price:499,mrp:699,link:AFFILIATE,img:'',emoji:'❤️',rating:4.5,reviews:19800,description:'Heart health supplement rich in EPA and DHA.'},
+  {name:'Vicks VapoRub 50g',brand:'Vicks',cat:'cold',type:'OTC',price:95,mrp:110,link:AFFILIATE,img:'',emoji:'🤧',rating:4.6,reviews:41200,description:'Relief from cold, cough and blocked nose.'},
+  {name:'Cetaphil Lotion 250ml',brand:'Cetaphil',cat:'skincare',type:'OTC',price:445,mrp:525,link:AFFILIATE,img:'',emoji:'🧴',rating:4.6,reviews:28400,description:'Gentle moisturizing lotion for sensitive skin.'},
+  {name:'Digene Antacid Gel',brand:'Abbott',cat:'digestive',type:'OTC',price:85,mrp:99,link:AFFILIATE,img:'',emoji:'🫁',rating:4.5,reviews:19300,description:'Fast relief from acidity, gas and indigestion.'},
+  {name:'Dabur Chyawanprash 1kg',brand:'Dabur',cat:'immunity',type:'OTC',price:285,mrp:360,link:AFFILIATE,img:'',emoji:'🛡️',rating:4.5,reviews:36700,description:'Ayurvedic immunity booster with 40+ herbs.'},
+];
+
+// ══════════════════════════════════════════════════
+// LOAD & SEED PRODUCTS
+// ══════════════════════════════════════════════════
+async function loadProducts(){
+  renderSkeletons();
+  $('rsub').textContent='Loading products…';
+  const { data, error } = await _supabase.from('products').select('*').order('created_at',{ascending:false});
+  if(error){ renderError(error.message); return; }
+  products = data || [];
+  if(!products.length){ await seedDefaults(); return; }
+  updateStat(); render();
+}
+
+async function seedDefaults(){
+  const { data, error } = await _supabase.from('products').insert(SEEDS).select();
+  if(error){ renderError('Seed failed: '+error.message); return; }
+  products = data || [];
+  updateStat(); render();
+}
+
+// ══════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════
+function renderSkeletons(){
+  $('pgrid').innerHTML=Array(8).fill(0).map(()=>`
+    <div class="skel-card">
+      <div class="skel skel-img"></div>
+      <div class="skel skel-line w60"></div>
+      <div class="skel skel-line w80"></div>
+      <div class="skel skel-line w40"></div>
+      <div class="skel skel-btn"></div>
+    </div>`).join('');
+}
+
+function renderError(msg){
+  $('pgrid').innerHTML=`<div class="empty"><div class="ei">⚠️</div><h3>Could not load products</h3><p>${esc(msg)}</p></div>`;
+  $('rsub').textContent='Error';
+}
+
+function render(){
+  const q=query.toLowerCase().trim();
+  const filtered=products.filter(p=>{
+    const mc=activeCat==='all'||p.cat===activeCat;
+    const ms=!q||p.name.toLowerCase().includes(q)||(p.brand||'').toLowerCase().includes(q);
+    return mc&&ms;
+  });
+  $('rsub').textContent=filtered.length
+    ?`${filtered.length} product${filtered.length>1?'s':''} found`
+    :'No products match your search';
+  if(!filtered.length){
+    $('pgrid').innerHTML=`<div class="empty"><div class="ei">🔍</div><h3>No products found</h3><p>Try a different search or category.</p></div>`;
+    return;
+  }
+  $('pgrid').innerHTML=filtered.map((p,i)=>{
+    const disc=p.mrp&&p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;
+    const inC=cart.find(c=>c.id===p.id);
+    return `<div class="card" style="animation-delay:${Math.min(i,12)*0.05}s" data-id="${p.id}">
+      <div class="cimg">
+        ${p.img?`<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}
+        <div class="ph" style="${p.img?'display:none':''}">${p.emoji||'💊'}</div>
+        <span class="ctag ${p.type==='Rx'?'rx':'otc'}">${p.type}</span>
+        ${disc?`<span class="dtag">-${disc}%</span>`:''}
+      </div>
+      <div class="cbody">
+        <div class="ccat">${catLbl(p.cat)}</div>
+        <div class="cname">${esc(p.name)}</div>
+        <div class="cbrand">${esc(p.brand||'')}</div>
+        <div class="cstars"><span class="stars">${stars(p.rating)}</span><span class="rct">(${(p.reviews||0).toLocaleString()})</span></div>
+        <div class="cprice">
+          <span class="pnow">₹${p.price}</span>
+          ${p.mrp&&p.mrp>p.price?`<span class="pwas">₹${p.mrp}</span><span class="psave">Save ₹${p.mrp-p.price}</span>`:''}
+        </div>
+      </div>
+      <div class="cfoot">
+        <button class="badd ${inC?'done':''}" data-add="${p.id}">${inC?'✅ Added':'🛒 Add to Cart'}</button>
+        <a class="bamz" href="${esc(p.link||AFFILIATE)}" target="_blank" rel="noopener sponsored">Buy ↗</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+// SEARCH & FILTER
+// ══════════════════════════════════════════════════
+function doSearch(q){
+  query=q;
+  $('navSrch').value=q;
+  $('inlineSrch').value=q;
+  $('inlineClear').style.display=q?'block':'none';
+  $('clrSrch').style.display=q?'block':'none';
+  if(q.trim()){ $('srchBanner').style.display='flex'; $('srchTerm').textContent=q; }
+  else { $('srchBanner').style.display='none'; }
+  render();
+}
+function clearSearch(){
+  query='';
+  $('navSrch').value=''; $('inlineSrch').value='';
+  $('inlineClear').style.display='none'; $('clrSrch').style.display='none';
+  $('srchBanner').style.display='none';
+  render();
+}
+
+// ══════════════════════════════════════════════════
+// CART
+// ══════════════════════════════════════════════════
+function addCart(id){
+  const p=products.find(x=>x.id==id); if(!p) return;
+  const ex=cart.find(c=>c.id==id);
+  ex?ex.qty++:cart.push({...p,qty:1});
+  updateCartBadge(); renderCart(); toast(`🛒 ${p.name} added!`); render();
+}
+function rmCart(id){ cart=cart.filter(c=>c.id!=id); updateCartBadge(); renderCart(); render(); }
+function changeQty(id,d){
+  const it=cart.find(c=>c.id==id); if(!it) return;
+  it.qty+=d; if(it.qty<=0) rmCart(id); else{ updateCartBadge(); renderCart(); }
+}
+function clearCart(){ cart=[]; updateCartBadge(); renderCart(); render(); toast('🗑️ Cart cleared'); }
+function updateCartBadge(){ $('cbadge').textContent=cart.reduce((s,c)=>s+c.qty,0); }
+function renderCart(){
+  const w=$('ditems'),f=$('dfoot');
+  if(!cart.length){
+    w.innerHTML=`<div class="cempty"><div class="ei">🛒</div><p>Your cart is empty</p></div>`;
+    f.style.display='none'; return;
+  }
+  f.style.display='block';
+  let sub=0;
+  w.innerHTML=cart.map(it=>{
+    sub+=it.price*it.qty;
+    return `<div class="citem">
+      <div class="ci-img">${it.img?`<img src="${esc(it.img)}" alt="">`:`<div class="ph">${it.emoji||'💊'}</div>`}</div>
+      <div class="ci-inf">
+        <div class="ci-nm">${esc(it.name)}</div>
+        <div class="ci-br">${esc(it.brand||'')}</div>
+        <div class="ci-pr">₹${(it.price*it.qty).toLocaleString()}</div>
+        <div class="qrow">
+          <button data-qty="${it.id}" data-d="-1">−</button>
+          <span>${it.qty}</span>
+          <button data-qty="${it.id}" data-d="1">+</button>
+        </div>
+        <button class="rmbtn" data-rm="${it.id}">🗑️ Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+  $('ctotal').textContent='₹'+sub.toLocaleString();
+}
+function openCart(){ $('drawer').classList.add('open'); $('ov').classList.add('show'); renderCart(); }
+function closeCart(){ $('drawer').classList.remove('open'); $('ov').classList.remove('show'); }
+
+// ══════════════════════════════════════════════════
+// PRODUCT MODAL
+// ══════════════════════════════════════════════════
+function openModal(id){
+  const p=products.find(x=>x.id==id); if(!p) return;
+  const disc=p.mrp&&p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;
+  const mi=$('mImg'),mp=$('mPh');
+  if(p.img){ mi.src=p.img; mi.style.display='block'; mp.style.display='none'; }
+  else{ mi.style.display='none'; mp.style.display='block'; mp.textContent=p.emoji||'💊'; }
+  $('mInf').innerHTML=`
+    <div class="mcat">${catLbl(p.cat)}</div>
+    <div class="mnm">${esc(p.name)}</div>
+    <div class="mbr">by ${esc(p.brand||'—')} &nbsp;·&nbsp; <b style="color:${p.type==='Rx'?'var(--red)':'var(--g)'}">${p.type==='Rx'?'⚠️ Prescription Required':'✅ No Prescription Needed'}</b></div>
+    <div class="mdes">${esc(p.description||'No description available.')}</div>
+    <div class="mpr"><span class="big">₹${p.price}</span>${p.mrp&&p.mrp>p.price?`<span class="old">₹${p.mrp}</span><span class="sv">Save ${disc}%</span>`:''}</div>
+    <div class="mac">
+      <button class="badd-lg" data-add="${p.id}" data-close="1">🛒 Add to Cart</button>
+      <a class="bamz-lg" href="${esc(p.link||AFFILIATE)}" target="_blank" rel="noopener sponsored">🛍️ Buy on Amazon</a>
+    </div>`;
+  $('mbg').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ $('mbg').classList.remove('show'); document.body.style.overflow=''; }
+
+// ══════════════════════════════════════════════════
+// ADMIN — DEVICE INFO & LOG
+// ══════════════════════════════════════════════════
+async function getDeviceInfo(){
+  let ip='unknown',city='',country='';
+  try{ const r=await fetch('https://ipapi.co/json/'); const d=await r.json(); ip=d.ip; city=d.city; country=d.country_name; }catch(e){}
+  const ua=navigator.userAgent;
+  const browser=ua.includes('Edg')?'Edge':ua.includes('Chrome')?'Chrome':ua.includes('Firefox')?'Firefox':ua.includes('Safari')?'Safari':'Other';
+  const os=ua.includes('Windows')?'Windows':ua.includes('Mac')?'macOS':ua.includes('Android')?'Android':(ua.includes('iPhone')||ua.includes('iPad'))?'iOS':'Other';
+  return{ip,city,country,browser,os,screen_res:`${screen.width}x${screen.height}`,language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone};
+}
+async function logAdminAccess(success){
+  if(!sbReady) return;
+  const d=await getDeviceInfo();
+  await _supabase.from('admin_access_log').insert({success,ip:d.ip,city:d.city,country:d.country,browser:d.browser,os:d.os,screen_res:d.screen_res,timezone:d.timezone,language:d.language});
+}
+
+// ══════════════════════════════════════════════════
+// ADMIN — LOGIN (hidden, only accessible via secret)
+// ══════════════════════════════════════════════════
+function showAdminLogin(){
+  $('adminLoginBg').classList.add('show');
+  $('pwdInput').value=''; $('lerr').textContent='';
+  setTimeout(()=>$('pwdInput').focus(),120);
+}
+function hideAdminLogin(){ $('adminLoginBg').classList.remove('show'); }
+
+async function doLogin(){
+  const pwd=$('pwdInput').value;
+  if(pwd===ADMIN_PASS){
+    adminLoggedIn=true;
+    hideAdminLogin();
+    logAdminAccess(true);
+    openAdminPanel();
+    // Auto-logout after 30 minutes of inactivity
+    clearTimeout(adminTimer);
+    adminTimer=setTimeout(()=>{
+      if(adminLoggedIn){ logoutAdmin(); toast('⏱️ Admin session expired'); }
+    }, 30*60*1000);
+  } else {
+    $('lerr').textContent='⚠ Incorrect password. Try again.';
+    $('pwdInput').value=''; $('pwdInput').focus();
+    logAdminAccess(false);
+  }
+}
+
+function logoutAdmin(){
+  adminLoggedIn=false;
+  clearTimeout(adminTimer);
+  $('adminPanelBg').classList.remove('show');
+  document.body.style.overflow='';
+  toast('🔒 Logged out of admin panel');
+}
+
+// ══════════════════════════════════════════════════
+// ADMIN — PANEL
+// ══════════════════════════════════════════════════
+function openAdminPanel(){
+  $('adminPanelBg').classList.add('show');
+  document.body.style.overflow='hidden';
+  switchTab(1);
+}
+function switchTab(n){
+  [1,2,3].forEach(i=>{
+    $('tab'+i).classList.toggle('on',i===n);
+    $('apTab'+i).style.display=i===n?'block':'none';
+  });
+  if(n===2) renderManage();
+  if(n===3) loadAccessLog();
+}
+function prevImg(file){
+  if(!file) return;
+  if(file.size>5*1024*1024){ toast('⚠️ Image too large (max 5MB)'); return; }
+  const r=new FileReader();
+  r.onload=e=>{ imgData=e.target.result; $('imgPrev').src=imgData; $('imgPrev').style.display='block'; };
+  r.readAsDataURL(file);
+}
+async function addProduct(){
+  if(!sbReady){ toast('⚠️ Database not connected'); return; }
+  const name=$('fName').value.trim();
+  const brand=$('fBrand').value.trim();
+  const cat=$('fCat').value;
+  const type=$('fType').value;
+  const price=parseFloat($('fPrice').value);
+  const mrp=parseFloat($('fMrp').value)||0;
+  const rating=parseFloat($('fRating').value)||4.0;
+  const reviews=parseInt($('fReviews').value)||0;
+  const link=$('fLink').value.trim()||AFFILIATE;
+  const description=$('fDesc').value.trim();
+  const msg=$('fmsg'),btn=$('btnAdd');
+  if(!name){ msg.style.color='var(--red)'; msg.textContent='⚠ Name is required'; return; }
+  if(!price||price<=0){ msg.style.color='var(--red)'; msg.textContent='⚠ Valid price required'; return; }
+  btn.textContent='⏳ Saving…'; btn.disabled=true; msg.textContent='';
+  const{data,error}=await _supabase.from('products').insert({
+    name,brand,cat,type,price,mrp,rating,reviews,link,img:imgData,emoji:'💊',description,wished:false
+  }).select();
+  btn.textContent='✅ Add Product'; btn.disabled=false;
+  if(error){ msg.style.color='var(--red)'; msg.textContent='❌ '+error.message; return; }
+  products.unshift(data[0]);
+  ['fName','fBrand','fPrice','fMrp','fRating','fReviews','fDesc'].forEach(i=>$(i).value='');
+  $('fLink').value=''; $('fImg').value=''; $('imgPrev').style.display='none'; imgData='';
+  msg.style.color='var(--g)'; msg.textContent='✅ Saved!';
+  setTimeout(()=>msg.textContent='',3000);
+  updateStat(); render();
+  toast(`✅ "${name}" added!`);
+}
+function renderManage(){
+  const q=($('mpSearch').value||'').toLowerCase();
+  const list=products.filter(p=>!q||p.name.toLowerCase().includes(q)||(p.brand||'').toLowerCase().includes(q));
+  $('mpCount').textContent=`${list.length} product${list.length!==1?'s':''}`;
+  const w=$('mpList');
+  if(!list.length){ w.innerHTML=`<div class="mp-empty">No products found.</div>`; return; }
+  w.innerHTML=list.map(p=>`
+    <div class="mp-item">
+      <div class="mp-img">${p.img?`<img src="${esc(p.img)}" alt="">`:`<div class="ph">${p.emoji||'💊'}</div>`}</div>
+      <div class="mp-inf">
+        <div class="mp-nm">${esc(p.name)}</div>
+        <div class="mp-br">${esc(p.brand||'—')} · ${catLbl(p.cat)} · ${p.type}</div>
+        <div class="mp-pr">₹${p.price}${p.mrp&&p.mrp>p.price?` <span style="text-decoration:line-through;font-weight:400;color:var(--mu)">₹${p.mrp}</span>`:''}</div>
+      </div>
+      <button class="btn-del" data-del="${p.id}">🗑️ Delete</button>
+    </div>`).join('');
+}
+async function delProduct(id){
+  const p=products.find(x=>x.id==id); if(!p) return;
+  if(!confirm(`Delete "${p.name}"?`)) return;
+  if(sbReady){
+    const{error}=await _supabase.from('products').delete().eq('id',id);
+    if(error){ toast('❌ Delete failed: '+error.message); return; }
+  }
+  products=products.filter(x=>x.id!=id);
+  cart=cart.filter(c=>c.id!=id);
+  updateCartBadge(); updateStat(); render(); renderManage();
+  toast(`🗑️ "${p.name}" deleted`);
+}
+async function loadAccessLog(){
+  const w=$('logList');
+  if(!sbReady){ w.innerHTML=`<p style="color:var(--mu);font-size:.85rem;padding:20px 0">Database not connected.</p>`; return; }
+  w.innerHTML=`<p style="color:var(--mu);font-size:.82rem;padding:12px 0">⏳ Loading…</p>`;
+  const{data,error}=await _supabase.from('admin_access_log').select('*').order('timestamp',{ascending:false}).limit(50);
+  if(error){ w.innerHTML=`<p style="color:var(--red);font-size:.82rem">${esc(error.message)}</p>`; return; }
+  if(!data||!data.length){ w.innerHTML=`<div class="mp-empty">No login attempts logged yet.</div>`; return; }
+  w.innerHTML=data.map(log=>{
+    const dt=new Date(log.timestamp);
+    const ts=dt.toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `<div class="log-row">
+      <div class="log-dot ${log.success?'log-ok':'log-fail'}"></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:.83rem">${log.success?'✅ Login successful':'❌ Login failed'}</div>
+        <div class="log-meta">${log.browser||'?'} · ${log.os||'?'} · ${log.ip||'?'} · ${log.city||''}${log.city&&log.country?', ':''}${log.country||''}</div>
+        <div class="log-meta">${log.timezone||''} · ${log.language||''} · ${log.screen_res||''}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <span class="log-badge ${log.success?'lb-ok':'lb-fail'}">${log.success?'Success':'Failed'}</span>
+        <div class="log-time">${ts}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+// EVENT DELEGATION
+// ══════════════════════════════════════════════════
+document.addEventListener('click',function(e){
+  const t=e.target;
+  const pill=t.closest('.cpill');
+  if(pill){ activeCat=pill.dataset.cat; document.querySelectorAll('.cpill').forEach(p=>p.classList.remove('on')); pill.classList.add('on'); render(); return; }
+  if(t.dataset.add){ addCart(t.dataset.add); if(t.dataset.close) closeModal(); return; }
+  const card=t.closest('.card');
+  if(card&&!t.closest('.cfoot')){ openModal(card.dataset.id); return; }
+  if(t.dataset.qty){ changeQty(t.dataset.qty,parseInt(t.dataset.d)); return; }
+  if(t.dataset.rm){ rmCart(t.dataset.rm); return; }
+  if(t.dataset.del){ delProduct(t.dataset.del); return; }
+  if(t.id==='mbg'){ closeModal(); return; }
+  if(t.id==='adminPanelBg'){ $('adminPanelBg').classList.remove('show'); document.body.style.overflow=''; return; }
+});
+
+// ══════════════════════════════════════════════════
+// WIRE UP BUTTONS
+// ══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',function(){
+  // Search
+  $('navSrch').addEventListener('input',e=>doSearch(e.target.value));
+  $('navSrch').addEventListener('keydown',e=>{ if(e.key==='Enter'){ doSearch(e.target.value); e.target.blur(); }});
+  $('navSrchBtn').addEventListener('click',()=>doSearch($('navSrch').value));
+  $('inlineSrch').addEventListener('input',e=>doSearch(e.target.value));
+  $('inlineSrch').addEventListener('keydown',e=>{ if(e.key==='Enter') doSearch(e.target.value); });
+  $('inlineClear').addEventListener('click',clearSearch);
+  $('clrSrch').addEventListener('click',clearSearch);
+  $('srchBannerClear').addEventListener('click',clearSearch);
+
+  // Cart
+  $('cartBtn').addEventListener('click',openCart);
+  $('ov').addEventListener('click',closeCart);
+  $('cartClose').addEventListener('click',closeCart);
+  $('checkoutBtn').addEventListener('click',()=>{ if(!cart.length) return; window.open(AFFILIATE,'_blank','noopener'); toast('🚀 Redirecting to Amazon…'); });
+  $('clearCartBtn').addEventListener('click',clearCart);
+
+  // Modal
+  $('modalClose').addEventListener('click',closeModal);
+
+  // ── HIDDEN ADMIN ACCESS ────────────────────────
+  // Method 1: Triple-click the footer dots
+  let clickCount=0, clickTimer=null;
+  $('adminHint').addEventListener('click',function(){
+    clickCount++;
+    clearTimeout(clickTimer);
+    clickTimer=setTimeout(()=>{ clickCount=0; },600);
+    if(clickCount>=3){ clickCount=0; showAdminLogin(); }
+  });
+
+  // Admin login/logout
+  $('btnLogin').addEventListener('click',doLogin);
+  $('btnCancelLogin').addEventListener('click',hideAdminLogin);
+  $('pwdInput').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+  $('btnLogout').addEventListener('click',logoutAdmin);
+
+  // Admin tabs
+  $('tab1').addEventListener('click',()=>switchTab(1));
+  $('tab2').addEventListener('click',()=>switchTab(2));
+  $('tab3').addEventListener('click',()=>switchTab(3));
+
+  // Add product
+  $('btnAdd').addEventListener('click',addProduct);
+  $('imgUpArea').addEventListener('click',()=>$('fImg').click());
+  $('fImg').addEventListener('change',e=>{ if(e.target.files[0]) prevImg(e.target.files[0]); });
+  $('mpSearch').addEventListener('input',renderManage);
+  $('btnRefreshLog').addEventListener('click',loadAccessLog);
+
+  // Escape
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      closeModal(); closeCart();
+      if($('adminLoginBg').classList.contains('show')) hideAdminLogin();
+      if($('adminPanelBg').classList.contains('show')){ $('adminPanelBg').classList.remove('show'); document.body.style.overflow=''; }
+    }
+  });
+
+  // ── START ──────────────────────────────────────
+  initSupabase();
+});
+</script>
 </body>
 </html>
