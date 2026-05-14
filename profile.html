@@ -224,7 +224,6 @@ body{
   color:#fff;border-color:transparent;
   box-shadow:0 4px 14px rgba(0,137,123,.3);transform:translateY(-1px);
 }
-/* custom chip remove btn */
 .chip-x{
   background:rgba(255,255,255,.28);border:none;border-radius:50%;
   width:16px;height:16px;display:flex;align-items:center;justify-content:center;
@@ -493,7 +492,6 @@ body{
             <span class="chip" data-v="migraine"     onclick="toggleChip(this)">🤕 Migraine</span>
             <span class="chip" data-v="none"         onclick="toggleChip(this)">✅ None</span>
           </div>
-          <!-- Custom condition -->
           <div class="cust-row">
             <div class="cust-box">
               <span style="font-size:.95rem">➕</span>
@@ -580,29 +578,49 @@ const auth=firebase.auth(),db=firebase.firestore();
 let currentUser=null,profileData={},contacts=[],conditions=[],customConditions=[],activity='';
 let editingP=false,editingH=false;
 
+/* ── TOAST ── */
 function toast(m,d=2800){
   const t=document.getElementById('toast');
   t.textContent=m;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),d);
 }
 
+/* ════════════════════════════════════════
+   ★ FIX: Update Firebase Auth displayName
+   so the dashboard immediately reflects
+   the new name on next load.
+════════════════════════════════════════ */
+async function updateAuthName(name){
+  if(!name||!currentUser) return;
+  try{
+    await currentUser.updateProfile({displayName: name});
+  }catch(e){
+    console.warn('Could not update Auth displayName:', e.message);
+  }
+}
+
+/* ── AUTH STATE ── */
 auth.onAuthStateChanged(async u=>{
   if(!u){location.href='index.html';return;}
   currentUser=u;
   document.getElementById('heroName').textContent=u.displayName||u.email||'My Account';
   document.getElementById('heroEmail').textContent=u.email||'';
-  loadStats();await loadProfile();
+  loadStats();
+  await loadProfile();
 });
 
+/* ── STATS from localStorage ── */
 function loadStats(){
   document.getElementById('sSteps').textContent=parseInt(localStorage.getItem('aayuh_steps_today')||'0').toLocaleString();
   document.getElementById('sBPM').textContent=localStorage.getItem('aayuh_last_bpm')||'--';
   document.getElementById('sBP').textContent=(localStorage.getItem('aayuh_bp')||'--').split('/')[0];
 }
 
+/* ── LOAD PROFILE from Firestore ── */
 async function loadProfile(){
   try{const s=await db.collection('users').doc(currentUser.uid).get();profileData=s.exists?s.data():{};}
   catch(e){profileData=JSON.parse(localStorage.getItem('aayuh_profile')||'{}');}
+
   const g=(k,fb='')=>profileData[k]||fb;
   document.getElementById('f-name').value  =g('fullName',currentUser.displayName||'');
   document.getElementById('f-dob').value   =g('dob');
@@ -612,23 +630,27 @@ async function loadProfile(){
   document.getElementById('f-height').value=g('height');
   document.getElementById('f-weight').value=g('weight');
   document.getElementById('f-blood').value =g('bloodGroup');
-  calcBMI();updatePills();
+  calcBMI();
+  updatePills();
 
   conditions=g('conditions',[]);
   document.querySelectorAll('#condChips .chip[data-v]').forEach(c=>{
-    if(conditions.includes(c.dataset.v))c.classList.add('on');
+    if(conditions.includes(c.dataset.v)) c.classList.add('on');
   });
 
   customConditions=g('customConditions',[]);
   customConditions.forEach(v=>appendCustomChip(v));
 
   activity=g('activity','');
-  document.querySelectorAll('.act').forEach(a=>{if(a.dataset.v===activity)a.classList.add('on');});
+  document.querySelectorAll('.act').forEach(a=>{if(a.dataset.v===activity) a.classList.add('on');});
 
-  contacts=g('emergencyContacts',[]);renderContacts();
-  if(g('avatarUrl'))document.getElementById('avEl').innerHTML=`<img src="${g('avatarUrl')}" alt="av">`;
+  contacts=g('emergencyContacts',[]);
+  renderContacts();
+
+  if(g('avatarUrl')) document.getElementById('avEl').innerHTML=`<img src="${g('avatarUrl')}" alt="avatar">`;
 }
 
+/* ── BMI CALC ── */
 function calcBMI(){
   const h=parseFloat(document.getElementById('f-height').value);
   const w=parseFloat(document.getElementById('f-weight').value);
@@ -637,32 +659,40 @@ function calcBMI(){
     const c=b<18.5?'Underweight':b<25?'Normal':b<30?'Overweight':'Obese';
     document.getElementById('f-bmi').value=`${b} — ${c}`;
     document.getElementById('pBMI').textContent=`${b} (${c})`;
-  }else{document.getElementById('f-bmi').value='';document.getElementById('pBMI').textContent='—';}
+  }else{
+    document.getElementById('f-bmi').value='';
+    document.getElementById('pBMI').textContent='—';
+  }
 }
 
+/* ── UPDATE SIDEBAR PILLS ── */
 function updatePills(){
   document.getElementById('pBlood').textContent=document.getElementById('f-blood').value||'—';
   const lbl={sedentary:'Sedentary',light:'Light',moderate:'Moderate',active:'Active'};
   document.getElementById('pActivity').textContent=lbl[activity]||'—';
 }
 
+/* ── TOGGLE EDIT MODE ── */
 function toggleEdit(sec){
   if(sec==='p'){
     editingP=!editingP;
     document.querySelectorAll('.p-field').forEach(el=>el.disabled=!editingP);
     const b=document.getElementById('pe-btn');
-    b.textContent=editingP?'✅ Done':'✏️ Edit';b.classList.toggle('on',editingP);
-    if(!editingP)saveSection('p');
+    b.textContent=editingP?'✅ Done':'✏️ Edit';
+    b.classList.toggle('on',editingP);
+    if(!editingP) saveSection('p');
   }else{
     editingH=!editingH;
     document.querySelectorAll('.h-field').forEach(el=>el.disabled=!editingH);
     const b=document.getElementById('he-btn');
-    b.textContent=editingH?'✅ Done':'✏️ Edit';b.classList.toggle('on',editingH);
-    if(!editingH)saveSection('h');
+    b.textContent=editingH?'✅ Done':'✏️ Edit';
+    b.classList.toggle('on',editingH);
+    if(!editingH) saveSection('h');
   }
   document.getElementById('gSave').classList.add('show');
 }
 
+/* ── SAVE SECTION ── */
 async function saveSection(sec){
   const up={};
   if(sec==='p'){
@@ -671,16 +701,24 @@ async function saveSection(sec){
     up.gender=document.getElementById('f-gender').value;
     up.phone=document.getElementById('f-phone').value.trim();
     up.location=document.getElementById('f-loc').value.trim();
-    if(up.fullName)document.getElementById('heroName').textContent=up.fullName;
+    if(up.fullName){
+      document.getElementById('heroName').textContent=up.fullName;
+      /* ★ FIX: sync name to Firebase Auth so dashboard sees it */
+      await updateAuthName(up.fullName);
+    }
   }else{
     up.height=document.getElementById('f-height').value;
     up.weight=document.getElementById('f-weight').value;
     up.bloodGroup=document.getElementById('f-blood').value;
-    calcBMI();updatePills();
+    calcBMI();
+    updatePills();
   }
-  Object.assign(profileData,up);await persist(up);toast('✅ Saved!');
+  Object.assign(profileData,up);
+  await persist(up);
+  toast('✅ Saved!');
 }
 
+/* ── SAVE ALL ── */
 async function saveAll(){
   const up={
     fullName:document.getElementById('f-name').value.trim(),
@@ -691,42 +729,56 @@ async function saveAll(){
     height:document.getElementById('f-height').value,
     weight:document.getElementById('f-weight').value,
     bloodGroup:document.getElementById('f-blood').value,
-    conditions,customConditions,activity,emergencyContacts:contacts
+    conditions,
+    customConditions,
+    activity,
+    emergencyContacts:contacts
   };
-  if(up.fullName)document.getElementById('heroName').textContent=up.fullName;
-  Object.assign(profileData,up);await persist(up);
+  if(up.fullName){
+    document.getElementById('heroName').textContent=up.fullName;
+    /* ★ FIX: sync name to Firebase Auth so dashboard sees it */
+    await updateAuthName(up.fullName);
+  }
+  Object.assign(profileData,up);
+  await persist(up);
   document.getElementById('gSave').classList.remove('show');
-  updatePills();toast('✅ Profile saved!');
+  updatePills();
+  toast('✅ Profile saved!');
 }
 
+/* ── PERSIST to Firestore + localStorage ── */
 async function persist(data){
-  try{if(currentUser)await db.collection('users').doc(currentUser.uid).set(data,{merge:true});}catch(e){}
+  try{if(currentUser) await db.collection('users').doc(currentUser.uid).set(data,{merge:true});}
+  catch(e){}
   localStorage.setItem('aayuh_profile',JSON.stringify(profileData));
 }
 
-/* CONDITIONS */
+/* ── CONDITIONS ── */
 function toggleChip(el){
   const v=el.dataset.v;
   if(v==='none'){
     conditions=['none'];
     document.querySelectorAll('#condChips .chip[data-v]').forEach(c=>c.classList.toggle('on',c.dataset.v==='none'));
-    autoSave({conditions});return;
+    autoSave({conditions});
+    return;
   }
   conditions=conditions.filter(x=>x!=='none');
-  const nc=document.querySelector('.chip[data-v="none"]');if(nc)nc.classList.remove('on');
+  const nc=document.querySelector('.chip[data-v="none"]');
+  if(nc) nc.classList.remove('on');
   if(conditions.includes(v)){conditions=conditions.filter(x=>x!==v);el.classList.remove('on');}
   else{conditions.push(v);el.classList.add('on');}
   autoSave({conditions});
 }
 
-/* CUSTOM CONDITIONS */
+/* ── CUSTOM CONDITIONS ── */
 function addCust(){
   const inp=document.getElementById('custCondInp');
   const val=inp.value.trim();
   if(!val){toast('⚠️ Enter a condition name');return;}
   if(customConditions.map(x=>x.toLowerCase()).includes(val.toLowerCase())){toast('⚠️ Already added');return;}
   conditions=conditions.filter(x=>x!=='none');
-  const nc=document.querySelector('.chip[data-v="none"]');if(nc)nc.classList.remove('on');
+  const nc=document.querySelector('.chip[data-v="none"]');
+  if(nc) nc.classList.remove('on');
   customConditions.push(val);
   appendCustomChip(val);
   inp.value='';
@@ -738,7 +790,6 @@ function appendCustomChip(val){
   const chip=document.createElement('span');
   chip.className='chip on';
   chip.dataset.custom=val;
-  // escape for inline handler
   const safe=val.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   chip.innerHTML=`🏷️ ${val} <button class="chip-x" onclick="removeCust(this,'${safe}')">✕</button>`;
   document.getElementById('condChips').appendChild(chip);
@@ -751,16 +802,19 @@ function removeCust(btn,val){
   toast(`🗑️ "${val}" removed`);
 }
 
-/* ACTIVITY */
+/* ── ACTIVITY ── */
 function pickAct(el){
   document.querySelectorAll('.act').forEach(a=>a.classList.remove('on'));
-  el.classList.add('on');activity=el.dataset.v;
-  updatePills();autoSave({activity});
+  el.classList.add('on');
+  activity=el.dataset.v;
+  updatePills();
+  autoSave({activity});
   toast(`✅ ${el.querySelector('.act-t').textContent}`);
 }
 
-/* CONTACTS */
+/* ── EMERGENCY CONTACTS ── */
 const RE={Father:'👨',Mother:'👩',Spouse:'💑',Sibling:'🧑',Friend:'🤝',Doctor:'👨‍⚕️',Other:'👤'};
+
 function renderContacts(){
   const el=document.getElementById('contactList');
   if(!contacts.length){el.innerHTML='';return;}
@@ -775,9 +829,9 @@ function renderContacts(){
     </div>`).join('');
 }
 
-function openModal(){document.getElementById('overlay').classList.add('open')}
-function closeModal(){document.getElementById('overlay').classList.remove('open')}
-function maybeClose(e){if(e.target===document.getElementById('overlay'))closeModal()}
+function openModal(){document.getElementById('overlay').classList.add('open');}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+function maybeClose(e){if(e.target===document.getElementById('overlay')) closeModal();}
 
 async function saveContact(){
   const name=document.getElementById('cName').value.trim();
@@ -785,7 +839,8 @@ async function saveContact(){
   const ph=document.getElementById('cPhone').value.trim();
   if(!name||!ph){toast('⚠️ Enter name and phone');return;}
   contacts.push({name,rel,phone:ph});
-  renderContacts();closeModal();
+  renderContacts();
+  closeModal();
   document.getElementById('cName').value='';
   document.getElementById('cPhone').value='';
   await autoSave({emergencyContacts:contacts});
@@ -793,27 +848,32 @@ async function saveContact(){
 }
 
 async function delContact(i){
-  if(!confirm(`Remove ${contacts[i].name}?`))return;
-  contacts.splice(i,1);renderContacts();
+  if(!confirm(`Remove ${contacts[i].name}?`)) return;
+  contacts.splice(i,1);
+  renderContacts();
   await autoSave({emergencyContacts:contacts});
   toast('🗑️ Removed');
 }
 
+/* ── AUTO SAVE helper ── */
 async function autoSave(data){
   Object.assign(profileData,data);
-  try{if(currentUser)await db.collection('users').doc(currentUser.uid).set(data,{merge:true});}catch(e){}
+  try{if(currentUser) await db.collection('users').doc(currentUser.uid).set(data,{merge:true});}
+  catch(e){}
   localStorage.setItem('aayuh_profile',JSON.stringify(profileData));
 }
 
-/* AVATAR */
+/* ── AVATAR ── */
 function changeAvatar(inp){
-  const f=inp.files[0];if(!f)return;
+  const f=inp.files[0];
+  if(!f) return;
   if(f.size>2*1024*1024){toast('⚠️ Max 2MB');return;}
   const r=new FileReader();
   r.onload=async e=>{
     const url=e.target.result;
-    document.getElementById('avEl').innerHTML=`<img src="${url}" alt="av">`;
-    await autoSave({avatarUrl:url});toast('✅ Photo updated!');
+    document.getElementById('avEl').innerHTML=`<img src="${url}" alt="avatar">`;
+    await autoSave({avatarUrl:url});
+    toast('✅ Photo updated!');
   };
   r.readAsDataURL(f);
 }
