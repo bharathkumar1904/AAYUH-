@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AAYUH - Emergency Contacts</title>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, getDocs, query, where, 
+      deleteDoc, doc 
+    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+      authDomain: "aayuh-c9a87.firebaseapp.com",
+      projectId: "aayuh-c9a87",
+      storageBucket: "aayuh-c9a87.appspot.com",
+      messagingSenderId: "459370049467",
+      appId: "1:459370049467:web:4354a11c6b43d3f6dede9e",
+      measurementId: "G-GNFKCBES0L"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    let currentUserId = null;
+
+    const contactList = document.getElementById("contactList");
+    const addBtn = document.getElementById("addBtn");
+
+    /* ---------------- ADD CONTACT ---------------- */
+    async function addContact() {
+      const name = document.getElementById("contactName").value.trim();
+      const number = document.getElementById("contactNumber").value.trim();
+
+      if (!name || !number) {
+        alert("Please enter both name and number.");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "emergencyContacts"), {
+          name,
+          number,
+          userId: currentUserId
+        });
+
+        alert("Contact added successfully!");
+        document.getElementById("contactName").value = "";
+        document.getElementById("contactNumber").value = "";
+        displayContacts();
+
+      } catch (error) {
+        alert("Error adding contact: " + error.message);
+      }
+    }
+
+    /* ---------------- DELETE CONTACT ---------------- */
+    async function deleteContact(id) {
+      try {
+        await deleteDoc(doc(db, "emergencyContacts", id));
+        alert("Contact deleted!");
+        displayContacts();
+      } catch (error) {
+        alert("Error deleting contact: " + error.message);
+      }
+    }
+
+    /* ---------------- LOAD CONTACTS ---------------- */
+    async function displayContacts() {
+      contactList.innerHTML = `
+        <div class="contact-card">
+          <strong>108 - Ambulance</strong>
+          <button class="call-btn" onclick="location.href='tel:108'">Call</button>
+        </div>
+
+        <div class="contact-card">
+          <strong>1066 - Apollo Hospitals</strong>
+          <button class="call-btn" onclick="location.href='tel:1066'">Call</button>
+        </div>
+
+        <div class="contact-card">
+          <strong>112 - Emergency Ambulance</strong>
+          <button class="call-btn" onclick="location.href='tel:112'">Call</button>
+        </div>
+      `;
+
+      try {
+        const q = query(collection(db, "emergencyContacts"), where("userId", "==", currentUserId));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((docItem) => {
+          const data = docItem.data();
+
+          const card = document.createElement("div");
+          card.className = "contact-card";
+
+          card.innerHTML = `
+            <strong>${data.name}</strong>
+            <div>
+              <button class="call-btn" onclick="location.href='tel:${data.number}'">Call</button>
+              <button class="delete-btn" data-id="${docItem.id}">Delete</button>
+            </div>
+          `;
+
+          contactList.appendChild(card);
+        });
+
+        // Attach delete events
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            deleteContact(id);
+          });
+        });
+
+      } catch (error) {
+        console.error("Error loading contacts:", error);
+      }
+    }
+
+    /* ---------------- AUTH CHECK ---------------- */
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUserId = user.uid;
+        displayContacts();
+        addBtn.addEventListener("click", addContact);
+      } else {
+        alert("Please log in to access Emergency Contacts.");
+        window.location.href = "login.html";
+      }
+    });
+
+  </script>
+
+  <!-- Styling -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 25px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #e74c3c;
+      font-size: 1.7em;
+    }
+
+    .contact-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin: 10px 0;
+    }
+
+    .call-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+    }
+
+    .call-btn:hover {
+      background: #1e7e34;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    .add-section {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .add-section input {
+      padding: 10px;
+      width: 70%;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .add-btn {
+      background: #3498db;
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>🚨 Emergency Contacts</h2>
+
+    <div id="contactList"></div>
+
+    <div class="add-section">
+      <h3>Add Your Emergency Contact</h3>
+      <input type="text" id="contactName" placeholder="Contact Name"><br>
+      <input type="tel" id="contactNumber" placeholder="Phone Number"><br>
+      <button class="add-btn" id="addBtn">Add Contact</button>
+    </div>
+
+    <p class="footer">AAYUH Emergency System</p>
+  </div>
+</body>
+</html>

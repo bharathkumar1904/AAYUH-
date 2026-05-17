@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("y2tDslGs-7i6B0Obc"); // Your EmailJS Public Key
+        })();
+
+        function sendMail(e) {
+            e.preventDefault();
+
+            emailjs.send("service_nezcj0g", "template_k07hlj9", {
+                from_name: document.getElementById("name").value,
+                from_email: document.getElementById("email").value,
+                phone_number: document.getElementById("phone").value,
+                message: document.getElementById("message").value
+            })
+            .then(function() {
+                alert("✅ Message sent successfully!");
+                document.getElementById("contactForm").reset();
+            }, function(error) {
+                alert("❌ Failed to send message.\nError: " + JSON.stringify(error));
+            });
+        }
+    </script>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f7f7f7; padding: 20px;">
+    <div style="max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #333;">📩 Contact Us</h2>
+        <form id="contactForm" onsubmit="sendMail(event)">
+            <label>Name</label><br>
+            <input type="text" id="name" placeholder="Your Name" required style="width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
+
+            <label>Email</label><br>
+            <input type="email" id="email" placeholder="Your Email" required style="width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
+
+            <label>Phone Number</label><br>
+            <input type="tel" id="phone" placeholder="Your Phone Number" pattern="[0-9]{10}" required style="width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"><br>
+
+            <label>Problem / Message</label><br>
+            <textarea id="message" placeholder="Your Problem" required style="width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;"></textarea><br>
+
+            <button type="submit" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+                Send Message
+            </button>
+        </form>
+    </div>
+</body>
+</html>

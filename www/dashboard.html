@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AAYUH! – Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+/* ═══════════════════════ DESIGN TOKENS ═══════════════════════ */
+:root {
+  --teal:       #00897b;
+  --teal-d:     #005f55;
+  --teal-m:     #00a896;
+  --teal-soft:  #e0f7f4;
+  --teal-glow:  rgba(0,137,123,.18);
+  --accent:     #ff5252;
+  --gold:       #ffb300;
+  --bg:         #f0faf8;
+  --card:       #ffffff;
+  --text:       #0d2926;
+  --text2:      #2a4845;
+  --muted:      #6b9c97;
+  --border:     rgba(0,137,123,.1);
+  --nav-h:      68px;
+  --sidebar-w:  260px;
+  --r:          18px;
+  --r-sm:       12px;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════ DESKTOP SIDEBAR ═══════════════════════ */
+.sidebar {
+  display: none;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: linear-gradient(175deg, #002e2a 0%, #004d45 50%, #00695c 100%);
+  z-index: 400;
+  flex-direction: column;
+  box-shadow: 4px 0 30px rgba(0,0,0,.18);
+  overflow-y: auto; overflow-x: hidden;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 4px; }
+
+@media (min-width: 900px) {
+  .sidebar { display: flex; }
+  body { padding-left: var(--sidebar-w); }
+  .bottom-nav { display: none !important; }
+  .header { left: var(--sidebar-w) !important; }
+}
+
+.sb-logo {
+  padding: 26px 22px 20px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  text-decoration: none;
+}
+.sb-logo-txt {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem; font-weight: 800;
+  color: white; letter-spacing: -.01em;
+}
+.sb-logo-icon { animation: hb 1.4s ease-in-out infinite; display:inline-block; font-size:1.6rem; }
+@keyframes hb { 0%,100%{transform:scale(1)} 50%{transform:scale(1.38)} }
+
+/* Sidebar user card */
+.sb-user {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.sb-user-av {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  border: 2.5px solid rgba(255,255,255,.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; color: white; margin-bottom: 10px;
+}
+.sb-user small { display:block; color:rgba(255,255,255,.55); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:3px; }
+.sb-user strong { color: white; font-size: .88rem; font-weight: 800; display:block; }
+.sb-user span   { color: rgba(255,255,255,.6); font-size: .72rem; }
+
+/* Sidebar nav links */
+.sb-nav { flex: 1; padding: 12px 12px; }
+.sb-nav-label {
+  font-size: .6rem; font-weight: 800; color: rgba(255,255,255,.4);
+  text-transform: uppercase; letter-spacing: .1em;
+  padding: 12px 10px 6px;
+}
+.sb-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: 13px;
+  color: rgba(255,255,255,.72); text-decoration: none;
+  font-size: .85rem; font-weight: 600;
+  transition: all .2s; margin-bottom: 2px;
+  cursor: pointer; border: none; background: none;
+  width: 100%; text-align: left;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.sb-link:hover { background: rgba(255,255,255,.1); color: white; }
+.sb-link.active { background: rgba(255,255,255,.16); color: white; }
+.sb-link i { width: 20px; text-align: center; font-size: .95rem; }
+.sb-emoji { width: 22px; text-align: center; font-size: 1rem; display:inline-block; flex-shrink:0; }
+.sb-link .sb-badge {
+  margin-left: auto;
+  background: var(--accent); color: white;
+  font-size: .6rem; font-weight: 800;
+  padding: 2px 7px; border-radius: 999px;
+}
+
+/* Sidebar settings & bottom */
+.sb-bottom {
+  padding: 12px 12px 20px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+/* ═══════════════════════ HEADER ═══════════════════════ */
+.header {
+  position: sticky; top: 0; z-index: 300;
+  background: linear-gradient(135deg, #002e2a 0%, var(--teal-d) 45%, var(--teal) 100%);
+  padding: 12px 20px 14px;
+  box-shadow: 0 4px 24px rgba(0,87,79,.32);
+  overflow: hidden;
+}
+.header::before {
+  content: ''; position: absolute; top:-50px; right:-30px;
+  width:170px; height:170px; border-radius:50%;
+  background:rgba(255,255,255,.05); pointer-events:none;
+}
+.header-row1 {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.mob-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.45rem; font-weight: 800;
+  color: white; display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.mob-logo-icon { animation: hb 1.4s ease-in-out infinite; display:inline-block; }
+
+@media (min-width: 900px) {
+  .mob-logo { display: none; }
+  .header { padding: 12px 28px 14px; }
+}
+
+.header-row2 {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.greet small { display:block; color:rgba(255,255,255,.62); font-size:.65rem; letter-spacing:.07em; text-transform:uppercase; margin-bottom:2px; }
+.greet strong { color:white; font-size:.95rem; font-weight:800; }
+.today-pill {
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 10px; padding: 5px 12px;
+  color: rgba(255,255,255,.9); font-size: .7rem; font-weight: 600;
+}
+.hbtn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,.14); border: 1.5px solid rgba(255,255,255,.25);
+  color: white; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; font-size: .88rem; transition: background .2s;
+}
+.hbtn:hover { background: rgba(255,255,255,.26); }
+.notif-wrap { position: relative; }
+.notif-wrap::after {
+  content: ''; position: absolute; top:7px; right:7px;
+  width:8px; height:8px; border-radius:50%;
+  background: var(--accent); border: 2px solid #004d45;
+}
+
+/* ═══════════════════════ TAB BAR ═══════════════════════ */
+.tab-row {
+  background: white; display: flex; overflow-x: auto; scrollbar-width: none;
+  border-bottom: 1.5px solid #d5eeeb;
+  position: sticky; top: 88px; z-index: 290;
+  box-shadow: 0 2px 12px rgba(0,137,123,.07);
+}
+.tab-row::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto; padding: 10px 16px;
+  font-size: .78rem; font-weight: 700;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap; transition: all .2s;
+}
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+.tab:hover:not(.active) { color: var(--text2); background: #f5fffe; }
+
+@media (min-width: 900px) { .tab-row { top: 86px; } }
+
+/* ═══════════════════════ MAIN CONTENT ═══════════════════════ */
+.main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 22px 20px calc(var(--nav-h) + 28px);
+}
+@media (min-width: 900px) {
+  .main { padding: 28px 32px 48px; }
+}
+
+/* ═══════════════════════ SEARCH ═══════════════════════ */
+.search-wrap { position: relative; margin-bottom: 22px; }
+.search-input {
+  width: 100%; padding: 13px 52px 13px 46px;
+  border-radius: 50px; border: 2px solid rgba(0,137,123,.18);
+  background: white; font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .9rem; color: var(--text); outline: none;
+  box-shadow: 0 4px 18px rgba(0,137,123,.1); transition: all .25s;
+}
+.search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(0,137,123,.12), 0 4px 18px rgba(0,137,123,.1); }
+.search-icon-l { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1rem; pointer-events:none; line-height:1; }
+.search-btn {
+  position:absolute; right:7px; top:50%; transform:translateY(-50%);
+  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
+  border:none; border-radius:50%; width:38px; height:38px;
+  color:white; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; box-shadow:0 4px 12px rgba(0,137,123,.35); transition:all .2s;
+}
+.search-btn:hover { transform:translateY(-50%) scale(1.1); }
+#srDrop {
+  display:none; position:absolute; top:calc(100% + 8px); left:0; right:0;
+  background:white; border-radius:18px;
+  box-shadow:0 16px 48px rgba(0,0,0,.14);
+  border:1.5px solid #d5eeeb; max-height:300px; overflow-y:auto; z-index:400;
+}
+#srDrop.open { display:block; animation:dropIn .2s ease; }
+@keyframes dropIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+.sr-item {
+  display:flex; align-items:center; gap:12px; padding:11px 16px;
+  cursor:pointer; border-bottom:1px solid #f0faf8; transition:background .13s;
+}
+.sr-item:last-child { border-bottom:none; }
+.sr-item:hover { background:var(--teal-soft); }
+.sr-emoji { font-size:1.25rem; width:36px; height:36px; display:flex; align-items:center; justify-content:center; background:var(--teal-soft); border-radius:10px; flex-shrink:0; }
+.sr-name { font-weight:700; font-size:.87rem; color:var(--text); }
+.sr-cat  { font-size:.7rem; color:var(--muted); margin-top:1px; }
+.sr-empty { padding:22px; text-align:center; color:var(--muted); font-size:.88rem; }
+
+/* ═══════════════════════ SECTION HEADING ═══════════════════════ */
+.sh { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; margin-top:4px; }
+.sh h2 { font-size:1rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:7px; }
+.sh a  { font-size:.75rem; color:var(--teal); text-decoration:none; font-weight:700; }
+
+/* ═══════════════════════ EMERGENCY ═══════════════════════ */
+.emergency {
+  background: linear-gradient(135deg, #b71c1c, #ff5252, #d32f2f);
+  border-radius: var(--r); padding: 16px 18px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; box-shadow: 0 8px 28px rgba(183,28,28,.35);
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none; position: relative; overflow: hidden; margin-bottom: 22px;
+}
+.emergency::before { content:''; position:absolute; top:-20px; right:-20px; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,.1); pointer-events:none; }
+.emergency:hover { transform:scale(1.015); box-shadow:0 12px 36px rgba(183,28,28,.42); }
+.em-icon { font-size:2rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+.em-text strong { color:white; font-size:.98rem; font-weight:800; display:block; margin-bottom:2px; }
+.em-text span   { color:rgba(255,255,255,.82); font-size:.73rem; }
+.em-arr { margin-left:auto; color:rgba(255,255,255,.9); }
+.pulse-dot { position:absolute; right:52px; top:50%; transform:translateY(-50%); width:12px; height:12px; }
+.pulse-dot::before,.pulse-dot::after { content:''; position:absolute; inset:0; border-radius:50%; background:rgba(255,255,255,.4); animation:pout 1.6s ease-out infinite; }
+.pulse-dot::after { animation-delay:.8s; }
+@keyframes pout { 0%{transform:scale(1);opacity:1} 100%{transform:scale(3.5);opacity:0} }
+
+/* ═══════════════════════ FEATURE CARDS ═══════════════════════ */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+@media (min-width: 600px)  { .feat-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1000px) { .feat-grid { grid-template-columns: repeat(6, 1fr); } }
+
+.feat-card {
+  border-radius: var(--r); padding: 16px 14px;
+  cursor: pointer; display: flex; flex-direction: column; gap: 8px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.06);
+  border: 1.5px solid rgba(0,0,0,.04);
+  text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s;
+  animation: fadeUp .45s ease both;
+}
+.feat-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 14px 36px rgba(0,0,0,.12); }
+.feat-card:active { transform: scale(.97); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+.feat-card:nth-child(1){animation-delay:.05s} .feat-card:nth-child(2){animation-delay:.1s}
+.feat-card:nth-child(3){animation-delay:.15s} .feat-card:nth-child(4){animation-delay:.2s}
+.feat-card:nth-child(5){animation-delay:.25s} .feat-card:nth-child(6){animation-delay:.3s}
+.feat-emoji { font-size:2rem; line-height:1; filter:drop-shadow(0 2px 5px rgba(0,0,0,.1)); }
+.feat-card h3 { font-size:.87rem; font-weight:800; color:var(--text); margin:0; }
+.feat-card p  { font-size:.69rem; color:var(--text2); opacity:.75; line-height:1.4; margin:0; }
+.fc1{background:linear-gradient(140deg,#fff8e1,#ffecb3)} .fc2{background:linear-gradient(140deg,#e8f5e9,#c8e6c9)}
+.fc3{background:linear-gradient(140deg,#e3f2fd,#bbdefb)} .fc4{background:linear-gradient(140deg,#fce4ec,#f8bbd0)}
+.fc5{background:linear-gradient(140deg,#f3e5f5,#e1bee7)} .fc6{background:linear-gradient(140deg,#e0f7fa,#b2ebf2)}
+
+/* ═══════════════════════ TRACKER GRID ═══════════════════════ */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px; margin-bottom: 24px;
+}
+@media (min-width: 700px) {
+  .tracker-grid { grid-template-columns: 1fr 1fr; }
+  .t-steps { grid-column: 1 / -1; }
+}
+@media (min-width: 1100px) {
+  .tracker-grid { grid-template-columns: 2fr 1fr 1fr; }
+  .t-steps { grid-column: auto; }
+}
+
+/* ═══════════════════════ TRACKER CARD ═══════════════════════ */
+.h-card {
+  background: white; border-radius: var(--r);
+  box-shadow: 0 4px 18px rgba(0,0,0,.07);
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  animation: fadeUp .5s ease both;
+}
+.hcard-head {
+  padding: 14px 18px 12px;
+  display: flex; align-items: center; gap: 11px;
+  border-bottom: 1.5px solid #eef8f6;
+}
+.hcard-icon {
+  width: 44px; height: 44px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.hcard-icon.steps { background: linear-gradient(135deg,#e8f5e9,#c8e6c9); }
+.hcard-icon.hr    { background: linear-gradient(135deg,#fce4ec,#f8bbd0); }
+.hcard-icon.bp    { background: linear-gradient(135deg,#e3f2fd,#bbdefb); }
+.hcard-title { font-size:.94rem; font-weight:800; color:var(--text); }
+.hcard-sub   { font-size:.7rem; color:var(--muted); margin-top:2px; }
+.hcard-body  { padding: 16px 18px 18px; }
+
+/* Status badge */
+.sbadge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 11px; border-radius: 999px;
+  font-size: .7rem; font-weight: 700; margin-bottom: 12px;
+}
+.sbadge.idle { background:#f5f5f5; color:#888; }
+.sbadge.run  { background:#e8f5e9; color:#2e7d32; }
+.sbadge.done { background:var(--teal-soft); color:var(--teal-d); }
+.sbadge.err  { background:#fff0f0; color:var(--accent); }
+.sdot { width:7px; height:7px; border-radius:50%; background:currentColor; }
+.sbadge.run .sdot { animation:blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* Metric display */
+.metric-row { display:flex; align-items:baseline; gap:7px; margin-bottom:3px; }
+.metric-val {
+  font-family:'Syne',sans-serif; font-size:2.8rem; font-weight:800;
+  color:var(--teal); line-height:1; transition:all .3s;
+}
+.metric-unit { font-size:.84rem; color:var(--muted); font-weight:600; }
+.metric-note { font-size:.71rem; color:var(--muted); margin-bottom:14px; }
+
+/* Progress */
+.prog-wrap { background:#e6f7f5; border-radius:999px; height:10px; overflow:hidden; margin-bottom:5px; position:relative; }
+.prog-bar {
+  height:100%; border-radius:999px;
+  background:linear-gradient(90deg,#26d0b2,var(--teal));
+  transition:width .7s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.prog-bar::after {
+  content:''; position:absolute; right:-1px; top:50%; transform:translateY(-50%);
+  width:12px; height:12px; border-radius:50%;
+  background:white; border:2.5px solid var(--teal);
+  box-shadow:0 0 8px rgba(0,137,123,.4);
+}
+.prog-info { display:flex; justify-content:space-between; font-size:.71rem; color:var(--muted); font-weight:600; margin-bottom:14px; }
+
+/* Step layout */
+.step-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 700px) {
+  .step-layout { grid-template-columns: 1fr 1fr; }
+}
+
+/* Input & Buttons */
+.gol-row { display:flex; gap:7px; margin-bottom:10px; }
+.gol-inp {
+  flex:1; padding:9px 12px; border:1.5px solid #c5e8e3; border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.83rem;
+  outline:none; color:var(--text); transition:border-color .2s;
+}
+.gol-inp:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(0,137,123,.1); }
+.gol-inp::placeholder { color:#aac5c2; }
+.btn-set {
+  width:auto; padding:9px 15px;
+  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
+  color:white; border:none; border-radius:12px;
+  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.82rem; font-weight:700;
+  white-space:nowrap; box-shadow:0 3px 10px rgba(0,137,123,.25);
+  transition:all .2s;
+}
+.btn-set:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,137,123,.35); }
+.btn {
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  width:100%; padding:10px 14px; border-radius:13px; border:none;
+  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.83rem; font-weight:700; transition:all .2s;
+}
+.btn-p { background:linear-gradient(135deg,var(--teal-m),var(--teal-d)); color:white; box-shadow:0 4px 14px rgba(0,137,123,.28); }
+.btn-p:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,137,123,.38); }
+.btn-p:active { transform:scale(.97); }
+.btn-o { background:white; color:var(--teal); border:2px solid var(--teal); margin-top:8px; }
+.btn-o:hover { background:var(--teal-soft); }
+.btn-d { background:white; color:var(--accent); border:2px solid var(--accent); margin-top:8px; }
+.btn-d:hover { background:#fff0f0; }
+.btn-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+.btn-row .btn { margin-top:0; }
+
+/* Instruction box */
+.instr { background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border-radius:13px; padding:13px 15px; }
+.instr p { font-size:.76rem; color:#1b5e20; line-height:1.65; }
+.instr strong { font-weight:800; }
+
+/* HR ring */
+.hr-ring-wrap { display:flex; justify-content:center; margin-bottom:12px; }
+.hr-ring { position:relative; width:100px; height:100px; }
+.hr-ring svg { width:100%; height:100%; transform:rotate(-90deg); }
+.hr-ring-bg   { fill:none; stroke:#e6f7f5; stroke-width:8; }
+.hr-ring-fill { fill:none; stroke:url(#hrG); stroke-width:8; stroke-linecap:round; stroke-dasharray:283; stroke-dashoffset:283; transition:stroke-dashoffset .6s ease; }
+.hr-ring-txt  { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.hr-bpm  { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--teal); line-height:1; }
+.hr-unit { font-size:.62rem; color:var(--muted); font-weight:700; letter-spacing:.05em; }
+
+/* Waveform */
+.wave-wrap { background:#0a1f1d; border-radius:12px; overflow:hidden; margin-bottom:12px; }
+#waveCanvas { width:100%; height:54px; display:block; }
+
+/* Camera */
+.cam-wrap { position:relative; border-radius:13px; overflow:hidden; background:#0a1f1d; aspect-ratio:4/3; margin-bottom:12px; }
+#videoEl { width:100%; height:100%; object-fit:cover; display:block; }
+.cam-ov {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:7px;
+  background:rgba(0,30,28,.78); transition:opacity .3s;
+}
+.cam-ov.hidden { opacity:0; pointer-events:none; }
+.cam-ov-icon { font-size:2rem; }
+.cam-ov-txt  { color:rgba(255,255,255,.8); font-size:.74rem; text-align:center; padding:0 14px; line-height:1.5; }
+
+/* BP */
+.bp-disp { display:flex; gap:10px; margin-bottom:12px; }
+.bp-box { flex:1; background:var(--teal-soft); border-radius:13px; padding:12px 8px; text-align:center; }
+.bp-num { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; color:var(--teal); }
+.bp-lbl { font-size:.65rem; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin-top:3px; }
+.bp-cat { text-align:center; padding:7px 12px; border-radius:10px; font-size:.78rem; font-weight:700; margin-bottom:10px; }
+.bp-note { font-size:.68rem; color:#b33; background:#fff0f0; border-radius:9px; padding:8px 10px; line-height:1.5; margin-top:8px; }
+
+/* ═══════════════════════ TIPS ═══════════════════════ */
+.tips-scroll { display:flex; gap:11px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; margin-bottom:24px; }
+.tips-scroll::-webkit-scrollbar { display:none; }
+.tip { flex:0 0 155px; border-radius:16px; padding:15px 13px; position:relative; overflow:hidden; }
+.tip::before { content:''; position:absolute; bottom:-18px; right:-18px; width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.1); pointer-events:none; }
+.tip .tip-lbl { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; opacity:.8; margin-bottom:4px; color:white; }
+.tip strong  { display:block; font-size:.83rem; color:white; margin-bottom:4px; font-weight:800; }
+.tip span    { font-size:.7rem; color:rgba(255,255,255,.85); line-height:1.45; }
+.t1{background:linear-gradient(135deg,#00897b,#26c6a9)} .t2{background:linear-gradient(135deg,#d84315,#ff7043)}
+.t3{background:linear-gradient(135deg,#0d47a1,#42a5f5)} .t4{background:linear-gradient(135deg,#6a1b9a,#ba68c8)}
+
+/* ═══════════════════════ BOTTOM NAV (mobile only) ═══════════════════════ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1.5px solid #d5eeeb;
+  display: flex; height: var(--nav-h);
+  box-shadow: 0 -6px 28px rgba(0,0,0,.09); z-index: 300;
+  border-radius: 20px 20px 0 0;
+}
+.nav-item {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:3px;
+  cursor:pointer; color:var(--muted);
+  font-size:.59rem; font-weight:700; text-decoration:none;
+  transition:color .2s; position:relative;
+}
+.nav-item i, .nav-item span:first-child { font-size:1.1rem; transition:transform .2s; }
+.nav-item.active { color:var(--teal); }
+.nav-item.active > span:first-child,
+.nav-item.active > i { transform:scale(1.15); display:inline-block; }
+.nav-item.active::after {
+  content:''; position:absolute; top:0; left:25%; right:25%;
+  height:3px; background:var(--teal); border-radius:0 0 6px 6px;
+}
+.nav-item:hover:not(.active) { color:var(--teal-m); }
+.fab-wrap {
+  width:48px; height:48px;
+  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
+  border-radius:15px; display:flex; align-items:center; justify-content:center;
+  color:white; font-size:1.2rem; margin-top:-14px;
+  box-shadow:0 8px 22px rgba(0,137,123,.42); transition:all .2s;
+}
+.nav-item:hover .fab-wrap { transform:scale(1.1) translateY(-2px); }
+.nav-prof-av {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--teal-soft); border:2px solid transparent;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.75rem; color:var(--teal); transition:all .2s;
+}
+.nav-item.active .nav-prof-av { border-color:var(--teal); box-shadow:0 0 0 3px rgba(0,137,123,.18); }
+
+/* ═══════════════════════ PROFILE SHEET (mobile) ═══════════════════════ */
+.prof-ov {
+  position:fixed; inset:0; background:rgba(0,0,0,.45);
+  z-index:500; display:none; align-items:flex-end;
+  backdrop-filter:blur(4px);
+}
+.prof-ov.open { display:flex; animation:fadeOv .25s ease; }
+@keyframes fadeOv { from{opacity:0} to{opacity:1} }
+.prof-sheet {
+  background:white; width:100%; max-width:500px; margin:0 auto;
+  border-radius:26px 26px 0 0;
+  padding:0 0 calc(var(--nav-h) + 8px);
+  animation:slideUp .3s cubic-bezier(.34,1.2,.64,1); overflow:hidden;
+}
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.sheet-handle { width:42px; height:5px; background:#d5eeeb; border-radius:99px; margin:13px auto 0; }
+.prof-hero {
+  background:linear-gradient(135deg,#002e2a,var(--teal-d),var(--teal));
+  padding:20px 20px 22px; display:flex; align-items:center; gap:14px;
+}
+.prof-av {
+  width:54px; height:54px; border-radius:50%;
+  background:rgba(255,255,255,.2); border:3px solid rgba(255,255,255,.45);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; color:white; flex-shrink:0;
+}
+.prof-hero-info small { display:block; color:rgba(255,255,255,.65); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; }
+.prof-hero-info strong { color:white; font-size:.96rem; font-weight:800; display:block; margin:2px 0; }
+.prof-hero-info .ph-email { color:rgba(255,255,255,.7); font-size:.72rem; }
+.pm-items { padding:6px 14px 0; }
+.pm-item {
+  display:flex; align-items:center; gap:13px; padding:13px 10px;
+  border-radius:13px; color:var(--text); text-decoration:none;
+  font-size:.88rem; font-weight:600; transition:background .15s;
+  cursor:pointer; border:none; background:none; width:100%; text-align:left;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.pm-item:hover { background:var(--teal-soft); }
+.pm-ico { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:.95rem; flex-shrink:0; }
+.pm-arr { margin-left:auto; color:var(--muted); font-size:.78rem; }
+.pm-div { height:1px; background:#eef8f6; margin:3px 10px; }
+
+/* ═══════════════════════ MODAL ═══════════════════════ */
+.modal-bd {
+  position:fixed; inset:0; background:rgba(0,0,0,.5);
+  display:none; align-items:center; justify-content:center;
+  z-index:700; backdrop-filter:blur(4px);
+}
+.modal-bd.open { display:flex; animation:fadeOv .2s ease; }
+.modal-box {
+  background:white; border-radius:24px; padding:28px 22px;
+  width:88%; max-width:330px; text-align:center;
+  animation:popIn .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 24px 70px rgba(0,0,0,.22);
+}
+@keyframes popIn { from{transform:scale(.82);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-box .m-emoji { font-size:3.6rem; margin-bottom:10px; }
+.modal-box h3 { font-family:'Syne',sans-serif; color:var(--teal); margin-bottom:8px; font-size:1.2rem; }
+.modal-box p  { color:var(--muted); font-size:.87rem; line-height:1.5; margin-bottom:18px; }
+.modal-close {
+  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
+  color:white; border:none; border-radius:13px; padding:11px 30px;
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:700;
+  cursor:pointer; box-shadow:0 4px 14px rgba(0,137,123,.35); transition:all .2s;
+}
+.modal-close:hover { transform:translateY(-1px); }
+
+/* ═══════════════════════ ADMIN ═══════════════════════ */
+.admin-panel { background:white; border-radius:var(--r); padding:16px; margin-bottom:22px; box-shadow:0 4px 16px rgba(0,0,0,.06); border:1.5px solid rgba(0,137,123,.1); }
+.admin-panel h3 { color:var(--teal); font-size:.95rem; margin-bottom:12px; font-weight:800; }
+.user-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0faf8; font-size:.82rem; }
+.user-row:last-child { border-bottom:none; }
+.user-row strong { color:var(--text); font-weight:700; }
+.user-row .udata { text-align:right; color:var(--muted); }
+
+/* ═══════════════════════ TOAST ═══════════════════════ */
+.toast {
+  position:fixed; bottom:calc(var(--nav-h) + 14px); left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:#1a3a37; color:white; padding:11px 22px;
+  border-radius:999px; font-size:.83rem; font-weight:700;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  z-index:800; transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap; pointer-events:none;
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+@media (min-width:900px) {
+  .toast { bottom:24px; left:calc(var(--sidebar-w) + 50%); transform:translateX(-50%) translateY(60px); }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+}
+
+/* ═══════════════════════ RESPONSIVE TWEAKS ═══════════════════════ */
+@media (max-width:480px) {
+  .metric-val { font-size:2.3rem; }
+  .bp-num { font-size:1.5rem; }
+  .hr-bpm { font-size:1.35rem; }
+  .hcard-head { padding:12px 14px 10px; }
+  .hcard-body { padding:14px 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ DESKTOP SIDEBAR ═══════════════════ -->
+<aside class="sidebar">
+  <a class="sb-logo" href="dashboard.html">
+    <span class="sb-logo-icon">🏥</span>
+    <span class="sb-logo-txt">AAYUH!</span>
+  </a>
+
+  <!-- User info -->
+  <div class="sb-user">
+    <div class="sb-user-av">👤</div>
+    <small>Signed in as</small>
+    <strong id="sbUserName">My Account</strong>
+    <span id="sbUserEmail"></span>
+  </div>
+
+  <!-- Navigation -->
+  <div class="sb-nav">
+    <div class="sb-nav-label">Navigation</div>
+    <a class="sb-link active" href="dashboard.html"><span class="sb-emoji">🏠</span> Home</a>
+    <a class="sb-link" href="pharmacy.html"><span class="sb-emoji">💊</span> Pharmacy</a>
+    <a class="sb-link" href="symptoms.html"><span class="sb-emoji">🩺</span> Symptom Checker</a>
+    <a class="sb-link" href="disease.html"><span class="sb-emoji">🦠</span> Diseases</a>
+    <a class="sb-link" href="medical history.html"><span class="sb-emoji">📋</span> Medical History</a>
+    <a class="sb-link" href="Emergency.html" style="color:#ff9090"><span class="sb-emoji">🚨</span> Emergency <span class="sb-badge">SOS</span></a>
+    <a class="sb-link" href="ChatBot.html"><span class="sb-emoji">🤖</span> ChatBot</a>
+
+    <div class="sb-nav-label" style="margin-top:6px">Account</div>
+    <a class="sb-link" href="profile.html"><span class="sb-emoji">👤</span> My Profile</a>
+    <a class="sb-link" href="settings.html"><span class="sb-emoji">⚙️</span> Settings</a>
+    <a class="sb-link" href="Contact Us.html"><span class="sb-emoji">✉️</span> Contact Us</a>
+    <a class="sb-link" href="Privacy Policy.html"><span class="sb-emoji">✉️</span> Privacy Policy</a>
+    <a class="sb-link" href="Disclaimer.html"><span class="sb-emoji">✉️</span> Disclaimer</a>
+    <a class="sb-link" href="Blog.html"><span class="sb-emoji">ℹ️</span> Blog</a>
+    <a class="sb-link" href="about.html"><span class="sb-emoji">ℹ️</span> About</a>
+    <a class="sb-link" href="Terms and Conditions.html"><span class="sb-emoji">ℹ️</span> Terms and Conditions</a>
+
+  </div>
+</aside>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="header">
+  <div class="header-row1">
+    <a class="mob-logo" href="dashboard.html">
+      <span class="mob-logo-icon">🏥</span> AAYUH!
+    </a>
+    <div class="notif-wrap">
+      <button class="hbtn" title="Notifications">🔔</button>
+    </div>
+  </div>
+  <div class="header-row2">
+    <div class="greet">
+      <small>Good to see you</small>
+      <strong id="profileName">My Account</strong>
+    </div>
+    <div class="today-pill" id="todayDate">Today</div>
+  </div>
+</header>
+
+<!-- ═══════════════════ TAB ROW ═══════════════════ -->
+<nav class="tab-row">
+  <div class="tab active"  onclick="goTab(this,'dashboard.html')">🏠 Home</div>
+  <div class="tab" onclick="goTab(this,'medicines.html')">💊 Medicines</div>
+  <div class="tab" onclick="goTab(this,'symptoms.html')">🩺 Symptom Checker</div>
+  <div class="tab" onclick="goTab(this,'disease.html')">🦠 Diseases</div>
+  <div class="tab" onclick="goTab(this,'medical history.html')">📋 History</div>
+  <div class="tab" onclick="goTab(this,'Emergency.html')">🚨 Emergency</div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main class="main">
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon-l">🔍</span>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Search medicines, symptoms, diseases…"
+      autocomplete="off"
+      oninput="liveSearch(this.value)"
+      onkeydown="if(event.key==='Enter')doSearch()">
+    <button class="search-btn" onclick="doSearch()">➜</button>
+    <div id="srDrop"></div>
+  </div>
+
+  <!-- Emergency Banner -->
+  <a class="emergency" href="Emergency.html">
+    <span class="em-icon">🚑</span>
+    <div class="em-text">
+      <strong>Emergency? Tap Here</strong>
+      <span>Ambulance · Police · Fire — instant access</span>
+    </div>
+    <div class="pulse-dot"></div>
+    <span class="em-arr"><i class="fas fa-chevron-right"></i></span>
+  </a>
+
+  <!-- Quick Access -->
+  <div class="sh"><h2><span>⚡</span> Quick Access</h2><a href="#">See all →</a></div>
+  <div class="feat-grid">
+    <a class="feat-card fc1" href="medicines.html">
+      <span class="feat-emoji">💊</span><h3>Medicines</h3>
+      <p>Search dosage, side effects & interactions</p>
+    </a>
+    <a class="feat-card fc2" href="symptoms.html">
+      <span class="feat-emoji">🩺</span><h3>Symptom Checker</h3>
+      <p>AI-powered analysis for your symptoms</p>
+    </a>
+    <a class="feat-card fc3" href="disease.html">
+      <span class="feat-emoji">🦠</span><h3>Diseases</h3>
+      <p>Info, prevention & diet recommendations</p>
+    </a>
+    <a class="feat-card fc4" href="medical history.html">
+      <span class="feat-emoji">📋</span><h3>Medical History</h3>
+      <p>Your reports, prescriptions & records</p>
+    </a>
+    <a class="feat-card fc5" href="Emergency.html">
+      <span class="feat-emoji">🚨</span><h3>Emergency</h3>
+      <p>Quick-dial ambulance & helplines</p>
+    </a>
+    <a class="feat-card fc6" href="Find Doctors.html">
+      <span class="feat-emoji">👨‍⚕️</span><h3>Find Doctors</h3>
+      <p>Locate nearby specialists & hospitals</p>
+    </a>
+  </div>
+
+  <!-- Health Trackers -->
+  <div class="sh"><h2><span>💪</span> Health Trackers</h2></div>
+  <div class="tracker-grid">
+
+    <!-- ── STEPS ── -->
+    <div class="h-card t-steps">
+      <div class="hcard-head">
+        <div class="hcard-icon steps">👟</div>
+        <div style="flex:1">
+          <div class="hcard-title">Step Counter</div>
+          <div class="hcard-sub">Accelerometer · auto-counts walking</div>
+        </div>
+        <div class="sbadge idle" id="stepBadge" style="margin-bottom:0;flex-shrink:0">
+          <div class="sdot"></div> Idle
+        </div>
+      </div>
+      <div class="hcard-body">
+        <div class="step-layout">
+          <!-- Metrics & controls -->
+          <div>
+            <div class="metric-row">
+              <div class="metric-val" id="stepsCount">0</div>
+              <div class="metric-unit">steps</div>
+            </div>
+            <div class="metric-note" id="stepCalLbl">≈ 0 kcal · 0.00 km</div>
+            <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+            <div class="prog-info"><span id="progPct">0%</span><span id="goalLbl">Goal: not set</span></div>
+            <div class="gol-row">
+              <input class="gol-inp" id="stepGoalInput" type="number" min="100" max="50000" placeholder="Daily goal e.g. 8000">
+              <button class="btn-set" onclick="setStepGoal()">Set Goal</button>
+            </div>
+            <button class="btn btn-p" id="enableMotionBtn" onclick="enableMotion()">
+              👟 Enable Motion Sensor
+            </button>
+            <div class="btn-row">
+              <button class="btn btn-o" onclick="addManualStep()">➕ +10 Test</button>
+              <button class="btn btn-d" onclick="resetSteps()">🔄 Reset</button>
+            </div>
+          </div>
+          <!-- Instructions -->
+          <div>
+            <div class="instr">
+              <p>
+                <strong>📱 On Mobile:</strong><br>
+                1. Enter your daily step goal and tap <strong>Set Goal</strong>.<br>
+                2. Tap <strong>Enable Motion Sensor</strong> and allow Motion permission when prompted.<br>
+                3. Keep your phone in your pocket or hand while walking. Steps auto-count using your device's accelerometer.<br><br>
+                <strong>💻 On Desktop / Testing:</strong><br>
+                Use the <strong>+10 Test</strong> button to simulate steps and verify the counter and progress bar work correctly.<br><br>
+                Data syncs to your account when logged in and resets every midnight.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HEART RATE ── -->
+    <div class="h-card">
+      <div class="hcard-head">
+        <div class="hcard-icon hr">❤️</div>
+        <div>
+          <div class="hcard-title">Heart Rate</div>
+          <div class="hcard-sub">Camera PPG · rear lens</div>
+        </div>
+      </div>
+      <div class="hcard-body">
+        <div class="sbadge idle" id="hrBadge"><div class="sdot"></div> Idle</div>
+        <div class="hr-ring-wrap">
+          <div class="hr-ring">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="hrG" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#26d0b2"/>
+                  <stop offset="100%" stop-color="#005f55"/>
+                </linearGradient>
+              </defs>
+              <circle class="hr-ring-bg" cx="50" cy="50" r="45"/>
+              <circle class="hr-ring-fill" id="hrRingFill" cx="50" cy="50" r="45"/>
+            </svg>
+            <div class="hr-ring-txt">
+              <div class="hr-bpm" id="bpmDisplay">--</div>
+              <div class="hr-unit">BPM</div>
+            </div>
+          </div>
+        </div>
+        <div class="wave-wrap"><canvas id="waveCanvas" height="54"></canvas></div>
+        <div class="cam-wrap">
+          <video id="videoEl" autoplay muted playsinline></video>
+          <div class="cam-ov" id="camOv">
+            <div class="cam-ov-icon">📷</div>
+            <div class="cam-ov-txt">Press Start, then cover the rear camera gently with your fingertip.</div>
+          </div>
+        </div>
+        <button class="btn btn-p" id="startHRBtn" onclick="startHR()">▶️ Start Measurement</button>
+        <button class="btn btn-o" id="stopHRBtn" onclick="stopHR()" style="display:none">⏹️ Stop & Save</button>
+        <div style="font-size:.67rem;color:#aaa;margin-top:9px;line-height:1.55">
+          Cover rear camera firmly with fingertip. Hold still 15–20 s. Red-channel variance detects your pulse.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BLOOD PRESSURE ── -->
+    <div class="h-card">
+      <div class="hcard-head">
+        <div class="hcard-icon bp">💓</div>
+        <div>
+          <div class="hcard-title">Blood Pressure</div>
+          <div class="hcard-sub">Estimated from HR signal · manual entry</div>
+        </div>
+      </div>
+      <div class="hcard-body">
+        <div class="sbadge idle" id="bpBadge"><div class="sdot"></div> Not measured</div>
+        <div class="bp-disp">
+          <div class="bp-box"><div class="bp-num" id="bpSys">--</div><div class="bp-lbl">Systolic</div></div>
+          <div style="display:flex;align-items:center;font-size:1.4rem;color:var(--muted)">/</div>
+          <div class="bp-box"><div class="bp-num" id="bpDia">--</div><div class="bp-lbl">Diastolic</div></div>
+        </div>
+        <div class="bp-cat" id="bpCatBox" style="background:#f5f5f5;color:#888">Measure HR first → then Estimate</div>
+        <div style="font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 7px">Manual Entry (mmHg)</div>
+        <div class="gol-row">
+          <input class="gol-inp" id="manSys" type="number" placeholder="Systolic e.g. 120">
+          <input class="gol-inp" id="manDia" type="number" placeholder="Diastolic e.g. 80">
+        </div>
+        <button class="btn btn-o" onclick="manualBP()" style="margin-top:0">✏️ Save Manual Reading</button>
+        <button class="btn btn-p" onclick="estimateBP()" style="margin-top:8px">🧮 Estimate from HR Signal</button>
+        <button class="btn btn-d" onclick="clearBP()">🗑️ Clear</button>
+        <div class="bp-note">⚠️ Camera estimation is <strong>not medically accurate</strong>. Use a certified BP cuff for medical decisions.</div>
+      </div>
+    </div>
+
+  </div><!-- /tracker-grid -->
+
+  <!-- Daily Tips -->
+  <div class="sh"><h2><span>🌿</span> Daily Tips</h2></div>
+  <div class="tips-scroll">
+    <div class="tip t1"><div class="tip-lbl">Hydration</div><strong>💧 8 glasses/day</strong><span>Staying hydrated boosts focus, energy & kidney health.</span></div>
+    <div class="tip t2"><div class="tip-lbl">Nutrition</div><strong>🥭 Seasonal fruits</strong><span>Amla & jamun are packed with Vitamin C & antioxidants.</span></div>
+    <div class="tip t3"><div class="tip-lbl">Sleep</div><strong>😴 7–9 hrs nightly</strong><span>Good sleep reduces stress hormones and boosts immunity.</span></div>
+    <div class="tip t4"><div class="tip-lbl">Exercise</div><strong>🚶 30-min walk</strong><span>Brisk walking after meals greatly improves digestion.</span></div>
+  </div>
+
+  <!-- Admin -->
+  <div class="admin-panel" id="adminPanel" style="display:none">
+    <h3>🛡️ Admin — All Users</h3>
+    <div id="adminList">Loading…</div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════ BOTTOM NAV (mobile only) ═══════════════════ -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="dashboard.html"><span style="font-size:1.2rem">🏠</span><span>Home</span></a>
+  <a class="nav-item" href="pharmacy.html"><span style="font-size:1.2rem">💊</span><span>Pharmacy</span></a>
+  <a class="nav-item" href="ChatBot.html">
+    <div class="fab-wrap"><span style="font-size:1.2rem">🤖</span></div>
+    <span style="margin-top:4px">ChatBot</span>
+  </a>
+  <a class="nav-item" href="medical history.html"><span style="font-size:1.2rem">📋</span><span>Records</span></a>
+  <a class="nav-item" href="#" onclick="openProfile(event)">
+    <div class="nav-prof-av"><span style="font-size:.85rem">👤</span></div>
+    <span>Profile</span>
+  </a>
+</nav>
+
+<!-- ═══════════════════ PROFILE SHEET (mobile) ═══════════════════ -->
+<div class="prof-ov" id="profOv" onclick="closeProfBg(event)">
+  <div class="prof-sheet">
+    <div class="sheet-handle"></div>
+    <div class="prof-hero">
+      <div class="prof-av">👤</div>
+      <div class="prof-hero-info">
+        <small>Signed in as</small>
+        <strong id="sheetName">My Account</strong>
+        <span class="ph-email" id="sheetEmail"></span>
+      </div>
+    </div>
+    <div class="pm-items">
+      <a class="pm-item" href="profile.html">
+        <div class="pm-ico" style="background:#e0f7f4;color:#00897b">👤</div>
+        View Profile<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      <!-- Settings leads to settings.html which has the logout button -->
+      <a class="pm-item" href="settings.html">
+        <div class="pm-ico" style="background:#e8f0fe;color:#3949ab">⚙️</div>
+        Settings<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      <a class="pm-item" href="Contact Us.html">
+        <div class="pm-ico" style="background:#fff8e1;color:#f9a825">✉️</div>
+        Contact Us<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      </a>
+      <a class="pm-item" href="Privacy Policy.html">
+        <div class="pm-ico" style="background:#fff8e1;color:#f9a825">✉️</div>
+        Privacy Policy<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      </a>
+      <a class="pm-item" href="Disclaimer.html">
+        <div class="pm-ico" style="background:#fff8e1;color:#f9a825">✉️</div>
+        Disclaimer<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      <a class="pm-item" href="about.html">
+        <div class="pm-ico" style="background:#f3e5f5;color:#7b1fa2">ℹ️</div>
+        About AAYUH!<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      </a>
+      <a class="pm-item" href="Blog.html">
+        <div class="pm-ico" style="background:#f3e5f5;color:#7b1fa2">ℹ️</div>
+        Blog<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      </a>
+      <a class="pm-item" href="Terms and Conditions.html">
+        <div class="pm-ico" style="background:#f3e5f5;color:#7b1fa2">ℹ️</div>
+        Terms and Conditions<i class="fas fa-chevron-right pm-arr"></i>
+      </a>
+      <!-- NO logout here — logout is only in Settings page -->
+    </div>
+  </div>
+</div>
+
+<!-- Congrats Modal -->
+<div class="modal-bd" id="congratsModal">
+  <div class="modal-box">
+    <div class="m-emoji">🎉</div>
+    <h3>Goal Reached!</h3>
+    <p id="congratsTxt">You've completed your daily step goal!</p>
+    <button class="modal-close" onclick="document.getElementById('congratsModal').classList.remove('open')">Awesome!</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+/* ════════════════════════════════════════
+   FIREBASE INIT
+════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey:"AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+  authDomain:"aayuh-c9a87.firebaseapp.com",
+  projectId:"aayuh-c9a87",
+  storageBucket:"aayuh-c9a87.firebasestorage.app",
+  messagingSenderId:"459370049467",
+  appId:"1:459370049467:web:4354a11c6b43d3f6dede9e"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+let currentUser = null;
+
+/* ── TODAY DATE ── */
+(()=>{
+  const d = new Date();
+  document.getElementById('todayDate').textContent =
+    d.toLocaleDateString('en-IN',{weekday:'short',month:'short',day:'numeric'});
+})();
+
+/* ── TOAST ── */
+function showToast(msg, dur=3000){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+/* ── BADGE ── */
+function setBadge(id, type, label){
+  const el=document.getElementById(id);
+  el.className=`sbadge ${type}`;
+  el.innerHTML=`<div class="sdot${type==='run'?' anim':''}"></div> ${label}`;
+}
+
+/* ── FORMAT TIME ── */
+const fmtT = (d=new Date()) =>
+  d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+
+/* ── FIREBASE SYNC ── */
+function fsSync(data){
+  if(!currentUser||!db) return;
+  db.collection('users').doc(currentUser.uid)
+    .set({health:{...data,lastUpdated:firebase.firestore.FieldValue.serverTimestamp()}},{merge:true})
+    .catch(()=>{});
+}
+
+/* ════════════════════════════════════════
+   AUTH STATE
+════════════════════════════════════════ */
+function openProfile(e){ e.preventDefault(); document.getElementById('profOv').classList.add('open'); }
+function closeProfBg(e){ if(e.target===document.getElementById('profOv')) document.getElementById('profOv').classList.remove('open'); }
+function termsAlert(){ alert('Terms & Conditions: AAYUH! is a health information platform. Always consult a licensed doctor for medical decisions.'); }
+
+auth.onAuthStateChanged(async user => {
+  currentUser = user;
+  if(user){
+    const n = user.displayName || user.email || 'My Account';
+    document.getElementById('profileName').textContent  = n;
+    document.getElementById('sheetName').textContent    = n;
+    document.getElementById('sbUserName').textContent   = n;
+    document.getElementById('sheetEmail').textContent   = user.email || '';
+    document.getElementById('sbUserEmail').textContent  = user.email || '';
+    await loadUserData();
+    try{
+      const tok = await user.getIdTokenResult();
+      if(tok.claims.role==='admin'){
+        document.getElementById('adminPanel').style.display='block';
+        loadAllUsers();
+      }
+    }catch(e){}
+  } else {
+    loadLocalData();
+  }
+});
+
+/* ════════════════════════════════════════
+   SEARCH
+════════════════════════════════════════ */
+const searchDB = [
+  {name:'Paracetamol',  cat:'Medicine',emoji:'💊',href:'medicines.html?q=paracetamol'},
+  {name:'Ibuprofen',    cat:'Medicine',emoji:'💊',href:'medicines.html?q=ibuprofen'},
+  {name:'Amoxicillin',  cat:'Medicine',emoji:'💊',href:'medicines.html?q=amoxicillin'},
+  {name:'Metformin',    cat:'Medicine',emoji:'💊',href:'medicines.html?q=metformin'},
+  {name:'Cetirizine',   cat:'Medicine',emoji:'💊',href:'medicines.html?q=cetirizine'},
+  {name:'Azithromycin', cat:'Medicine',emoji:'💊',href:'medicines.html?q=azithromycin'},
+  {name:'Omeprazole',   cat:'Medicine',emoji:'💊',href:'medicines.html?q=omeprazole'},
+  {name:'Fever',        cat:'Symptom', emoji:'🤒',href:'symptoms.html?q=fever'},
+  {name:'Headache',     cat:'Symptom', emoji:'🤕',href:'symptoms.html?q=headache'},
+  {name:'Cough',        cat:'Symptom', emoji:'😷',href:'symptoms.html?q=cough'},
+  {name:'Chest Pain',   cat:'Symptom', emoji:'💔',href:'symptoms.html?q=chest+pain'},
+  {name:'Vomiting',     cat:'Symptom', emoji:'🤢',href:'symptoms.html?q=vomiting'},
+  {name:'Fatigue',      cat:'Symptom', emoji:'😴',href:'ChatBots.html?q=fatigue'},
+  {name:'Diabetes',     cat:'Disease', emoji:'🩸',href:'disease.html?q=diabetes'},
+  {name:'Hypertension', cat:'Disease', emoji:'🫀',href:'disease.html?q=hypertension'},
+  {name:'Dengue',       cat:'Disease', emoji:'🦟',href:'disease.html?q=dengue'},
+  {name:'Malaria',      cat:'Disease', emoji:'🦟',href:'disease.html?q=malaria'},
+  {name:'Typhoid',      cat:'Disease', emoji:'🦠',href:'disease.html?q=typhoid'},
+  {name:'Asthma',       cat:'Disease', emoji:'🫁',href:'disease.html?q=asthma'},
+  {name:'COVID-19',     cat:'Disease', emoji:'😷',href:'disease.html?q=covid'},
+  {name:'Tuberculosis', cat:'Disease', emoji:'🦠',href:'disease.html?q=tuberculosis'},
+];
+const srDrop = document.getElementById('srDrop');
+const searchInput = document.getElementById('searchInput');
+
+function liveSearch(val){
+  val = val.trim().toLowerCase();
+  if(!val){srDrop.classList.remove('open');srDrop.innerHTML='';return;}
+  const hits = searchDB.filter(d=>d.name.toLowerCase().includes(val)||d.cat.toLowerCase().includes(val));
+  srDrop.innerHTML = hits.length
+    ? hits.slice(0,7).map(h=>`<div class="sr-item" onclick="location.href='${h.href}'"><div class="sr-emoji">${h.emoji}</div><div><div class="sr-name">${h.name}</div><div class="sr-cat">${h.cat}</div></div></div>`).join('')
+    : `<div class="sr-empty">😕 No results for "<strong>${val}</strong>"</div>`;
+  srDrop.classList.add('open');
+}
+function doSearch(){
+  const val=searchInput.value.trim();
+  if(val) location.href=`medicines.html?q=${encodeURIComponent(val)}`;
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.search-wrap')) srDrop.classList.remove('open'); });
+
+/* ════════════════════════════════════════
+   TAB NAV
+════════════════════════════════════════ */
+function goTab(el,href){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(!href.includes('dashboard')) location.href=href;
+}
+
+/* ════════════════════════════════════════
+   ① STEP COUNTER — ACCELEROMETER
+════════════════════════════════════════ */
+const SK='aayuh_steps_today', DK='aayuh_steps_date', GK='aayuh_steps_goal';
+const today = new Date().toISOString().slice(0,10);
+
+// Reset if new day
+if(localStorage.getItem(DK) !== today){
+  localStorage.setItem(DK, today);
+  localStorage.setItem(SK, '0');
+}
+
+let stepCount       = parseInt(localStorage.getItem(SK)||'0');
+let stepGoal        = parseInt(localStorage.getItem(GK)||'0');
+let motionEnabled   = false;
+let goalCelebrated  = false;
+let lastStepTime    = 0;
+let accelBuf        = [];
+
+const elGoalI = document.getElementById('stepGoalInput');
+if(stepGoal) elGoalI.value = stepGoal;
+
+/* Update UI */
+function stepsUI(){
+  document.getElementById('stepsCount').textContent = stepCount.toLocaleString();
+  const kcal = (stepCount * 0.04).toFixed(0);
+  const km   = (stepCount * 0.00075).toFixed(2);
+  document.getElementById('stepCalLbl').textContent = `≈ ${kcal} kcal · ${km} km`;
+  if(stepGoal > 0){
+    const pct = Math.min(100, Math.round(stepCount/stepGoal*100));
+    document.getElementById('progBar').style.width = pct+'%';
+    document.getElementById('progPct').textContent = pct+'%';
+    document.getElementById('goalLbl').textContent = `Goal: ${stepGoal.toLocaleString()}`;
+  } else {
+    document.getElementById('progBar').style.width = '0%';
+    document.getElementById('progPct').textContent = '0%';
+    document.getElementById('goalLbl').textContent = 'Goal: not set';
+  }
+}
+
+function saveSteps(){
+  localStorage.setItem(SK, String(stepCount));
+  fsSync({steps: stepCount});
+}
+
+function setStepGoal(){
+  const v = parseInt(elGoalI.value || '0');
+  if(!v || v < 100){ showToast('⚠️ Enter a valid goal (minimum 100)'); return; }
+  stepGoal = v;
+  localStorage.setItem(GK, String(stepGoal));
+  goalCelebrated = false;
+  stepsUI();
+  showToast(`✅ Daily goal set: ${stepGoal.toLocaleString()} steps`);
+  if(currentUser) db.collection('users').doc(currentUser.uid).set({stepGoal},{merge:true}).catch(()=>{});
+}
+
+function addManualStep(){
+  stepCount += 10;
+  saveSteps(); stepsUI(); checkGoal();
+}
+
+function resetSteps(){
+  if(!confirm("Reset today's step count to 0?")) return;
+  stepCount = 0; goalCelebrated = false;
+  saveSteps(); stepsUI();
+  setBadge('stepBadge','idle','Reset');
+  showToast('🔄 Steps reset to 0');
+}
+
+function checkGoal(){
+  if(stepGoal > 0 && stepCount >= stepGoal && !goalCelebrated){
+    goalCelebrated = true;
+    document.getElementById('congratsTxt').textContent =
+      `You hit ${stepGoal.toLocaleString()} steps today! 🎉`;
+    document.getElementById('congratsModal').classList.add('open');
+  }
+}
+
+/* ─── Accelerometer peak-detection ─── */
+function onMotionEvent(e){
+  const a = e.acceleration || e.accelerationIncludingGravity;
+  if(!a) return;
+
+  const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
+  const now = Date.now();
+
+  accelBuf.push({t:now, v:mag});
+  // Keep a rolling 1-second window (≈50 samples at 50Hz)
+  if(accelBuf.length > 150) accelBuf.shift();
+
+  const win = accelBuf.slice(-30); // last 30 samples
+  if(win.length < 15) return;
+
+  // Mean + standard deviation of window
+  const mean = win.reduce((s,x)=>s+x.v, 0) / win.length;
+  const variance = win.reduce((s,x)=>s+Math.pow(x.v-mean,2), 0) / win.length;
+  const std = Math.sqrt(variance);
+
+  const last = win[win.length-1];
+  // Dynamic threshold: peak must exceed mean + max(fixed_floor, 0.9*std)
+  const threshold = mean + Math.max(1.0, std * 0.9);
+
+  // Step: spike above threshold, minimum 280ms between steps
+  if(last.v > threshold && now - lastStepTime > 280){
+    lastStepTime = now;
+    stepCount++;
+    saveSteps();
+    stepsUI();
+    checkGoal();
+  }
+}
+
+async function enableMotion(){
+  if(motionEnabled){ showToast('✅ Motion sensor is already active!'); return; }
+
+  // iOS 13+ requires explicit permission
+  if(typeof DeviceMotionEvent !== 'undefined' &&
+     typeof DeviceMotionEvent.requestPermission === 'function'){
+    try{
+      const result = await DeviceMotionEvent.requestPermission();
+      if(result !== 'granted'){
+        showToast('❌ Motion permission was denied. Please allow it in Settings.');
+        setBadge('stepBadge','err','Permission denied');
+        return;
+      }
+    }catch(err){
+      showToast('❌ Could not request permission: '+err.message);
+      return;
+    }
+  } else if(typeof DeviceMotionEvent === 'undefined'){
+    // Desktop / no sensor — advise test button
+    showToast('ℹ️ No motion sensor found. Use +10 Test button on desktop.');
+    setBadge('stepBadge','err','No sensor (use Test btn)');
+    return;
+  }
+
+  // Attach listener
+  window.addEventListener('devicemotion', onMotionEvent, {passive: true});
+  motionEnabled = true;
+  setBadge('stepBadge','run','Sensor active');
+  const btn = document.getElementById('enableMotionBtn');
+  btn.innerHTML = '<i class="fas fa-check"></i> Sensor Active';
+  btn.style.background = 'linear-gradient(135deg,#2e7d32,#388e3c)';
+  btn.style.boxShadow  = '0 4px 14px rgba(46,125,50,.35)';
+  showToast('✅ Step sensor enabled! Walk with phone in pocket.');
+}
+
+/* Midnight auto-reset */
+(function schedMidnight(){
+  const now  = new Date();
+  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
+  setTimeout(()=>{
+    stepCount = 0; goalCelebrated = false;
+    localStorage.setItem(DK, new Date().toISOString().slice(0,10));
+    saveSteps(); stepsUI(); schedMidnight();
+  }, next - now + 2000);
+})();
+
+stepsUI();
+
+/* ════════════════════════════════════════
+   ② HEART RATE (Camera PPG)
+════════════════════════════════════════ */
+let hrStream=null, hrRaf=null, hrCanvas=null, hrCtx=null;
+let ppgSamples=[], waveData=[];
+let lastBpmSave=0;
+
+const videoEl    = document.getElementById('videoEl');
+const bpmEl      = document.getElementById('bpmDisplay');
+const waveCanvas = document.getElementById('waveCanvas');
+const wCtx       = waveCanvas.getContext('2d');
+
+function resizeWave(){
+  waveCanvas.width  = waveCanvas.offsetWidth  || 300;
+  waveCanvas.height = waveCanvas.offsetHeight || 54;
+}
+resizeWave();
+window.addEventListener('resize', resizeWave);
+
+function movAvg(arr, w){
+  return arr.map((_,i)=>{
+    const s=Math.max(0,i-Math.floor(w/2)), e=Math.min(arr.length-1,i+Math.floor(w/2));
+    let sum=0, cnt=0;
+    for(let j=s;j<=e;j++){sum+=arr[j];cnt++;}
+    return sum/cnt;
+  });
+}
+
+function calcBPM(samps){
+  if(samps.length < 40) return null;
+  const vals = samps.map(s=>s.r);
+  const sm   = movAvg(vals, 5);
+  const mean = sm.reduce((a,x)=>a+x,0)/sm.length;
+  const std  = Math.sqrt(sm.reduce((a,x)=>a+Math.pow(x-mean,2),0)/sm.length);
+  if(std < 0.5) return null; // finger not covering camera
+
+  const thr = mean + std * 0.35;
+  const peaks = [];
+  for(let i=2; i<sm.length-2; i++){
+    if(sm[i]>sm[i-1] && sm[i]>sm[i-2] &&
+       sm[i]>sm[i+1] && sm[i]>sm[i+2] && sm[i]>thr)
+      peaks.push(samps[i].t);
+  }
+
+  // Debounce: ignore peaks within 300ms of each other
+  const filt = [];
+  for(const t of peaks)
+    if(!filt.length || t-filt[filt.length-1] > 300) filt.push(t);
+
+  if(filt.length < 3) return null;
+
+  const ivl = [];
+  for(let i=1;i<filt.length;i++) ivl.push((filt[i]-filt[i-1])/1000);
+
+  // Remove outliers via IQR
+  ivl.sort((a,b)=>a-b);
+  const q1=ivl[Math.floor(ivl.length*.25)], q3=ivl[Math.floor(ivl.length*.75)];
+  const iqr=q3-q1;
+  const clean = ivl.filter(v=>v>=q1-1.5*iqr && v<=q3+1.5*iqr);
+  if(!clean.length) return null;
+
+  const bpm = 60 / (clean.reduce((a,x)=>a+x,0)/clean.length);
+  return (bpm>=40 && bpm<=200) ? Math.round(bpm) : null;
+}
+
+function drawWave(){
+  const W=waveCanvas.width, H=waveCanvas.height;
+  wCtx.clearRect(0,0,W,H);
+  wCtx.fillStyle='#0a1f1d'; wCtx.fillRect(0,0,W,H);
+  if(waveData.length < 2) return;
+  const pts  = waveData.slice(-W);
+  const mn   = Math.min(...pts), mx=Math.max(...pts), range=mx-mn||1;
+  wCtx.beginPath();
+  wCtx.strokeStyle='#26d0b2'; wCtx.lineWidth=1.8;
+  wCtx.shadowColor='#26d0b2'; wCtx.shadowBlur=6;
+  for(let i=0;i<pts.length;i++){
+    const x=i*(W/pts.length);
+    const y=H-((pts[i]-mn)/range)*(H-8)-4;
+    i===0 ? wCtx.moveTo(x,y) : wCtx.lineTo(x,y);
+  }
+  wCtx.stroke();
+}
+
+function updateRing(bpm){
+  const pct = bpm ? Math.min(1,(bpm-40)/160) : 0;
+  document.getElementById('hrRingFill').style.strokeDashoffset = 283*(1-pct);
+}
+
+function hrProcess(){
+  if(!videoEl || videoEl.readyState < 2){ hrRaf=requestAnimationFrame(hrProcess); return; }
+  hrCtx.drawImage(videoEl,0,0,hrCanvas.width,hrCanvas.height);
+  const fd  = hrCtx.getImageData(0,0,hrCanvas.width,hrCanvas.height);
+  let rSum=0, cnt=0;
+  for(let i=0;i<fd.data.length;i+=4){ rSum+=fd.data[i]; cnt++; }
+  const rAvg=rSum/cnt, now=Date.now();
+
+  ppgSamples.push({t:now, r:rAvg});
+  waveData.push(rAvg);
+  if(waveData.length>400) waveData.shift();
+
+  // Keep 20s of samples
+  const cut=now-20000;
+  while(ppgSamples.length && ppgSamples[0].t<cut) ppgSamples.shift();
+
+  if(ppgSamples.length % 8 === 0){
+    const bpm = calcBPM(ppgSamples);
+    if(bpm){
+      bpmEl.textContent=bpm;
+      updateRing(bpm);
+      setBadge('hrBadge','done',`${bpm} BPM detected`);
+      localStorage.setItem('aayuh_last_bpm',String(bpm));
+      if(now-lastBpmSave>5000){ lastBpmSave=now; fsSync({heartRate:bpm}); }
+    } else if(ppgSamples.length > 60){
+      setBadge('hrBadge','run','Cover camera firmly…');
+    }
+  }
+  drawWave();
+  hrRaf = requestAnimationFrame(hrProcess);
+}
+
+async function startHR(){
+  try{
+    hrStream = await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'}, width:{ideal:160}, height:{ideal:120}},
+      audio:false
+    });
+    videoEl.srcObject = hrStream;
+    await videoEl.play();
+    hrCanvas = document.createElement('canvas');
+    hrCanvas.width=80; hrCanvas.height=60;
+    hrCtx = hrCanvas.getContext('2d',{willReadFrequently:true});
+    ppgSamples=[]; waveData=[];
+    document.getElementById('camOv').classList.add('hidden');
+    setBadge('hrBadge','run','Starting…');
+    document.getElementById('startHRBtn').style.display='none';
+    document.getElementById('stopHRBtn').style.display='flex';
+    hrProcess();
+    showToast('📷 Camera started — press fingertip over rear lens');
+  }catch(err){
+    showToast('❌ Camera: '+err.message, 4000);
+    setBadge('hrBadge','err','Camera denied');
+  }
+}
+
+function stopHR(){
+  if(hrRaf){cancelAnimationFrame(hrRaf);hrRaf=null;}
+  if(hrStream){hrStream.getTracks().forEach(t=>t.stop());hrStream=null;}
+  videoEl.srcObject=null;
+  document.getElementById('camOv').classList.remove('hidden');
+  document.getElementById('startHRBtn').style.display='flex';
+  document.getElementById('stopHRBtn').style.display='none';
+  const bpm=parseInt(bpmEl.textContent);
+  if(bpm>=40 && bpm<=200){ showToast(`✅ Saved: ${bpm} BPM`); fsSync({heartRate:bpm}); }
+  setBadge('hrBadge','idle','Stopped');
+  waveData=[]; drawWave();
+}
+
+/* ════════════════════════════════════════
+   ③ BLOOD PRESSURE
+════════════════════════════════════════ */
+function getBPCat(sys,dia){
+  if(sys<120 && dia<80) return{cat:'Normal ✅',          bg:'#e8f5e9',fg:'#2e7d32'};
+  if(sys<130 && dia<80) return{cat:'Elevated ⚠️',        bg:'#fff8e1',fg:'#f57c00'};
+  if(sys<140 || dia<90) return{cat:'Stage 1 Hypertension',bg:'#fff3e0',fg:'#e65100'};
+  if(sys<180 || dia<120)return{cat:'Stage 2 Hypertension',bg:'#fce4ec',fg:'#c62828'};
+  return{cat:'⚠️ Hypertensive Crisis — See Doctor!',bg:'#ffebee',fg:'#b71c1c'};
+}
+
+function applyBP(sys,dia){
+  document.getElementById('bpSys').textContent = sys;
+  document.getElementById('bpDia').textContent = dia;
+  const c = getBPCat(sys,dia);
+  const box = document.getElementById('bpCatBox');
+  box.style.background=c.bg; box.style.color=c.fg; box.textContent=c.cat;
+  setBadge('bpBadge','done',`${sys}/${dia} mmHg`);
+  localStorage.setItem('aayuh_bp',`${sys}/${dia}`);
+  fsSync({bp:`${sys}/${dia}`});
+}
+
+function estimateBP(){
+  let bpm = parseInt(bpmEl.textContent);
+  if(isNaN(bpm)||bpm<40){
+    bpm = parseInt(localStorage.getItem('aayuh_last_bpm')||'0');
+    if(!bpm||bpm<40){ showToast('⚠️ Measure heart rate first, then estimate BP'); return; }
+  }
+  let ptv=1.0;
+  if(ppgSamples.length>=40){
+    const vals=ppgSamples.map(s=>s.r);
+    const mean=vals.reduce((a,x)=>a+x,0)/vals.length;
+    const std=Math.sqrt(vals.reduce((a,x)=>a+Math.pow(x-mean,2),0)/vals.length);
+    ptv=Math.min(3.5,Math.max(0.2,std/5));
+  }
+  const sys = Math.max(80, Math.min(200, Math.round(100+(bpm-60)*0.65+ptv*10)));
+  const dia = Math.max(50, Math.min(130, Math.round(sys-(32+ptv*5))));
+  applyBP(sys,dia);
+  showToast(`📊 Estimated: ${sys}/${dia} mmHg`);
+}
+
+function manualBP(){
+  const s=parseInt(document.getElementById('manSys').value);
+  const d=parseInt(document.getElementById('manDia').value);
+  if(!s||!d||s<60||d<40||s>250||d>150){ showToast('⚠️ Enter valid values e.g. 120 / 80'); return; }
+  applyBP(s,d);
+  document.getElementById('manSys').value='';
+  document.getElementById('manDia').value='';
+  showToast(`✅ BP saved: ${s}/${d} mmHg`);
+}
+
+function clearBP(){
+  document.getElementById('bpSys').textContent='--';
+  document.getElementById('bpDia').textContent='--';
+  const box=document.getElementById('bpCatBox');
+  box.style.background='#f5f5f5'; box.style.color='#888';
+  box.textContent='Measure HR first → then Estimate';
+  setBadge('bpBadge','idle','Cleared');
+  localStorage.removeItem('aayuh_bp');
+  showToast('🗑️ BP cleared');
+}
+
+// Restore saved BP on load
+const savedBP=localStorage.getItem('aayuh_bp');
+if(savedBP){
+  const[s,d]=savedBP.split('/').map(Number);
+  if(s&&d) applyBP(s,d);
+}
+
+// Restore saved BPM on load
+const savedBPM=localStorage.getItem('aayuh_last_bpm');
+if(savedBPM){ bpmEl.textContent=savedBPM; updateRing(parseInt(savedBPM)); }
+
+/* ════════════════════════════════════════
+   FIRESTORE LOAD / ADMIN
+════════════════════════════════════════ */
+async function loadUserData(){
+  if(!currentUser) return;
+  try{
+    const snap = await db.collection('users').doc(currentUser.uid).get();
+    if(snap.exists){
+      const d = snap.data();
+      if(d.health?.steps != null){
+        stepCount = d.health.steps;
+        localStorage.setItem(SK, String(stepCount));
+      }
+      if(d.health?.heartRate){ bpmEl.textContent=d.health.heartRate; updateRing(d.health.heartRate); }
+      if(d.health?.bp){ const[s,di]=d.health.bp.split('/').map(Number); if(s&&di) applyBP(s,di); }
+      if(d.stepGoal){ stepGoal=d.stepGoal; elGoalI.value=stepGoal; }
+    } else { loadLocalData(); }
+    stepsUI();
+  }catch(e){ loadLocalData(); }
+}
+
+function loadLocalData(){
+  const steps = parseInt(localStorage.getItem(SK)||'0');
+  const goal  = parseInt(localStorage.getItem(GK)||'0');
+  stepCount = steps;
+  if(goal){ stepGoal=goal; elGoalI.value=goal; }
+  stepsUI();
+}
+
+async function loadAllUsers(){
+  const list = document.getElementById('adminList');
+  try{
+    const snaps = await db.collection('users').get();
+    if(snaps.empty){ list.innerHTML='<div style="color:#aaa;padding:8px">No users yet.</div>'; return; }
+    let html='';
+    snaps.forEach(s=>{
+      const d=s.data();
+      html+=`<div class="user-row">
+        <div><strong>${d.name||'(no name)'}</strong><div style="color:#aaa;font-size:.73rem">${d.email||s.id}</div></div>
+        <div class="udata"><div>${d.health?.steps??'-'} steps</div><div>${d.health?.heartRate??'-'} bpm</div><div>${d.health?.bp??'-'}</div></div>
+      </div>`;
+    });
+    list.innerHTML=html;
+  }catch(e){ list.innerHTML='<div style="color:#a33;padding:8px">Error loading users.</div>'; }
+}
+</script>
+</body>
+</html>

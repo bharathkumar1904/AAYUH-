@@ -4,474 +4,699 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AAYUH! - India's Health Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --teal: #00897b;
+      --teal-dark: #004d40;
+      --teal-light: #e0f2f1;
+      --accent: #ff6f00;
+      --accent-light: #fff3e0;
+      --white: #ffffff;
+      --off-white: #f8fffe;
+      --text: #1a2e2b;
+      --text-muted: #5a7a75;
+      --shadow: 0 8px 40px rgba(0,137,123,0.12);
+      --radius: 20px;
     }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      color: #333;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--off-white); color: var(--text); overflow-x: hidden; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 0; transition: all 0.4s ease; }
+    header.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); box-shadow: 0 2px 24px rgba(0,77,64,0.08); }
+    nav { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--teal-dark); display: flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+    .logo-dot { color: var(--accent); }
+    .nav-links { display: flex; list-style: none; gap: 2.5rem; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal); }
+    .auth-buttons { display: flex; gap: 0.75rem; align-items: center; }
+    .btn-login { color: var(--teal); font-weight: 600; text-decoration: none; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 50px; transition: background 0.2s; }
+    .btn-login:hover { background: var(--teal-light); }
+    .btn-signup { background: var(--teal); color: white; font-weight: 600; text-decoration: none; font-size: 0.95rem; padding: 0.6rem 1.4rem; border-radius: 50px; transition: all 0.2s; box-shadow: 0 4px 16px rgba(0,137,123,0.3); }
+    .btn-signup:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--teal-dark); border-radius: 2px; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 6rem 2rem 4rem; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #e0f7f4 0%, #fff8f0 60%, #ffffff 100%); z-index: 0; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.35; z-index: 0; }
+    .blob-1 { width: 500px; height: 500px; background: radial-gradient(circle, #80cbc4, transparent); top: -100px; right: -100px; }
+    .blob-2 { width: 350px; height: 350px; background: radial-gradient(circle, #ffcc80, transparent); bottom: 0; left: -80px; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; width: 100%; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent-light); color: var(--accent); font-weight: 600; font-size: 0.8rem; padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 900; line-height: 1.15; color: var(--teal-dark); margin-bottom: 1.5rem; }
+    .hero h1 span { color: var(--teal); position: relative; }
+    .hero h1 span::after { content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 3px; background: var(--accent); border-radius: 2px; }
+    .hero p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem; max-width: 480px; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .cta-primary { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 0.9rem 2rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 8px 24px rgba(0,137,123,0.35); transition: all 0.3s; }
+    .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,137,123,0.45); }
+    .cta-secondary { color: var(--teal); text-decoration: none; font-weight: 600; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.2s; }
+    .cta-secondary:hover { gap: 0.7rem; }
+    .hero-stats { display: flex; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
+    .hero-stat strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--teal-dark); }
+    .hero-stat span { font-size: 0.85rem; color: var(--text-muted); }
+    .hero-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .health-card { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); transition: transform 0.3s; }
+    .health-card:hover { transform: translateY(-4px); }
+    .health-card:nth-child(2), .health-card:nth-child(4) { margin-top: 1.5rem; }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .health-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .health-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* FEATURES */
+    .features { padding: 6rem 2rem; background: white; }
+    .section-label { text-align: center; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; }
+    .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; color: var(--teal-dark); margin-bottom: 1rem; }
+    .section-sub { text-align: center; color: var(--text-muted); font-size: 1rem; max-width: 520px; margin: 0 auto 3.5rem; line-height: 1.7; }
+    .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .feature-card { background: var(--off-white); border-radius: var(--radius); padding: 2rem; border: 1px solid #e8f5f3; transition: all 0.3s; cursor: pointer; text-decoration: none; display: block; color: inherit; }
+    .feature-card:hover { background: white; box-shadow: var(--shadow); transform: translateY(-4px); border-color: transparent; }
+    .feat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--text); }
+    .feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+    .feat-arrow { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--teal); font-size: 0.85rem; font-weight: 600; margin-top: 1rem; opacity: 0; transform: translateX(-4px); transition: all 0.2s; }
+    .feature-card:hover .feat-arrow { opacity: 1; transform: translateX(0); }
+
+    /* STATS */
+    .stats-band { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); padding: 4rem 2rem; }
+    .stats-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .stat-item { text-align: center; color: white; }
+    .stat-item strong { display: block; font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.3rem; }
+    .stat-item span { font-size: 0.9rem; opacity: 0.85; }
+
+    /* HOW IT WORKS */
+    .how-it-works { padding: 6rem 2rem; background: var(--off-white); }
+    .steps { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; position: relative; }
+    .steps::before { content: ''; position: absolute; top: 36px; left: calc(16.66% + 1rem); right: calc(16.66% + 1rem); height: 2px; background: linear-gradient(90deg, var(--teal-light), var(--teal), var(--teal-light)); }
+    .step { text-align: center; }
+    .step-num { width: 72px; height: 72px; background: white; border: 3px solid var(--teal); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--teal); margin: 0 auto 1.25rem; position: relative; z-index: 1; }
+    .step h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+    .step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* DOWNLOAD CTA */
+    .download-cta { padding: 5rem 2rem; background: white; }
+    .download-inner { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, var(--teal-dark), #00695c); border-radius: 28px; padding: 3.5rem; text-align: center; color: white; position: relative; overflow: hidden; }
+    .download-inner::after { content: '🏥'; position: absolute; font-size: 10rem; bottom: -2rem; right: -1rem; opacity: 0.06; }
+    .download-inner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+    .download-inner p { opacity: 0.85; margin-bottom: 2rem; font-size: 1rem; line-height: 1.7; }
+    .download-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .dl-btn { background: white; color: var(--teal-dark); text-decoration: none; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; transition: all 0.2s; }
+    .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .dl-btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.5); }
+    .dl-btn-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+    /* FOOTER */
+    footer { background: var(--teal-dark); color: rgba(255,255,255,0.85); padding: 3.5rem 2rem 1.5rem; }
+    .footer-grid { max-width: 1200px; margin: 0 auto 3rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+    .footer-brand p { font-size: 0.88rem; line-height: 1.7; opacity: 0.75; max-width: 260px; margin-top: 0.75rem; }
+    .footer-col h4 { color: white; font-weight: 600; margin-bottom: 1.25rem; font-size: 0.9rem; letter-spacing: 0.05em; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: white; }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; opacity: 0.6; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* MOBILE MENU */
+    .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(0,77,64,0.97); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; font-family: 'Playfair Display', serif; transition: color 0.2s; }
+    .mobile-menu a:hover { color: #80cbc4; }
+    .close-menu { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero p { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { max-width: 420px; margin: 0 auto; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
     }
-    
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #00796b, #004d40);
-      color: white;
-      padding: 1rem 0;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-links a:hover {
-      color: #b2dfdb;
-    }
-    
-    .auth-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-    
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
-    
-    .btn-primary {
-      background: #fff;
-      color: #00796b;
-    }
-    
-    .btn-primary:hover {
-      background: #f5f5f5;
-      transform: translateY(-2px);
-    }
-    
-    .btn-secondary {
-      background: transparent;
-      color: white;
-      border: 2px solid white;
-    }
-    
-    .btn-secondary:hover {
-      background: white;
-      color: #00796b;
-    }
-    
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #e0f7fa, #ffffff);
-      padding: 8rem 0 4rem;
-      text-align: center;
-      margin-top: 80px;
-    }
-    
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      color: #004d40;
-    }
-    
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      color: #666;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    
-    .btn-hero {
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      background: #00796b;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-hero:hover {
-      background: #004d40;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-    
-    /* Features Section */
-    .features {
-      padding: 4rem 0;
-      background: white;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    
-    .features h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #004d40;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    
-    .feature-card {
-      background: #f8f9fa;
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform 0.3s ease;
-      border: 1px solid #e9ecef;
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-    
-    .feature-icon {
-      font-size: 3rem;
-      color: #00796b;
-      margin-bottom: 1rem;
-    }
-    
-    .feature-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #004d40;
-    }
-    
-    .feature-card p {
-      color: #666;
-      line-height: 1.6;
-    }
-    
-    /* Stats Section */
-    .stats {
-      background: linear-gradient(135deg, #00796b, #004d40);
-      color: white;
-      padding: 3rem 0;
-      text-align: center;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-    
-    .stat-item h3 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-item p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-    
-    /* Footer */
-    footer {
-      background: #004d40;
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
-    }
-    
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .footer-section h3 {
-      margin-bottom: 1rem;
-      color: #b2dfdb;
-    }
-    
-    .footer-section ul {
-      list-style: none;
-    }
-    
-    .footer-section ul li {
-      margin-bottom: 0.5rem;
-    }
-    
-    .footer-section ul li a {
-      color: white;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-section ul li a:hover {
-      color: #b2dfdb;
-    }
-    
-    .footer-bottom {
-      border-top: 1px solid #00695c;
-      padding-top: 1rem;
-      margin-top: 2rem;
-    }
-    
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-      
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      
-      .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 560px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .download-inner { padding: 2.5rem 1.5rem; }
+      .auth-buttons .btn-login { display: none; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <nav>
-      <div class="logo">
-        <i class="fas fa-heartbeat"></i>
-        AAYUH!
+
+<header id="header">
+  <nav>
+    <a href="index.html" class="logo">
+      <i class="fas fa-heartbeat" style="color:var(--teal);font-size:1.4rem;"></i>
+      AAYUH<span class="logo-dot">!</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="Contact Us.html">Contact</a></li>
+    </ul>
+    <div class="auth-buttons">
+      <a href="home.html" class="btn-login">🔑 Login</a>
+      <a href="register.html" class="btn-signup">🚀 Get Started</a>
+    </div>
+    <div class="hamburger" onclick="openMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="closeMenu()"><i class="fas fa-times"></i></button>
+  <a href="#features" onclick="closeMenu()">Features</a>
+  <a href="#how" onclick="closeMenu()">How it works</a>
+  <a href="about.html">About</a>
+  <a href="Contact Us.html">Contact</a>
+  <a href="home.html" style="color:#80cbc4;">Login</a>
+  <a href="register.html" style="background:white;color:var(--teal-dark);padding:0.7rem 2rem;border-radius:50px;font-size:1rem;">Sign Up</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">🇮🇳 India's #1 Health Companion</div>
+      <h1>Your Health,<br><span>Simplified</span><br>& Secure</h1>
+      <p>Track medicines, check symptoms, find doctors, and manage your entire medical history — all in one beautifully simple app.</p>
+      <div class="hero-cta">
+        <a href="register.html" class="cta-primary">🚀 Get Started Free →</a>
+        <a href="#features" class="cta-secondary">✨ Explore features →</a>
       </div>
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="Contact Us.html">Contact</a></li>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>💊 1000+</strong><span>Medicines</span></div>
+        <div class="hero-stat"><strong>🦠 50+</strong><span>Diseases</span></div>
+        <div class="hero-stat"><strong>🚨 24/7</strong><span>Emergency</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="health-card">
+        <div class="card-icon" style="background:#e0f7f4;font-size:1.5rem;">💊</div>
+        <h4>💊 Medicine Tracker</h4>
+        <p>Dosage reminders & drug info</p>
+      </div>
+      <div class="health-card">
+        <div class="card-icon" style="background:#fff3e0;font-size:1.5rem;">🩺</div>
+        <h4>🩺 Symptom Check</h4>
+        <p>AI-powered diagnosis helper</p>
+      </div>
+      <div class="health-card">
+        <div class="card-icon" style="background:#fce4ec;font-size:1.5rem;">❤️</div>
+        <h4>❤️ Health Records</h4>
+        <p>Secure medical history vault</p>
+      </div>
+      <div class="health-card">
+        <div class="card-icon" style="background:#e8eaf6;font-size:1.5rem;">👨‍⚕️</div>
+        <h4>👨‍⚕️ Find Doctors</h4>
+        <p>Nearby specialists & clinics</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-title">Everything for Your Health</h2>
+  <p class="section-sub">Six powerful tools designed for every Indian household — simple, fast, and always available.</p>
+  <div class="features-grid">
+    <a href="medicines.html" class="feature-card">
+      <div class="feat-icon" style="background:#e0f7f4;font-size:1.6rem;">💊</div>
+      <h3>💊 Medicine Database</h3>
+      <p>Search 1000+ medicines for dosage, side effects, and usage instructions in seconds.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="symptoms.html" class="feature-card">
+      <div class="feat-icon" style="background:#fff3e0;font-size:1.6rem;">🩺</div>
+      <h3>🩺 Symptom Checker</h3>
+      <p>AI-powered analysis to understand your symptoms and when to see a doctor.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="disease.html" class="feature-card">
+      <div class="feat-icon" style="background:#fce4ec;font-size:1.6rem;">🦠</div>
+      <h3>🦠 Disease Info</h3>
+      <p>Comprehensive guide on diseases with prevention tips and dietary advice.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="medical history.html" class="feature-card">
+      <div class="feat-icon" style="background:#e8eaf6;font-size:1.6rem;">📋</div>
+      <h3>📋 Medical History</h3>
+      <p>Securely store reports, prescriptions, and health records — access anywhere.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="Find Doctors.html" class="feature-card">
+      <div class="feat-icon" style="background:#e8f5e9;font-size:1.6rem;">👨‍⚕️</div>
+      <h3>👨‍⚕️ Doctor Finder</h3>
+      <p>Find verified doctors and hospitals near you based on specialty and location.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="Emergency.html" class="feature-card">
+      <div class="feat-icon" style="background:#ffebee;font-size:1.6rem;">🚨</div>
+      <h3>🚨 Emergency SOS</h3>
+      <p>One-tap access to emergency services and ambulance contacts when it matters most.</p>
+      <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
+    </a>
+  </div>
+</section>
+
+<section class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>💊 1000+</strong><span>Medicines in Database</span></div>
+    <div class="stat-item"><strong>🦠 50+</strong><span>Disease Categories</span></div>
+    <div class="stat-item"><strong>🚨 24/7</strong><span>Emergency Support</span></div>
+    <div class="stat-item"><strong>🔒 100%</strong><span>Secure & Private</span></div>
+  </div>
+</section>
+
+<section class="how-it-works" id="how">
+  <div class="section-label">Simple Steps</div>
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-sub">Get started with AAYUH in three simple steps.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>👤 Create Your Account</h4>
+      <p>Sign up free in seconds using your email or phone number.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>⚙️ Set Up Your Profile</h4>
+      <p>Add your medical history, allergies, and health conditions.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>💪 Stay Healthy</h4>
+      <p>Use all features to monitor, manage and improve your health daily.</p>
+    </div>
+  </div>
+</section>
+
+<section class="download-cta">
+  <div class="download-inner">
+    <h2>📱 Take AAYUH Everywhere</h2>
+    <p>Download the free Android app and access your health tools anytime — even offline!</p>
+
+    <!-- App info badges -->
+    <div style="display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.75rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
+        <span>🤖</span> Android 7.0+
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
+        <span>📦</span> v1.0.0
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
+        <span>🆓</span> Free Forever
+      </div>
+      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
+        <span>🔒</span> Safe & Secure
+      </div>
+    </div>
+
+    <div class="download-btns">
+      <!-- Main APK Download -->
+      <button id="apkDownloadBtn" class="dl-btn" onclick="handleApkDownload()" style="padding:1rem 2rem;font-size:1rem;border:none;cursor:pointer;">
+        <i class="fab fa-android" style="font-size:1.2rem;color:#3ddc84;"></i>
+        <span id="apkBtnText">⬇️ Download APK</span>
+      </button>
+
+      <!-- GitHub Release Page -->
+      <a href="https://github.com/bharathkumar1904/AAYUH-/releases/tag/v1.0.0"
+         target="_blank" class="dl-btn dl-btn-outline">
+        <i class="fab fa-github"></i> View on GitHub
+      </a>
+    </div>
+
+    <!-- Status message -->
+    <p id="apkStatusMsg" style="margin-top:1.25rem;font-size:0.85rem;opacity:0.9;display:none;"></p>
+
+    <!-- Install instructions -->
+    <div style="margin-top:1.5rem;background:rgba(255,255,255,0.08);border-radius:12px;padding:1rem 1.5rem;text-align:left;max-width:420px;margin-left:auto;margin-right:auto;">
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin-bottom:0.5rem;font-weight:600;text-align:center;">📋 How to Install</p>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
+          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">1</span>
+          Download the APK file
+        </div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
+          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">2</span>
+          Allow "Install unknown apps" in settings
+        </div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
+          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">3</span>
+          Open the APK and tap Install ✅
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" style="color:white;">
+        <i class="fas fa-heartbeat" style="color:#80cbc4;font-size:1.2rem;"></i>
+        AAYUH<span class="logo-dot">!</span>
+      </a>
+      <p>India's comprehensive health companion — helping millions manage their health with confidence.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Features</h4>
+      <ul>
+        <li><a href="medicines.html">Medicine Search</a></li>
+        <li><a href="symptoms.html">Symptom Checker</a></li>
+        <li><a href="disease.html">Disease Info</a></li>
+        <li><a href="Emergency.html">Emergency</a></li>
       </ul>
-      <div class="auth-buttons">
-        <a href="home.html" class="btn btn-primary">Login</a>
-        <a href="register.html" class="btn btn-secondary">Sign Up</a>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>Your Health, Our Priority</h1>
-      <p>AAYUH! is India's comprehensive health companion, helping you track medicines, check symptoms, find doctors, and manage your medical history all in one place.</p>
-      <div class="hero-buttons">
-        <a href="register.html" class="btn-hero">Get Started</a>
-        <a href="#features" class="btn-hero" style="background: transparent; color: #00796b; border: 2px solid #00796b;">Learn More</a>
-      </div>
     </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features" id="features">
-    <div class="container">
-      <h2>Everything You Need for Better Health</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-pills"></i>
-          </div>
-          <h3>Medicine Database</h3>
-          <p>Search and get detailed information about medicines including dosage, side effects, and usage instructions.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-stethoscope"></i>
-          </div>
-          <h3>Symptom Checker</h3>
-          <p>AI-powered symptom analysis to help you understand potential conditions and when to seek medical help.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-virus"></i>
-          </div>
-          <h3>Disease Information</h3>
-          <p>Comprehensive database of diseases with symptoms, prevention tips, and dietary recommendations.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-notes-medical"></i>
-          </div>
-          <h3>Medical History</h3>
-          <p>Securely store and manage your medical reports, prescriptions, and health records in one place.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-user-md"></i>
-          </div>
-          <h3>Doctor Finder</h3>
-          <p>Find nearby doctors and hospitals based on your location and medical needs.</p>
-        </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-ambulance"></i>
-          </div>
-          <h3>Emergency Contacts</h3>
-          <p>Quick access to emergency services and ambulance contacts when you need them most.</p>
-        </div>
-      </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="Blog.html">Blog</a></li>
+        <li><a href="Privacy Policy.html">Privacy Policy</a></li>
+        <li><a href="Terms and Conditions.html">Terms</a></li>
+      </ul>
     </div>
-  </section>
-
-  <!-- Stats Section -->
-  <section class="stats">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <h3>1000+</h3>
-          <p>Medicines Database</p>
-        </div>
-        <div class="stat-item">
-          <h3>50+</h3>
-          <p>Disease Categories</p>
-        </div>
-        <div class="stat-item">
-          <h3>24/7</h3>
-          <p>Emergency Support</p>
-        </div>
-        <div class="stat-item">
-          <h3>100%</h3>
-          <p>Secure & Private</p>
-        </div>
-      </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="Contact Us.html">Contact Us</a></li>
+        <li><a href="mailto:bharathkumar.ltd@gmail.com">📧 Email Us</a></li>
+        <li><a href="#">📞 +91-1234567890</a></li>
+        <li><a href="#">🏥 Available 24/7</a></li>
+      </ul>
     </div>
-  </section>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 AAYUH! 🏥 All rights reserved. Made with ❤️ for India's Health 🇮🇳</span>
+    <span>Vijayawada, Andhra Pradesh</span>
+  </div>
+</footer>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="#features">Features</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="Contact Us.html">Contact</a></li>
-            <li><a href="index.html">Login</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h3>Services</h3>
-          <ul>
-            <li><a href="Medicines.html">Medicine Search</a></li>
-            <li><a href="Symptoms.html">Symptom Checker</a></li>
-            <li><a href="disease.html">Disease Info</a></li>
-            <li><a href="Emergency.html">Emergency</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h3>Contact Info</h3>
-          <ul>
-            <li>📧 bharathkumar.ltd@gmail.com</li>
-            <li>📞 +91-1234567890</li>
-            <li>🏥 Available 24/7</li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p>&copy; 2024 AAYUH! All rights reserved. | Made with ❤️ for India's Health</p>
-      </div>
-    </div>
-  </footer>
+<script>
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  });
 
-  <script>
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
+  // Smart APK download with availability check
+  const APK_URL = 'https://github.com/bharathkumar1904/AAYUH-/releases/download/v1.0.0/app-debug.apk';
+  const RELEASE_PAGE = 'https://github.com/bharathkumar1904/AAYUH-/releases/tag/v1.0.0';
+
+  function handleApkDownload() {
+    const btn = document.getElementById('apkDownloadBtn');
+    const btnText = document.getElementById('apkBtnText');
+    const statusMsg = document.getElementById('apkStatusMsg');
+
+    btnText.innerHTML = '⏳ Starting download...';
+    btn.disabled = true;
+    btn.style.opacity = '0.8';
+
+    // Method 1: Direct download via window.location
+    window.location.href = APK_URL;
+
+    // Show success message
+    statusMsg.style.display = 'block';
+    statusMsg.style.color = '#a5d6a7';
+    statusMsg.innerHTML = '✅ Download started! If nothing happens after 5 seconds, <a href="' + RELEASE_PAGE + '" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline;">open GitHub release page →</a>';
+
+    // Re-enable button after 5 seconds
+    setTimeout(() => {
+      btnText.innerHTML = '⬇️ Download APK';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }, 5000);
+  }
+
+  function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+  function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      closeMenu();
     });
+  });
 
-    // Add scroll effect to header
-    window.addEventListener('scroll', function() {
-      const header = document.querySelector('header');
-      if (window.scrollY > 100) {
-        header.style.background = 'rgba(0, 121, 107, 0.95)';
-        header.style.backdropFilter = 'blur(10px)';
-      } else {
-        header.style.background = 'linear-gradient(135deg, #00796b, #004d40)';
-        header.style.backdropFilter = 'none';
+  // Fade in on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
       }
     });
-  </script>
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.health-card, .feature-card, .step, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+
+  // =============================================
+  // ✅ ANDROID BACK BUTTON FIX
+  // =============================================
+  document.addEventListener('deviceready', function() {
+    document.addEventListener('backbutton', handleBackButton, false);
+  }, false);
+
+  // Also works without deviceready for newer Capacitor
+  window.addEventListener('load', function() {
+    if (window.Capacitor !== undefined) {
+      document.addEventListener('backbutton', handleBackButton, false);
+    }
+  });
+
+  function handleBackButton(e) {
+    e.preventDefault();
+
+    const currentPage = window.location.href;
+
+    // Pages where back = show exit dialog
+    const exitPages = ['index.html', 'dashboard.html', 'home.html'];
+    const isExitPage = exitPages.some(page => currentPage.includes(page))
+                       || window.history.length <= 1;
+
+    if (isExitPage) {
+      showExitDialog();
+    } else {
+      window.history.back();
+    }
+  }
+
+  // Exit confirmation dialog
+  function showExitDialog() {
+    // Remove existing dialog if any
+    const existing = document.getElementById('exitDialog');
+    if (existing) existing.remove();
+
+    const dialog = document.createElement('div');
+    dialog.id = 'exitDialog';
+    dialog.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 0.2s ease;
+    `;
+    dialog.innerHTML = `
+      <style>
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+      </style>
+      <div style="
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        width: 85%;
+        max-width: 300px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: popIn 0.3s ease;
+      ">
+        <div style="font-size:3rem;margin-bottom:0.75rem;">👋</div>
+        <h3 style="
+          font-family:'Playfair Display',serif;
+          color:#004d40;
+          font-size:1.3rem;
+          margin-bottom:0.5rem;
+        ">Exit AAYUH?</h3>
+        <p style="
+          color:#5a7a75;
+          font-size:0.88rem;
+          margin-bottom:1.5rem;
+          line-height:1.5;
+        ">Are you sure you want to exit the app?</p>
+        <div style="display:flex;gap:0.75rem;">
+          <button onclick="closeExitDialog()" style="
+            flex:1;
+            padding:0.75rem;
+            background:#e0f2f1;
+            color:#00897b;
+            border:none;
+            border-radius:12px;
+            font-size:0.95rem;
+            font-weight:600;
+            cursor:pointer;
+            font-family:'DM Sans',sans-serif;
+          ">🏠 Stay</button>
+          <button onclick="exitApp()" style="
+            flex:1;
+            padding:0.75rem;
+            background:linear-gradient(135deg,#00897b,#004d40);
+            color:white;
+            border:none;
+            border-radius:12px;
+            font-size:0.95rem;
+            font-weight:600;
+            cursor:pointer;
+            font-family:'DM Sans',sans-serif;
+          ">Exit 👋</button>
+        </div>
+      </div>
+    `;
+
+    // Close on backdrop click
+    dialog.addEventListener('click', function(e) {
+      if (e.target === dialog) closeExitDialog();
+    });
+
+    document.body.appendChild(dialog);
+  }
+
+  function closeExitDialog() {
+    const dialog = document.getElementById('exitDialog');
+    if (dialog) dialog.remove();
+  }
+
+  function exitApp() {
+    if (navigator.app) {
+      navigator.app.exitApp();
+    } else if (window.Capacitor) {
+      // Capacitor way
+      import('@capacitor/app').then(({ App }) => App.exitApp());
+    } else {
+      window.close();
+    }
+  }
+
+  // =============================================
+  // ✅ LIVE UPDATE CHECK (Capgo)
+  // =============================================
+  async function checkForUpdates() {
+    if (window.Capacitor === undefined) return; // only in APK
+
+    try {
+      const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
+
+      // Notify app is ready (prevents rollback)
+      await CapacitorUpdater.notifyAppReady();
+
+      // Listen for update available
+      CapacitorUpdater.addListener('updateAvailable', async (info) => {
+        showUpdateBanner(info.bundle.version);
+      });
+
+    } catch(e) {
+      console.log('Updater not available:', e);
+    }
+  }
+
+  // Show update notification banner
+  function showUpdateBanner(version) {
+    const banner = document.createElement('div');
+    banner.id = 'updateBanner';
+    banner.style.cssText = `
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #004d40, #00897b);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,77,64,0.4);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      max-width: 90%;
+      animation: slideUpBanner 0.4s ease;
+    `;
+    banner.innerHTML = `
+      <style>
+        @keyframes slideUpBanner {
+          from { transform: translateX(-50%) translateY(100px); opacity:0; }
+          to { transform: translateX(-50%) translateY(0); opacity:1; }
+        }
+      </style>
+      <span style="font-size:1.5rem;">🚀</span>
+      <div>
+        <strong style="display:block;">Update Available! v${version}</strong>
+        <span style="opacity:0.85;font-size:0.82rem;">Restart app to get latest features</span>
+      </div>
+      <button onclick="applyUpdate()" style="
+        background:white;
+        color:#004d40;
+        border:none;
+        padding:0.5rem 1rem;
+        border-radius:8px;
+        font-weight:700;
+        cursor:pointer;
+        font-size:0.85rem;
+        white-space:nowrap;
+      ">Update Now</button>
+      <button onclick="this.parentElement.remove()" style="
+        background:transparent;
+        border:none;
+        color:rgba(255,255,255,0.7);
+        cursor:pointer;
+        font-size:1.1rem;
+        padding:0;
+      ">✕</button>
+    `;
+    document.body.appendChild(banner);
+  }
+
+  async function applyUpdate() {
+    try {
+      const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
+      await CapacitorUpdater.reload();
+    } catch(e) {
+      location.reload();
+    }
+  }
+
+  // Run update check when app loads
+  checkForUpdates();
+</script>
 </body>
 </html>
