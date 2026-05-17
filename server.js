@@ -3,41 +3,50 @@ import { request as httpsRequest } from 'https';
 import { config } from 'dotenv';
 import { Buffer } from 'buffer';
 
-config(); // loads .env file
+config();
 
 const PORT    = process.env.PORT || 3001;
 const API_KEY = process.env.GROQ_API_KEY || '';
 
 if (!API_KEY) {
-  console.error('❌  GROQ_API_KEY env variable is not set.');
+  console.error('GROQ_API_KEY env variable is not set.');
   process.exit(1);
 }
 
-const ALLOWED_ORIGINS = [
-  'http://localhost',
-  'http://127.0.0.1',
-  'null',           // file:// pages
-];
-
-function isAllowedOrigin(origin) {
-  if (!origin) return true;
-  return ALLOWED_ORIGINS.some(o => origin.startsWith(o));
+// ── Allow ALL origins ──
+// GitHub Pages, APK, localhost, file:// — all work
+function setCORS(res, origin) {
+  res.setHeader('Access-Control-Allow-Origin',  origin || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400');
 }
 
 const server = createServer((req, res) => {
-  const origin = req.headers['origin'] || '';
+  const origin = req.headers['origin'] || '*';
 
-  const corsOrigin = isAllowedOrigin(origin) ? (origin || '*') : '';
-  res.setHeader('Access-Control-Allow-Origin',  corsOrigin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+  // Preflight
   if (req.method === 'OPTIONS') {
+    setCORS(res, origin);
     res.writeHead(204);
     res.end();
     return;
   }
 
+  setCORS(res, origin);
+
+  // Health check — also keeps Railway awake
+  if (req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'ok',
+      message: 'Aayuh proxy running',
+      time: new Date().toISOString()
+    }));
+    return;
+  }
+
+  // Only accept POST /chat
   if (req.method !== 'POST' || req.url !== '/chat') {
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not found' }));
@@ -47,6 +56,7 @@ const server = createServer((req, res) => {
   let body = '';
   req.on('data', chunk => { body += chunk; });
   req.on('end', () => {
+
     let payload;
     try {
       payload = JSON.parse(body);
@@ -63,7 +73,7 @@ const server = createServer((req, res) => {
       max_tokens:  payload.max_tokens  ?? 1200,
     });
 
-    console.log(`→ Groq request: model=${payload.model}, messages=${payload.messages?.length}`);
+    console.log(`→ model=${payload.model} msgs=${payload.messages?.length}`);
 
     const options = {
       hostname: 'api.groq.com',
@@ -80,17 +90,19 @@ const server = createServer((req, res) => {
       let data = '';
       proxyRes.on('data', c => { data += c; });
       proxyRes.on('end', () => {
-        console.log(`← Groq response: status=${proxyRes.statusCode}`);
+        console.log(`← status=${proxyRes.statusCode}`);
         if (proxyRes.statusCode !== 200) {
-          console.error('Groq error body:', data);
+          console.error('Groq error:', data);
         }
-        res.writeHead(proxyRes.statusCode, { 'Content-Type': 'application/json' });
+        res.writeHead(proxyRes.statusCode, {
+          'Content-Type': 'application/json',
+        });
         res.end(data);
       });
     });
 
     proxyReq.on('error', err => {
-      console.error('Proxy network error:', err.message);
+      console.error('Proxy error:', err.message);
       res.writeHead(502, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: err.message }));
     });
@@ -101,7 +113,18 @@ const server = createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`✅  Groq proxy running on http://localhost:${PORT}`);
-  console.log(`    POST http://localhost:${PORT}/chat`);
-  console.log(`    API key loaded: ${API_KEY.slice(0, 8)}...`);
+  console.log(`Proxy running on port ${PORT}`);
+  console.log(`Key: ${API_KEY.slice(0, 8)}...`);
 });
+
+// ── Keep Railway awake every 14 minutes ──
+const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN;
+if (DOMAIN) {
+  setInterval(() => {
+    httpsRequest(
+      { hostname: DOMAIN, path: '/', method: 'GET' },
+      r => console.log(`Keep-alive: ${r.statusCode}`)
+    ).on('error', () => {}).end();
+  }, 14 * 60 * 1000);
+  console.log(`Keep-alive enabled for ${DOMAIN}`);
+}
