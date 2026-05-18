@@ -2,225 +2,455 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login - AAYUH!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 🚫 DISABLE CACHE -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-
+  <title>Login - AAYUH!</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00796b">
-
   <style>
+    :root {
+      --teal: #00897b;
+      --teal-dark: #004d40;
+      --teal-light: #e0f2f1;
+      --accent: #ff6f00;
+      --text: #1a2e2b;
+      --text-muted: #5a7a75;
+      --radius: 20px;
+      --shadow: 0 8px 40px rgba(0,137,123,0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
       display: flex;
+      background: linear-gradient(135deg, #e0f7f4 0%, #fff8f0 60%, #ffffff 100%);
+      overflow-x: hidden;
+    }
+
+    /* Blobs */
+    .blob { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.3; pointer-events: none; z-index: 0; }
+    .blob-1 { width: 500px; height: 500px; background: radial-gradient(circle, #80cbc4, transparent); top: -150px; right: -100px; }
+    .blob-2 { width: 400px; height: 400px; background: radial-gradient(circle, #ffcc80, transparent); bottom: -100px; left: -100px; }
+
+    /* LEFT PANEL */
+    .left-panel {
+      width: 45%;
+      background: linear-gradient(160deg, var(--teal) 0%, var(--teal-dark) 100%);
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #e0f7fa, #ffffff);
-      margin: 0;
-    }
-
-    .login-container {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      max-width: 800px;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
       overflow: hidden;
+      z-index: 1;
     }
+    .left-panel::before { content: ''; position: absolute; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%; top: -100px; right: -100px; }
+    .left-panel::after { content: ''; position: absolute; width: 300px; height: 300px; background: rgba(255,255,255,0.04); border-radius: 50%; bottom: -80px; left: -80px; }
 
-    .login-info {
-      flex: 1;
-      padding: 2rem;
-      background: linear-gradient(135deg, #00796b, #004d40);
+    .panel-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
       color: white;
-    }
-
-    .login-info h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+      text-decoration: none;
     }
+    .panel-logo span { color: #ffcc02; }
 
-    .login-info p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      opacity: 0.9;
-    }
-
-    .login-box {
-      flex: 1;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .login-box h2 {
-      color: #00796b;
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: white;
+      line-height: 1.2;
       margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    input {
+    .panel-desc {
+      color: rgba(255,255,255,0.8);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-features { display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 1; }
+    .panel-feat { display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem; }
+    .panel-feat-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+    /* Download APK strip */
+    .apk-strip {
+      position: relative;
+      z-index: 1;
+      margin-top: 2.5rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .apk-strip-text { color: rgba(255,255,255,0.9); font-size: 0.88rem; line-height: 1.4; }
+    .apk-strip-text strong { display: block; color: white; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .apk-dl-btn {
+      background: white;
+      color: var(--teal-dark);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .apk-dl-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+    /* RIGHT PANEL */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2.5rem;
       width: 100%;
-      padding: 12px 15px;
-      margin: 8px 0;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 16px;
+      max-width: 420px;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.5s ease;
     }
 
-    input:focus {
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header { text-align: center; margin-bottom: 2rem; }
+    .card-header .emoji { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+    .card-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--teal-dark); margin-bottom: 0.4rem; }
+    .card-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Checking session loader */
+    .session-loader {
+      text-align: center;
+      padding: 1.5rem 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid var(--teal-light);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Input Groups */
+    .input-group { position: relative; margin-bottom: 1rem; }
+    .input-group input {
+      width: 100%;
+      padding: 0.85rem 1rem 0.85rem 2.8rem;
+      border: 2px solid #e8f5f3;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: #f8fffe;
+      transition: all 0.2s;
       outline: none;
-      border-color: #00796b;
     }
+    .input-group input:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 4px rgba(0,137,123,0.08); }
+    .input-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.95rem; pointer-events: none; }
+    .toggle-pw { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: color 0.2s; background: none; border: none; padding: 0; }
+    .toggle-pw:hover { color: var(--teal); }
 
-    button {
+    /* Buttons */
+    .btn-login {
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      background: #00796b;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
       color: white;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    button:hover {
-      background: #004d40;
-    }
-
-    .login-link {
-      margin-top: 1rem;
-    }
-
-    .login-link a {
-      color: #00796b;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .back-link, .download-link {
-      margin-top: 1rem;
-    }
-
-    .back-link a, .download-link a {
-      color: #00796b;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    /* Forgot Password Modal */
-    #forgotModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    #forgotModalBox {
-      background: white;
-      padding: 2rem;
       border-radius: 12px;
-      width: 90%;
-      max-width: 350px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 16px rgba(0,137,123,0.3);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
+    .btn-login:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,137,123,0.4); }
+    .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-    #forgotModalBox h3 {
-      color: #00796b;
+    /* Google button */
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; color: var(--text-muted); font-size: 0.82rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e8f5f3; }
+
+    .btn-google {
+      width: 100%;
+      padding: 0.85rem;
+      background: white;
+      border: 2px solid #e8f5f3;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.2s;
+      color: var(--text);
+    }
+    .btn-google:hover { border-color: var(--teal); background: var(--teal-light); }
+
+    /* Forgot password link */
+    .forgot-link {
+      text-align: right;
+      margin-top: -0.5rem;
       margin-bottom: 1rem;
     }
+    .forgot-link a { color: var(--teal); font-size: 0.85rem; text-decoration: none; font-weight: 500; }
+    .forgot-link a:hover { text-decoration: underline; }
 
+    /* Messages */
+    .msg { padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.88rem; margin-top: 1rem; display: none; align-items: center; gap: 0.5rem; }
+    .msg.error { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; display: flex; }
+    .msg.success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; display: flex; }
+
+    /* Footer */
+    .card-footer { text-align: center; margin-top: 1.5rem; font-size: 0.88rem; color: var(--text-muted); }
+    .card-footer a { color: var(--teal); text-decoration: none; font-weight: 600; }
+    .card-footer a:hover { text-decoration: underline; }
+    .back-home { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; margin-top: 0.75rem; transition: color 0.2s; }
+    .back-home:hover { color: var(--teal); }
+
+    /* Forgot Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.3s ease;
+      text-align: center;
+    }
+    .modal-box .modal-emoji { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+    .modal-box h3 { font-family: 'Playfair Display', serif; color: var(--teal-dark); margin-bottom: 0.5rem; font-size: 1.4rem; }
+    .modal-box p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem; }
+    .modal-box input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e8f5f3;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .modal-box input:focus { border-color: var(--teal); }
+    .modal-box .btn-reset {
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0.75rem;
+    }
+    .modal-box .btn-reset:hover { transform: translateY(-1px); }
+    .modal-close { color: var(--text-muted); font-size: 0.85rem; cursor: pointer; text-decoration: none; }
+    .modal-close:hover { color: var(--teal); }
+    .reset-msg { font-size: 0.85rem; margin-top: 0.5rem; padding: 0.5rem; border-radius: 8px; }
+
+    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .login-container {
-        flex-direction: column;
-        margin: 1rem;
-      }
+      body { flex-direction: column; }
+      .left-panel { width: 100%; padding: 2rem; }
+      .panel-title { font-size: 1.8rem; }
+      .panel-features { display: none; }
+      .panel-desc { margin-bottom: 1rem; }
+      .apk-strip { margin-top: 1.5rem; }
+      .right-panel { padding: 1.5rem; }
+      .login-card { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
-
 <body>
 
-<div class="login-container">
-  <div class="login-info">
-    <h1><i class="fas fa-heartbeat"></i> AAYUH!</h1>
-    <p>
-      India's comprehensive health companion. Track medicines, check symptoms,
-      find doctors, and manage your medical history all in one place.
-    </p>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+  <a href="index.html" class="panel-logo">❤️ AAYUH<span>!</span></a>
+
+  <h2 class="panel-title">Welcome<br>Back! 👋</h2>
+  <p class="panel-desc">Log in to access your personal health dashboard, medicines, and more.</p>
+
+  <div class="panel-features">
+    <div class="panel-feat">
+      <div class="panel-feat-icon">💊</div>
+      <span>Medicine database & reminders</span>
+    </div>
+    <div class="panel-feat">
+      <div class="panel-feat-icon">🩺</div>
+      <span>AI-powered symptom checker</span>
+    </div>
+    <div class="panel-feat">
+      <div class="panel-feat-icon">📋</div>
+      <span>Secure medical history vault</span>
+    </div>
+    <div class="panel-feat">
+      <div class="panel-feat-icon">👨‍⚕️</div>
+      <span>Find doctors near you</span>
+    </div>
+    <div class="panel-feat">
+      <div class="panel-feat-icon">🚨</div>
+      <span>Emergency SOS contacts</span>
+    </div>
   </div>
 
-  <div class="login-box">
-    <h2>Welcome Back</h2>
+  <!-- APK Download Strip -->
+  <div class="apk-strip">
+    <div class="apk-strip-text">
+      <strong>📱 Get the Android App</strong>
+      Free download · v1.0.0 · Android 7.0+
+    </div>
+    <a href="https://github.com/bharathkumar1904/AAYUH-/releases/download/v1.0.0/app-debug.apk"
+       class="apk-dl-btn">
+      🤖 Download APK
+    </a>
+  </div>
+</div>
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+  <div class="login-card">
 
-    <button id="loginBtn">Login</button>
-
-    <p id="errorMsg" style="color:red;"></p>
-    <p id="successMsg" style="color:green;"></p>
-
-    <!-- Forgot Password -->
-    <div class="login-link">
-      <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+    <div class="card-header">
+      <span class="emoji">🔑</span>
+      <h2>Login to AAYUH!</h2>
+      <p>Don't have an account? <a href="register.html" style="color:var(--teal);font-weight:600;">Sign up free →</a></p>
     </div>
 
-    <!-- Signup -->
-    <div class="login-link">
-      <p style="margin-bottom:6px;font-size:14px;">Don’t have an account?</p>
-      <a href="register.html">
-        <button style="background:white;color:#00796b;border:2px solid #00796b;font-weight:600;">
-          Sign Up
-        </button>
-      </a>
+    <!-- Session check loader -->
+    <div class="session-loader" id="sessionLoader">
+      <div class="spinner"></div>
+      Checking your session...
     </div>
 
-    <div class="back-link">
-      <a href="index.html">← Back to Home</a>
+    <!-- Login form (hidden until session check done) -->
+    <div id="loginForm" style="display:none;">
+
+      <!-- Google Login -->
+      <button class="btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="divider">or login with email</div>
+
+      <!-- Email -->
+      <div class="input-group">
+        <span class="input-icon">📧</span>
+        <input type="email" id="email" placeholder="Email Address" required>
+      </div>
+
+      <!-- Password -->
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="password" placeholder="Password" required>
+        <button class="toggle-pw" onclick="togglePw()" type="button">👁️</button>
+      </div>
+
+      <!-- Forgot Password -->
+      <div class="forgot-link">
+        <a href="#" onclick="openForgot(event)">Forgot Password? 🔑</a>
+      </div>
+
+      <!-- Login Button -->
+      <button class="btn-login" id="loginBtn" onclick="doLogin()">
+        🚀 Login to Dashboard
+      </button>
+
+      <!-- Messages -->
+      <div class="msg error" id="errorMsg"><span>⚠️</span><span id="errorText"></span></div>
+      <div class="msg success" id="successMsg"><span>✅</span><span id="successText"></span></div>
+
     </div>
 
-    <div class="download-link">
-      <a href="downloads/AAYUH_website.zip" download>
-        <i class="fas fa-download"></i> Download Website
-      </a>
+    <div class="card-footer">
+      <a href="index.html" class="back-home">← Back to Home</a>
     </div>
+
   </div>
 </div>
 
 <!-- Forgot Password Modal -->
-<div id="forgotModal">
-  <div id="forgotModalBox">
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal-box">
+    <span class="modal-emoji">🔐</span>
     <h3>Reset Password</h3>
-
-    <input type="email" id="resetEmail" placeholder="Enter your email">
-
-    <button id="sendResetLink">Send Verification Link</button>
-
-    <p id="resetMsg" style="font-size:14px;margin-top:10px;"></p>
-
-    <p style="margin-top:12px;">
-      <a href="#" id="closeModal">Cancel</a>
-    </p>
+    <p>Enter your email and we'll send you a reset link instantly.</p>
+    <input type="email" id="resetEmail" placeholder="📧 Your email address">
+    <button class="btn-reset" onclick="sendReset()">📨 Send Reset Link</button>
+    <div class="reset-msg" id="resetMsg"></div>
+    <a href="#" class="modal-close" onclick="closeForgot(event)">✕ Cancel</a>
   </div>
 </div>
 
@@ -232,84 +462,170 @@
   const firebaseConfig = {
     apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
     authDomain: "aayuh-c9a87.firebaseapp.com",
-    projectId: "aayuh-c9a87"
+    projectId: "aayuh-c9a87",
+    storageBucket: "aayuh-c9a87.firebasestorage.app",
+    messagingSenderId: "459370049467",
+    appId: "1:459370049467:web:4354a11c6b43d3f6dede9e"
   };
 
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
-
   auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-  const loginBtn = document.getElementById("loginBtn");
-  const errorMsg = document.getElementById("errorMsg");
-  const successMsg = document.getElementById("successMsg");
+  // ✅ SESSION CHECK — existing user → dashboard, new user → show form
+  auth.onAuthStateChanged(user => {
+    document.getElementById('sessionLoader').style.display = 'none';
 
-  loginBtn.addEventListener("click", async () => {
-    errorMsg.textContent = "";
-    successMsg.textContent = "";
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (!email || !password) {
-      errorMsg.textContent = "Please enter email and password";
-      return;
+    if (user) {
+      // ✅ Already logged in → go to dashboard
+      showSuccess('👋 Welcome back ' + (user.displayName || '') + '! Redirecting...');
+      document.getElementById('successMsg').style.display = 'flex';
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    } else {
+      // 🆕 New/logged out user → show login form
+      document.getElementById('loginForm').style.display = 'block';
     }
+  });
+
+  // ✅ Handle Google redirect result (for APK)
+  auth.getRedirectResult()
+    .then(result => {
+      if (result && result.user) {
+        showSuccess('🎉 Welcome ' + result.user.displayName + '! Redirecting...');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+      }
+    })
+    .catch(error => {
+      if (error.code && error.code !== 'auth/no-auth-event') {
+        showError('Google error: ' + error.message);
+      }
+    });
+
+  // Toggle password visibility
+  function togglePw() {
+    const input = document.getElementById('password');
+    const btn = document.querySelector('.toggle-pw');
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      btn.textContent = '👁️';
+    }
+  }
+
+  // Show messages
+  function showError(msg) {
+    document.getElementById('errorText').textContent = msg;
+    document.getElementById('errorMsg').style.display = 'flex';
+    document.getElementById('successMsg').style.display = 'none';
+  }
+
+  function showSuccess(msg) {
+    document.getElementById('successText').textContent = msg;
+    document.getElementById('successMsg').style.display = 'flex';
+    document.getElementById('errorMsg').style.display = 'none';
+  }
+
+  // Email login
+  async function doLogin() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const btn = document.getElementById('loginBtn');
+
+    document.getElementById('errorMsg').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'none';
+
+    if (!email || !password) return showError('Please enter your email and password.');
+
+    btn.innerHTML = '⏳ Logging in...';
+    btn.disabled = true;
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      successMsg.textContent = "Login successful! Redirecting...";
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 700);
+      const result = await auth.signInWithEmailAndPassword(email, password);
+      showSuccess('✅ Login successful! Taking you to dashboard...');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
     } catch (err) {
-      errorMsg.textContent = err.message;
+      const msgs = {
+        'auth/user-not-found':     '❌ No account found with this email. <a href="register.html" style="color:#c62828;font-weight:600;">Sign up instead?</a>',
+        'auth/wrong-password':     '🔒 Wrong password. Try again or reset it.',
+        'auth/invalid-email':      '📧 Please enter a valid email address.',
+        'auth/too-many-requests':  '⏳ Too many attempts. Please wait a moment.',
+        'auth/user-disabled':      '🚫 This account has been disabled.',
+        'auth/network-request-failed': '🌐 Network error. Check your connection.'
+      };
+      document.getElementById('errorText').innerHTML = msgs[err.code] || err.message;
+      document.getElementById('errorMsg').style.display = 'flex';
+      btn.innerHTML = '🚀 Login to Dashboard';
+      btn.disabled = false;
     }
-  });
+  }
 
-  auth.onAuthStateChanged(user => {
-    if (user && !location.pathname.includes("dashboard")) {
-      window.location.href = "dashboard.html";
+  // Google login (popup for web, redirect for APK)
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const isCapacitor = window.Capacitor !== undefined;
+
+    if (isCapacitor) {
+      auth.signInWithRedirect(provider);
+    } else {
+      auth.signInWithPopup(provider)
+        .then(result => {
+          showSuccess('🎉 Welcome ' + result.user.displayName + '! Redirecting...');
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        })
+        .catch(error => {
+          const msgs = {
+            'auth/popup-blocked': '🚫 Popup blocked! Please allow popups for this site.',
+            'auth/cancelled-popup-request': '❌ Sign-in was cancelled.',
+            'auth/network-request-failed': '🌐 Network error. Check your connection.'
+          };
+          showError(msgs[error.code] || error.message);
+        });
     }
-  });
+  }
 
-  /* Forgot Password Logic */
-  const forgotLink = document.getElementById("forgotPasswordLink");
-  const forgotModal = document.getElementById("forgotModal");
-  const closeModal = document.getElementById("closeModal");
-  const sendResetLink = document.getElementById("sendResetLink");
-  const resetMsg = document.getElementById("resetMsg");
-
-  forgotLink.onclick = (e) => {
+  // Forgot password modal
+  function openForgot(e) {
     e.preventDefault();
-    resetMsg.textContent = "";
-    forgotModal.style.display = "flex";
-  };
+    document.getElementById('resetMsg').textContent = '';
+    document.getElementById('resetEmail').value = '';
+    document.getElementById('forgotModal').classList.add('open');
+  }
 
-  closeModal.onclick = (e) => {
+  function closeForgot(e) {
     e.preventDefault();
-    forgotModal.style.display = "none";
-  };
+    document.getElementById('forgotModal').classList.remove('open');
+  }
 
-  sendResetLink.onclick = async () => {
-    const email = document.getElementById("resetEmail").value.trim();
+  async function sendReset() {
+    const email = document.getElementById('resetEmail').value.trim();
+    const msg = document.getElementById('resetMsg');
 
     if (!email) {
-      resetMsg.style.color = "red";
-      resetMsg.textContent = "Please enter your email";
+      msg.style.color = '#c62828';
+      msg.style.background = '#ffebee';
+      msg.textContent = '⚠️ Please enter your email.';
       return;
     }
 
     try {
       await auth.sendPasswordResetEmail(email);
-      resetMsg.style.color = "green";
-      resetMsg.textContent = "Verification link sent to your email";
+      msg.style.color = '#2e7d32';
+      msg.style.background = '#e8f5e9';
+      msg.textContent = '✅ Reset link sent! Check your email inbox.';
+      setTimeout(() => closeForgot({ preventDefault: () => {} }), 3000);
     } catch (err) {
-      resetMsg.style.color = "red";
-      resetMsg.textContent = err.message;
+      msg.style.color = '#c62828';
+      msg.style.background = '#ffebee';
+      msg.textContent = '❌ ' + (err.code === 'auth/user-not-found' ? 'No account with this email.' : err.message);
     }
-  };
-</script>
+  }
 
+  // Enter key support
+  document.addEventListener('keypress', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+</script>
 </body>
 </html>

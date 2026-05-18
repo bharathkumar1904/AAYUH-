@@ -14,7 +14,6 @@
       --teal-light: #e0f2f1;
       --accent: #ff6f00;
       --accent-light: #fff3e0;
-      --white: #ffffff;
       --off-white: #f8fffe;
       --text: #1a2e2b;
       --text-muted: #5a7a75;
@@ -66,7 +65,7 @@
     .health-card { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); transition: transform 0.3s; }
     .health-card:hover { transform: translateY(-4px); }
     .health-card:nth-child(2), .health-card:nth-child(4) { margin-top: 1.5rem; }
-    .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 0.75rem; }
     .health-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
     .health-card p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 
@@ -78,7 +77,7 @@
     .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .feature-card { background: var(--off-white); border-radius: var(--radius); padding: 2rem; border: 1px solid #e8f5f3; transition: all 0.3s; cursor: pointer; text-decoration: none; display: block; color: inherit; }
     .feature-card:hover { background: white; box-shadow: var(--shadow); transform: translateY(-4px); border-color: transparent; }
-    .feat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .feat-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; }
     .feature-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--text); }
     .feature-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
     .feat-arrow { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--teal); font-size: 0.85rem; font-weight: 600; margin-top: 1rem; opacity: 0; transform: translateX(-4px); transition: all 0.2s; }
@@ -105,18 +104,24 @@
     .download-inner { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, var(--teal-dark), #00695c); border-radius: 28px; padding: 3.5rem; text-align: center; color: white; position: relative; overflow: hidden; }
     .download-inner::after { content: '🏥'; position: absolute; font-size: 10rem; bottom: -2rem; right: -1rem; opacity: 0.06; }
     .download-inner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
-    .download-inner p { opacity: 0.85; margin-bottom: 2rem; font-size: 1rem; line-height: 1.7; }
+    .download-inner > p { opacity: 0.85; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.7; }
+    .apk-badges { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .apk-badge { display: flex; align-items: center; gap: 0.4rem; color: rgba(255,255,255,0.85); font-size: 0.85rem; }
     .download-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .dl-btn { background: white; color: var(--teal-dark); text-decoration: none; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; transition: all 0.2s; }
+    .dl-btn { background: white; color: var(--teal-dark); text-decoration: none; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; transition: all 0.2s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
     .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .dl-btn-outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.5); }
     .dl-btn-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
+    .install-steps { margin-top: 1.5rem; background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem 1.5rem; text-align: left; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .install-title { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-bottom: 0.5rem; font-weight: 600; text-align: center; }
+    .install-step { font-size: 0.8rem; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .install-num { background: rgba(255,255,255,0.15); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; }
 
     /* FOOTER */
     footer { background: var(--teal-dark); color: rgba(255,255,255,0.85); padding: 3.5rem 2rem 1.5rem; }
     .footer-grid { max-width: 1200px; margin: 0 auto 3rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
     .footer-brand p { font-size: 0.88rem; line-height: 1.7; opacity: 0.75; max-width: 260px; margin-top: 0.75rem; }
-    .footer-col h4 { color: white; font-weight: 600; margin-bottom: 1.25rem; font-size: 0.9rem; letter-spacing: 0.05em; }
+    .footer-col h4 { color: white; font-weight: 600; margin-bottom: 1.25rem; font-size: 0.9rem; }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 0.6rem; }
     .footer-col ul li a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
@@ -126,9 +131,13 @@
     /* MOBILE MENU */
     .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(0,77,64,0.97); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; font-family: 'Playfair Display', serif; transition: color 0.2s; }
+    .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; font-family: 'Playfair Display', serif; }
     .mobile-menu a:hover { color: #80cbc4; }
     .close-menu { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+    /* UPDATE BANNER */
+    #updateBanner { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg,#004d40,#00897b); color: white; padding: 1rem 1.5rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,77,64,0.4); z-index: 9999; display: flex; align-items: center; gap: 1rem; font-family: 'DM Sans',sans-serif; font-size: 0.9rem; max-width: 90%; animation: slideUpBanner 0.4s ease; }
+    @keyframes slideUpBanner { from { transform: translateX(-50%) translateY(100px); opacity:0; } to { transform: translateX(-50%) translateY(0); opacity:1; } }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
@@ -151,11 +160,13 @@
       .footer-bottom { flex-direction: column; text-align: center; }
       .download-inner { padding: 2.5rem 1.5rem; }
       .auth-buttons .btn-login { display: none; }
+      .apk-badges { gap: 0.75rem; }
     }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header id="header">
   <nav>
     <a href="index.html" class="logo">
@@ -178,16 +189,18 @@
   </nav>
 </header>
 
+<!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="close-menu" onclick="closeMenu()"><i class="fas fa-times"></i></button>
   <a href="#features" onclick="closeMenu()">Features</a>
   <a href="#how" onclick="closeMenu()">How it works</a>
   <a href="about.html">About</a>
   <a href="Contact Us.html">Contact</a>
-  <a href="home.html" style="color:#80cbc4;">Login</a>
-  <a href="register.html" style="background:white;color:var(--teal-dark);padding:0.7rem 2rem;border-radius:50px;font-size:1rem;">Sign Up</a>
+  <a href="home.html" style="color:#80cbc4;">🔑 Login</a>
+  <a href="register.html" style="background:white;color:var(--teal-dark);padding:0.7rem 2rem;border-radius:50px;font-size:1rem;">🚀 Sign Up</a>
 </div>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="blob blob-1"></div>
@@ -209,22 +222,22 @@
     </div>
     <div class="hero-visual">
       <div class="health-card">
-        <div class="card-icon" style="background:#e0f7f4;font-size:1.5rem;">💊</div>
+        <div class="card-icon" style="background:#e0f7f4;">💊</div>
         <h4>💊 Medicine Tracker</h4>
         <p>Dosage reminders & drug info</p>
       </div>
       <div class="health-card">
-        <div class="card-icon" style="background:#fff3e0;font-size:1.5rem;">🩺</div>
+        <div class="card-icon" style="background:#fff3e0;">🩺</div>
         <h4>🩺 Symptom Check</h4>
         <p>AI-powered diagnosis helper</p>
       </div>
       <div class="health-card">
-        <div class="card-icon" style="background:#fce4ec;font-size:1.5rem;">❤️</div>
+        <div class="card-icon" style="background:#fce4ec;">❤️</div>
         <h4>❤️ Health Records</h4>
         <p>Secure medical history vault</p>
       </div>
       <div class="health-card">
-        <div class="card-icon" style="background:#e8eaf6;font-size:1.5rem;">👨‍⚕️</div>
+        <div class="card-icon" style="background:#e8eaf6;">👨‍⚕️</div>
         <h4>👨‍⚕️ Find Doctors</h4>
         <p>Nearby specialists & clinics</p>
       </div>
@@ -232,43 +245,44 @@
   </div>
 </section>
 
+<!-- FEATURES -->
 <section class="features" id="features">
   <div class="section-label">What We Offer</div>
   <h2 class="section-title">Everything for Your Health</h2>
   <p class="section-sub">Six powerful tools designed for every Indian household — simple, fast, and always available.</p>
   <div class="features-grid">
     <a href="medicines.html" class="feature-card">
-      <div class="feat-icon" style="background:#e0f7f4;font-size:1.6rem;">💊</div>
+      <div class="feat-icon" style="background:#e0f7f4;">💊</div>
       <h3>💊 Medicine Database</h3>
       <p>Search 1000+ medicines for dosage, side effects, and usage instructions in seconds.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
     </a>
     <a href="symptoms.html" class="feature-card">
-      <div class="feat-icon" style="background:#fff3e0;font-size:1.6rem;">🩺</div>
+      <div class="feat-icon" style="background:#fff3e0;">🩺</div>
       <h3>🩺 Symptom Checker</h3>
       <p>AI-powered analysis to understand your symptoms and when to see a doctor.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
     </a>
     <a href="disease.html" class="feature-card">
-      <div class="feat-icon" style="background:#fce4ec;font-size:1.6rem;">🦠</div>
+      <div class="feat-icon" style="background:#fce4ec;">🦠</div>
       <h3>🦠 Disease Info</h3>
       <p>Comprehensive guide on diseases with prevention tips and dietary advice.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
     </a>
     <a href="medical history.html" class="feature-card">
-      <div class="feat-icon" style="background:#e8eaf6;font-size:1.6rem;">📋</div>
+      <div class="feat-icon" style="background:#e8eaf6;">📋</div>
       <h3>📋 Medical History</h3>
       <p>Securely store reports, prescriptions, and health records — access anywhere.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
     </a>
     <a href="Find Doctors.html" class="feature-card">
-      <div class="feat-icon" style="background:#e8f5e9;font-size:1.6rem;">👨‍⚕️</div>
+      <div class="feat-icon" style="background:#e8f5e9;">👨‍⚕️</div>
       <h3>👨‍⚕️ Doctor Finder</h3>
       <p>Find verified doctors and hospitals near you based on specialty and location.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
     </a>
     <a href="Emergency.html" class="feature-card">
-      <div class="feat-icon" style="background:#ffebee;font-size:1.6rem;">🚨</div>
+      <div class="feat-icon" style="background:#ffebee;">🚨</div>
       <h3>🚨 Emergency SOS</h3>
       <p>One-tap access to emergency services and ambulance contacts when it matters most.</p>
       <div class="feat-arrow">Learn more <i class="fas fa-arrow-right"></i></div>
@@ -276,6 +290,7 @@
   </div>
 </section>
 
+<!-- STATS -->
 <section class="stats-band">
   <div class="stats-inner">
     <div class="stat-item"><strong>💊 1000+</strong><span>Medicines in Database</span></div>
@@ -285,6 +300,7 @@
   </div>
 </section>
 
+<!-- HOW IT WORKS -->
 <section class="how-it-works" id="how">
   <div class="section-label">Simple Steps</div>
   <h2 class="section-title">How It Works</h2>
@@ -308,65 +324,39 @@
   </div>
 </section>
 
+<!-- DOWNLOAD CTA -->
 <section class="download-cta">
   <div class="download-inner">
     <h2>📱 Take AAYUH Everywhere</h2>
     <p>Download the free Android app and access your health tools anytime — even offline!</p>
-
-    <!-- App info badges -->
-    <div style="display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.75rem;flex-wrap:wrap;">
-      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
-        <span>🤖</span> Android 7.0+
-      </div>
-      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
-        <span>📦</span> v1.0.0
-      </div>
-      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
-        <span>🆓</span> Free Forever
-      </div>
-      <div style="display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.85);font-size:0.85rem;">
-        <span>🔒</span> Safe & Secure
-      </div>
+    <div class="apk-badges">
+      <div class="apk-badge">🤖 Android 7.0+</div>
+      <div class="apk-badge">📦 v1.0.0</div>
+      <div class="apk-badge">🆓 Free Forever</div>
+      <div class="apk-badge">🔒 Safe & Secure</div>
+      <div class="apk-badge">🔄 Auto Updates</div>
     </div>
-
     <div class="download-btns">
-      <!-- Main APK Download -->
-      <button id="apkDownloadBtn" class="dl-btn" onclick="handleApkDownload()" style="padding:1rem 2rem;font-size:1rem;border:none;cursor:pointer;">
+      <button id="apkDownloadBtn" class="dl-btn" onclick="handleApkDownload()" style="padding:1rem 2rem;font-size:1rem;">
         <i class="fab fa-android" style="font-size:1.2rem;color:#3ddc84;"></i>
         <span id="apkBtnText">⬇️ Download APK</span>
       </button>
-
-      <!-- GitHub Release Page -->
-      <a href="https://github.com/bharathkumar1904/AAYUH-/releases/tag/v1.0.0"
-         target="_blank" class="dl-btn dl-btn-outline">
+      <a href="https://github.com/bharathkumar1904/AAYUH-/releases/tag/v1.0.0" target="_blank" class="dl-btn dl-btn-outline">
         <i class="fab fa-github"></i> View on GitHub
       </a>
     </div>
-
-    <!-- Status message -->
     <p id="apkStatusMsg" style="margin-top:1.25rem;font-size:0.85rem;opacity:0.9;display:none;"></p>
-
-    <!-- Install instructions -->
-    <div style="margin-top:1.5rem;background:rgba(255,255,255,0.08);border-radius:12px;padding:1rem 1.5rem;text-align:left;max-width:420px;margin-left:auto;margin-right:auto;">
-      <p style="font-size:0.82rem;color:rgba(255,255,255,0.7);margin-bottom:0.5rem;font-weight:600;text-align:center;">📋 How to Install</p>
-      <div style="display:flex;flex-direction:column;gap:0.4rem;">
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
-          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">1</span>
-          Download the APK file
-        </div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
-          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">2</span>
-          Allow "Install unknown apps" in settings
-        </div>
-        <div style="font-size:0.8rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem;">
-          <span style="background:rgba(255,255,255,0.15);border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;">3</span>
-          Open the APK and tap Install ✅
-        </div>
-      </div>
+    <div class="install-steps">
+      <p class="install-title">📋 How to Install</p>
+      <div class="install-step"><span class="install-num">1</span> Download the APK file</div>
+      <div class="install-step"><span class="install-num">2</span> Allow "Install unknown apps" in settings</div>
+      <div class="install-step"><span class="install-num">3</span> Open the APK and tap Install ✅</div>
+      <div class="install-step"><span class="install-num">4</span> Future updates are automatic 🔄</div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -379,10 +369,10 @@
     <div class="footer-col">
       <h4>Features</h4>
       <ul>
-        <li><a href="medicines.html">Medicine Search</a></li>
-        <li><a href="symptoms.html">Symptom Checker</a></li>
-        <li><a href="disease.html">Disease Info</a></li>
-        <li><a href="Emergency.html">Emergency</a></li>
+        <li><a href="medicines.html">💊 Medicine Search</a></li>
+        <li><a href="symptoms.html">🩺 Symptom Checker</a></li>
+        <li><a href="disease.html">🦠 Disease Info</a></li>
+        <li><a href="Emergency.html">🚨 Emergency</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -411,43 +401,21 @@
 </footer>
 
 <script>
-  const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  // Smart APK download with availability check
+  
+  // ── CONFIG ──────────────────────────────────
   const APK_URL = 'https://github.com/bharathkumar1904/AAYUH-/releases/download/v1.0.0/app-debug.apk';
   const RELEASE_PAGE = 'https://github.com/bharathkumar1904/AAYUH-/releases/tag/v1.0.0';
 
-  function handleApkDownload() {
-    const btn = document.getElementById('apkDownloadBtn');
-    const btnText = document.getElementById('apkBtnText');
-    const statusMsg = document.getElementById('apkStatusMsg');
+  // ── HEADER SCROLL ────────────────────────────
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+  });
 
-    btnText.innerHTML = '⏳ Starting download...';
-    btn.disabled = true;
-    btn.style.opacity = '0.8';
-
-    // Method 1: Direct download via window.location
-    window.location.href = APK_URL;
-
-    // Show success message
-    statusMsg.style.display = 'block';
-    statusMsg.style.color = '#a5d6a7';
-    statusMsg.innerHTML = '✅ Download started! If nothing happens after 5 seconds, <a href="' + RELEASE_PAGE + '" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline;">open GitHub release page →</a>';
-
-    // Re-enable button after 5 seconds
-    setTimeout(() => {
-      btnText.innerHTML = '⬇️ Download APK';
-      btn.disabled = false;
-      btn.style.opacity = '1';
-    }, 5000);
-  }
-
+  // ── MOBILE MENU ──────────────────────────────
   function openMenu() { document.getElementById('mobileMenu').classList.add('open'); }
   function closeMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
 
+  // ── SMOOTH SCROLL ────────────────────────────
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
@@ -457,7 +425,7 @@
     });
   });
 
-  // Fade in on scroll
+  // ── SCROLL ANIMATIONS ────────────────────────
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -474,215 +442,103 @@
     observer.observe(el);
   });
 
-  // =============================================
-  // ✅ ANDROID BACK BUTTON FIX
-  // =============================================
-  document.addEventListener('deviceready', function() {
+  // ── APK DOWNLOAD ─────────────────────────────
+  function handleApkDownload() {
+    const btn = document.getElementById('apkDownloadBtn');
+    const btnText = document.getElementById('apkBtnText');
+    const statusMsg = document.getElementById('apkStatusMsg');
+
+    btnText.innerHTML = '⏳ Starting download...';
+    btn.disabled = true;
+    btn.style.opacity = '0.8';
+
+    window.location.href = APK_URL;
+
+    statusMsg.style.display = 'block';
+    statusMsg.style.color = '#a5d6a7';
+    statusMsg.innerHTML = '✅ Download started! If nothing happens, <a href="' + RELEASE_PAGE + '" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline;">open GitHub release →</a>';
+
+    setTimeout(() => {
+      btnText.innerHTML = '⬇️ Download APK';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }, 5000);
+  }
+
+  // ── ANDROID BACK BUTTON FIX ──────────────────
+  function handleBackButton(e) {
+    e.preventDefault();
+    const exitPages = ['index.html', 'dashboard.html', 'home.html'];
+    const isExitPage = exitPages.some(p => window.location.href.includes(p)) || window.history.length <= 1;
+    isExitPage ? showExitDialog() : window.history.back();
+  }
+
+  document.addEventListener('deviceready', () => {
     document.addEventListener('backbutton', handleBackButton, false);
   }, false);
 
-  // Also works without deviceready for newer Capacitor
-  window.addEventListener('load', function() {
+  window.addEventListener('load', () => {
     if (window.Capacitor !== undefined) {
       document.addEventListener('backbutton', handleBackButton, false);
     }
   });
 
-  function handleBackButton(e) {
-    e.preventDefault();
-
-    const currentPage = window.location.href;
-
-    // Pages where back = show exit dialog
-    const exitPages = ['index.html', 'dashboard.html', 'home.html'];
-    const isExitPage = exitPages.some(page => currentPage.includes(page))
-                       || window.history.length <= 1;
-
-    if (isExitPage) {
-      showExitDialog();
-    } else {
-      window.history.back();
-    }
-  }
-
-  // Exit confirmation dialog
   function showExitDialog() {
-    // Remove existing dialog if any
     const existing = document.getElementById('exitDialog');
     if (existing) existing.remove();
 
     const dialog = document.createElement('div');
     dialog.id = 'exitDialog';
-    dialog.style.cssText = `
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'DM Sans', sans-serif;
-      backdrop-filter: blur(4px);
-      animation: fadeIn 0.2s ease;
-    `;
+    dialog.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",sans-serif;backdrop-filter:blur(4px);';
     dialog.innerHTML = `
-      <style>
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
-      </style>
-      <div style="
-        background: white;
-        border-radius: 24px;
-        padding: 2rem;
-        width: 85%;
-        max-width: 300px;
-        text-align: center;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        animation: popIn 0.3s ease;
-      ">
+      <div style="background:white;border-radius:24px;padding:2rem;width:85%;max-width:300px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
         <div style="font-size:3rem;margin-bottom:0.75rem;">👋</div>
-        <h3 style="
-          font-family:'Playfair Display',serif;
-          color:#004d40;
-          font-size:1.3rem;
-          margin-bottom:0.5rem;
-        ">Exit AAYUH?</h3>
-        <p style="
-          color:#5a7a75;
-          font-size:0.88rem;
-          margin-bottom:1.5rem;
-          line-height:1.5;
-        ">Are you sure you want to exit the app?</p>
+        <h3 style="font-family:'Playfair Display',serif;color:#004d40;font-size:1.3rem;margin-bottom:0.5rem;">Exit AAYUH?</h3>
+        <p style="color:#5a7a75;font-size:0.88rem;margin-bottom:1.5rem;line-height:1.5;">Are you sure you want to exit the app?</p>
         <div style="display:flex;gap:0.75rem;">
-          <button onclick="closeExitDialog()" style="
-            flex:1;
-            padding:0.75rem;
-            background:#e0f2f1;
-            color:#00897b;
-            border:none;
-            border-radius:12px;
-            font-size:0.95rem;
-            font-weight:600;
-            cursor:pointer;
-            font-family:'DM Sans',sans-serif;
-          ">🏠 Stay</button>
-          <button onclick="exitApp()" style="
-            flex:1;
-            padding:0.75rem;
-            background:linear-gradient(135deg,#00897b,#004d40);
-            color:white;
-            border:none;
-            border-radius:12px;
-            font-size:0.95rem;
-            font-weight:600;
-            cursor:pointer;
-            font-family:'DM Sans',sans-serif;
-          ">Exit 👋</button>
+          <button onclick="closeExitDialog()" style="flex:1;padding:0.75rem;background:#e0f2f1;color:#00897b;border:none;border-radius:12px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">🏠 Stay</button>
+          <button onclick="exitApp()" style="flex:1;padding:0.75rem;background:linear-gradient(135deg,#00897b,#004d40);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Exit 👋</button>
         </div>
-      </div>
-    `;
-
-    // Close on backdrop click
-    dialog.addEventListener('click', function(e) {
-      if (e.target === dialog) closeExitDialog();
-    });
-
+      </div>`;
+    dialog.addEventListener('click', e => { if (e.target === dialog) closeExitDialog(); });
     document.body.appendChild(dialog);
   }
 
   function closeExitDialog() {
-    const dialog = document.getElementById('exitDialog');
-    if (dialog) dialog.remove();
+    const d = document.getElementById('exitDialog');
+    if (d) d.remove();
   }
 
   function exitApp() {
-    if (navigator.app) {
-      navigator.app.exitApp();
-    } else if (window.Capacitor) {
-      // Capacitor way
-      import('@capacitor/app').then(({ App }) => App.exitApp());
-    } else {
-      window.close();
-    }
+    if (navigator.app) navigator.app.exitApp();
+    else if (window.Capacitor) import('@capacitor/app').then(({ App }) => App.exitApp());
+    else window.close();
   }
 
-  // =============================================
-  // ✅ LIVE UPDATE CHECK (Capgo)
-  // =============================================
+  // ── LIVE UPDATE CHECK (Capgo) ─────────────────
   async function checkForUpdates() {
-    if (window.Capacitor === undefined) return; // only in APK
-
+    if (window.Capacitor === undefined) return;
     try {
       const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-
-      // Notify app is ready (prevents rollback)
       await CapacitorUpdater.notifyAppReady();
-
-      // Listen for update available
-      CapacitorUpdater.addListener('updateAvailable', async (info) => {
-        showUpdateBanner(info.bundle.version);
-      });
-
-    } catch(e) {
-      console.log('Updater not available:', e);
-    }
+      CapacitorUpdater.addListener('updateAvailable', info => showUpdateBanner(info.bundle.version));
+    } catch(e) { console.log('Updater:', e); }
   }
 
-  // Show update notification banner
   function showUpdateBanner(version) {
+    const existing = document.getElementById('updateBanner');
+    if (existing) existing.remove();
+
     const banner = document.createElement('div');
     banner.id = 'updateBanner';
-    banner.style.cssText = `
-      position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #004d40, #00897b);
-      color: white;
-      padding: 1rem 1.5rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,77,64,0.4);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      max-width: 90%;
-      animation: slideUpBanner 0.4s ease;
-    `;
     banner.innerHTML = `
-      <style>
-        @keyframes slideUpBanner {
-          from { transform: translateX(-50%) translateY(100px); opacity:0; }
-          to { transform: translateX(-50%) translateY(0); opacity:1; }
-        }
-      </style>
       <span style="font-size:1.5rem;">🚀</span>
-      <div>
+      <div style="flex:1;">
         <strong style="display:block;">Update Available! v${version}</strong>
-        <span style="opacity:0.85;font-size:0.82rem;">Restart app to get latest features</span>
+        <span style="opacity:0.85;font-size:0.82rem;">New features & improvements ready</span>
       </div>
-      <button onclick="applyUpdate()" style="
-        background:white;
-        color:#004d40;
-        border:none;
-        padding:0.5rem 1rem;
-        border-radius:8px;
-        font-weight:700;
-        cursor:pointer;
-        font-size:0.85rem;
-        white-space:nowrap;
-      ">Update Now</button>
-      <button onclick="this.parentElement.remove()" style="
-        background:transparent;
-        border:none;
-        color:rgba(255,255,255,0.7);
-        cursor:pointer;
-        font-size:1.1rem;
-        padding:0;
-      ">✕</button>
-    `;
+      <button onclick="applyUpdate()" style="background:white;color:#004d40;border:none;padding:0.5rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;white-space:nowrap;">Update Now ✅</button>
+      <button onclick="this.parentElement.remove()" style="background:transparent;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:1.1rem;padding:0;">✕</button>`;
     document.body.appendChild(banner);
   }
 
@@ -690,12 +546,9 @@
     try {
       const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
       await CapacitorUpdater.reload();
-    } catch(e) {
-      location.reload();
-    }
+    } catch(e) { location.reload(); }
   }
 
-  // Run update check when app loads
   checkForUpdates();
 </script>
 </body>

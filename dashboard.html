@@ -478,6 +478,8 @@ body {
 .tip span    { font-size:.7rem; color:rgba(255,255,255,.85); line-height:1.45; }
 .t1{background:linear-gradient(135deg,#00897b,#26c6a9)} .t2{background:linear-gradient(135deg,#d84315,#ff7043)}
 .t3{background:linear-gradient(135deg,#0d47a1,#42a5f5)} .t4{background:linear-gradient(135deg,#6a1b9a,#ba68c8)}
+.t5{background:linear-gradient(135deg,#677694,#c1acc5)} .t6{background:linear-gradient(135deg,#72ad12,#c2a13e)}
+.t7{background:linear-gradient(135deg,#1b9a32,#130a0a)} .t8{background:linear-gradient(135deg,#36475156,#407c7f)}
 
 /* ═══════════════════════ BOTTOM NAV (mobile only) ═══════════════════════ */
 .bottom-nav {
@@ -986,6 +988,16 @@ body {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+  // Auth guard — redirect to index if not logged in
+  const _authApp = firebase.app();
+  const _authCheck = firebase.auth();
+  _authCheck.onAuthStateChanged(function(user) {
+    if (!user) {
+      window.location.replace('index.html');
+    }
+  });
+</script>
 <script>
 /* ════════════════════════════════════════
    FIREBASE INIT
