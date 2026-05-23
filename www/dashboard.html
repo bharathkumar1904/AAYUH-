@@ -989,6 +989,16 @@ body {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
+  // Auth guard — redirect to index if not logged in
+  const _authApp = firebase.app();
+  const _authCheck = firebase.auth();
+  _authCheck.onAuthStateChanged(function(user) {
+    if (!user) {
+      window.location.href = 'index.html';
+    }
+  });
+</script>
+<script>
 /* ════════════════════════════════════════
    FIREBASE INIT
 ════════════════════════════════════════ */
@@ -1555,6 +1565,26 @@ async function loadAllUsers(){
     list.innerHTML=html;
   }catch(e){ list.innerHTML='<div style="color:#a33;padding:8px">Error loading users.</div>'; }
 }
+</script>
+<script src='backbutton.js'></script>
+<script>
+function showExitDialog() {
+  var e = document.getElementById('aayuhExitDialog');
+  if (e) e.remove();
+  var d = document.createElement('div');
+  d.id = 'aayuhExitDialog';
+  d.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:sans-serif;';
+  d.innerHTML = '<div style="background:white;border-radius:20px;padding:28px;width:82%;max-width:280px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.3);">'
+    + '<div style="font-size:2.8rem;margin-bottom:10px;">👋</div>'
+    + '<h3 style="color:#004d40;font-size:1.1rem;margin-bottom:8px;font-weight:700;">Exit AAYUH?</h3>'
+    + '<p style="color:#888;font-size:0.85rem;margin-bottom:20px;">Are you sure you want to exit?</p>'
+    + '<div style="display:flex;gap:10px;">'
+    + '<button onclick="document.getElementById(String.fromCharCode(39)+String.fromCharCode(97,97,121,117,104,69,120,105,116,68,105,97,108,111,103)+String.fromCharCode(39)).remove()" style="flex:1;padding:12px;background:#e0f2f1;color:#00897b;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;">🏠 Stay</button>'
+    + '<button onclick="if(window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App){window.Capacitor.Plugins.App.exitApp();}else if(navigator.app){navigator.app.exitApp();}else{window.close();}" style="flex:1;padding:12px;background:linear-gradient(135deg,#00897b,#004d40);color:white;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;">Exit 👋</button>'
+    + '</div></div>';
+  document.body.appendChild(d);
+}
+window.showExitDialog = showExitDialog;
 </script>
 </body>
 </html>
