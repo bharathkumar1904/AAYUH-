@@ -352,7 +352,19 @@ img{display:block;}
     <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
   </div>
 </div>
-
+<!-- Static Ad (shows on page load) -->
+<div style="display:flex;justify-content:center;padding:1.5rem 0;">
+  <script>
+    atOptions = {
+      'key' : 'dd845ccaa883c88140268a86042e83bf',
+      'format' : 'iframe',
+      'height' : 250,
+      'width' : 300,
+      'params' : {}
+    };
+  </script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -369,7 +381,7 @@ firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.
 // ──────────────────────────────────────────────────────────────
 // CHANGE 1: Proxy URL — points to your local server, NO key here
 // ──────────────────────────────────────────────────────────────
-const PROXY_URL = 'aayuh-production.up.railway.app/chat';
+const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
 
 // ── LOCAL FALLBACK DATA ──
 const diseaseData = {
@@ -559,12 +571,24 @@ async function lookupDisease() {
         </div>
       </div>
 
-      <div class="disclaimer">
+     <div class="disclaimer">
         <span class="disc-icon">⚠️</span>
-        <span>This is for <strong>educational purposes only</strong> and does not constitute medical advice. Always consult a qualified healthcare professional before making any health decisions.</span>
+        <span>This is for <strong>educational purposes only</strong>...</span>
       </div>
+
+      <div style="display:flex;justify-content:center;padding:1.5rem 0;" id="ad-slot"></div>
     `;
 
+    // Inject ad into slot
+    const adSlot = document.getElementById('ad-slot');
+    if (adSlot) {
+      const s = document.createElement('script');
+      s.innerHTML = `atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};`;
+      const s2 = document.createElement('script');
+      s2.src = 'https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js';
+      adSlot.appendChild(s);
+      adSlot.appendChild(s2);
+    }
     btn.disabled = false;
     btn.textContent = 'Search';
 
@@ -600,6 +624,26 @@ function openMaps(query) {
   window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
 }
 </script>
+<div style="
+  position:fixed;
+  bottom:0;left:0;right:0;
+  display:flex;justify-content:center;align-items:center;
+  background:#fff;
+  border-top:1px solid #e2ddd4;
+  padding:8px;
+  z-index:9999;
+">
+  <script>
+    atOptions = {
+      'key' : 'dd845ccaa883c88140268a86042e83bf',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
 <script src="cordova.js"></script>
 <script src='backbutton.js'></script>
 </body>
