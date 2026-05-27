@@ -1,642 +1,434 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aayuh – Medicine Info</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aayuh — Disease Info</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#fdfcf8;--bg2:#f5f3ee;--bg3:#ede9e0;--white:#ffffff;
+  --coral:#e05a3a;--coral2:#c44a2c;--coral-pale:#fef0ec;--coral-mid:#f9d0c4;
+  --green:#2d7a4f;--green2:#235f3d;--green-pale:#edf7f1;--green-mid:#b8e4cb;
+  --amber:#b5670f;--amber-pale:#fef7ec;--amber-mid:#fde4b0;
+  --blue:#1a5fa8;--blue-pale:#edf3fc;
+  --ink:#1c1a17;--ink2:#4a4540;--ink3:#8a8278;--ink4:#b5b0a8;
+  --border:#e2ddd4;--border2:#cdc7bc;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:70px;}
+a{text-decoration:none;color:inherit;}
+button{font-family:'Nunito',sans-serif;cursor:pointer;border:none;}
+img{display:block;}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+/* TOPBAR */
+.topbar{background:var(--ink);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{font-family:'Bitter',serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:0.01em;}
+.topbar-logo em{font-style:italic;color:#f4a07a;font-weight:300;}
+.topbar-back{font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:6px;transition:color 0.15s;}
+.topbar-back:hover{color:#fff;}
 
-    body {
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 20px;
-    }
+/* AD TOP */
+.ad-top{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;}
+.ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+/* SEARCH HERO */
+.search-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem 2rem 2.5rem;text-align:center;}
+.sh-label{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:0.8rem;}
+.sh-title{font-family:'Bitter',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:0.5rem;}
+.sh-title em{font-style:italic;color:var(--coral);font-weight:300;}
+.sh-sub{font-size:0.88rem;color:var(--ink3);font-weight:400;margin-bottom:2rem;line-height:1.6;}
+.search-row{display:flex;max-width:600px;margin:0 auto 1.2rem;background:var(--white);border:1.5px solid var(--border2);border-radius:50px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+.search-row:focus-within{border-color:var(--coral);box-shadow:0 0 0 4px rgba(224,90,58,0.1);}
+.search-row input{flex:1;border:none;outline:none;background:transparent;padding:14px 20px;font-family:'Nunito',sans-serif;font-size:0.93rem;color:var(--ink);}
+.search-row input::placeholder{color:var(--ink4);}
+.search-row button{background:var(--coral);color:#fff;padding:14px 26px;font-weight:700;font-size:0.84rem;border-radius:0 48px 48px 0;transition:background 0.15s;white-space:nowrap;}
+.search-row button:hover{background:var(--coral2);}
+.search-row button:disabled{opacity:0.5;cursor:not-allowed;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.pill{font-size:0.72rem;font-weight:600;padding:5px 13px;border-radius:99px;border:1px solid var(--border2);color:var(--ink3);background:var(--white);cursor:pointer;transition:all 0.15s;}
+.pill:hover{border-color:var(--coral);color:var(--coral);background:var(--coral-pale);}
 
-    .header {
-      text-align: center;
-      color: white;
-      margin-bottom: 40px;
-      animation: fadeIn 0.8s ease;
-    }
+/* MAIN */
+.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 2rem;}
 
-    .header h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
+/* AD MID */
+.ad-mid{max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;}
 
-    .header p {
-      font-size: 1.1rem;
-      opacity: 0.95;
-    }
+/* IDLE */
+.idle{text-align:center;padding:5rem 2rem;color:var(--ink3);}
+.idle-icon{width:72px;height:72px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem;}
+.idle h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
+.idle p{font-size:0.85rem;font-weight:400;line-height:1.6;}
 
-    .search-card {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      margin-bottom: 30px;
-      animation: slideUp 0.6s ease;
-    }
+/* LOADING */
+.loading{text-align:center;padding:5rem 2rem;}
+.load-ring{width:48px;height:48px;margin:0 auto 1.2rem;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin 0.75s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading h3{font-family:'Bitter',serif;font-size:1rem;color:var(--ink2);margin-bottom:4px;}
+.loading p{font-size:0.8rem;color:var(--ink3);}
 
-    .info-badge {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+/* DISEASE HERO */
+.dis-hero{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr 160px;gap:0;}
+.dis-hero-body{padding:2rem 2rem 1.8rem;}
+.dis-source-row{display:flex;align-items:center;gap:8px;margin-bottom:0.8rem;flex-wrap:wrap;}
+.source-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:4px;}
+.tag-wiki{background:var(--blue-pale);color:var(--blue);}
+.tag-ai{background:var(--amber-pale);color:var(--amber);}
+.dis-name{font-family:'Bitter',serif;font-size:2.2rem;font-weight:700;color:var(--ink);margin-bottom:0.6rem;line-height:1.1;}
+.dis-desc{font-size:0.88rem;color:var(--ink2);line-height:1.75;margin-bottom:1.2rem;font-weight:400;max-width:540px;}
+.dis-link{display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:700;color:var(--coral);border:1px solid var(--coral-mid);border-radius:6px;padding:5px 12px;background:var(--coral-pale);transition:all 0.15s;}
+.dis-link:hover{background:var(--coral-mid);}
+.dis-hero-img{background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;border-left:1px solid var(--border);}
+.dis-hero-img img{width:100%;height:100%;object-fit:cover;}
+.dis-hero-img .no-img{font-size:3rem;color:var(--ink4);}
 
-    .search-box {
-      position: relative;
-      margin-bottom: 20px;
-    }
+/* SECTION LABEL */
+.section-label{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.9rem;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    .search-box input {
-      width: 100%;
-      padding: 18px 60px 18px 20px;
-      font-size: 1.1rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 50px;
-      transition: all 0.3s;
-      background: #f8f9fa;
-    }
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem;}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.2s,box-shadow 0.2s;}
+.info-card:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(28,26,23,0.07);}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
+.card-chip{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.chip-coral{background:var(--coral-pale);}
+.chip-green{background:var(--green-pale);}
+.chip-amber{background:var(--amber-pale);}
+.chip-blue{background:var(--blue-pale);}
+.card-title{font-size:0.82rem;font-weight:700;color:var(--ink);letter-spacing:0.03em;}
+.card-source{font-size:0.65rem;color:var(--ink4);margin-top:1px;}
+.info-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.info-list li{display:flex;align-items:flex-start;gap:9px;font-size:0.82rem;color:var(--ink2);line-height:1.55;}
+.li-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.dot-coral{background:var(--coral);}
+.dot-green{background:var(--green);}
+.dot-amber{background:var(--amber);}
+.dot-blue{background:var(--blue);}
 
-    .search-box input:focus {
-      outline: none;
-      border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-    }
+/* AI PENDING */
+.ai-pending{display:flex;flex-direction:column;gap:8px;padding:4px 0;}
+.ai-pending-row{display:flex;align-items:center;gap:8px;background:var(--amber-pale);border-radius:8px;padding:10px 12px;font-size:0.78rem;font-weight:600;color:var(--amber);}
+.ai-mini-spin{width:14px;height:14px;flex-shrink:0;border:2px solid rgba(181,103,15,0.2);border-top-color:var(--amber);border-radius:50%;animation:spin 0.7s linear infinite;}
+.ai-placeholder{height:10px;border-radius:4px;background:var(--border);margin-top:4px;}
 
-    .search-box button {
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 12px 25px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
+/* MAP */
+.map-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;}
+.map-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:0.9rem;}
+.map-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:9px 16px;font-size:0.79rem;font-weight:600;color:var(--ink2);transition:all 0.15s;}
+.map-btn:hover{background:var(--green-pale);border-color:var(--green-mid);color:var(--green);}
 
-    .search-box button:hover {
-      transform: translateY(-50%) scale(1.05);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
+/* DISCLAIMER */
+.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;margin-bottom:1.5rem;}
+.disc-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
 
-    .search-box button:active {
-      transform: translateY(-50%) scale(0.98);
-    }
+/* ERROR */
+.err-state{text-align:center;padding:5rem 2rem;color:var(--ink3);}
+.err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
+.err-state p{font-size:0.85rem;line-height:1.6;}
 
-    .source-selector {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+/* STICKY BOTTOM AD */
+.ad-sticky{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);}
 
-    .source-btn {
-      flex: 1;
-      min-width: 150px;
-      padding: 12px 20px;
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .source-btn.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-color: #667eea;
-    }
-
-    .source-btn:hover {
-      border-color: #667eea;
-    }
-
-    #result {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      animation: fadeIn 0.6s ease;
-    }
-
-    #result.hidden {
-      display: none;
-    }
-
-    .medicine-header {
-      border-bottom: 3px solid #667eea;
-      padding-bottom: 15px;
-      margin-bottom: 25px;
-    }
-
-    .medicine-header h2 {
-      color: #667eea;
-      font-size: 2rem;
-      margin-bottom: 8px;
-    }
-
-    .source-tag {
-      display: inline-block;
-      padding: 6px 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .info-section {
-      margin-bottom: 25px;
-      padding: 20px;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
-    }
-
-    .info-section h3 {
-      color: #667eea;
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .info-section p {
-      color: #333;
-      line-height: 1.8;
-      font-size: 1rem;
-    }
-
-    .simple-explanation {
-      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-      border-left: 4px solid #2196f3;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 25px;
-    }
-
-    .simple-explanation h3 {
-      color: #1976d2;
-      margin-bottom: 12px;
-      font-size: 1.2rem;
-    }
-
-    .disclaimer {
-      background: linear-gradient(135deg, #fff3cd 0%, #ffe082 100%);
-      border-left: 4px solid #ffc107;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 30px;
-      font-size: 0.95rem;
-      color: #856404;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #667eea;
-      font-size: 1.1rem;
-    }
-
-    .loading i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      animation: spin 1s linear infinite;
-    }
-
-    .error {
-      text-align: center;
-      padding: 40px;
-      color: #d32f2f;
-    }
-
-    .error i {
-      font-size: 3rem;
-      margin-bottom: 15px;
-    }
-
-    .error h3 {
-      margin-bottom: 15px;
-    }
-
-    .suggestions {
-      text-align: left;
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-
-    .suggestions h4 {
-      color: #667eea;
-      margin-bottom: 10px;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @media (max-width: 768px) {
-      body {
-        padding: 15px;
-      }
-
-      .header h1 {
-        font-size: 2rem;
-      }
-
-      .header p {
-        font-size: 1rem;
-      }
-
-      .search-card {
-        padding: 20px;
-      }
-
-      #result {
-        padding: 20px;
-      }
-
-      .medicine-header h2 {
-        font-size: 1.5rem;
-      }
-
-      .search-box input {
-        font-size: 1rem;
-        padding: 15px 55px 15px 18px;
-      }
-
-      .search-box button {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-      }
-
-      .source-btn {
-        min-width: 120px;
-        font-size: 0.85rem;
-      }
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:700px){
+  .topbar{padding:10px 16px;}
+  .search-hero{padding:2rem 1.2rem 2rem;}
+  .main{padding:1.5rem 1rem 2rem;}
+  .dis-hero{grid-template-columns:1fr;}
+  .dis-hero-img{display:none;}
+  .cards-grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <h1><i class="fas fa-pills"></i> Aayuh</h1>
-      <p>Your trusted medicine information assistant</p>
-    </div>
 
-    <div class="search-card">
-      <div class="info-badge">
-        <i class="fas fa-lightbulb"></i>
-        <span>Use generic names (Paracetamol, Ibuprofen) for better results</span>
-      </div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">Aayuh <em>Health</em></div>
+  <a href="dashboard.html" class="topbar-back">← Back to Dashboard</a>
+</div>
 
-      <div class="source-selector">
-        <button class="source-btn active" data-source="openfda" onclick="selectSource('openfda')">
-          <i class="fas fa-database"></i> OpenFDA
-        </button>
-        <button class="source-btn" data-source="rxnorm" onclick="selectSource('rxnorm')">
-          <i class="fas fa-flask"></i> RxNorm (NLM)
-        </button>
-        <button class="source-btn" data-source="both" onclick="selectSource('both')">
-          <i class="fas fa-layer-group"></i> Combined
-        </button>
-      </div>
+<!-- AD SLOT 1: TOP BANNER -->
+<div id="adTop" style="display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;position:relative;">
+  <button onclick="document.getElementById('adTop').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
 
-      <div class="search-box">
-        <input 
-          type="text" 
-          id="medicineInput" 
-          placeholder="Search medicine..." 
-          onkeypress="if(event.key === 'Enter') searchMedicine()"
-        >
-        <button onclick="searchMedicine()">
-          <i class="fas fa-search"></i> Search
-        </button>
-      </div>
-    </div>
-
-    <div id="result" class="hidden"></div>
+<!-- SEARCH HERO -->
+<div class="search-hero">
+  <div class="sh-label">Medical Reference</div>
+  <h1 class="sh-title">Disease <em>Information</em> Lookup</h1>
+  <p class="sh-sub">Search any condition for symptoms, treatment, AI-powered prevention advice and nearby care.</p>
+  <div class="search-row">
+    <input type="text" id="diseaseInput" placeholder="Enter a disease name, e.g. diabetes, malaria..."
+      onkeydown="if(event.key==='Enter')lookupDisease()"/>
+    <button id="searchBtn" onclick="lookupDisease()">Search</button>
   </div>
+  <div class="pills">
+    <button class="pill" onclick="quickSearch('diabetes')">Diabetes</button>
+    <button class="pill" onclick="quickSearch('hypertension')">Hypertension</button>
+    <button class="pill" onclick="quickSearch('malaria')">Malaria</button>
+    <button class="pill" onclick="quickSearch('asthma')">Asthma</button>
+    <button class="pill" onclick="quickSearch('dengue')">Dengue</button>
+    <button class="pill" onclick="quickSearch('tuberculosis')">Tuberculosis</button>
+    <button class="pill" onclick="quickSearch('anemia')">Anemia</button>
+  </div>
+</div>
 
-  <script>
-    let currentSource = 'openfda';
+<!-- MAIN RESULTS -->
+<div class="main" id="mainArea">
+  <div class="idle">
+    <div class="idle-icon">🩺</div>
+    <h3>Search a disease to get started</h3>
+    <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
+  </div>
+</div>
 
-    const indianBrandMap = {
-      "dolo 650": "paracetamol",
-      "dolo": "paracetamol",
-      "crocin": "paracetamol",
-      "calpol": "paracetamol",
-      "sumo": "paracetamol",
-      "azithral": "azithromycin",
-      "allegra": "fexofenadine",
-      "cetzine": "cetirizine",
-      "okacet": "cetirizine",
-      "zyrtec": "cetirizine",
-      "montek lc": "montelukast",
-      "singulair": "montelukast",
-      "pan 40": "pantoprazole",
-      "omez": "omeprazole",
-      "disprin": "aspirin",
-      "brufen": "ibuprofen",
-      "combiflam": "ibuprofen",
-      "advil": "ibuprofen",
-      "tylenol": "acetaminophen",
-      "augmentin": "amoxicillin"
-    };
+<!-- AD SLOT 2: MID PAGE -->
+<div id="adMid" style="max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;position:relative;">
+  <button onclick="document.getElementById('adMid').style.display='none'" style="position:absolute;top:6px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};</script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
 
-    function selectSource(source) {
-      currentSource = source;
-      document.querySelectorAll('.source-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.querySelector(`[data-source="${source}"]`).classList.add('active');
+<!-- AD SLOT 3: STICKY BOTTOM -->
+<div id="adSticky" style="position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);">
+  <button onclick="document.getElementById('adSticky').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
+  authDomain: "aayuh-c9a87.firebaseapp.com",
+  projectId: "aayuh-c9a87"
+};
+firebase.initializeApp(firebaseConfig);
+firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.html"; });
+
+const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
+
+const diseaseData = {
+  diabetes: {
+    symptoms: ["Frequent urination", "Excessive thirst", "Fatigue"],
+    diet: ["Whole grains", "Leafy vegetables"],
+    dos: ["Exercise regularly"],
+    donts: ["Avoid sugar"]
+  }
+};
+
+function extractSections(text) {
+  const sentences = text.split(".");
+  let symptoms = [], prevention = [], treatment = [], lifestyle = [];
+  sentences.forEach(s => {
+    const line = s.toLowerCase();
+    if (line.includes("symptom")||line.includes("fever")||line.includes("pain")||line.includes("cough")||line.includes("fatigue"))
+      symptoms.push(s.trim());
+    if (line.includes("prevent")||line.includes("avoid")||line.includes("reduce risk"))
+      prevention.push(s.trim());
+    if (line.includes("treat")||line.includes("medication")||line.includes("therapy"))
+      treatment.push(s.trim());
+    if (line.includes("diet")||line.includes("eat")||line.includes("exercise")||line.includes("healthy"))
+      lifestyle.push(s.trim());
+  });
+  return {
+    symptoms:   symptoms.slice(0,5),
+    prevention: prevention.slice(0,5),
+    treatment:  treatment.slice(0,5),
+    lifestyle:  lifestyle.slice(0,5)
+  };
+}
+
+async function getGroqAdvice(diseaseName) {
+  const prompt = `For the disease "${diseaseName}", return ONLY a raw JSON object, no markdown, no backticks:
+{"prevention":["tip1","tip2","tip3","tip4","tip5"],"diet":["food1","food2","food3","food4","food5"],"donts":["avoid1","avoid2","avoid3","avoid4"]}
+Each item max 12 words. Be medically accurate and practical.`;
+  const r = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.2,
+      max_tokens: 600
+    })
+  });
+  if (!r.ok) throw new Error('Proxy error ' + r.status);
+  const d = await r.json();
+  const txt = d.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
+  const m = txt.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('No JSON');
+  return JSON.parse(m[0]);
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderCard(emoji, chipClass, title, source, items, dotClass, isAI) {
+  const tag = isAI
+    ? `<span class="source-tag tag-ai">AI</span>`
+    : `<span class="source-tag tag-wiki">Wikipedia</span>`;
+  const listItems = (items||[]).filter(Boolean).map(i =>
+    `<li><span class="li-dot ${dotClass}"></span>${esc(i)}</li>`
+  ).join('') || `<li><span class="li-dot ${dotClass}"></span>No data available</li>`;
+  return `<div class="info-card">
+    <div class="card-header">
+      <div class="card-chip ${chipClass}">${emoji}</div>
+      <div><div class="card-title">${title}</div><div class="card-source">${source} ${tag}</div></div>
+    </div>
+    <ul class="info-list">${listItems}</ul>
+  </div>`;
+}
+
+function renderAIPlaceholderCard(emoji, chipClass, title) {
+  return `<div class="info-card">
+    <div class="card-header">
+      <div class="card-chip ${chipClass}">${emoji}</div>
+      <div><div class="card-title">${title}</div><div class="card-source">Powered by AI &nbsp;<span class="source-tag tag-ai">AI</span></div></div>
+    </div>
+    <div class="ai-pending">
+      <div class="ai-pending-row"><div class="ai-mini-spin"></div>Generating AI advice...</div>
+      <div class="ai-placeholder" style="width:90%"></div>
+      <div class="ai-placeholder" style="width:75%"></div>
+      <div class="ai-placeholder" style="width:82%"></div>
+    </div>
+  </div>`;
+}
+
+window.onload = () => {
+  const params = new URLSearchParams(window.location.search);
+  const s = params.get("search");
+  if (s) { document.getElementById("diseaseInput").value = s; lookupDisease(); }
+};
+
+function quickSearch(name) {
+  document.getElementById("diseaseInput").value = name;
+  lookupDisease();
+}
+
+async function lookupDisease() {
+  const input = document.getElementById("diseaseInput").value.trim().toLowerCase();
+  const area  = document.getElementById("mainArea");
+  const btn   = document.getElementById("searchBtn");
+
+  if (!input) {
+    area.innerHTML = `<div class="err-state"><h3>Please enter a disease name</h3><p>Type something in the search box above.</p></div>`;
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Searching…';
+  area.innerHTML = `<div class="loading"><div class="load-ring"></div><h3>Fetching medical data</h3><p>Searching Wikipedia database…</p></div>`;
+
+  try {
+    const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`);
+    const data = await res.json();
+
+    if (data.type === "https://mediawiki.org/wiki/HyperSwitch/errors/not_found") {
+      area.innerHTML = `<div class="err-state"><h3>Disease not found</h3><p>Try a different spelling or use a more common medical name.</p></div>`;
+      btn.disabled = false; btn.textContent = 'Search'; return;
     }
 
-    function simplify(text, maxSentences = 3) {
-      if (!text) return "Information not available.";
-      const sentences = text.replace(/\n/g, " ").split(/\.\s+/);
-      return sentences.slice(0, maxSentences).join(". ") + ".";
-    }
+    const description = data.extract || "";
+    const image       = data.thumbnail ? data.thumbnail.source : "";
+    const medline     = `https://medlineplus.gov/search/?query=${encodeURIComponent(input)}`;
+    const extracted   = extractSections(description);
+    const local       = diseaseData[input];
+    const symptoms    = (local?.symptoms?.length ? local.symptoms : extracted.symptoms).filter(Boolean);
+    const treatment   = extracted.treatment.filter(Boolean);
+    const displayName = input.charAt(0).toUpperCase() + input.slice(1);
 
-    function getSimpleUsage(name) {
-      name = name.toLowerCase();
-
-      if (name.includes("paracetamol") || name.includes("acetaminophen")) {
-        return {
-          timing: "After meals, every 4-6 hours as needed",
-          explanation: "Reduces fever and relieves mild to moderate pain. Maximum 4 grams (4000mg) per day for adults.",
-          precautions: "Avoid alcohol. Do not exceed recommended dose as it can cause liver damage."
-        };
-      }
-
-      if (name.includes("ibuprofen")) {
-        return {
-          timing: "After meals with water",
-          explanation: "Reduces pain, fever, and inflammation. Effective for headaches, muscle pain, and arthritis.",
-          precautions: "Take with food to prevent stomach upset. Avoid if you have stomach ulcers."
-        };
-      }
-
-      if (name.includes("cetirizine") || name.includes("fexofenadine")) {
-        return {
-          timing: "Once daily, preferably at night",
-          explanation: "Treats allergy symptoms like sneezing, itching, runny nose, and watery eyes.",
-          precautions: "May cause drowsiness. Avoid driving after taking cetirizine."
-        };
-      }
-
-      if (name.includes("azithromycin") || name.includes("amoxicillin")) {
-        return {
-          timing: "At the same time each day",
-          explanation: "Antibiotic that fights bacterial infections. Must complete the full course.",
-          precautions: "Complete the entire prescription even if you feel better. Do not skip doses."
-        };
-      }
-
-      if (name.includes("omeprazole") || name.includes("pantoprazole")) {
-        return {
-          timing: "30 minutes before breakfast",
-          explanation: "Reduces stomach acid production. Treats heartburn, acid reflux, and ulcers.",
-          precautions: "Take on empty stomach for best results. Not for immediate heartburn relief."
-        };
-      }
-
-      return {
-        timing: "As prescribed by your doctor",
-        explanation: "Use only under medical supervision.",
-        precautions: "Follow your doctor's instructions carefully."
-      };
-    }
-
-    async function searchFromOpenFDA(searchName) {
-      const response = await fetch(
-        `https://api.fda.gov/drug/label.json?search=${encodeURIComponent(searchName)}&limit=1`
-      );
-      
-      if (!response.ok) throw new Error('Not found');
-      
-      const data = await response.json();
-      return data.results[0];
-    }
-
-    async function searchFromRxNorm(searchName) {
-      // RxNorm API for cross-validation
-      const response = await fetch(
-        `https://rxnav.nlm.nih.gov/REST/drugs.json?name=${encodeURIComponent(searchName)}`
-      );
-      
-      if (!response.ok) throw new Error('Not found');
-      
-      const data = await response.json();
-      return data;
-    }
-
-    async function searchMedicine() {
-      const input = document.getElementById("medicineInput").value.trim();
-      const result = document.getElementById("result");
-
-      if (!input) {
-        result.className = 'error';
-        result.classList.remove('hidden');
-        result.innerHTML = `
-          <i class="fas fa-exclamation-circle"></i>
-          <h3>Please enter a medicine name</h3>
-        `;
-        return;
-      }
-
-      let searchName = input.toLowerCase();
-      if (indianBrandMap[searchName]) {
-        searchName = indianBrandMap[searchName];
-      }
-
-      result.classList.remove('hidden');
-      result.className = 'loading';
-      result.innerHTML = `
-        <i class="fas fa-spinner"></i>
-        <p>Searching medicine information...</p>
-      `;
-
-      try {
-        if (currentSource === 'openfda' || currentSource === 'both') {
-          const med = await searchFromOpenFDA(searchName);
-          displayResults(med, searchName, 'OpenFDA');
-        } else if (currentSource === 'rxnorm') {
-          const rxData = await searchFromRxNorm(searchName);
-          displayRxNormResults(rxData, searchName);
-        }
-      } catch (error) {
-        result.className = 'error';
-        result.innerHTML = `
-          <i class="fas fa-times-circle"></i>
-          <h3>Medicine not found</h3>
-          <p>We couldn't find information about "${input}"</p>
-          
-          <div class="suggestions">
-            <h4><i class="fas fa-lightbulb"></i> Suggestions:</h4>
-            <p>• Check spelling and try again</p>
-            <p>• Use generic name instead of brand name</p>
-            <p>• Examples: Dolo 650 → Paracetamol, Crocin → Paracetamol</p>
-            <p>• Try switching data sources above</p>
+    area.innerHTML = `
+      <div class="dis-hero">
+        <div class="dis-hero-body">
+          <div class="dis-source-row">
+            <span class="source-tag tag-wiki">Wikipedia</span>
+            <span class="source-tag tag-ai">AI-Enhanced</span>
           </div>
-        `;
+          <div class="dis-name">${esc(displayName)}</div>
+          <p class="dis-desc">${esc(description.length > 380 ? description.slice(0,380) + '…' : description)}</p>
+          <a href="${medline}" target="_blank" rel="noopener" class="dis-link">More info on MedlinePlus →</a>
+        </div>
+        <div class="dis-hero-img">
+          ${image
+            ? `<img src="${esc(image)}" alt="${esc(displayName)}" onerror="this.parentElement.innerHTML='<div class=no-img>🩺</div>'"/>`
+            : `<div class="no-img">🩺</div>`}
+        </div>
+      </div>
+
+      <div class="section-label">From Wikipedia</div>
+      <div class="cards-grid" id="wikiGrid">
+        ${renderCard('🤒','chip-coral','Symptoms','Clinical presentation',symptoms,'dot-coral',false)}
+        ${renderCard('💊','chip-blue','Treatment','Medical management',treatment,'dot-blue',false)}
+      </div>
+
+      <div class="section-label">AI-powered advice</div>
+      <div class="cards-grid" id="aiGrid">
+        ${renderAIPlaceholderCard('🛡️','chip-green','Prevention tips')}
+        ${renderAIPlaceholderCard('🥗','chip-amber','Diet & nutrition')}
+        ${renderAIPlaceholderCard('🚫','chip-coral',"Don'ts & warnings")}
+      </div>
+
+      <div class="map-card">
+        <div class="section-label" style="margin-bottom:0.5rem">Find nearby care</div>
+        <div class="map-btns">
+          <button class="map-btn" onclick="openMaps('${esc(input)} hospital')">🏥 Nearby hospitals</button>
+          <button class="map-btn" onclick="openMaps('${esc(input)} specialist doctor')">👨‍⚕️ Nearby doctors</button>
+          <button class="map-btn" onclick="openMaps('pharmacy near me')">💊 Nearby pharmacy</button>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <span class="disc-icon">⚠️</span>
+        <span>This is for <strong>educational purposes only</strong> and does not constitute medical advice. Always consult a qualified healthcare professional before making any health decisions.</span>
+      </div>
+    `;
+
+    btn.disabled = false;
+    btn.textContent = 'Search';
+
+    const aiGrid = document.getElementById('aiGrid');
+    try {
+      const ai = await getGroqAdvice(input);
+      if (aiGrid) {
+        aiGrid.innerHTML =
+          renderCard('🛡️','chip-green','Prevention tips','AI-generated',ai.prevention||[],'dot-green',true) +
+          renderCard('🥗','chip-amber','Diet & nutrition','AI-generated',ai.diet||[],'dot-amber',true) +
+          renderCard('🚫','chip-coral',"Don'ts & warnings",'AI-generated',ai.donts||[],'dot-coral',true);
+      }
+    } catch(_) {
+      const fallbackPrev  = (local?.dos?.length  ? local.dos  : extracted.prevention).filter(Boolean);
+      const fallbackDiet  = (local?.diet?.length ? local.diet : extracted.lifestyle).filter(Boolean);
+      const fallbackDonts = (local?.donts?.length ? local.donts : ["Avoid self-medication","Avoid ignoring symptoms","Avoid an unhealthy lifestyle"]);
+      if (aiGrid) {
+        aiGrid.innerHTML =
+          renderCard('🛡️','chip-green','Prevention tips','From Wikipedia',fallbackPrev,'dot-green',false) +
+          renderCard('🥗','chip-amber','Diet & nutrition','From Wikipedia',fallbackDiet,'dot-amber',false) +
+          renderCard('🚫','chip-coral',"Don'ts & warnings",'General advice',fallbackDonts,'dot-coral',false);
       }
     }
 
-    function displayResults(med, searchName, source) {
-      const result = document.getElementById("result");
-      const medicineName = med.openfda?.generic_name?.[0] || med.openfda?.brand_name?.[0] || searchName;
-      
-      const use = simplify(med.indications_and_usage?.[0]);
-      const dosage = simplify(med.dosage_and_administration?.[0]);
-      const sideEffects = simplify(med.adverse_reactions?.[0]);
-      const warnings = simplify(med.warnings?.[0]);
-      const simple = getSimpleUsage(searchName);
+  } catch(err) {
+    area.innerHTML = `<div class="err-state"><h3>Could not fetch data</h3><p>Please check your internet connection and try again.</p></div>`;
+    btn.disabled = false; btn.textContent = 'Search';
+  }
+}
 
-      result.className = '';
-      result.innerHTML = `
-        <div class="medicine-header">
-          <h2><i class="fas fa-capsules"></i> ${medicineName}</h2>
-          <span class="source-tag"><i class="fas fa-database"></i> Source: ${source}</span>
-        </div>
-
-        <div class="info-section">
-          <h3><i class="fas fa-check-circle"></i> Medical Uses</h3>
-          <p>${use}</p>
-        </div>
-
-        <div class="info-section">
-          <h3><i class="fas fa-prescription-bottle"></i> Dosage & Administration</h3>
-          <p>${dosage}</p>
-        </div>
-
-        <div class="info-section">
-          <h3><i class="fas fa-clock"></i> When to Take</h3>
-          <p>${simple.timing}</p>
-        </div>
-
-        <div class="info-section">
-          <h3><i class="fas fa-exclamation-triangle"></i> Side Effects</h3>
-          <p>${sideEffects}</p>
-        </div>
-
-        ${warnings !== "Information not available." ? `
-        <div class="info-section">
-          <h3><i class="fas fa-shield-alt"></i> Warnings</h3>
-          <p>${warnings}</p>
-        </div>
-        ` : ''}
-
-        <div class="simple-explanation">
-          <h3><i class="fas fa-info-circle"></i> Simple Explanation</h3>
-          <p><strong>What it does:</strong> ${simple.explanation}</p>
-          <p><strong>Important:</strong> ${simple.precautions}</p>
-        </div>
-
-        <div class="disclaimer">
-          <i class="fas fa-exclamation-triangle"></i>
-          <strong>Medical Disclaimer:</strong> This information is for educational purposes only and comes from public databases. 
-          Always consult with a qualified healthcare professional before taking any medication. 
-          Do not use this as a substitute for professional medical advice.
-        </div>
-      `;
-    }
-
-    function displayRxNormResults(data, searchName) {
-      const result = document.getElementById("result");
-      
-      if (!data.drugGroup?.conceptGroup) {
-        throw new Error('No results');
-      }
-
-      const simple = getSimpleUsage(searchName);
-      
-      result.className = '';
-      result.innerHTML = `
-        <div class="medicine-header">
-          <h2><i class="fas fa-capsules"></i> ${searchName}</h2>
-          <span class="source-tag"><i class="fas fa-flask"></i> Source: RxNorm (NLM)</span>
-        </div>
-
-        <div class="simple-explanation">
-          <h3><i class="fas fa-info-circle"></i> Information</h3>
-          <p><strong>When to take:</strong> ${simple.timing}</p>
-          <p><strong>What it does:</strong> ${simple.explanation}</p>
-          <p><strong>Important:</strong> ${simple.precautions}</p>
-        </div>
-
-        <div class="disclaimer">
-          <i class="fas fa-exclamation-triangle"></i>
-          <strong>Medical Disclaimer:</strong> Limited information available from this source. 
-          For detailed information, try the OpenFDA or Combined source options above. 
-          Always consult with a qualified healthcare professional.
-        </div>
-      `;
-    }
-
-    window.onload = function() {
-      document.getElementById('medicineInput').focus();
-    };
-  </script>
+function openMaps(query) {
+  window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
+}
+</script>
+<script src="cordova.js"></script>
+<script src='backbutton.js'></script>
 </body>
 </html>
