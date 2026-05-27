@@ -8,307 +8,135 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#fdfcf8;
-  --bg2:#f5f3ee;
-  --bg3:#ede9e0;
-  --white:#ffffff;
-  --coral:#e05a3a;
-  --coral2:#c44a2c;
-  --coral-pale:#fef0ec;
-  --coral-mid:#f9d0c4;
-  --green:#2d7a4f;
-  --green2:#235f3d;
-  --green-pale:#edf7f1;
-  --green-mid:#b8e4cb;
-  --amber:#b5670f;
-  --amber-pale:#fef7ec;
-  --amber-mid:#fde4b0;
-  --blue:#1a5fa8;
-  --blue-pale:#edf3fc;
-  --ink:#1c1a17;
-  --ink2:#4a4540;
-  --ink3:#8a8278;
-  --ink4:#b5b0a8;
-  --border:#e2ddd4;
-  --border2:#cdc7bc;
+  --bg:#fdfcf8;--bg2:#f5f3ee;--bg3:#ede9e0;--white:#ffffff;
+  --coral:#e05a3a;--coral2:#c44a2c;--coral-pale:#fef0ec;--coral-mid:#f9d0c4;
+  --green:#2d7a4f;--green2:#235f3d;--green-pale:#edf7f1;--green-mid:#b8e4cb;
+  --amber:#b5670f;--amber-pale:#fef7ec;--amber-mid:#fde4b0;
+  --blue:#1a5fa8;--blue-pale:#edf3fc;
+  --ink:#1c1a17;--ink2:#4a4540;--ink3:#8a8278;--ink4:#b5b0a8;
+  --border:#e2ddd4;--border2:#cdc7bc;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:70px;}
 a{text-decoration:none;color:inherit;}
 button{font-family:'Nunito',sans-serif;cursor:pointer;border:none;}
 img{display:block;}
 
-/* ── TOPBAR ── */
-.topbar{
-  background:var(--ink);
-  padding:10px 32px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.topbar-logo{
-  font-family:'Bitter',serif;
-  font-size:1.25rem;font-weight:700;
-  color:#fff;letter-spacing:0.01em;
-}
+/* TOPBAR */
+.topbar{background:var(--ink);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{font-family:'Bitter',serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:0.01em;}
 .topbar-logo em{font-style:italic;color:#f4a07a;font-weight:300;}
-.topbar-back{
-  font-size:0.75rem;font-weight:600;
-  color:rgba(255,255,255,0.55);
-  display:flex;align-items:center;gap:6px;
-  transition:color 0.15s;
-}
+.topbar-back{font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:6px;transition:color 0.15s;}
 .topbar-back:hover{color:#fff;}
 
-/* ── SEARCH HERO ── */
-.search-hero{
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  padding:3rem 2rem 2.5rem;
-  text-align:center;
-}
-.sh-label{
-  display:inline-block;
-  font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--coral);margin-bottom:0.8rem;
-}
-.sh-title{
-  font-family:'Bitter',serif;
-  font-size:clamp(1.9rem,4vw,3rem);
-  font-weight:700;color:var(--ink);
-  line-height:1.15;margin-bottom:0.5rem;
-}
+/* AD TOP */
+.ad-top{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;}
+.ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
+
+/* SEARCH HERO */
+.search-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem 2rem 2.5rem;text-align:center;}
+.sh-label{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:0.8rem;}
+.sh-title{font-family:'Bitter',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:0.5rem;}
 .sh-title em{font-style:italic;color:var(--coral);font-weight:300;}
-.sh-sub{
-  font-size:0.88rem;color:var(--ink3);
-  font-weight:400;margin-bottom:2rem;
-  line-height:1.6;
-}
-.search-row{
-  display:flex;max-width:600px;margin:0 auto 1.2rem;
-  background:var(--white);
-  border:1.5px solid var(--border2);
-  border-radius:50px;
-  overflow:hidden;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-.search-row:focus-within{
-  border-color:var(--coral);
-  box-shadow:0 0 0 4px rgba(224,90,58,0.1);
-}
-.search-row input{
-  flex:1;border:none;outline:none;background:transparent;
-  padding:14px 20px;
-  font-family:'Nunito',sans-serif;font-size:0.93rem;color:var(--ink);
-}
+.sh-sub{font-size:0.88rem;color:var(--ink3);font-weight:400;margin-bottom:2rem;line-height:1.6;}
+.search-row{display:flex;max-width:600px;margin:0 auto 1.2rem;background:var(--white);border:1.5px solid var(--border2);border-radius:50px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+.search-row:focus-within{border-color:var(--coral);box-shadow:0 0 0 4px rgba(224,90,58,0.1);}
+.search-row input{flex:1;border:none;outline:none;background:transparent;padding:14px 20px;font-family:'Nunito',sans-serif;font-size:0.93rem;color:var(--ink);}
 .search-row input::placeholder{color:var(--ink4);}
-.search-row button{
-  background:var(--coral);color:#fff;
-  padding:14px 26px;font-weight:700;font-size:0.84rem;
-  border-radius:0 48px 48px 0;
-  transition:background 0.15s;white-space:nowrap;
-}
+.search-row button{background:var(--coral);color:#fff;padding:14px 26px;font-weight:700;font-size:0.84rem;border-radius:0 48px 48px 0;transition:background 0.15s;white-space:nowrap;}
 .search-row button:hover{background:var(--coral2);}
 .search-row button:disabled{opacity:0.5;cursor:not-allowed;}
 .pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
-.pill{
-  font-size:0.72rem;font-weight:600;padding:5px 13px;
-  border-radius:99px;border:1px solid var(--border2);
-  color:var(--ink3);background:var(--white);
-  cursor:pointer;transition:all 0.15s;
-}
+.pill{font-size:0.72rem;font-weight:600;padding:5px 13px;border-radius:99px;border:1px solid var(--border2);color:var(--ink3);background:var(--white);cursor:pointer;transition:all 0.15s;}
 .pill:hover{border-color:var(--coral);color:var(--coral);background:var(--coral-pale);}
 
-/* ── MAIN LAYOUT ── */
-.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+/* MAIN */
+.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 2rem;}
 
-/* ── IDLE STATE ── */
-.idle{
-  text-align:center;padding:5rem 2rem;
-  color:var(--ink3);
-}
-.idle-icon{
-  width:72px;height:72px;border-radius:50%;
-  background:var(--bg2);border:1.5px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 1.2rem;font-size:1.8rem;
-}
+/* AD MID */
+.ad-mid{max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;}
+
+/* IDLE */
+.idle{text-align:center;padding:5rem 2rem;color:var(--ink3);}
+.idle-icon{width:72px;height:72px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem;}
 .idle h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
 .idle p{font-size:0.85rem;font-weight:400;line-height:1.6;}
 
-/* ── LOADING ── */
+/* LOADING */
 .loading{text-align:center;padding:5rem 2rem;}
-.load-ring{
-  width:48px;height:48px;margin:0 auto 1.2rem;
-  border:3px solid var(--border);
-  border-top-color:var(--coral);border-radius:50%;
-  animation:spin 0.75s linear infinite;
-}
+.load-ring{width:48px;height:48px;margin:0 auto 1.2rem;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin 0.75s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading h3{font-family:'Bitter',serif;font-size:1rem;color:var(--ink2);margin-bottom:4px;}
 .loading p{font-size:0.8rem;color:var(--ink3);}
 
-/* ── DISEASE HERO CARD ── */
-.dis-hero{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  margin-bottom:1.5rem;
-  display:grid;
-  grid-template-columns:1fr 160px;
-  gap:0;
-}
+/* DISEASE HERO */
+.dis-hero{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr 160px;gap:0;}
 .dis-hero-body{padding:2rem 2rem 1.8rem;}
-.dis-source-row{
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:0.8rem;flex-wrap:wrap;
-}
-.source-tag{
-  font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  padding:3px 10px;border-radius:4px;
-}
+.dis-source-row{display:flex;align-items:center;gap:8px;margin-bottom:0.8rem;flex-wrap:wrap;}
+.source-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:4px;}
 .tag-wiki{background:var(--blue-pale);color:var(--blue);}
 .tag-ai{background:var(--amber-pale);color:var(--amber);}
-.dis-name{
-  font-family:'Bitter',serif;
-  font-size:2.2rem;font-weight:700;
-  color:var(--ink);margin-bottom:0.6rem;
-  line-height:1.1;
-}
-.dis-desc{
-  font-size:0.88rem;color:var(--ink2);line-height:1.75;
-  margin-bottom:1.2rem;font-weight:400;
-  max-width:540px;
-}
-.dis-link{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:0.75rem;font-weight:700;color:var(--coral);
-  border:1px solid var(--coral-mid);border-radius:6px;
-  padding:5px 12px;background:var(--coral-pale);
-  transition:all 0.15s;
-}
+.dis-name{font-family:'Bitter',serif;font-size:2.2rem;font-weight:700;color:var(--ink);margin-bottom:0.6rem;line-height:1.1;}
+.dis-desc{font-size:0.88rem;color:var(--ink2);line-height:1.75;margin-bottom:1.2rem;font-weight:400;max-width:540px;}
+.dis-link{display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:700;color:var(--coral);border:1px solid var(--coral-mid);border-radius:6px;padding:5px 12px;background:var(--coral-pale);transition:all 0.15s;}
 .dis-link:hover{background:var(--coral-mid);}
-.dis-hero-img{
-  background:var(--bg2);
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;border-left:1px solid var(--border);
-}
+.dis-hero-img{background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;border-left:1px solid var(--border);}
 .dis-hero-img img{width:100%;height:100%;object-fit:cover;}
 .dis-hero-img .no-img{font-size:3rem;color:var(--ink4);}
 
-/* ── SECTION LABEL ── */
-.section-label{
-  font-size:0.65rem;font-weight:700;letter-spacing:0.14em;
-  text-transform:uppercase;color:var(--ink3);
-  margin-bottom:0.9rem;
-  display:flex;align-items:center;gap:8px;
-}
-.section-label::after{
-  content:'';flex:1;height:1px;background:var(--border);
-}
+/* SECTION LABEL */
+.section-label{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.9rem;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ── CARDS GRID ── */
-.cards-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:14px;
-  margin-bottom:1.5rem;
-}
-.info-card{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:1.4rem;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-.info-card:hover{
-  border-color:var(--border2);
-  box-shadow:0 4px 20px rgba(28,26,23,0.07);
-}
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem;}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.2s,box-shadow 0.2s;}
+.info-card:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(28,26,23,0.07);}
 .card-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
-.card-chip{
-  width:36px;height:36px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1rem;flex-shrink:0;
-}
+.card-chip{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .chip-coral{background:var(--coral-pale);}
 .chip-green{background:var(--green-pale);}
 .chip-amber{background:var(--amber-pale);}
 .chip-blue{background:var(--blue-pale);}
 .card-title{font-size:0.82rem;font-weight:700;color:var(--ink);letter-spacing:0.03em;}
 .card-source{font-size:0.65rem;color:var(--ink4);margin-top:1px;}
-
 .info-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
-.info-list li{
-  display:flex;align-items:flex-start;gap:9px;
-  font-size:0.82rem;color:var(--ink2);line-height:1.55;
-}
-.li-dot{
-  width:7px;height:7px;border-radius:50%;
-  flex-shrink:0;margin-top:5px;
-}
+.info-list li{display:flex;align-items:flex-start;gap:9px;font-size:0.82rem;color:var(--ink2);line-height:1.55;}
+.li-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
 .dot-coral{background:var(--coral);}
 .dot-green{background:var(--green);}
 .dot-amber{background:var(--amber);}
 .dot-blue{background:var(--blue);}
 
-/* ── AI LOADING CARD ── */
-.ai-pending{
-  display:flex;flex-direction:column;gap:8px;
-  padding:4px 0;
-}
-.ai-pending-row{
-  display:flex;align-items:center;gap:8px;
-  background:var(--amber-pale);border-radius:8px;
-  padding:10px 12px;
-  font-size:0.78rem;font-weight:600;color:var(--amber);
-}
-.ai-mini-spin{
-  width:14px;height:14px;flex-shrink:0;
-  border:2px solid rgba(181,103,15,0.2);
-  border-top-color:var(--amber);border-radius:50%;
-  animation:spin 0.7s linear infinite;
-}
+/* AI PENDING */
+.ai-pending{display:flex;flex-direction:column;gap:8px;padding:4px 0;}
+.ai-pending-row{display:flex;align-items:center;gap:8px;background:var(--amber-pale);border-radius:8px;padding:10px 12px;font-size:0.78rem;font-weight:600;color:var(--amber);}
+.ai-mini-spin{width:14px;height:14px;flex-shrink:0;border:2px solid rgba(181,103,15,0.2);border-top-color:var(--amber);border-radius:50%;animation:spin 0.7s linear infinite;}
 .ai-placeholder{height:10px;border-radius:4px;background:var(--border);margin-top:4px;}
 
-/* ── MAP CARD ── */
-.map-card{
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:1.4rem;
-  margin-bottom:1.5rem;
-}
+/* MAP */
+.map-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;}
 .map-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:0.9rem;}
-.map-btn{
-  display:flex;align-items:center;gap:7px;
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:9px;padding:9px 16px;
-  font-size:0.79rem;font-weight:600;color:var(--ink2);
-  transition:all 0.15s;
-}
+.map-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:9px 16px;font-size:0.79rem;font-weight:600;color:var(--ink2);transition:all 0.15s;}
 .map-btn:hover{background:var(--green-pale);border-color:var(--green-mid);color:var(--green);}
 
-/* ── DISCLAIMER ── */
-.disclaimer{
-  background:var(--amber-pale);border:1px solid var(--amber-mid);
-  border-radius:12px;padding:1rem 1.2rem;
-  display:flex;align-items:flex-start;gap:10px;
-  font-size:0.78rem;color:var(--amber);line-height:1.6;
-}
+/* DISCLAIMER */
+.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;margin-bottom:1.5rem;}
 .disc-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
 
-/* ── ERROR STATE ── */
-.err-state{
-  text-align:center;padding:5rem 2rem;color:var(--ink3);
-}
+/* ERROR */
+.err-state{text-align:center;padding:5rem 2rem;color:var(--ink3);}
 .err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
 .err-state p{font-size:0.85rem;line-height:1.6;}
 
-/* ── RESPONSIVE ── */
+/* STICKY BOTTOM AD */
+.ad-sticky{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);}
+
+/* RESPONSIVE */
 @media(max-width:700px){
   .topbar{padding:10px 16px;}
   .search-hero{padding:2rem 1.2rem 2rem;}
-  .main{padding:1.5rem 1rem 4rem;}
+  .main{padding:1.5rem 1rem 2rem;}
   .dis-hero{grid-template-columns:1fr;}
   .dis-hero-img{display:none;}
   .cards-grid{grid-template-columns:1fr;}
@@ -321,6 +149,14 @@ img{display:block;}
 <div class="topbar">
   <div class="topbar-logo">Aayuh <em>Health</em></div>
   <a href="dashboard.html" class="topbar-back">← Back to Dashboard</a>
+</div>
+
+<!-- AD SLOT 1: TOP BANNER -->
+<div id="adTop" style="display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;position:relative;">
+  <button onclick="document.getElementById('adTop').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
 <!-- SEARCH HERO -->
@@ -352,24 +188,27 @@ img{display:block;}
     <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
   </div>
 </div>
-<!-- Static Ad (shows on page load) -->
-<div style="display:flex;justify-content:center;padding:1.5rem 0;">
-  <script>
-    atOptions = {
-      'key' : 'dd845ccaa883c88140268a86042e83bf',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-  </script>
+
+<!-- AD SLOT 2: MID PAGE -->
+<div id="adMid" style="max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;position:relative;">
+  <button onclick="document.getElementById('adMid').style.display='none'" style="position:absolute;top:6px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};</script>
   <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
+
+<!-- AD SLOT 3: STICKY BOTTOM -->
+<div id="adSticky" style="position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);">
+  <button onclick="document.getElementById('adSticky').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
+  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
+  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+</div>
+
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
-// ── FIREBASE ──
 const firebaseConfig = {
   apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
   authDomain: "aayuh-c9a87.firebaseapp.com",
@@ -378,12 +217,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.html"; });
 
-// ──────────────────────────────────────────────────────────────
-// CHANGE 1: Proxy URL — points to your local server, NO key here
-// ──────────────────────────────────────────────────────────────
 const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
 
-// ── LOCAL FALLBACK DATA ──
 const diseaseData = {
   diabetes: {
     symptoms: ["Frequent urination", "Excessive thirst", "Fatigue"],
@@ -393,7 +228,6 @@ const diseaseData = {
   }
 };
 
-// ── SMART EXTRACTOR (unchanged) ──
 function extractSections(text) {
   const sentences = text.split(".");
   let symptoms = [], prevention = [], treatment = [], lifestyle = [];
@@ -416,23 +250,18 @@ function extractSections(text) {
   };
 }
 
-// ──────────────────────────────────────────────────────────────
-// CHANGE 2: getGroqAdvice now calls YOUR proxy, not Groq directly.
-//           No API key anywhere in this file.
-// ──────────────────────────────────────────────────────────────
 async function getGroqAdvice(diseaseName) {
   const prompt = `For the disease "${diseaseName}", return ONLY a raw JSON object, no markdown, no backticks:
 {"prevention":["tip1","tip2","tip3","tip4","tip5"],"diet":["food1","food2","food3","food4","food5"],"donts":["avoid1","avoid2","avoid3","avoid4"]}
 Each item max 12 words. Be medically accurate and practical.`;
-
-  const r = await fetch(PROXY_URL, {       // ← hits localhost:3001, not Groq
+  const r = await fetch(PROXY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model:       'llama-3.3-70b-versatile',
-      messages:    [{ role: 'user', content: prompt }],
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
       temperature: 0.2,
-      max_tokens:  600
+      max_tokens: 600
     })
   });
   if (!r.ok) throw new Error('Proxy error ' + r.status);
@@ -443,7 +272,6 @@ Each item max 12 words. Be medically accurate and practical.`;
   return JSON.parse(m[0]);
 }
 
-// ── RENDER HELPERS (unchanged) ──
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderCard(emoji, chipClass, title, source, items, dotClass, isAI) {
@@ -456,10 +284,7 @@ function renderCard(emoji, chipClass, title, source, items, dotClass, isAI) {
   return `<div class="info-card">
     <div class="card-header">
       <div class="card-chip ${chipClass}">${emoji}</div>
-      <div>
-        <div class="card-title">${title}</div>
-        <div class="card-source">${source} ${tag}</div>
-      </div>
+      <div><div class="card-title">${title}</div><div class="card-source">${source} ${tag}</div></div>
     </div>
     <ul class="info-list">${listItems}</ul>
   </div>`;
@@ -469,10 +294,7 @@ function renderAIPlaceholderCard(emoji, chipClass, title) {
   return `<div class="info-card">
     <div class="card-header">
       <div class="card-chip ${chipClass}">${emoji}</div>
-      <div>
-        <div class="card-title">${title}</div>
-        <div class="card-source">Powered by AI &nbsp;<span class="source-tag tag-ai">AI</span></div>
-      </div>
+      <div><div class="card-title">${title}</div><div class="card-source">Powered by AI &nbsp;<span class="source-tag tag-ai">AI</span></div></div>
     </div>
     <div class="ai-pending">
       <div class="ai-pending-row"><div class="ai-mini-spin"></div>Generating AI advice...</div>
@@ -483,7 +305,6 @@ function renderAIPlaceholderCard(emoji, chipClass, title) {
   </div>`;
 }
 
-// ── URL PARAMS (unchanged) ──
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
   const s = params.get("search");
@@ -495,7 +316,6 @@ function quickSearch(name) {
   lookupDisease();
 }
 
-// ── MAIN LOOKUP (unchanged) ──
 async function lookupDisease() {
   const input = document.getElementById("diseaseInput").value.trim().toLowerCase();
   const area  = document.getElementById("mainArea");
@@ -524,9 +344,8 @@ async function lookupDisease() {
     const medline     = `https://medlineplus.gov/search/?query=${encodeURIComponent(input)}`;
     const extracted   = extractSections(description);
     const local       = diseaseData[input];
-
-    const symptoms  = (local?.symptoms?.length ? local.symptoms : extracted.symptoms).filter(Boolean);
-    const treatment = extracted.treatment.filter(Boolean);
+    const symptoms    = (local?.symptoms?.length ? local.symptoms : extracted.symptoms).filter(Boolean);
+    const treatment   = extracted.treatment.filter(Boolean);
     const displayName = input.charAt(0).toUpperCase() + input.slice(1);
 
     area.innerHTML = `
@@ -538,9 +357,7 @@ async function lookupDisease() {
           </div>
           <div class="dis-name">${esc(displayName)}</div>
           <p class="dis-desc">${esc(description.length > 380 ? description.slice(0,380) + '…' : description)}</p>
-          <a href="${medline}" target="_blank" rel="noopener" class="dis-link">
-            More info on MedlinePlus →
-          </a>
+          <a href="${medline}" target="_blank" rel="noopener" class="dis-link">More info on MedlinePlus →</a>
         </div>
         <div class="dis-hero-img">
           ${image
@@ -571,28 +388,15 @@ async function lookupDisease() {
         </div>
       </div>
 
-     <div class="disclaimer">
+      <div class="disclaimer">
         <span class="disc-icon">⚠️</span>
-        <span>This is for <strong>educational purposes only</strong>...</span>
+        <span>This is for <strong>educational purposes only</strong> and does not constitute medical advice. Always consult a qualified healthcare professional before making any health decisions.</span>
       </div>
-
-      <div style="display:flex;justify-content:center;padding:1.5rem 0;" id="ad-slot"></div>
     `;
 
-    // Inject ad into slot
-    const adSlot = document.getElementById('ad-slot');
-    if (adSlot) {
-      const s = document.createElement('script');
-      s.innerHTML = `atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};`;
-      const s2 = document.createElement('script');
-      s2.src = 'https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js';
-      adSlot.appendChild(s);
-      adSlot.appendChild(s2);
-    }
     btn.disabled = false;
     btn.textContent = 'Search';
 
-    // AI cards (async)
     const aiGrid = document.getElementById('aiGrid');
     try {
       const ai = await getGroqAdvice(input);
@@ -624,26 +428,6 @@ function openMaps(query) {
   window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
 }
 </script>
-<div style="
-  position:fixed;
-  bottom:0;left:0;right:0;
-  display:flex;justify-content:center;align-items:center;
-  background:#fff;
-  border-top:1px solid #e2ddd4;
-  padding:8px;
-  z-index:9999;
-">
-  <script>
-    atOptions = {
-      'key' : 'dd845ccaa883c88140268a86042e83bf',
-      'format' : 'iframe',
-      'height' : 50,
-      'width' : 320,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
-</div>
 <script src="cordova.js"></script>
 <script src='backbutton.js'></script>
 </body>
