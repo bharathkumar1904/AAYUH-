@@ -17,7 +17,7 @@
   --border:#e2ddd4;--border2:#cdc7bc;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:70px;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:80px;}
 a{text-decoration:none;color:inherit;}
 button{font-family:'Nunito',sans-serif;cursor:pointer;border:none;}
 img{display:block;}
@@ -28,10 +28,6 @@ img{display:block;}
 .topbar-logo em{font-style:italic;color:#f4a07a;font-weight:300;}
 .topbar-back{font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:6px;transition:color 0.15s;}
 .topbar-back:hover{color:#fff;}
-
-/* AD TOP */
-.ad-top{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;}
-.ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
 
 /* SEARCH HERO */
 .search-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem 2rem 2.5rem;text-align:center;}
@@ -52,9 +48,6 @@ img{display:block;}
 
 /* MAIN */
 .main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 2rem;}
-
-/* AD MID */
-.ad-mid{max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;}
 
 /* IDLE */
 .idle{text-align:center;padding:5rem 2rem;color:var(--ink3);}
@@ -129,8 +122,15 @@ img{display:block;}
 .err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
 .err-state p{font-size:0.85rem;line-height:1.6;}
 
-/* STICKY BOTTOM AD */
+/* WEB AD BANNER — shown only on web, hidden in APK */
+.web-ad{display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;margin-bottom:1.5rem;position:relative;}
+.web-ad .ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+.web-ad .close-ad{position:absolute;top:6px;right:8px;background:var(--border);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);display:flex;align-items:center;justify-content:center;}
+
+/* STICKY BOTTOM — web only */
 .ad-sticky{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);}
+.ad-sticky .ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
+.ad-sticky .close-ad{position:absolute;top:4px;right:8px;background:var(--border);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);display:flex;align-items:center;justify-content:center;}
 
 /* RESPONSIVE */
 @media(max-width:700px){
@@ -149,14 +149,6 @@ img{display:block;}
 <div class="topbar">
   <div class="topbar-logo">Aayuh <em>Health</em></div>
   <a href="dashboard.html" class="topbar-back">← Back to Dashboard</a>
-</div>
-
-<!-- AD SLOT 1: TOP BANNER -->
-<div id="adTop" style="display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;position:relative;">
-  <button onclick="document.getElementById('adTop').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
 <!-- SEARCH HERO -->
@@ -189,19 +181,35 @@ img{display:block;}
   </div>
 </div>
 
-<!-- AD SLOT 2: MID PAGE -->
-<div id="adMid" style="max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;position:relative;">
-  <button onclick="document.getElementById('adMid').style.display='none'" style="position:absolute;top:6px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};</script>
+<!-- WEB AD (hidden in APK via JS) -->
+<div class="web-ad" id="webAdMid">
+  <button class="close-ad" onclick="document.getElementById('webAdMid').style.display='none'">✕</button>
+  <div class="ad-label">Advertisement</div>
+  <script>
+    atOptions = {
+      'key' : 'dd845ccaa883c88140268a86042e83bf',
+      'format' : 'iframe',
+      'height' : 250,
+      'width' : 300,
+      'params' : {}
+    };
+  </script>
   <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
-<!-- AD SLOT 3: STICKY BOTTOM -->
-<div id="adSticky" style="position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);">
-  <button onclick="document.getElementById('adSticky').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
+<!-- STICKY BOTTOM AD (web only, hidden in APK) -->
+<div class="ad-sticky" id="adSticky">
+  <button class="close-ad" onclick="document.getElementById('adSticky').style.display='none';document.body.style.paddingBottom='0'">✕</button>
+  <div class="ad-label">Advertisement</div>
+  <script>
+    atOptions = {
+      'key' : 'dd845ccaa883c88140268a86042e83bf',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
   <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
@@ -209,6 +217,7 @@ img{display:block;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
+// ── FIREBASE ──
 const firebaseConfig = {
   apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
   authDomain: "aayuh-c9a87.firebaseapp.com",
@@ -217,8 +226,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.html"; });
 
+// ── DETECT APK vs WEB ──
+const isAPK = (typeof cordova !== 'undefined') || window.location.protocol === 'file:';
+
+// Hide web ads in APK — AdMob handles ads there
+if (isAPK) {
+  document.getElementById('webAdMid').style.display = 'none';
+  document.getElementById('adSticky').style.display = 'none';
+  document.body.style.paddingBottom = '60px'; // space for AdMob banner
+}
+
+// ── PROXY URL ──
 const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
 
+// ── LOCAL FALLBACK DATA ──
 const diseaseData = {
   diabetes: {
     symptoms: ["Frequent urination", "Excessive thirst", "Fatigue"],
@@ -228,6 +249,7 @@ const diseaseData = {
   }
 };
 
+// ── SMART EXTRACTOR ──
 function extractSections(text) {
   const sentences = text.split(".");
   let symptoms = [], prevention = [], treatment = [], lifestyle = [];
@@ -250,28 +272,38 @@ function extractSections(text) {
   };
 }
 
-async function getGroqAdvice(diseaseName) {
+// ── AI ADVICE (with retry) ──
+async function getGroqAdvice(diseaseName, retries = 2) {
   const prompt = `For the disease "${diseaseName}", return ONLY a raw JSON object, no markdown, no backticks:
 {"prevention":["tip1","tip2","tip3","tip4","tip5"],"diet":["food1","food2","food3","food4","food5"],"donts":["avoid1","avoid2","avoid3","avoid4"]}
 Each item max 12 words. Be medically accurate and practical.`;
-  const r = await fetch(PROXY_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.2,
-      max_tokens: 600
-    })
-  });
-  if (!r.ok) throw new Error('Proxy error ' + r.status);
-  const d = await r.json();
-  const txt = d.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
-  const m = txt.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('No JSON');
-  return JSON.parse(m[0]);
+
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const r = await fetch(PROXY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.2,
+          max_tokens: 600
+        })
+      });
+      if (!r.ok) throw new Error('Proxy error ' + r.status);
+      const d = await r.json();
+      const txt = d.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
+      const m = txt.match(/\{[\s\S]*\}/);
+      if (!m) throw new Error('No JSON');
+      return JSON.parse(m[0]);
+    } catch(e) {
+      if (i === retries) throw e;
+      await new Promise(res => setTimeout(res, 1500)); // wait 1.5s before retry
+    }
+  }
 }
 
+// ── RENDER HELPERS ──
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function renderCard(emoji, chipClass, title, source, items, dotClass, isAI) {
@@ -305,6 +337,7 @@ function renderAIPlaceholderCard(emoji, chipClass, title) {
   </div>`;
 }
 
+// ── URL PARAMS ──
 window.onload = () => {
   const params = new URLSearchParams(window.location.search);
   const s = params.get("search");
@@ -316,6 +349,7 @@ function quickSearch(name) {
   lookupDisease();
 }
 
+// ── MAIN LOOKUP ──
 async function lookupDisease() {
   const input = document.getElementById("diseaseInput").value.trim().toLowerCase();
   const area  = document.getElementById("mainArea");
@@ -397,6 +431,7 @@ async function lookupDisease() {
     btn.disabled = false;
     btn.textContent = 'Search';
 
+    // AI cards (async with retry)
     const aiGrid = document.getElementById('aiGrid');
     try {
       const ai = await getGroqAdvice(input);
@@ -409,7 +444,7 @@ async function lookupDisease() {
     } catch(_) {
       const fallbackPrev  = (local?.dos?.length  ? local.dos  : extracted.prevention).filter(Boolean);
       const fallbackDiet  = (local?.diet?.length ? local.diet : extracted.lifestyle).filter(Boolean);
-      const fallbackDonts = (local?.donts?.length ? local.donts : ["Avoid self-medication","Avoid ignoring symptoms","Avoid an unhealthy lifestyle"]);
+      const fallbackDonts = local?.donts?.length ? local.donts : ["Avoid self-medication","Avoid ignoring symptoms","Avoid an unhealthy lifestyle"];
       if (aiGrid) {
         aiGrid.innerHTML =
           renderCard('🛡️','chip-green','Prevention tips','From Wikipedia',fallbackPrev,'dot-green',false) +
@@ -426,6 +461,40 @@ async function lookupDisease() {
 
 function openMaps(query) {
   window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
+}
+
+// ── ADMOB FOR APK ──
+document.addEventListener('deviceready', function() {
+  if (typeof admob === 'undefined') return;
+
+  // Banner Ad — shows at bottom
+  admob.banner.config({
+    id: 'ca-app-pub-3213067385857659/1648637518', // your real banner ID
+    isTesting: false,
+    autoShow: true,
+    position: admob.banner.POSITION.BOTTOM_CENTER
+  });
+  admob.banner.prepare();
+  admob.banner.show();
+
+  // Interstitial Ad — shows between searches
+  admob.interstitial.config({
+    id: 'ca-app-pub-3213067385857659/1648637518',
+    isTesting: false,
+    autoShow: false
+  });
+  admob.interstitial.prepare();
+
+}, false);
+
+// Show interstitial every 3 searches
+let searchCount = 0;
+function showInterstitialIfReady() {
+  searchCount++;
+  if (searchCount % 3 === 0 && typeof admob !== 'undefined') {
+    admob.interstitial.show();
+    setTimeout(() => admob.interstitial.prepare(), 2000);
+  }
 }
 </script>
 <script src="cordova.js"></script>
