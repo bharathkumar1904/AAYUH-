@@ -3,769 +3,1709 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AAYUH Health Blogs</title>
+  <meta name="description" content="AAYUH Health Blogs - Trusted medical knowledge, medicine guides, disease awareness, nutrition tips, first aid, and wellness education." />
+  <meta name="keywords" content="health blogs, medicine, nutrition, first aid, diseases, diabetes, blood pressure, immunity, paracetamol, dengue, fever" />
+  <meta name="author" content="AAYUH Health" />
+  <title>AAYUH Health Blogs – Trusted Medical Knowledge</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
+    :root {
+      --teal-dark: #0f766e;
+      --teal: #14b8a6;
+      --teal-light: #5eead4;
+      --teal-pale: #d1fae5;
+      --bg: #f0f9f8;
+      --card-bg: #ffffff;
+      --text: #1a2e2d;
+      --muted: #5f7c7b;
+      --border: #cce8e6;
+      --shadow: 0 8px 32px rgba(15,118,110,0.10);
+      --shadow-hover: 0 20px 48px rgba(15,118,110,0.18);
     }
 
-    html{
-      scroll-behavior:smooth;
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
     }
 
-    body{
-      background:#f3f8fb;
-      color:#222;
-      overflow-x:hidden;
+    /* ── NAVBAR ── */
+    nav {
+      width: 100%;
+      background: linear-gradient(135deg, #0a5c56, #0f766e, #14b8a6);
+      padding: 0 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 68px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     }
 
-    /* NAVBAR */
-
-    nav{
-      width:100%;
-      background:linear-gradient(135deg,#0f766e,#14b8a6);
-      padding:18px 8%;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:sticky;
-      top:0;
-      z-index:1000;
-      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    .logo {
+      color: white;
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      letter-spacing: 2px;
     }
 
-    .logo{
-      color:white;
-      font-size:32px;
-      font-weight:700;
-      letter-spacing:1px;
+    .logo span { color: var(--teal-light); }
+
+    .nav-menu {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      list-style: none;
     }
 
-    .menu{
-      display:flex;
-      gap:25px;
-      align-items:center;
+    .nav-menu a {
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.25s;
     }
 
-    .menu a{
-      color:white;
-      text-decoration:none;
-      font-weight:500;
-      transition:0.3s;
+    .nav-menu a:hover, .nav-menu a.active {
+      background: rgba(255,255,255,0.18);
+      color: white;
     }
 
-    .menu a:hover{
-      color:#d1fae5;
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
     }
 
-    .menu-btn{
-      display:none;
-      color:white;
-      font-size:30px;
-      cursor:pointer;
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
     }
 
-    /* HERO */
-
-    .hero{
-      min-height:85vh;
-      background:linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-      url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1400&auto=format&fit=crop');
-      background-size:cover;
-      background-position:center;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:20px;
+    /* ── HERO ── */
+    .hero {
+      min-height: 82vh;
+      background:
+        linear-gradient(160deg, rgba(10,50,46,0.82) 0%, rgba(20,184,166,0.45) 100%),
+        url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 6% 80px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-content{
-      max-width:850px;
-      color:white;
-      animation:fadeIn 1.2s ease;
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
     }
 
-    .hero-content h1{
-      font-size:60px;
-      margin-bottom:20px;
-      line-height:1.2;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--teal-light);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 18px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(6px);
+      animation: fadeUp 0.8s ease both;
     }
 
-    .hero-content p{
-      font-size:20px;
-      margin-bottom:30px;
-      line-height:1.8;
+    .hero-badge::before { content: '✦'; }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 68px);
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      max-width: 820px;
+      animation: fadeUp 0.9s 0.1s ease both;
     }
 
-    .hero-btn{
-      display:inline-block;
-      background:#14b8a6;
-      color:white;
-      padding:15px 35px;
-      border-radius:50px;
-      text-decoration:none;
-      font-weight:600;
-      transition:0.3s;
+    .hero h1 em {
+      font-style: italic;
+      color: var(--teal-light);
     }
 
-    .hero-btn:hover{
-      background:white;
-      color:#0f766e;
-      transform:translateY(-3px);
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.82);
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 36px;
+      animation: fadeUp 1s 0.2s ease both;
     }
 
-    /* SEARCH */
-
-    .search-section{
-      margin-top:-50px;
-      position:relative;
-      z-index:10;
-      padding:0 8%;
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 1.1s 0.3s ease both;
     }
 
-    .search-box{
-      background:white;
-      border-radius:20px;
-      padding:25px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.1);
-      display:flex;
-      gap:15px;
-      flex-wrap:wrap;
-      justify-content:center;
-      align-items:center;
+    .btn-primary {
+      background: var(--teal);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s;
+      border: 2px solid transparent;
     }
 
-    .search-box input{
-      flex:1;
-      min-width:260px;
-      padding:15px 20px;
-      border:2px solid #14b8a6;
-      border-radius:50px;
-      font-size:16px;
-      outline:none;
+    .btn-primary:hover {
+      background: white;
+      color: var(--teal-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(20,184,166,0.35);
     }
 
-    .search-box button{
-      padding:15px 28px;
-      border:none;
-      border-radius:50px;
-      background:#14b8a6;
-      color:white;
-      cursor:pointer;
-      font-weight:600;
-      transition:0.3s;
+    .btn-outline {
+      background: transparent;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      border: 2px solid rgba(255,255,255,0.5);
+      transition: all 0.3s;
     }
 
-    .search-box button:hover{
-      background:#0f766e;
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: white;
+      transform: translateY(-3px);
     }
 
-    /* CATEGORY */
-
-    .categories{
-      padding:70px 8% 30px;
-      text-align:center;
+    /* ── SEARCH ── */
+    .search-wrap {
+      max-width: 780px;
+      margin: -36px auto 0;
+      padding: 0 6%;
+      position: relative;
+      z-index: 20;
     }
 
-    .section-title{
-      font-size:40px;
-      color:#0f766e;
-      margin-bottom:20px;
+    .search-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px 24px;
+      box-shadow: 0 16px 48px rgba(15,118,110,0.14);
+      display: flex;
+      gap: 12px;
+      align-items: center;
     }
 
-    .section-subtitle{
-      color:#666;
-      max-width:700px;
-      margin:auto;
-      margin-bottom:40px;
-      line-height:1.8;
+    .search-icon { font-size: 20px; color: var(--muted); flex-shrink: 0; }
+
+    #searchInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: transparent;
     }
 
-    .category-container{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:20px;
+    #searchInput::placeholder { color: #aac5c3; }
+
+    .search-count {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+      font-weight: 500;
     }
 
-    .category{
-      background:white;
-      padding:18px 30px;
-      border-radius:50px;
-      cursor:pointer;
-      box-shadow:0 5px 15px rgba(0,0,0,0.08);
-      transition:0.3s;
-      font-weight:500;
+    .btn-search {
+      background: var(--teal-dark);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.25s;
+      white-space: nowrap;
     }
 
-    .category:hover{
-      background:#14b8a6;
-      color:white;
-      transform:translateY(-5px);
+    .btn-search:hover { background: var(--teal); }
+
+    /* ── CATEGORIES ── */
+    .categories-section {
+      padding: 60px 6% 30px;
     }
 
-    /* BLOGS */
-
-    .blog-section{
-      padding:50px 8% 80px;
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .blog-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:35px;
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
     }
 
-    .blog-card{
-      background:white;
-      border-radius:25px;
-      overflow:hidden;
-      box-shadow:0 10px 25px rgba(0,0,0,0.08);
-      transition:0.4s;
-      position:relative;
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(26px, 3vw, 38px);
+      color: var(--teal-dark);
+      line-height: 1.2;
     }
 
-    .blog-card:hover{
-      transform:translateY(-10px);
-      box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    .cat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .blog-card img{
-      width:100%;
-      height:230px;
-      object-fit:cover;
+    .cat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 2px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      transition: all 0.25s;
+      user-select: none;
+      font-family: 'DM Sans', sans-serif;
     }
 
-    .blog-content{
-      padding:25px;
+    .cat-pill:hover, .cat-pill.active {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(15,118,110,0.25);
     }
 
-    .blog-tag{
-      display:inline-block;
-      background:#d1fae5;
-      color:#0f766e;
-      padding:6px 14px;
-      border-radius:20px;
-      font-size:13px;
-      font-weight:600;
-      margin-bottom:15px;
+    .cat-pill .icon { font-size: 16px; }
+    .cat-pill .count {
+      background: rgba(255,255,255,0.25);
+      border-radius: 50px;
+      padding: 1px 8px;
+      font-size: 11px;
     }
 
-    .blog-content h2{
-      margin-bottom:15px;
-      color:#0f766e;
-      line-height:1.4;
-      font-size:25px;
+    .cat-pill:not(.active) .count {
+      background: var(--teal-pale);
+      color: var(--teal-dark);
     }
 
-    .blog-content p{
-      color:#666;
-      line-height:1.8;
-      margin-bottom:20px;
+    /* ── BLOG GRID ── */
+    .blog-section {
+      padding: 20px 6% 80px;
     }
 
-    .blog-footer{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+    .blog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
-    .read-btn{
-      background:#14b8a6;
-      color:white;
-      text-decoration:none;
-      padding:12px 20px;
-      border-radius:30px;
-      transition:0.3s;
-      font-size:14px;
+    .results-text {
+      font-size: 15px;
+      color: var(--muted);
     }
 
-    .read-btn:hover{
-      background:#0f766e;
+    .results-text strong { color: var(--teal-dark); }
+
+    .sort-select {
+      border: 2px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: white;
+      cursor: pointer;
+      outline: none;
     }
 
-    .likes{
-      color:#666;
-      font-size:14px;
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
     }
 
-    /* NEWSLETTER */
-
-    .newsletter{
-      margin:0 8% 80px;
-      background:linear-gradient(135deg,#0f766e,#14b8a6);
-      border-radius:30px;
-      padding:60px 30px;
-      text-align:center;
-      color:white;
+    /* Featured first card */
+    .blog-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
-    .newsletter h2{
-      font-size:42px;
-      margin-bottom:20px;
+    .blog-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.35s cubic-bezier(0.25,0.8,0.25,1);
+      position: relative;
+      cursor: pointer;
     }
 
-    .newsletter p{
-      max-width:700px;
-      margin:auto;
-      margin-bottom:30px;
-      line-height:1.8;
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
     }
 
-    .newsletter-form{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:15px;
+    .card-img-wrap {
+      position: relative;
+      overflow: hidden;
     }
 
-    .newsletter-form input{
-      padding:15px 20px;
-      width:350px;
-      max-width:100%;
-      border:none;
-      border-radius:50px;
-      outline:none;
-      font-size:16px;
+    .blog-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
     }
 
-    .newsletter-form button{
-      padding:15px 30px;
-      border:none;
-      border-radius:50px;
-      background:white;
-      color:#0f766e;
-      font-weight:600;
-      cursor:pointer;
-      transition:0.3s;
+    .blog-card.featured img { height: 100%; min-height: 280px; }
+    .blog-card:hover img { transform: scale(1.06); }
+
+    .card-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: white;
+      color: var(--teal-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    .newsletter-form button:hover{
-      transform:scale(1.05);
+    .read-time {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.55);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 50px;
+      backdrop-filter: blur(4px);
     }
 
-    /* FOOTER */
+    .card-body { padding: 24px; }
 
-    footer{
-      background:#062c29;
-      color:white;
-      padding:50px 8% 20px;
+    .blog-card.featured .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 36px;
     }
 
-    .footer-container{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:40px;
-      margin-bottom:40px;
+    .featured-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
     }
 
-    .footer-box h3{
-      margin-bottom:20px;
-      color:#5eead4;
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--teal-dark);
+      line-height: 1.35;
+      margin-bottom: 10px;
     }
 
-    .footer-box p,
-    .footer-box a{
-      color:#ddd;
-      line-height:1.9;
-      text-decoration:none;
-      display:block;
-      margin-bottom:10px;
-      transition:0.3s;
+    .blog-card.featured .card-title { font-size: 28px; }
+
+    .card-excerpt {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .footer-box a:hover{
-      color:#5eead4;
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .copyright{
-      text-align:center;
-      border-top:1px solid rgba(255,255,255,0.1);
-      padding-top:20px;
-      color:#bbb;
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* ANIMATION */
+    .author-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
 
-    @keyframes fadeIn{
-      from{
-        opacity:0;
-        transform:translateY(30px);
+    .author-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .post-date { font-size: 12px; color: var(--muted); }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .like-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 2px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .like-btn:hover, .like-btn.liked {
+      background: #fff0f0;
+      border-color: #f87171;
+      color: #ef4444;
+    }
+
+    .like-btn .heart { transition: transform 0.2s; }
+    .like-btn.liked .heart { transform: scale(1.3); }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 2px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .share-btn:hover {
+      background: var(--teal-pale);
+      border-color: var(--teal);
+      color: var(--teal-dark);
+    }
+
+    .read-btn {
+      background: var(--teal-dark);
+      color: white;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .read-btn:hover {
+      background: var(--teal);
+      transform: translateX(2px);
+    }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      grid-column: 1 / -1;
+    }
+
+    .no-results .emoji { font-size: 56px; margin-bottom: 16px; }
+    .no-results h3 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--teal-dark); margin-bottom: 10px; }
+    .no-results p { color: var(--muted); }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      margin: 0 6% 80px;
+      background: linear-gradient(135deg, #0a5c56 0%, #0f766e 50%, #14b8a6 100%);
+      border-radius: 28px;
+      padding: 60px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter::before {
+      content: '✦';
+      position: absolute;
+      top: -20px;
+      right: 80px;
+      font-size: 160px;
+      color: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    .nl-text h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(24px, 2.5vw, 38px);
+      color: white;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .nl-text p { color: rgba(255,255,255,0.78); line-height: 1.75; font-size: 15px; }
+
+    .nl-form { display: flex; flex-direction: column; gap: 12px; }
+
+    .nl-form input {
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      color: var(--text);
+    }
+
+    .nl-form button {
+      padding: 15px 20px;
+      background: white;
+      color: var(--teal-dark);
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .nl-form button:hover { background: var(--teal-light); transform: scale(1.02); }
+
+    .nl-success {
+      display: none;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #071f1e;
+      color: white;
+      padding: 60px 6% 24px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 26px;
+      color: white;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .social-links { display: flex; gap: 10px; }
+
+    .social-link {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover { background: var(--teal); transform: translateY(-2px); }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal-light);
+      margin-bottom: 18px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover { color: var(--teal-light); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .footer-bottom a { color: var(--teal-light); text-decoration: none; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7,31,30,0.75);
+      z-index: 9000;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      overflow-y: auto;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 24px;
+      max-width: 780px;
+      width: 100%;
+      margin: auto;
+      overflow: hidden;
+      animation: fadeUp 0.35s ease;
+      position: relative;
+    }
+
+    .modal-hero {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: var(--text);
+      z-index: 1;
+    }
+
+    .modal-close:hover { background: white; transform: rotate(90deg); }
+
+    .modal-body { padding: 36px; }
+
+    .modal-tag {
+      display: inline-block;
+      background: var(--teal-pale);
+      color: var(--teal-dark);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: var(--teal-dark);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    .modal-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .modal-content {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #334544;
+    }
+
+    .modal-content h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: var(--teal-dark);
+      margin: 24px 0 10px;
+    }
+
+    .modal-content p { margin-bottom: 16px; }
+
+    .modal-content ul {
+      margin: 10px 0 16px 20px;
+      color: var(--muted);
+    }
+
+    .modal-content ul li { margin-bottom: 8px; line-height: 1.7; }
+
+    .modal-content .highlight {
+      background: var(--teal-pale);
+      border-left: 4px solid var(--teal);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin: 20px 0;
+      font-style: italic;
+      color: var(--teal-dark);
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    /* ── SHARE TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--teal-dark);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 9999;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── BACK TO TOP ── */
+    .back-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 46px;
+      height: 46px;
+      background: var(--teal-dark);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(15,118,110,0.35);
+      transition: all 0.3s;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 500;
+    }
+
+    .back-top.visible { opacity: 1; pointer-events: all; }
+    .back-top:hover { background: var(--teal); transform: translateY(-3px); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in { animation: fadeUp 0.5s ease both; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .blog-card.featured {
+        grid-template-columns: 1fr;
       }
-      to{
-        opacity:1;
-        transform:translateY(0);
+      .newsletter {
+        grid-template-columns: 1fr;
+        padding: 40px 28px;
       }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hamburger { display: flex; }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        width: 100%;
+        background: #0a5c56;
+        flex-direction: column;
+        padding: 20px 6%;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      }
+      .nav-menu.open { display: flex; }
+      .nav-menu a { padding: 12px 16px; border-radius: 10px; font-size: 15px; }
     }
 
-    /* MOBILE */
-
-    @media(max-width:900px){
-
-      .hero-content h1{
-        font-size:42px;
-      }
-
-      .hero-content p{
-        font-size:17px;
-      }
-
-      .menu{
-        display:none;
-        flex-direction:column;
-        position:absolute;
-        top:80px;
-        left:0;
-        width:100%;
-        background:#0f766e;
-        padding:20px;
-      }
-
-      .menu.active{
-        display:flex;
-      }
-
-      .menu-btn{
-        display:block;
-      }
-
-      .section-title{
-        font-size:32px;
-      }
-
-      .newsletter h2{
-        font-size:30px;
-      }
-
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .modal-body { padding: 20px; }
+      .modal-title { font-size: 22px; }
     }
-
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">AAY<span>UH</span></div>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Medicines</a></li>
+    <li><a href="#">Symptom Checker</a></li>
+    <li><a href="#">Diseases</a></li>
+    <li><a href="#blogs" class="active">Blogs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
-  <nav>
-    <div class="logo">AAYUH</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">India's Trusted Health Platform</div>
+  <h1>Your Guide to <em>Better Health</em> & Medical Knowledge</h1>
+  <p>Explore medicine guides, disease awareness, nutrition tips, first aid, and wellness articles written by healthcare professionals.</p>
+  <div class="hero-actions">
+    <a href="#blogs" class="btn-primary">Explore Blogs</a>
+    <a href="#newsletter" class="btn-outline">Get Health Tips</a>
+  </div>
+</section>
 
-    <div class="menu" id="menu">
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-card">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search for health topics, diseases, medicines…" oninput="filterBlogs()" />
+    <span class="search-count" id="searchCount">6 articles</span>
+    <button class="btn-search" onclick="filterBlogs()">Search</button>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories-section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Browse by topic</div>
+      <h2 class="section-title">Popular Categories</h2>
+    </div>
+  </div>
+  <div class="cat-pills" id="catPills">
+    <button class="cat-pill active" data-cat="all" onclick="filterCategory(this)">
+      <span class="icon">🏥</span> All Topics <span class="count">6</span>
+    </button>
+    <button class="cat-pill" data-cat="Medicine" onclick="filterCategory(this)">
+      <span class="icon">💊</span> Medicine <span class="count">1</span>
+    </button>
+    <button class="cat-pill" data-cat="Nutrition" onclick="filterCategory(this)">
+      <span class="icon">🥗</span> Nutrition <span class="count">1</span>
+    </button>
+    <button class="cat-pill" data-cat="Diseases" onclick="filterCategory(this)">
+      <span class="icon">🩺</span> Diseases <span class="count">1</span>
+    </button>
+    <button class="cat-pill" data-cat="Heart Care" onclick="filterCategory(this)">
+      <span class="icon">❤️</span> Heart Care <span class="count">1</span>
+    </button>
+    <button class="cat-pill" data-cat="First Aid" onclick="filterCategory(this)">
+      <span class="icon">🚑</span> First Aid <span class="count">1</span>
+    </button>
+    <button class="cat-pill" data-cat="Fever" onclick="filterCategory(this)">
+      <span class="icon">🌡️</span> Fever <span class="count">1</span>
+    </button>
+  </div>
+</section>
+
+<!-- BLOGS -->
+<section class="blog-section" id="blogs">
+  <div class="blog-header">
+    <p class="results-text"><strong id="resultNum">6</strong> articles found</p>
+    <select class="sort-select" id="sortSelect" onchange="sortBlogs()">
+      <option value="default">Sort: Featured</option>
+      <option value="likes">Most Liked</option>
+      <option value="az">A → Z</option>
+    </select>
+  </div>
+
+  <div class="blog-grid" id="blogGrid">
+
+    <!-- FEATURED -->
+    <article class="blog-card featured" data-cat="First Aid" data-likes="3100" data-title="Basic First Aid Tips Every Person Must Know" data-id="0">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop" alt="First Aid">
+        <span class="card-tag">First Aid</span>
+        <span class="read-time">5 min read</span>
+      </div>
+      <div class="card-body">
+        <div class="featured-label">✦ Featured Article</div>
+        <h2 class="card-title">Basic First Aid Tips Every Person Must Know</h2>
+        <p class="card-excerpt">Learn emergency first aid techniques for burns, cuts, fractures, choking, and accidents. Being prepared can save a life — yours or someone you love.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">DR</div>
+            <div>
+              <div class="author-name">Dr. Ramesh Iyer</div>
+              <div class="post-date">May 2026 · Emergency Medicine</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">3.1k</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'Basic First Aid Tips Every Person Must Know')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(0)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 1 -->
+    <article class="blog-card" data-cat="Medicine" data-likes="1200" data-title="Uses of Paracetamol" data-id="1">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=800&auto=format&fit=crop" alt="Paracetamol">
+        <span class="card-tag">Medicine</span>
+        <span class="read-time">4 min read</span>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Uses of Paracetamol</h2>
+        <p class="card-excerpt">Learn how paracetamol helps reduce fever and pain, proper dosage, side effects, precautions, and safe usage guidelines for adults and children.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">SP</div>
+            <div>
+              <div class="author-name">Dr. Sunita Patel</div>
+              <div class="post-date">April 2026</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">1.2k</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'Uses of Paracetamol')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(1)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 2 -->
+    <article class="blog-card" data-cat="Nutrition" data-likes="2500" data-title="Foods That Boost Immunity" data-id="2">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=800&auto=format&fit=crop" alt="Immunity foods">
+        <span class="card-tag">Nutrition</span>
+        <span class="read-time">5 min read</span>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Foods That Boost Immunity</h2>
+        <p class="card-excerpt">Discover healthy foods rich in antioxidants, vitamins, and minerals that strengthen your immune system and keep seasonal illnesses at bay.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">NK</div>
+            <div>
+              <div class="author-name">Nutritionist Neha K.</div>
+              <div class="post-date">April 2026</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">2.5k</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'Foods That Boost Immunity')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(2)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 3 -->
+    <article class="blog-card" data-cat="Diseases" data-likes="980" data-title="Symptoms of Diabetes" data-id="3">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=800&auto=format&fit=crop" alt="Diabetes">
+        <span class="card-tag">Diseases</span>
+        <span class="read-time">6 min read</span>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Symptoms of Diabetes</h2>
+        <p class="card-excerpt">Understand early warning signs of Type 1 and Type 2 diabetes, risk factors, prevention strategies, and when to see a doctor.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">AM</div>
+            <div>
+              <div class="author-name">Dr. Anil Mehta</div>
+              <div class="post-date">March 2026</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">980</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'Symptoms of Diabetes')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(3)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 4 -->
+    <article class="blog-card" data-cat="Heart Care" data-likes="1800" data-title="How to Control Blood Pressure" data-id="4">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=800&auto=format&fit=crop" alt="Blood pressure">
+        <span class="card-tag">Heart Care</span>
+        <span class="read-time">5 min read</span>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">How to Control Blood Pressure</h2>
+        <p class="card-excerpt">Learn science-backed lifestyle changes, DASH diet principles, exercises, and stress management techniques to keep your blood pressure in check.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">VR</div>
+            <div>
+              <div class="author-name">Dr. Vijay Rao</div>
+              <div class="post-date">March 2026</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">1.8k</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'How to Control Blood Pressure')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(4)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 5 -->
+    <article class="blog-card" data-cat="Fever" data-likes="2100" data-title="Difference Between Viral Fever and Dengue" data-id="5">
+      <div class="card-img-wrap">
+        <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=800&auto=format&fit=crop" alt="Fever vs Dengue">
+        <span class="card-tag">Fever</span>
+        <span class="read-time">5 min read</span>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Difference Between Viral Fever & Dengue</h2>
+        <p class="card-excerpt">Compare symptoms, danger signs, treatment approaches, and prevention methods for viral fever and dengue — critical knowledge during monsoon season.</p>
+        <div class="card-meta">
+          <div class="author-info">
+            <div class="author-avatar">PS</div>
+            <div>
+              <div class="author-name">Dr. Priya Sharma</div>
+              <div class="post-date">May 2026</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="toggleLike(this, event)"><span class="heart">❤</span> <span class="like-count">2.1k</span></button>
+            <button class="share-btn" onclick="sharePost(event, 'Difference Between Viral Fever and Dengue')">↗ Share</button>
+            <button class="read-btn" onclick="openModal(5)">Read More</button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- No results -->
+  <div class="no-results" id="noResults">
+    <div class="emoji">🔍</div>
+    <h3>No articles found</h3>
+    <p>Try a different search term or browse all categories.</p>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div class="nl-text">
+    <h2>Stay Updated With Health Tips</h2>
+    <p>Subscribe to AAYUH's weekly newsletter and receive the latest medicine updates, wellness tips, disease prevention guides, and healthcare awareness articles.</p>
+  </div>
+  <div>
+    <div class="nl-form" id="nlForm">
+      <input type="email" id="nlEmail" placeholder="Enter your email address" required />
+      <button onclick="subscribeNow()">Subscribe for Free →</button>
+    </div>
+    <div class="nl-success" id="nlSuccess">
+      ✅ You're subscribed! Welcome to the AAYUH health community.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text">AAYUH</div>
+      <p>Your trusted healthcare platform for medicine information, symptom checking, disease awareness, and wellness education. Always consult a qualified doctor for medical advice.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Facebook">f</a>
+        <a href="#" class="social-link" title="Twitter">𝕏</a>
+        <a href="#" class="social-link" title="Instagram">📷</a>
+        <a href="#" class="social-link" title="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
       <a href="#">Home</a>
+      <a href="#blogs">Blogs</a>
       <a href="#">Medicines</a>
       <a href="#">Symptom Checker</a>
-      <a href="#">Diseases</a>
-      <a href="#">Blogs</a>
-      <a href="#">Contact</a>
+      <a href="#">Diseases A–Z</a>
     </div>
-
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  </nav>
-
-  <!-- HERO -->
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Trusted Health Blogs & Medical Knowledge</h1>
-
-      <p>
-        Explore medicine guides, disease awareness, healthy lifestyle tips,
-        first aid information, wellness articles, and healthcare education
-        from AAYUH.
-      </p>
-
-      <a href="#blogs" class="hero-btn">Explore Blogs</a>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Disclaimer</a>
+      <a href="#">Sitemap</a>
     </div>
-  </section>
-
-
-  <!-- SEARCH -->
-
-  <section class="search-section">
-
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search health blogs...">
-      <button onclick="searchBlogs()">Search</button>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:bharathkumar.ltd@gmail.com"></a>
+      <a href="#">Hospital Finder</a>
+      <a href="#">Medical History</a>
+      <a href="#">Report an Issue</a>
     </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AAYUH. All Rights Reserved. | Made in India 🇮🇳</p>
+    <p>Medical Disclaimer: Content is for informational purposes only. <a href="#">Learn more</a></p>
+  </div>
+</footer>
 
-  </section>
-  <!-- AD: After Search -->
-<div id="adSearch" style="position:relative;display:flex;flex-direction:column;align-items:center;padding:20px 8%;background:#f3f8fb;">
-  <button onclick="document.getElementById('adSearch').style.display='none'" style="position:absolute;top:8px;right:calc(8% + 4px);background:#ddd;border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Advertisement</div>
-  <script async="async" data-cfasync="false" src="https://pl29549502.effectivecpmnetwork.com/524b0aded63375ff999c0d77762a1bce/invoke.js"></script>
-  <div id="container-524b0aded63375ff999c0d77762a1bce"></div>
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img class="modal-hero" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <span class="modal-tag" id="modalTag"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-meta" id="modalMeta"></div>
+      <div class="modal-content" id="modalContent"></div>
+      <div class="modal-footer">
+        <button class="like-btn" id="modalLikeBtn" onclick="toggleLike(this)"><span class="heart">❤</span> <span class="like-count" id="modalLikeCount"></span></button>
+        <button class="share-btn" id="modalShareBtn" onclick="shareModal()">↗ Share Article</button>
+        <button class="read-btn" style="margin-left:auto;" onclick="closeModal()">← Back to Blogs</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-  <!-- CATEGORIES -->
+<script>
+// ── BLOG DATA ──
+const blogs = [
+  {
+    id: 0,
+    tag: "First Aid",
+    img: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop",
+    title: "Basic First Aid Tips Every Person Must Know",
+    author: "Dr. Ramesh Iyer", role: "Emergency Medicine Specialist", date: "May 15, 2026",
+    readTime: "5 min read", likes: 3100,
+    content: `
+      <p>First aid is the immediate assistance given to a person suffering from a minor or serious illness or injury, with care provided to preserve life, prevent the condition from worsening, or promote recovery.</p>
+      <div class="highlight">💡 Remember the ABC of First Aid: Airway, Breathing, Circulation — check these first in any emergency.</div>
+      <h3>1. Burns</h3>
+      <p>For minor burns, cool the burn under cool (not cold) running water for at least 10 minutes. Cover with a sterile dressing. Do NOT apply butter, toothpaste, or ice — these can cause infection or worsen tissue damage.</p>
+      <h3>2. Choking</h3>
+      <p>Encourage the person to cough if they can. If unable to breathe, give up to 5 sharp back blows between the shoulder blades. Follow with up to 5 abdominal thrusts (Heimlich maneuver). Call emergency services if obstruction persists.</p>
+      <h3>3. Cuts and Bleeding</h3>
+      <ul>
+        <li>Apply firm pressure with a clean cloth for at least 10 minutes</li>
+        <li>Elevate the injured area above heart level if possible</li>
+        <li>Seek medical attention for deep or heavily bleeding wounds</li>
+        <li>Do not remove embedded objects — stabilise them instead</li>
+      </ul>
+      <h3>4. Fractures and Sprains</h3>
+      <p>Immobilise the injured area using a splint or sling. Apply ice wrapped in a cloth to reduce swelling. Do not attempt to straighten a suspected fracture. Transport to the nearest hospital safely.</p>
+      <h3>5. Heart Attack Signs</h3>
+      <ul>
+        <li>Chest pain, pressure, or tightness</li>
+        <li>Pain spreading to the arm, jaw, or back</li>
+        <li>Shortness of breath, cold sweat, nausea</li>
+      </ul>
+      <p>Call 112 immediately. If trained, begin CPR if the person becomes unresponsive.</p>
+      <div class="highlight">⚠️ This content is for educational purposes only. Always call emergency services (112) for life-threatening situations.</div>
+    `
+  },
+  {
+    id: 1,
+    tag: "Medicine",
+    img: "https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200&auto=format&fit=crop",
+    title: "Uses of Paracetamol",
+    author: "Dr. Sunita Patel", role: "General Physician", date: "April 22, 2026",
+    readTime: "4 min read", likes: 1200,
+    content: `
+      <p>Paracetamol (acetaminophen) is one of the most widely used over-the-counter medicines in the world. It effectively reduces fever (antipyretic) and relieves mild to moderate pain (analgesic).</p>
+      <h3>Common Uses</h3>
+      <ul>
+        <li>Fever reduction in adults and children</li>
+        <li>Headaches and migraines</li>
+        <li>Toothache and post-dental pain</li>
+        <li>Muscle aches and backache</li>
+        <li>Cold and flu symptoms</li>
+        <li>Menstrual cramps</li>
+      </ul>
+      <h3>Standard Dosage</h3>
+      <p>Adults and children over 12: 500 mg – 1000 mg every 4–6 hours as needed. Maximum 4000 mg (4 g) per day. Children under 12 should receive weight-based dosing — consult your pharmacist or doctor.</p>
+      <div class="highlight">⚠️ Never exceed the recommended dose. Paracetamol overdose is a leading cause of acute liver failure.</div>
+      <h3>Precautions</h3>
+      <ul>
+        <li>Avoid alcohol while taking paracetamol — it increases liver damage risk</li>
+        <li>Check labels of combined cold medicines to avoid double dosing</li>
+        <li>Use with caution in patients with liver disease or kidney impairment</li>
+        <li>Not recommended for children under 2 years without medical advice</li>
+      </ul>
+      <h3>Side Effects</h3>
+      <p>Paracetamol is generally well tolerated at recommended doses. Rare side effects include skin rash, low blood pressure (with IV form), and abnormal liver function with long-term high-dose use.</p>
+    `
+  },
+  {
+    id: 2,
+    tag: "Nutrition",
+    img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1200&auto=format&fit=crop",
+    title: "Foods That Boost Immunity",
+    author: "Nutritionist Neha Krishnan", role: "Clinical Nutritionist", date: "April 10, 2026",
+    readTime: "5 min read", likes: 2500,
+    content: `
+      <p>Your immune system is your body's defence force. While no single food can prevent illness, a well-balanced diet rich in specific nutrients can significantly strengthen your immune response.</p>
+      <h3>Top Immunity-Boosting Foods</h3>
+      <ul>
+        <li><strong>Citrus fruits</strong> — Oranges, lemons, amla (Indian gooseberry): packed with Vitamin C which stimulates white blood cell production.</li>
+        <li><strong>Ginger and Turmeric</strong> — Potent anti-inflammatory properties. Curcumin in turmeric enhances immune cell activity.</li>
+        <li><strong>Garlic</strong> — Contains allicin, which boosts immune function and fights infections.</li>
+        <li><strong>Green leafy vegetables</strong> — Spinach and methi are rich in Vitamins A, C, E and folate.</li>
+        <li><strong>Yoghurt and Curd</strong> — Probiotics support gut microbiome, directly linked to immune function.</li>
+        <li><strong>Nuts and Seeds</strong> — Almonds (Vitamin E), sunflower seeds (selenium) are powerful antioxidants.</li>
+      </ul>
+      <div class="highlight">🥗 Indian kitchen staples like haldi doodh (golden milk), kadha, and dal are naturally immunity-boosting!</div>
+      <h3>Nutrients That Matter Most</h3>
+      <ul>
+        <li><strong>Vitamin C</strong> — Stimulates white blood cell production</li>
+        <li><strong>Vitamin D</strong> — Regulates immune cell function (get daily sunlight)</li>
+        <li><strong>Zinc</strong> — Found in lentils, seeds, and whole grains</li>
+        <li><strong>Iron</strong> — Critical for immune cell division (found in legumes, dark leafy greens)</li>
+      </ul>
+      <h3>Lifestyle Tip</h3>
+      <p>No supplement can replace a balanced diet, adequate sleep (7–9 hours), regular exercise, and stress management. Combine good nutrition with these habits for optimal immune health.</p>
+    `
+  },
+  {
+    id: 3,
+    tag: "Diseases",
+    img: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1200&auto=format&fit=crop",
+    title: "Symptoms of Diabetes",
+    author: "Dr. Anil Mehta", role: "Endocrinologist", date: "March 18, 2026",
+    readTime: "6 min read", likes: 980,
+    content: `
+      <p>Diabetes mellitus is a chronic condition affecting how the body processes blood glucose. India has over 100 million diabetic patients — making awareness critical for early detection and management.</p>
+      <h3>Early Warning Signs</h3>
+      <ul>
+        <li>Frequent urination (polyuria) — especially at night</li>
+        <li>Excessive thirst (polydipsia)</li>
+        <li>Unexplained weight loss despite normal eating</li>
+        <li>Constant hunger even after eating</li>
+        <li>Blurred vision</li>
+        <li>Slow-healing cuts or wounds</li>
+        <li>Tingling or numbness in hands/feet</li>
+        <li>Frequent infections (skin, gum, or urinary tract)</li>
+      </ul>
+      <div class="highlight">🩺 Type 2 diabetes can be silent for years. If you have any risk factors, get your HbA1c tested regularly.</div>
+      <h3>Type 1 vs Type 2</h3>
+      <ul>
+        <li><strong>Type 1</strong> — Autoimmune; body produces no insulin. Typically diagnosed in children/young adults. Requires lifelong insulin.</li>
+        <li><strong>Type 2</strong> — Body resists insulin or doesn't produce enough. Most common form. Linked to lifestyle factors.</li>
+      </ul>
+      <h3>Risk Factors</h3>
+      <ul>
+        <li>Family history of diabetes</li>
+        <li>Overweight or obesity (especially abdominal fat)</li>
+        <li>Physical inactivity</li>
+        <li>Age above 45</li>
+        <li>Gestational diabetes in past pregnancies</li>
+        <li>High blood pressure and cholesterol</li>
+      </ul>
+      <h3>Prevention</h3>
+      <p>Type 2 diabetes is largely preventable. Regular exercise (30 min/day), reducing refined carbohydrates and sugar, maintaining healthy weight, and annual blood sugar screening can significantly reduce risk.</p>
+    `
+  },
+  {
+    id: 4,
+    tag: "Heart Care",
+    img: "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200&auto=format&fit=crop",
+    title: "How to Control Blood Pressure",
+    author: "Dr. Vijay Rao", role: "Cardiologist", date: "March 5, 2026",
+    readTime: "5 min read", likes: 1800,
+    content: `
+      <p>Hypertension (high blood pressure) is called the "silent killer" because it rarely shows symptoms but significantly increases the risk of heart attack, stroke, and kidney disease. Normal blood pressure is below 120/80 mmHg.</p>
+      <h3>Lifestyle Changes That Work</h3>
+      <ul>
+        <li><strong>Reduce sodium</strong> — Keep intake below 2,300 mg/day. Avoid pickles, processed foods, papads, and extra salt.</li>
+        <li><strong>DASH Diet</strong> — Rich in fruits, vegetables, whole grains, and low-fat dairy. Scientifically proven to lower BP.</li>
+        <li><strong>Regular exercise</strong> — 30 minutes of brisk walking, 5 days a week can lower systolic BP by 5–8 mmHg.</li>
+        <li><strong>Limit alcohol</strong> — No more than one drink per day for women, two for men.</li>
+        <li><strong>Quit smoking</strong> — Each cigarette temporarily raises BP and damages blood vessel walls over time.</li>
+      </ul>
+      <div class="highlight">💊 Never stop blood pressure medication without consulting your doctor — even if you feel fine.</div>
+      <h3>Stress Management</h3>
+      <p>Chronic stress elevates blood pressure. Techniques that help: deep breathing (pranayama), meditation, yoga, adequate sleep (7–9 hours), and limiting screen time before bed.</p>
+      <h3>Foods That Naturally Lower BP</h3>
+      <ul>
+        <li>Bananas and sweet potatoes (potassium-rich)</li>
+        <li>Flaxseeds and walnuts (omega-3 fatty acids)</li>
+        <li>Beetroot juice (nitrates that relax blood vessels)</li>
+        <li>Dark leafy greens (magnesium)</li>
+      </ul>
+      <h3>Monitor at Home</h3>
+      <p>Purchase a validated home BP monitor and check your reading at the same time each morning. Keep a log to share with your doctor at every visit.</p>
+    `
+  },
+  {
+    id: 5,
+    tag: "Fever",
+    img: "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=1200&auto=format&fit=crop",
+    title: "Difference Between Viral Fever & Dengue",
+    author: "Dr. Priya Sharma", role: "Infectious Disease Specialist", date: "May 10, 2026",
+    readTime: "5 min read", likes: 2100,
+    content: `
+      <p>During monsoon season, distinguishing between common viral fever and dengue is critical — dengue can become life-threatening if not identified early.</p>
+      <h3>Viral Fever — Key Signs</h3>
+      <ul>
+        <li>Gradual onset over 1–2 days</li>
+        <li>Mild to moderate fever (99–102°F)</li>
+        <li>Running nose, cough, sore throat</li>
+        <li>Body ache and fatigue</li>
+        <li>Usually resolves within 5–7 days</li>
+      </ul>
+      <h3>Dengue Fever — Warning Signs</h3>
+      <ul>
+        <li>Sudden high fever (103–104°F) with severe headache</li>
+        <li>Pain behind the eyes (retro-orbital pain)</li>
+        <li>Severe joint and muscle pain ("breakbone fever")</li>
+        <li>Skin rash appearing 3–4 days after fever onset</li>
+        <li>Nausea and vomiting</li>
+        <li>Mild bleeding: gum bleeding, nosebleed, or easy bruising</li>
+      </ul>
+      <div class="highlight">🚨 Dengue Warning Signs requiring immediate hospital care: severe abdominal pain, persistent vomiting, bleeding gums, rapid breathing, or sudden drop in fever with cold/clammy skin.</div>
+      <h3>How to Tell Them Apart</h3>
+      <ul>
+        <li>Dengue typically does NOT cause cold/cough/runny nose</li>
+        <li>The rash in dengue is distinctive — red spots that appear 2–5 days after fever</li>
+        <li>Platelet count drops significantly in dengue</li>
+        <li>NS1 antigen blood test confirms dengue within the first 5 days</li>
+      </ul>
+      <h3>Prevention</h3>
+      <p>Dengue spreads via Aedes mosquito bites (daytime mosquitoes). Use mosquito repellent, wear full-sleeve clothing, eliminate stagnant water around your home, and use window screens.</p>
+    `
+  }
+];
 
-  <section class="categories">
+let activeCat = 'all';
+let activeSearch = '';
 
-    <h2 class="section-title">Popular Categories</h2>
+// ── MODAL ──
+let currentModalId = null;
 
-    <p class="section-subtitle">
-      Discover healthcare information across multiple medical and wellness categories.
-    </p>
+function openModal(id) {
+  const b = blogs[id];
+  currentModalId = id;
+  document.getElementById('modalImg').src = b.img;
+  document.getElementById('modalImg').alt = b.title;
+  document.getElementById('modalTag').textContent = b.tag;
+  document.getElementById('modalTitle').textContent = b.title;
+  document.getElementById('modalMeta').innerHTML =
+    `<span>👤 ${b.author}</span><span>·</span><span>🗓 ${b.date}</span><span>·</span><span>⏱ ${b.readTime}</span>`;
+  document.getElementById('modalContent').innerHTML = b.content;
+  const likeCount = document.getElementById('modalLikeCount');
+  likeCount.textContent = formatLikes(b.likes);
+  const card = document.querySelector(`.blog-card[data-id="${id}"]`);
+  const cardLikeBtn = card ? card.querySelector('.like-btn') : null;
+  const modalLikeBtn = document.getElementById('modalLikeBtn');
+  if (cardLikeBtn && cardLikeBtn.classList.contains('liked')) {
+    modalLikeBtn.classList.add('liked');
+  } else {
+    modalLikeBtn.classList.remove('liked');
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 
-    <div class="category-container">
-      <div class="category">Medicine</div>
-      <div class="category">Fitness</div>
-      <div class="category">Nutrition</div>
-      <div class="category">First Aid</div>
-      <div class="category">Diseases</div>
-      <div class="category">Mental Health</div>
-    </div>
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-  </section>
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
 
-  <!-- BLOGS -->
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  <section class="blog-section" id="blogs">
+// ── LIKES ──
+function formatLikes(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1).replace('.0','') + 'k';
+  return n.toString();
+}
 
-    <div class="blog-grid" id="blogGrid">
+function toggleLike(btn, e) {
+  if (e) e.stopPropagation();
+  const countEl = btn.querySelector('.like-count');
+  const card = btn.closest('.blog-card');
+  const id = card ? parseInt(card.dataset.id) : currentModalId;
+  const isLiked = btn.classList.toggle('liked');
+  blogs[id].likes += isLiked ? 1 : -1;
+  countEl.textContent = formatLikes(blogs[id].likes);
+  // Sync modal and card if open
+  if (currentModalId === id) {
+    document.getElementById('modalLikeCount').textContent = formatLikes(blogs[id].likes);
+    document.getElementById('modalLikeBtn').classList.toggle('liked', isLiked);
+  }
+  if (card) {
+    const cardBtn = card.querySelector('.like-btn');
+    cardBtn.classList.toggle('liked', isLiked);
+    cardBtn.querySelector('.like-count').textContent = formatLikes(blogs[id].likes);
+  }
+}
 
-      <!-- BLOG -->
+// ── SHARE ──
+function sharePost(e, title) {
+  e.stopPropagation();
+  doShare(title);
+}
 
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200&auto=format&fit=crop">
+function shareModal() {
+  doShare(blogs[currentModalId].title);
+}
 
-        <div class="blog-content">
-          <span class="blog-tag">Medicine</span>
+function doShare(title) {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'AAYUH – ' + title, url });
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast('🔗 Link copied to clipboard!'));
+  }
+}
 
-          <h2>Uses of Paracetamol</h2>
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
 
-          <p>
-            Learn how paracetamol helps reduce fever and pain, proper dosage,
-            side effects, precautions, and safe usage guidelines.
-          </p>
+// ── SEARCH & FILTER ──
+function filterBlogs() {
+  activeSearch = document.getElementById('searchInput').value.toLowerCase().trim();
+  renderCards();
+}
 
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 1.2k</span>
-          </div>
-        </div>
-      </div>
+function filterCategory(btn) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  activeCat = btn.dataset.cat;
+  renderCards();
+}
 
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1200&auto=format&fit=crop">
+function sortBlogs() {
+  renderCards();
+}
 
-        <div class="blog-content">
-          <span class="blog-tag">Nutrition</span>
+function renderCards() {
+  const grid = document.getElementById('blogGrid');
+  const cards = Array.from(grid.querySelectorAll('.blog-card'));
+  const sortVal = document.getElementById('sortSelect').value;
+  let visible = 0;
 
-          <h2>Foods That Boost Immunity</h2>
+  // Sort
+  let order = blogs.map((_,i) => i);
+  if (sortVal === 'likes') order.sort((a,b) => blogs[b].likes - blogs[a].likes);
+  else if (sortVal === 'az') order.sort((a,b) => blogs[a].title.localeCompare(blogs[b].title));
 
-          <p>
-            Discover healthy foods rich in antioxidants, vitamins, and minerals
-            that strengthen your immune system naturally.
-          </p>
-
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 2.5k</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="blog-content">
-          <span class="blog-tag">Diseases</span>
-
-          <h2>Symptoms of Diabetes</h2>
-
-          <p>
-            Understand early diabetes symptoms, prevention methods,
-            healthy food habits, and risk factors.
-          </p>
-
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 980</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="blog-content">
-          <span class="blog-tag">Heart Care</span>
-
-          <h2>How to Control Blood Pressure</h2>
-
-          <p>
-            Learn simple lifestyle changes, exercises, diet plans,
-            and stress management techniques.
-          </p>
-
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 1.8k</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="blog-content">
-          <span class="blog-tag">First Aid</span>
-
-          <h2>Basic First Aid Tips</h2>
-
-          <p>
-            Learn emergency first aid techniques for burns, cuts,
-            fractures, bleeding, and accidents.
-          </p>
-
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 3.1k</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="blog-card">
-        <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=1200&auto=format&fit=crop">
-
-        <div class="blog-content">
-          <span class="blog-tag">Fever</span>
-
-          <h2>Difference Between Viral Fever & Dengue</h2>
-
-          <p>
-            Compare symptoms, warning signs, treatment precautions,
-            and prevention methods.
-          </p>
-
-          <div class="blog-footer">
-            <a href="#" class="read-btn">Read More</a>
-            <span class="likes">❤ 2.1k</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-<!-- AD: Between Blogs and Newsletter -->
-<div id="adMid" style="position:relative;display:flex;flex-direction:column;align-items:center;padding:10px 8% 30px;background:#f3f8fb;">
-  <button onclick="document.getElementById('adMid').style.display='none'" style="position:absolute;top:8px;right:calc(8% + 4px);background:#ddd;border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Advertisement</div>
-  <script async="async" data-cfasync="false" src="https://pl29549502.effectivecpmnetwork.com/524b0aded63375ff999c0d77762a1bce/invoke.js"></script>
-  <div id="container-524b0aded63375ff999c0d77762a1bce-2"></div>
-</div>
-  <!-- NEWSLETTER -->
-
-  <section class="newsletter">
-
-    <h2>Stay Updated With Health Tips</h2>
-
-    <p>
-      Subscribe to AAYUH health newsletters and receive the latest medicine updates,
-      wellness tips, disease prevention guides, and healthcare awareness articles.
-    </p>
-
-    <div class="newsletter-form">
-      <input type="email" placeholder="Enter your email">
-      <button onclick="subscribeNow()">Subscribe</button>
-    </div>
-
-  </section>
-
-  <!-- FOOTER -->
-
-  <footer>
-
-    <div class="footer-container">
-
-      <div class="footer-box">
-        <h3>AAYUH</h3>
-        <p>
-          Your trusted healthcare platform for medicine information,
-          symptom checking, disease awareness, and wellness education.
-        </p>
-      </div>
-
-      <div class="footer-box">
-        <h3>Quick Links</h3>
-        <a href="#">Home</a>
-        <a href="#">Blogs</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Disclaimer</a>
-      </div>
-
-      <div class="footer-box">
-        <h3>Features</h3>
-        <a href="#">Medicine Search</a>
-        <a href="#">Symptom Checker</a>
-        <a href="#">Hospital Finder</a>
-        <a href="#">Medical History</a>
-      </div>
-
-      <div class="footer-box">
-        <h3>Contact</h3>
-        <p>Email: bharathkumar.ltd@gmail.com</p>
-        <p>Phone: ---------</p>
-        <p>India</p>
-      </div>
-
-    </div>
-
-    <div class="copyright">
-      © 2026 AAYUH. All Rights Reserved.
-    </div>
-
-  </footer>
-
-  <script>
-
-    function toggleMenu(){
-      document.getElementById('menu').classList.toggle('active');
+  order.forEach((id, idx) => {
+    const card = grid.querySelector(`.blog-card[data-id="${id}"]`);
+    if (!card) return;
+    const title = card.dataset.title.toLowerCase();
+    const cat = card.dataset.cat;
+    const matchSearch = !activeSearch || title.includes(activeSearch);
+    const matchCat = activeCat === 'all' || cat === activeCat;
+    if (matchSearch && matchCat) {
+      card.style.display = '';
+      card.style.order = idx;
+      visible++;
+    } else {
+      card.style.display = 'none';
     }
+  });
 
-    function searchBlogs(){
+  // Featured status: only show as featured if in "all" and no search
+  const featuredCard = grid.querySelector('.blog-card.featured');
+  if (featuredCard) {
+    const shouldFeatured = activeCat === 'all' && !activeSearch && sortVal === 'default';
+    featuredCard.classList.toggle('featured', shouldFeatured);
+  }
 
-      let input = document.getElementById('searchInput').value.toLowerCase();
+  document.getElementById('resultNum').textContent = visible;
+  document.getElementById('searchCount').textContent = visible + ' article' + (visible !== 1 ? 's' : '');
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
 
-      let cards = document.querySelectorAll('.blog-card');
+// ── NEWSLETTER ──
+function subscribeNow() {
+  const email = document.getElementById('nlEmail').value.trim();
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!re.test(email)) {
+    showToast('⚠️ Please enter a valid email address.');
+    return;
+  }
+  document.getElementById('nlForm').style.display = 'none';
+  document.getElementById('nlSuccess').style.display = 'block';
+  showToast('🎉 Successfully subscribed!');
+}
 
-      cards.forEach(card => {
+// ── NAV ──
+function toggleNav() {
+  document.getElementById('navMenu').classList.toggle('open');
+}
 
-        let title = card.querySelector('h2').innerText.toLowerCase();
+// ── BACK TO TOP ──
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
 
-        if(title.includes(input)){
-          card.style.display = 'block';
-        }
-        else{
-          card.style.display = 'none';
-        }
-
-      });
-    }
-
-    function subscribeNow(){
-      alert('Thank you for subscribing to AAYUH Health Newsletter!');
-    }
-
-  </script>
+// ── SEARCH ON ENTER ──
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') filterBlogs();
+});
+</script>
 
 <script src='backbutton.js'></script>
-<!-- AD: Sticky Bottom -->
-<div id="adSticky" style="position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid #ddd;padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(0,0,0,0.08);">
-  <button onclick="document.getElementById('adSticky').style.display='none';document.body.style.paddingBottom='0'" style="position:absolute;top:4px;right:8px;background:#ddd;border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:#aaa;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script async="async" data-cfasync="false" src="https://pl29549502.effectivecpmnetwork.com/524b0aded63375ff999c0d77762a1bce/invoke.js"></script>
-  <div id="container-524b0aded63375ff999c0d77762a1bce-3"></div>
-</div>
 </body>
 </html>

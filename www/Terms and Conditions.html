@@ -1,156 +1,606 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AAYUH! | Terms & Conditions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --teal-deep: #00696f;
+      --teal-mid: #00868e;
+      --teal-light: #00b4be;
+      --teal-glow: rgba(0, 180, 190, 0.15);
+      --gold: #e9a84c;
+      --gold-light: #f5c97a;
+      --bg: #f0f7f8;
+      --card: #ffffff;
+      --text: #1a2b2c;
+      --text-soft: #4a6b6d;
+      --border: rgba(0, 134, 142, 0.15);
+      --shadow: 0 8px 40px rgba(0, 105, 111, 0.10);
+      --radius: 20px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      line-height: 1.6;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      min-height: 100vh;
     }
 
+    /* HERO HEADER */
     header {
-      background-color: #007b83;
-      color: white;
-      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, #00535a 0%, #007b83 45%, #009fa9 100%);
+      padding: 70px 24px 90px;
       text-align: center;
-      font-size: 24px;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(0,220,235,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 70%, rgba(233,168,76,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.07);
+      top: -180px; right: -120px;
+      pointer-events: none;
+    }
+    .header-inner { position: relative; z-index: 1; }
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(12px);
+      padding: 8px 22px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+    }
+    .logo-badge .pulse {
+      width: 9px; height: 9px;
+      background: var(--gold-light);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+    .logo-badge span {
+      font-size: 13px;
       font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 8vw, 72px);
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    header h1 span { color: var(--gold-light); }
+    header .subtitle {
+      margin-top: 14px;
+      font-size: 17px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+    .header-wave {
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
     }
 
+    /* TOC NAV */
+    .toc-strip {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,105,111,0.07);
+    }
+    .toc-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 12px 0;
+    }
+    .toc-inner::-webkit-scrollbar { display: none; }
+    .toc-chip {
+      flex-shrink: 0;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-soft);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .toc-chip:hover {
+      background: var(--teal-glow);
+      color: var(--teal-deep);
+      border-color: var(--teal-light);
+    }
+
+    /* MAIN */
     main {
       max-width: 900px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 30px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .meta-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 24px;
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      color: var(--text-soft);
+    }
+    .meta-item .icon {
+      width: 30px; height: 30px;
+      background: var(--teal-glow);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    /* SECTION CARD */
+    .section {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 34px 36px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.25s;
+      animation: fadeUp 0.5s ease both;
+    }
+    .section:hover {
+      box-shadow: 0 12px 50px rgba(0,105,111,0.14);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .section-num {
+      flex-shrink: 0;
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--teal-mid), var(--teal-light));
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      color: #007b83;
-      margin-top: 30px;
-      font-size: 20px;
-    }
-
-    p {
-      margin: 10px 0;
-      text-align: justify;
-    }
-
-    ul {
-      margin: 10px 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
+      display: flex; align-items: center; justify-content: center;
       font-size: 14px;
-      color: #555;
+      font-weight: 700;
+      color: white;
+      font-family: 'Playfair Display', serif;
+      box-shadow: 0 4px 12px rgba(0, 134, 142, 0.3);
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--teal-deep);
+      line-height: 1.3;
+    }
+    p {
+      font-size: 15.5px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    ul li {
+      font-size: 15.5px;
+      color: var(--text-soft);
+      padding: 10px 14px 10px 44px;
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 14px;
+      top: 50%; transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--teal-light);
     }
 
-    @media (max-width: 600px) {
-      main {
-        margin: 15px;
-        padding: 20px;
-      }
-    }
-
+    /* WARNING BOX */
     .warning {
-      background: #fff8e1;
-      border-left: 4px solid #f59e0b;
-      padding: 10px 15px;
-      border-radius: 6px;
+      background: linear-gradient(135deg, #fffbeb, #fff8e0);
+      border: 1.5px solid #f5c97a;
+      border-radius: 16px;
+      padding: 26px 28px;
+      margin: 28px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .warning::before {
+      content: '⚕';
+      position: absolute;
+      right: 20px; top: 16px;
+      font-size: 52px;
+      opacity: 0.08;
+    }
+    .warning-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #92600a;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .warning p {
       color: #7c6000;
-      margin: 15px 0;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+    .contact-card .icon { font-size: 22px; flex-shrink: 0; }
+    .contact-card strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal-deep);
+    }
+
+    /* FOOTER */
+    footer {
+      background: linear-gradient(135deg, #00535a, #007b83);
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+      padding: 36px 24px;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--gold-light); }
+    footer p { font-size: 13px; margin: 0; }
+    footer a { color: var(--teal-light); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* BACK TO TOP */
+    .back-top {
+      position: fixed;
+      bottom: 30px; right: 28px;
+      width: 46px; height: 46px;
+      background: linear-gradient(135deg, var(--teal-mid), var(--teal-light));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,134,142,0.35);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.2s;
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; }
+    .back-top:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,134,142,0.45); }
+
+    @media (max-width: 640px) {
+      .section { padding: 24px 20px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      header { padding: 50px 20px 70px; }
     }
   </style>
 </head>
 <body>
 
-  <header>Terms & Conditions – AAYUH!</header>
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo-badge">
+        <div class="pulse"></div>
+        <span>Healthcare Platform</span>
+      </div>
+      <h1>AAYUH<span>!</span></h1>
+      <p class="subtitle">Terms &amp; Conditions — Please read carefully before using our platform</p>
+    </div>
+    <svg class="header-wave" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 30 C360 60 1080 0 1440 30 L1440 60 L0 60 Z" fill="#f0f7f8"/>
+    </svg>
+  </header>
 
+  <!-- TABLE OF CONTENTS NAV -->
+  <nav class="toc-strip" aria-label="Quick navigation">
+    <div class="toc-inner">
+      <a class="toc-chip" href="#acceptance">Acceptance</a>
+      <a class="toc-chip" href="#about">About</a>
+      <a class="toc-chip" href="#disclaimer">Disclaimer</a>
+      <a class="toc-chip" href="#accounts">Accounts</a>
+      <a class="toc-chip" href="#information">Information</a>
+      <a class="toc-chip" href="#privacy">Privacy</a>
+      <a class="toc-chip" href="#thirdparty">Third-Party</a>
+      <a class="toc-chip" href="#ip">IP Rights</a>
+      <a class="toc-chip" href="#liability">Liability</a>
+      <a class="toc-chip" href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
   <main>
-    <p><strong>Last Updated:</strong> October 2025</p>
 
-    <p>Welcome to <strong>AAYUH!</strong> (“we,” “our,” “us”). By accessing or using our website, mobile site, or any service under the AAYUH! platform (“Service”), you agree to comply with and be bound by these Terms and Conditions.</p>
-
-    <h2>1. Acceptance of Terms</h2>
-    <p>By accessing or using AAYUH!, you agree to these Terms. If you do not agree, please do not use our website or services.</p>
-
-    <h2>2. About AAYUH!</h2>
-    <p>AAYUH! is a health information and medicine learning platform designed to:</p>
-    <ul>
-      <li>Help users search for medicines and understand their usage.</li>
-      <li>Provide symptom-based suggestions for educational purposes.</li>
-      <li>Suggest nearby hospitals using Google Maps API integration.</li>
-      <li>Allow users to maintain their medical history digitally.</li>
-    </ul>
-
-    <div class="warning">
-      <strong>Important Medical Disclaimer:</strong> AAYUH! does <u>not</u> provide medical advice, diagnosis, or treatment. 
-      The content and suggestions shown are for general informational and educational purposes only. 
-      Before taking any medicine, treatment, or health-related action based on our suggestions, you must 
-      <strong>consult a qualified doctor or healthcare professional.</strong>  
-      We are <strong>not legally responsible</strong> for any health issues, side effects, or damages that may occur due to reliance on our content or services.
+    <!-- META BAR -->
+    <div class="meta-bar">
+      <div class="meta-item">
+        <div class="icon">📅</div>
+        <span><strong>Last Updated:</strong> October 2025</span>
+      </div>
+      <div class="meta-item">
+        <div class="icon">🇮🇳</div>
+        <span><strong>Governed by:</strong> Laws of India</span>
+      </div>
+      <div class="meta-item">
+        <div class="icon">📜</div>
+        <span><strong>Sections:</strong> 13 Clauses</span>
+      </div>
     </div>
 
-    <h2>3. Medical Disclaimer and Legal Protection</h2>
-    <p>The information provided by AAYUH! should never replace professional medical consultation. 
-    If you experience any health problem or emergency, please contact your doctor immediately. 
-    By using this website, you acknowledge and agree that:</p>
-    <ul>
-      <li>AAYUH! is not responsible for any injury, illness, or loss resulting from reliance on any information or suggestion from this website.</li>
-      <li>You use all features, including medicine and symptom suggestions, at your own risk.</li>
-      <li>We recommend verifying all health-related content with licensed medical practitioners.</li>
-    </ul>
-    <p>This disclaimer legally protects AAYUH! and its founders, developers, and affiliates from liability claims related to health outcomes caused by the misuse or misunderstanding of the website’s information.</p>
+    <p style="font-size:16px; color:#4a6b6d; margin-bottom:32px;">
+      Welcome to <strong style="color:#00696f;">AAYUH!</strong> By using our website and services, you agree to the following Terms &amp; Conditions. We encourage you to read all sections carefully.
+    </p>
 
-    <h2>4. User Accounts</h2>
-    <ul>
-      <li>Users must create an account using email or Google login (via Firebase).</li>
-      <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
-      <li>You agree not to share, sell, or transfer your account to any other person.</li>
-    </ul>
+    <!-- 1. ACCEPTANCE -->
+    <div class="section" id="acceptance" style="animation-delay:0.05s">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Acceptance of Terms</h2>
+      </div>
+      <p>By accessing or using AAYUH!, you confirm that you have read, understood, and accepted these Terms in full. Continued use of the platform constitutes your ongoing acceptance.</p>
+    </div>
 
-    <h2>5. Use of Information</h2>
-    <p>All information provided on AAYUH! is for educational and informational purposes only. We do not guarantee 100% accuracy of medical data, hospital suggestions, or API results.</p>
+    <!-- 2. ABOUT -->
+    <div class="section" id="about" style="animation-delay:0.10s">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>About AAYUH!</h2>
+      </div>
+      <p>AAYUH! is a healthcare information and medicine learning platform offering the following features:</p>
+      <ul>
+        <li>Search medicines and understand their usage and effects</li>
+        <li>Get symptom-based educational suggestions</li>
+        <li>Find nearby hospitals and healthcare providers</li>
+        <li>Store and manage medical history digitally</li>
+      </ul>
+    </div>
 
-    <h2>6. Privacy</h2>
-    <p>Your privacy is important to us. Please refer to our <a href="privacy.html" style="color:#007b83; text-decoration:none;">Privacy Policy</a> to understand how we collect and use your personal information.</p>
+    <!-- 3. DISCLAIMER -->
+    <div class="section" id="disclaimer" style="animation-delay:0.15s">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>Medical Disclaimer &amp; Legal Protection</h2>
+      </div>
+      <div class="warning">
+        <div class="warning-title">⚠️ Important Medical Disclaimer</div>
+        <p>AAYUH! does <strong>NOT</strong> provide medical advice, diagnosis, or treatment. All content is strictly for educational and informational purposes. Before taking any medicine or making health decisions, consult a qualified healthcare professional. We are not legally responsible for any issues arising from using this platform.</p>
+      </div>
+      <ul>
+        <li>You use AAYUH! entirely at your own risk</li>
+        <li>We do not guarantee 100% accuracy of any information provided</li>
+        <li>Always verify important health information with a licensed doctor</li>
+        <li>We are not liable for misuse or over-reliance on platform information</li>
+      </ul>
+    </div>
 
-    <h2>7. Third-Party Services</h2>
-    <p>AAYUH! may integrate third-party APIs such as Google Maps API and Firebase. These operate under their own terms and privacy policies. We are not responsible for their data handling or outages.</p>
+    <!-- 4. ACCOUNTS -->
+    <div class="section" id="accounts" style="animation-delay:0.20s">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>User Accounts</h2>
+      </div>
+      <ul>
+        <li>Users can sign in using Email or Google authentication</li>
+        <li>You are solely responsible for maintaining the security of your account</li>
+        <li>Never share your login credentials with anyone</li>
+      </ul>
+    </div>
 
-    <h2>8. Intellectual Property</h2>
-    <p>All content, design, code, and logos on AAYUH! are owned or licensed by us. You may not copy, reproduce, or distribute any part of our website without permission.</p>
+    <!-- 5. INFORMATION -->
+    <div class="section" id="information" style="animation-delay:0.25s">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>Use of Information</h2>
+      </div>
+      <p>All information available on AAYUH! is strictly informational and educational in nature. It should never be used as a substitute for professional medical advice, examination, diagnosis, or treatment.</p>
+    </div>
 
-    <h2>9. Limitation of Liability</h2>
-    <p>We are not liable for any loss, damage, or injury resulting from the use or misuse of AAYUH!. Use of AAYUH! is at your own risk.</p>
+    <!-- 6. PRIVACY -->
+    <div class="section" id="privacy" style="animation-delay:0.30s">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>Privacy Policy</h2>
+      </div>
+      <p>Your privacy matters to us. Please read our <a href="Privacy Policy.html" style="color:var(--teal-mid); font-weight:600;">Privacy Policy</a> to understand how we collect, store, and use your personal data when you interact with our platform.</p>
+    </div>
 
-    <h2>10. Changes to Terms</h2>
-    <p>We may modify these Terms at any time. Changes will be posted on this page with an updated “Last Updated” date.</p>
+    <!-- 7. THIRD PARTY -->
+    <div class="section" id="thirdparty" style="animation-delay:0.35s">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>Third-Party Services</h2>
+      </div>
+      <p>AAYUH! integrates with trusted third-party services including <strong>Firebase</strong>, <strong>Google Maps API</strong>, and other providers to enhance platform functionality. Their respective terms and privacy policies apply independently.</p>
+    </div>
 
-    <h2>11. Termination</h2>
-    <p>We may suspend or terminate your access if you violate these Terms or misuse the platform.</p>
+    <!-- 8. IP -->
+    <div class="section" id="ip" style="animation-delay:0.38s">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2>Intellectual Property</h2>
+      </div>
+      <p>All branding, code, design elements, and content on AAYUH! are the exclusive intellectual property of AAYUH! and are protected under applicable copyright and trademark laws. Unauthorized reproduction is prohibited.</p>
+    </div>
 
-    <h2>12. Governing Law</h2>
-    <p>These Terms are governed by and construed in accordance with the laws of India. Any disputes shall be subject to the jurisdiction of the courts in <strong>India</strong>.</p>
+    <!-- 9. LIABILITY -->
+    <div class="section" id="liability" style="animation-delay:0.41s">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2>Limitation of Liability</h2>
+      </div>
+      <p>AAYUH! and its team shall not be held responsible for any direct, indirect, incidental, or consequential damages or losses arising from the use of this platform, including reliance on any information provided herein.</p>
+    </div>
 
-    <h2>13. Contact Us</h2>
-    <p>If you have any questions, contact us at:<br>
-    📧 <strong>bharathkumar.ltd@gmail.com</strong><br>
-    📍 <strong>India</strong></p>
+    <!-- 10. CHANGES -->
+    <div class="section" id="changes" style="animation-delay:0.43s">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <h2>Changes to Terms</h2>
+      </div>
+      <p>We reserve the right to update or modify these Terms at any time without prior notice. Changes take effect immediately upon posting. Continued use of AAYUH! after changes constitutes acceptance of the revised Terms.</p>
+    </div>
+
+    <!-- 11. TERMINATION -->
+    <div class="section" id="termination" style="animation-delay:0.45s">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <h2>Termination</h2>
+      </div>
+      <p>Accounts found to be in violation of our community standards or these Terms may be suspended or permanently terminated at our sole discretion, without prior notice or liability.</p>
+    </div>
+
+    <!-- 12. GOVERNING LAW -->
+    <div class="section" id="law" style="animation-delay:0.47s">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <h2>Governing Law</h2>
+      </div>
+      <p>These Terms and Conditions are governed by and construed in accordance with the <strong>laws of India</strong>. Any disputes shall be subject to the exclusive jurisdiction of Indian courts.</p>
+    </div>
+
+    <!-- 13. CONTACT -->
+    <div class="section" id="contact" style="animation-delay:0.50s">
+      <div class="section-header">
+        <div class="section-num">13</div>
+        <h2>Contact Us</h2>
+      </div>
+      <p>Have questions about these Terms? Reach out to us — we're happy to help.</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="icon">📧</div>
+          <div>
+            <strong>Email</strong>
+            bharathkumar.ltd@gmail.com
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">📍</div>
+          <div>
+            <strong>Location</strong>
+            India
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
+  <!-- FOOTER -->
   <footer>
-    &copy; 2025 AAYUH! | All Rights Reserved
+    <div class="footer-logo">AAYUH<span>!</span></div>
+    <p>Healthcare Information &amp; Medicine Learning Platform</p>
+    <p style="margin-top:10px;">© 2025 AAYUH! · All Rights Reserved · <a href="Privacy Policy.html">Privacy Policy</a></p>
   </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('backTop').classList.toggle('visible', window.scrollY > 300);
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.section').forEach(s => {
+      s.style.opacity = '0';
+      s.style.transform = 'translateY(20px)';
+      s.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(s);
+    });
+  </script>
 
 </body>
 </html>

@@ -2,81 +2,651 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Aayuh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Aayuh – Your Health Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --emerald: #0d9e6e;
+      --emerald-light: #10c984;
+      --emerald-dark: #076b4a;
+      --gold: #e8a230;
+      --gold-light: #f5c257;
+      --cream: #fdf8f0;
+      --ink: #1a1a2e;
+      --ink-soft: #3d3d5c;
+      --slate: #6b7a8d;
+      --surface: #ffffff;
+      --surface2: #f4faf7;
+      --border: #d6ede5;
+      --shadow: 0 8px 40px rgba(13,158,110,0.12);
+      --shadow-lg: 0 20px 60px rgba(13,158,110,0.18);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
-      color: #333;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
     }
-    h1, h2 {
-      color: #0066cc;
+
+    /* HERO */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #064e38 0%, #0d9e6e 50%, #1ab87d 100%);
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 80px 40px 60px;
     }
-    section {
-      margin-bottom: 30px;
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(232,162,48,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%);
     }
-    a {
-      color: #0066cc;
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);
+      background-size: 30px 30px;
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: float 8s ease-in-out infinite;
+    }
+    .orb1 { width:400px;height:400px;background:rgba(232,162,48,0.2);top:-100px;right:-100px; }
+    .orb2 { width:300px;height:300px;background:rgba(255,255,255,0.08);bottom:-80px;left:10%;animation-delay:-4s; }
+    @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.05)} }
+
+    .hero-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-badge span { width:6px;height:6px;background:var(--gold-light);border-radius:50%;display:inline-block;animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem,6vw,5.5rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { font-style:italic;color:var(--gold-light); }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+    .hero-actions { display:flex;gap:14px;flex-wrap:wrap; }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 15px;
       text-decoration: none;
+      transition: all .3s;
+      box-shadow: 0 4px 20px rgba(232,162,48,0.4);
+    }
+    .btn-primary:hover { background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(232,162,48,0.5); }
+    .btn-ghost {
+      border: 2px solid rgba(255,255,255,0.4);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all .3s;
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.7); }
+
+    .hero-visual { display:flex;justify-content:center;align-items:center; }
+    .hero-card {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 28px;
+      padding: 36px 32px;
+      width: 340px;
+      animation: cardFloat 6s ease-in-out infinite;
+    }
+    @keyframes cardFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .hero-card .stat-row { display:flex;gap:16px;margin-bottom:24px; }
+    .stat-box {
+      flex: 1;
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .stat-box .num { font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--gold-light); }
+    .stat-box .lbl { font-size:11px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px; }
+    .feature-pills { display:flex;flex-wrap:wrap;gap:8px; }
+    .pill {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* MAIN */
+    .main { max-width:1200px;margin:0 auto;padding:0 32px; }
+
+    /* ORIGIN */
+    .origin-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      padding: 80px 0 60px;
+    }
+    .origin-visual { position:relative; }
+    .sanskrit-circle {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,var(--emerald-dark),var(--emerald));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .sanskrit-circle::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 2px dashed var(--emerald);
+      opacity: 0.4;
+      animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .sanskrit-text { font-size:3.5rem;color:rgba(255,255,255,0.2);font-family:'Playfair Display',serif;position:absolute;top:20px; }
+    .sanskrit-circle .main-word { font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:#fff;position:relative; }
+    .sanskrit-circle .meaning { color:var(--gold-light);font-size:0.95rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;margin-top:4px;position:relative; }
+
+    .section-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--emerald);margin-bottom:12px; }
+    .section-title { font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:var(--ink);line-height:1.15;margin-bottom:20px; }
+    .section-body { font-size:1.05rem;color:var(--slate);line-height:1.8;margin-bottom:28px; }
+
+    .meaning-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    .meaning-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all .3s;
+    }
+    .meaning-item:hover { border-color:var(--emerald);transform:translateY(-2px);box-shadow:var(--shadow); }
+    .meaning-icon { font-size:1.6rem;flex-shrink:0; }
+    .meaning-item span { font-weight:600;color:var(--ink);font-size:0.95rem; }
+
+    /* FEATURES */
+    .section-gap { padding:70px 0; }
+    .features-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:48px; }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px 28px;
+      transition: all .35s cubic-bezier(.25,.8,.25,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top:0;left:0;right:0;
+      height: 3px;
+      background: linear-gradient(90deg,var(--emerald),var(--gold));
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .feature-card:hover { transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--emerald); }
+    .feature-card:hover::before { opacity:1; }
+    .feature-icon-wrap {
+      width:56px;height:56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg,var(--emerald-dark),var(--emerald));
+      display: flex;align-items:center;justify-content:center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(13,158,110,0.3);
+    }
+    .feature-card h3 { font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:10px; }
+    .feature-card p { color:var(--slate);line-height:1.7;font-size:0.95rem; }
+    .feature-tag { display:inline-block;background:var(--surface2);border:1px solid var(--border);color:var(--emerald);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:14px;text-transform:uppercase;letter-spacing:0.05em; }
+
+    /* STEPS */
+    .steps-list { counter-reset:step;margin-top:48px; }
+    .step-item {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 16px;
+      counter-increment: step;
+      transition: all .3s;
+    }
+    .step-item:hover { border-color:var(--emerald);box-shadow:var(--shadow); }
+    .step-num {
+      flex-shrink: 0;
+      width:48px;height:48px;
+      background: linear-gradient(135deg,var(--emerald),var(--emerald-light));
+      color: #fff;
+      border-radius: 14px;
+      display: flex;align-items:center;justify-content:center;
+      font-family: 'Playfair Display',serif;
+      font-weight: 900;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 14px rgba(13,158,110,0.35);
+    }
+    .step-body h4 { font-weight:700;color:var(--ink);margin-bottom:6px;font-size:1.05rem; }
+    .step-body p { color:var(--slate);font-size:0.95rem;line-height:1.65; }
+
+    /* STATS BAND */
+    .stats-band {
+      background: linear-gradient(135deg,var(--emerald-dark),var(--emerald));
+      border-radius: 28px;
+      padding: 50px 60px;
+      margin: 60px 0;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-band::before {
+      content:'';
+      position:absolute;inset:0;
+      background:radial-gradient(circle at 30% 50%,rgba(232,162,48,0.15),transparent 60%);
+    }
+    .stat-item { position:relative; }
+    .stat-item .big { font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--gold-light); }
+    .stat-item .desc { color:rgba(255,255,255,0.75);font-size:0.9rem;margin-top:6px;font-weight:300; }
+
+    /* INFO CARDS */
+    .info-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px; }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: all .3s;
+    }
+    .info-card:hover { border-color:var(--emerald);transform:translateY(-4px);box-shadow:var(--shadow); }
+    .info-card .ic { font-size:2.2rem;margin-bottom:14px; }
+    .info-card h3 { font-weight:700;color:var(--ink);margin-bottom:10px;font-size:1.05rem; }
+    .info-card p { color:var(--slate);font-size:0.9rem;line-height:1.65; }
+
+    /* LEGAL */
+    .legal-grid { display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px; }
+    .legal-card { border-radius:18px;padding:30px 28px; }
+    .legal-card.disclaimer { background:#fff5f0;border:1px solid #ffd7c2; }
+    .legal-card.terms { background:#f0f8ff;border:1px solid #c2dbff; }
+    .legal-card h3 { font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px; }
+    .legal-card p, .legal-card li { color:var(--slate);font-size:0.93rem;line-height:1.7;margin-bottom:8px; }
+    .legal-card ul { padding-left:18px; }
+    .legal-card li { margin-bottom:6px; }
+
+    /* TOPNAV */
+    .topnav {
+      position: fixed;
+      top:0;left:0;right:0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--emerald-dark); }
+    .nav-logo em { font-style:italic;color:var(--gold); }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--emerald);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: gap .2s;
+    }
+    .nav-back:hover { gap:12px; }
+    .nav-back::before { content:'←';font-size:1.1rem; }
+
+    /* DIVIDER */
+    .divider { height:1px;background:var(--border);margin:10px 0; }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.6);
+      padding: 40px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 2;
+    }
+    .site-footer strong { color:var(--gold-light);font-family:'Playfair Display',serif;font-size:1.1rem; }
+    .site-footer .disclaimer-note { max-width:600px;margin:10px auto 0;opacity:0.55;font-size:12px; }
+
+    /* REVEAL */
+    .reveal { opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s; }
+    .reveal.visible { opacity:1;transform:none; }
+
+    @media(max-width:768px){
+      .hero-content { grid-template-columns:1fr;gap:40px; }
+      .hero-visual { display:none; }
+      .origin-section { grid-template-columns:1fr; }
+      .features-grid { grid-template-columns:1fr; }
+      .stats-band { grid-template-columns:repeat(2,1fr);padding:36px 28px; }
+      .info-grid { grid-template-columns:1fr; }
+      .legal-grid { grid-template-columns:1fr; }
+      .meaning-grid { grid-template-columns:1fr; }
+      .topnav { padding:14px 20px; }
+      .main { padding:0 20px; }
+      .hero { padding:90px 24px 50px; }
     }
   </style>
 </head>
 <body>
 
-  <h1>About Aayuh</h1>
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <div class="nav-logo">Aa<em>yuh</em></div>
+    <a href="dashboard.html" class="nav-back">Back to Dashboard</a>
+  </nav>
 
-  <section>
-    <h2>📱 What is Aayuh?</h2>
-    <p>Aayuh is a health-tech platform designed to help users in India track their medicines, check symptoms using AI, prevent diseases, and find trusted hospitals and doctors nearby. It aims to make healthcare more accessible and personalized.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge"><span></span> आयुः — The Sanskrit Word for Life</div>
+        <h1>Your Intelligent<br><em>Health</em> Companion</h1>
+        <p class="hero-sub">Aayuh empowers you with AI-driven health insights — track medicines, check symptoms, discover disease prevention, and connect with trusted doctors nearby.</p>
+        <div class="hero-actions">
+          <a href="dashboard.html" class="btn-primary">Get Started Free</a>
+          <a href="#features" class="btn-ghost">Explore Features</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="stat-row">
+            <div class="stat-box"><div class="num">50K+</div><div class="lbl">Medicines</div></div>
+            <div class="stat-box"><div class="num">98%</div><div class="lbl">Accuracy</div></div>
+            <div class="stat-box"><div class="num">24/7</div><div class="lbl">Support</div></div>
+          </div>
+          <div class="feature-pills">
+            <span class="pill">💊 Medicine Tracker</span>
+            <span class="pill">🩺 Symptom AI</span>
+            <span class="pill">🏥 Doctor Finder</span>
+            <span class="pill">🛡️ Disease Guide</span>
+            <span class="pill">📊 Health Reports</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>Origin Of AAYUH!</h2>
-    <ul>
-      <p>The word “Aayuh” comes from Sanskrit meaning “life,” “health,” or “longevity”</p>
-    </ul>
-  </section>  
-    <h2>🧭 How to Use</h2>
-    <ul>
-      <li>Use the <strong>Medicine Search</strong> to find dosage and usage info.</li>
-      <li>Try the <strong>Symptom Checker</strong> to get AI-powered suggestions.</li>
-      <li>Explore <strong>Disease Info</strong> for prevention tips.</li>
-      <li>Use <strong>Doctor Finder</strong> to locate nearby hospitals and specialists.</li>
-    </ul>
-  </section>
-  <section>
-    <h2>“AAYUH” naturally gives feeling of:</h2>
-    <ul>
-       <li><strong>Healing</strong></li>
-       <li><strong>Wellness</strong></li>
-       <li><strong>Long Life</strong></li>
-       <li><strong>Natural Health</strong></li>
-    </ul>  
-  </section>  
+  <main class="main">
 
-  <section>
-    <h2>⚠️ Disclaimer</h2>
-    <p>Aayuh is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for any medical concerns. The app provides general guidance based on available data and AI algorithms.</p>
-  </section>
+    <!-- ORIGIN -->
+    <div class="origin-section reveal">
+      <div class="origin-visual">
+        <div class="sanskrit-circle">
+          <span class="sanskrit-text">आयुः</span>
+          <div class="main-word">Aayuh</div>
+          <div class="meaning">Life · Health · Longevity</div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">The Origin</div>
+        <h2 class="section-title">Rooted in<br>Ancient Wisdom</h2>
+        <p class="section-body">The word <strong>Aayuh (आयुः)</strong> derives from classical Sanskrit, carrying centuries of holistic healing philosophy. It encapsulates the Ayurvedic belief that health is not merely the absence of disease — it is a vibrant, balanced state of body, mind, and spirit.</p>
+        <div class="meaning-grid">
+          <div class="meaning-item"><span class="meaning-icon">🌿</span><span>Natural Healing</span></div>
+          <div class="meaning-item"><span class="meaning-icon">💚</span><span>Wellness</span></div>
+          <div class="meaning-item"><span class="meaning-icon">✨</span><span>Long Life</span></div>
+          <div class="meaning-item"><span class="meaning-icon">🕊️</span><span>Inner Harmony</span></div>
+        </div>
+      </div>
+    </div>
 
-  <section>
-    <h2>📜 Terms & Conditions</h2>
-    <p>By using Aayuh, you agree to:</p>
-    <ul>
-      <li>Use the app responsibly and not rely solely on AI suggestions.</li>
-      <li>Respect data privacy and avoid sharing sensitive personal health info.</li>
-      <li>Understand that Aayuh is a support tool, not a certified medical service.</li>
-    </ul>
-  </section>
+    <div class="divider"></div>
 
-  <section>
-    <h2>✅ Intended Use</h2>
-    <p>Aayuh is built for educational and informational purposes, especially for users seeking quick access to health-related insights. It’s ideal for early symptom awareness, medicine tracking, and finding care options.</p>
-  </section>
+    <!-- FEATURES -->
+    <div class="section-gap reveal" id="features">
+      <div class="section-label">Core Features</div>
+      <h2 class="section-title">Everything Your Health Needs,<br>In One Place</h2>
+      <p class="section-body" style="max-width:600px">From AI symptom analysis to real-time doctor discovery — Aayuh brings hospital-grade health intelligence to your fingertips.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">💊</div>
+          <h3>Medicine Search</h3>
+          <p>Instantly look up any medicine — dosage guidelines, active ingredients, side effects, drug interactions, and safe usage tips powered by verified medical databases.</p>
+          <span class="feature-tag">50,000+ Medicines</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">🩺</div>
+          <h3>AI Symptom Checker</h3>
+          <p>Describe your symptoms in plain language and receive intelligent, evidence-based suggestions in seconds. Our NLP model cross-references thousands of clinical cases.</p>
+          <span class="feature-tag">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">🛡️</div>
+          <h3>Disease Prevention Hub</h3>
+          <p>Explore detailed guides on 500+ conditions — symptoms, risk factors, prevention strategies, diet advice, and lifestyle modifications backed by WHO guidelines.</p>
+          <span class="feature-tag">500+ Conditions</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">🏥</div>
+          <h3>Doctor & Hospital Finder</h3>
+          <p>Find verified specialists, clinics, and hospitals near you with real-time availability, ratings, consultation fees, and one-tap appointment booking.</p>
+          <span class="feature-tag">Location-based</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">📋</div>
+          <h3>Medicine Reminder</h3>
+          <p>Never miss a dose again. Set smart reminders for multiple medicines with custom intervals, refill alerts, and a complete medication history log.</p>
+          <span class="feature-tag">Smart Alerts</span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrap">📊</div>
+          <h3>Health Reports & Tracking</h3>
+          <p>Monitor vitals like BP, blood sugar, weight, and heart rate over time. Get visual trend reports to share with your doctor at every visit.</p>
+          <span class="feature-tag">Visual Analytics</span>
+        </div>
+      </div>
+    </div>
 
-  <li><a href="dashboard.html">←Back to dashboard</a></li>
+    <!-- HOW TO USE -->
+    <div class="section-gap reveal">
+      <div class="section-label">Quick Guide</div>
+      <h2 class="section-title">Get Started in<br>4 Simple Steps</h2>
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Search for Your Medicine</h4>
+            <p>Enter any medicine name in the <strong>Medicine Search</strong> tool to instantly get dosage, usage instructions, precautions, and potential interactions — no prescription needed for general info.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Check Your Symptoms with AI</h4>
+            <p>Use the <strong>Symptom Checker</strong> to describe what you're experiencing. Our AI analyses your input, suggests possible conditions, and recommends when to see a doctor.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Browse Disease Information</h4>
+            <p>Visit the <strong>Disease Info</strong> section for in-depth guides on prevention, diet, lifestyle changes, and first-aid tips for common and chronic conditions.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Find Your Nearest Doctor</h4>
+            <p>Use the <strong>Doctor Finder</strong> to locate nearby specialists, check their availability, read patient reviews, and book an appointment — all within the app.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<script src='backbutton.js'></script>
+    <!-- STATS BAND -->
+    <div class="stats-band reveal">
+      <div class="stat-item"><div class="big">10L+</div><div class="desc">Active Users Across India</div></div>
+      <div class="stat-item"><div class="big">50K+</div><div class="desc">Medicines in Database</div></div>
+      <div class="stat-item"><div class="big">5K+</div><div class="desc">Verified Doctors Listed</div></div>
+      <div class="stat-item"><div class="big">98%</div><div class="desc">Symptom Check Accuracy</div></div>
+    </div>
+
+    <!-- WHY AAYUH -->
+    <div class="section-gap reveal">
+      <div class="section-label">Why Aayuh?</div>
+      <h2 class="section-title">Built for Bharat,<br>Designed for Everyone</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="ic">🇮🇳</div>
+          <h3>India-First Approach</h3>
+          <p>Tailored for Indian healthcare — regional hospitals, Indian generic medicine names, AYUSH-approved remedies, and local specialist directories.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic">🔒</div>
+          <h3>Privacy by Design</h3>
+          <p>Your health data is encrypted end-to-end and never sold. You control what's stored — and what's deleted — at all times.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic">⚡</div>
+          <h3>Instant, Offline-Ready</h3>
+          <p>Critical medicine info and first-aid guides work offline — no data connection required when you need help the most.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic">🌐</div>
+          <h3>Multi-Language Support</h3>
+          <p>Available in Hindi, Telugu, Tamil, Bengali, and more. Health information should never have a language barrier.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic">👨‍⚕️</div>
+          <h3>Doctor-Verified Content</h3>
+          <p>Every piece of health content on Aayuh is reviewed and approved by licensed medical professionals before publication.</p>
+        </div>
+        <div class="info-card">
+          <div class="ic">🆓</div>
+          <h3>Free Core Features</h3>
+          <p>Medicine search, symptom checker, and disease info are completely free — always. Premium features are optional extras, never paywalls on critical info.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEGAL -->
+    <div class="section-gap reveal">
+      <div class="section-label">Important Information</div>
+      <h2 class="section-title">Terms & Disclaimer</h2>
+      <div class="legal-grid">
+        <div class="legal-card disclaimer">
+          <h3>⚠️ Medical Disclaimer</h3>
+          <p>Aayuh is an informational tool, <strong>not a substitute</strong> for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider for personal medical concerns.</p>
+          <p>The AI suggestions are generated from clinical databases and should be used for awareness only. In an emergency, call <strong>108</strong> immediately.</p>
+        </div>
+        <div class="legal-card terms">
+          <h3>📜 Terms of Use</h3>
+          <ul>
+            <li>Use Aayuh responsibly and do not rely solely on AI suggestions for medical decisions.</li>
+            <li>Avoid sharing sensitive personal health information beyond what is necessary.</li>
+            <li>Aayuh is a support tool, not a certified or registered medical service.</li>
+            <li>Misuse of the platform for self-diagnosis of serious conditions is discouraged.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTENDED USE -->
+    <div style="background:linear-gradient(135deg,var(--surface2),var(--surface));border:1px solid var(--border);border-radius:22px;padding:40px 36px;margin-bottom:70px;" class="reveal">
+      <div class="section-label">Intended Use</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:800;color:var(--ink);margin-bottom:14px;">Built for Awareness, Not Self-Treatment</h3>
+      <p style="color:var(--slate);line-height:1.8;max-width:760px;font-size:1rem;">Aayuh is designed for <strong>educational and informational purposes</strong> — helping users gain quick access to health-related insights, medicine details, and care options. It is ideal for early symptom awareness, routine medicine tracking, and finding the right specialists when you need them most. Think of Aayuh as your first step in healthcare — guiding you toward better decisions, not making them for you.</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <strong>Aayuh</strong> — आयुः
+    <br>Your Intelligent Health Companion · Made with ❤️ for India
+    <div class="disclaimer-note">
+      © 2025 Aayuh Health Technologies. All rights reserved.<br>
+      Aayuh is not a medical device and is not FDA/CDSCO approved for clinical diagnosis.
+    </div>
+  </footer>
+
+  <script src="backbutton.js" onerror="void(0)"></script>
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
 </body>
 </html>

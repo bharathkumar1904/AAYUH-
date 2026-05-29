@@ -17,7 +17,7 @@
   --border:#e2ddd4;--border2:#cdc7bc;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:70px;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 a{text-decoration:none;color:inherit;}
 button{font-family:'Nunito',sans-serif;cursor:pointer;border:none;}
 img{display:block;}
@@ -28,10 +28,6 @@ img{display:block;}
 .topbar-logo em{font-style:italic;color:#f4a07a;font-weight:300;}
 .topbar-back{font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:6px;transition:color 0.15s;}
 .topbar-back:hover{color:#fff;}
-
-/* AD TOP */
-.ad-top{display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;}
-.ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
 
 /* SEARCH HERO */
 .search-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem 2rem 2.5rem;text-align:center;}
@@ -51,10 +47,7 @@ img{display:block;}
 .pill:hover{border-color:var(--coral);color:var(--coral);background:var(--coral-pale);}
 
 /* MAIN */
-.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 2rem;}
-
-/* AD MID */
-.ad-mid{max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;}
+.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
 
 /* IDLE */
 .idle{text-align:center;padding:5rem 2rem;color:var(--ink3);}
@@ -121,7 +114,7 @@ img{display:block;}
 .map-btn:hover{background:var(--green-pale);border-color:var(--green-mid);color:var(--green);}
 
 /* DISCLAIMER */
-.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;margin-bottom:1.5rem;}
+.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;}
 .disc-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
 
 /* ERROR */
@@ -129,14 +122,11 @@ img{display:block;}
 .err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
 .err-state p{font-size:0.85rem;line-height:1.6;}
 
-/* STICKY BOTTOM AD */
-.ad-sticky{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);}
-
 /* RESPONSIVE */
 @media(max-width:700px){
   .topbar{padding:10px 16px;}
   .search-hero{padding:2rem 1.2rem 2rem;}
-  .main{padding:1.5rem 1rem 2rem;}
+  .main{padding:1.5rem 1rem 4rem;}
   .dis-hero{grid-template-columns:1fr;}
   .dis-hero-img{display:none;}
   .cards-grid{grid-template-columns:1fr;}
@@ -149,14 +139,6 @@ img{display:block;}
 <div class="topbar">
   <div class="topbar-logo">Aayuh <em>Health</em></div>
   <a href="dashboard.html" class="topbar-back">← Back to Dashboard</a>
-</div>
-
-<!-- AD SLOT 1: TOP BANNER -->
-<div id="adTop" style="display:flex;flex-direction:column;align-items:center;background:var(--bg2);border-bottom:1px solid var(--border);padding:8px;min-height:60px;position:relative;">
-  <button onclick="document.getElementById('adTop').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
 <!-- SEARCH HERO -->
@@ -187,22 +169,6 @@ img{display:block;}
     <h3>Search a disease to get started</h3>
     <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
   </div>
-</div>
-
-<!-- AD SLOT 2: MID PAGE -->
-<div id="adMid" style="max-width:1040px;margin:0 auto 1.5rem;display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;position:relative;">
-  <button onclick="document.getElementById('adMid').style.display='none'" style="position:absolute;top:6px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':250,'width':300,'params':{}};</script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
-</div>
-
-<!-- AD SLOT 3: STICKY BOTTOM -->
-<div id="adSticky" style="position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);">
-  <button onclick="document.getElementById('adSticky').style.display='none'" style="position:absolute;top:4px;right:8px;background:var(--border2);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
-  <div style="font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">Advertisement</div>
-  <script>atOptions={'key':'dd845ccaa883c88140268a86042e83bf','format':'iframe','height':50,'width':320,'params':{}};</script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
 </div>
 
 <!-- Firebase -->

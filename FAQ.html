@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AAYUH! | FAQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #0d9b76;
+      --teal-dark: #0a7a5c;
+      --teal-light: #e0f5ee;
+      --teal-glow: rgba(13,155,118,0.18);
+      --amber: #f5a623;
+      --bg: #f0f4f2;
+      --white: #ffffff;
+      --text: #111d1a;
+      --muted: #6b7c77;
+      --border: rgba(0,0,0,0.09);
+      --border-hover: rgba(13,155,118,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #0a6e52 0%, #0d9b76 50%, #12b589 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 80px 24px 120px;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0; right: 0;
+      height: 80px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero-badge i { font-size: 14px; color: var(--amber); }
+
+    .hero-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(56px, 10vw, 92px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .hero-logo span {
+      color: var(--amber);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 24px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 14px 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.9);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .hero-meta-item i { font-size: 16px; color: var(--amber); }
+    .hero-meta-sep {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ── CONTENT ── */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SEARCH removed ── */
+
+    /* ── CATEGORIES ── */
+    .categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .cat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .cat-btn i { font-size: 15px; }
+    .cat-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: var(--teal-light);
+    }
+    .cat-btn.active {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+      box-shadow: 0 4px 12px rgba(13,155,118,0.3);
+    }
+
+    /* ── ALERT ── */
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fffbf0;
+      border: 1.5px solid #f5c96a;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 12px rgba(245,166,35,0.1);
+    }
+    .alert i { font-size: 20px; color: var(--amber); flex-shrink: 0; margin-top: 2px; }
+    .alert p { font-size: 13px; color: #7a5a10; line-height: 1.6; }
+    .alert strong { font-weight: 600; }
+
+    /* ── SECTION ── */
+    .faq-section { margin-bottom: 36px; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--teal-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .section-icon i { font-size: 16px; color: var(--teal); }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--teal-dark);
+    }
+
+    /* ── FAQ ITEM ── */
+    .faq-item {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .faq-item:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 4px 20px rgba(13,155,118,0.08);
+      transform: translateY(-1px);
+    }
+    .faq-item.open {
+      border-color: var(--teal);
+      box-shadow: 0 4px 24px rgba(13,155,118,0.12);
+    }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 20px;
+      cursor: pointer;
+      gap: 14px;
+      user-select: none;
+    }
+    .faq-q-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .faq-num {
+      min-width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .faq-item.open .faq-num {
+      background: var(--teal);
+      color: #fff;
+    }
+    .faq-q span {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .faq-chevron {
+      font-size: 18px;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(.4,0,.2,1), color 0.2s;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--teal);
+    }
+
+    .faq-a {
+      display: none;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-a-inner {
+      padding: 14px 20px 18px calc(20px + 26px + 12px);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--muted);
+    }
+    .no-results-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--teal-light);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .no-results-icon i { font-size: 30px; color: var(--teal); }
+    .no-results h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .no-results p { font-size: 14px; }
+
+    /* ── CONTACT CARD ── */
+    .contact-card {
+      background: linear-gradient(135deg, #0d9b76 0%, #0a6e52 100%);
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 160px; height: 160px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
+    }
+    .contact-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: 80px;
+      width: 100px; height: 100px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .contact-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+    .contact-icon {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    .contact-icon i { font-size: 26px; color: #fff; }
+    .contact-left h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .contact-left p { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      background: #fff;
+      color: var(--teal-dark);
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.18s;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .contact-btn:hover {
+      background: var(--amber);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .contact-btn i { font-size: 16px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer a { color: var(--teal); text-decoration: none; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-chip {
+      flex: 1;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .stat-chip i { font-size: 20px; color: var(--teal); }
+    .stat-chip-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-chip-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    @media (max-width: 600px) {
+      .stats-bar { flex-direction: column; }
+      .hero-meta { gap: 14px; }
+      .hero-meta-sep { display: none; }
+      .contact-card { flex-direction: column; }
+    }
+
+    /* Animate items in */
+    .faq-section { animation: fadeUp 0.4s ease both; }
+    .faq-section:nth-child(2) { animation-delay: 0.05s; }
+    .faq-section:nth-child(3) { animation-delay: 0.1s; }
+    .faq-section:nth-child(4) { animation-delay: 0.15s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <i class="ti ti-heart-plus"></i>
+      Healthcare Platform
+    </div>
+    <div class="hero-logo">AAYUH<span>!</span></div>
+    <div class="hero-sub">Frequently Asked Questions — Everything you need to know</div>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><i class="ti ti-list-numbers"></i> 20 Questions</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><i class="ti ti-layout-grid"></i> 4 Categories</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><i class="ti ti-map-pin"></i> India</div>
+    </div>
+  </div>
+
+  <div class="page">
+
+
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-chip">
+        <i class="ti ti-circle-check"></i>
+        <div>
+          <div class="stat-chip-num">20</div>
+          <div class="stat-chip-label">Total Questions</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <i class="ti ti-layout-grid"></i>
+        <div>
+          <div class="stat-chip-num">4</div>
+          <div class="stat-chip-label">Categories</div>
+        </div>
+      </div>
+      <div class="stat-chip">
+        <i class="ti ti-clock"></i>
+        <div>
+          <div class="stat-chip-num">~3</div>
+          <div class="stat-chip-label">Min read</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="categories" id="catRow">
+      <button class="cat-btn active" data-cat="all"><i class="ti ti-apps"></i>All</button>
+      <button class="cat-btn" data-cat="platform"><i class="ti ti-device-desktop"></i>Platform</button>
+      <button class="cat-btn" data-cat="medical"><i class="ti ti-stethoscope"></i>Medical Info</button>
+      <button class="cat-btn" data-cat="privacy"><i class="ti ti-shield-lock"></i>Privacy & Ads</button>
+      <button class="cat-btn" data-cat="features"><i class="ti ti-sparkles"></i>Features</button>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert">
+      <i class="ti ti-alert-triangle"></i>
+      <p><strong>Emergency Notice:</strong> In a medical emergency, do not use AAYUH. Call your doctor, local hospital, or emergency services immediately.</p>
+    </div>
+
+    <!-- FAQ CONTAINER -->
+    <div id="faqContainer"></div>
+
+    <!-- NO RESULTS -->
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon"><i class="ti ti-search-off"></i></div>
+      <h3>No results found</h3>
+      <p>No questions matched your search. Try different keywords.</p>
+    </div>
+
+    <!-- CONTACT CARD -->
+    <div class="contact-card">
+      <div class="contact-left">
+        <div class="contact-icon"><i class="ti ti-headset"></i></div>
+        <div>
+          <h3>Still have questions?</h3>
+          <p>Our support team is here to help you anytime</p>
+        </div>
+      </div>
+      <a href="Contact Us.html" class="contact-btn">
+        <i class="ti ti-mail"></i> Contact Us
+      </a>
+    </div>
+
+    <div class="footer">
+      &copy; 2025 AAYUH. All rights reserved. &nbsp;·&nbsp; For informational purposes only. &nbsp;·&nbsp; <a href="Contact Us.html">Contact Us</a>
+    </div>
+  </div>
+
+  <script>
+    const sectionMeta = {
+      platform: { label: "Platform & General", icon: "ti-device-desktop" },
+      medical:  { label: "Medical Information",  icon: "ti-stethoscope" },
+      privacy:  { label: "Privacy & Advertising", icon: "ti-shield-lock" },
+      features: { label: "Features & Account",   icon: "ti-sparkles" }
+    };
+
+    const faqs = [
+      { q: "What is AAYUH?", a: "AAYUH is an online healthcare information platform that helps users search medicines, understand symptoms, learn about diseases, and manage personal medical records in one place.", cat: "platform" },
+      { q: "Is AAYUH a hospital or pharmacy?", a: "No. AAYUH is not a hospital, pharmacy, or emergency medical service. It is an informational platform designed to help users access healthcare-related information easily.", cat: "platform" },
+      { q: "Does AAYUH provide medical advice?", a: "No. The information available on AAYUH is for educational and informational purposes only and should not replace professional medical advice, diagnosis, or treatment.", cat: "medical" },
+      { q: "Can I trust the medicine information on AAYUH?", a: "AAYUH collects medicine and health-related information from publicly available and reliable medical sources. However, users should always consult a qualified doctor or pharmacist before taking any medication.", cat: "medical" },
+      { q: "Is my medical history safe on AAYUH?", a: "Yes. AAYUH takes reasonable measures to protect user data and privacy. However, users should avoid sharing highly sensitive personal information unnecessarily online.", cat: "privacy" },
+      { q: "Is AAYUH free to use?", a: "Yes. Most features of AAYUH are free for users.", cat: "platform" },
+      { q: "Why does AAYUH display advertisements?", a: "Advertisements help support the platform, maintain servers, improve features, and keep AAYUH free for users.", cat: "privacy" },
+      { q: "Does AAYUH endorse the ads shown on the website?", a: "No. Advertisements displayed on AAYUH may be provided by third-party advertising partners. AAYUH does not directly endorse or guarantee products or services shown in advertisements.", cat: "privacy" },
+      { q: "Can I use AAYUH in emergencies?", a: "No. In medical emergencies, immediately contact your doctor, local hospital, or emergency services. AAYUH is not an emergency service.", cat: "medical" },
+      { q: "Does AAYUH store prescriptions?", a: "If users choose to upload or save prescriptions or medical records, they are stored securely for easier access and tracking.", cat: "features" },
+      { q: "Can users track medicine reminders on AAYUH?", a: "Yes. AAYUH may provide reminder and health management features to help users remember medicines, injections, and daily health routines.", cat: "features" },
+      { q: "Is AAYUH available on mobile devices?", a: "Yes. AAYUH can be accessed through supported mobile browsers and applications.", cat: "platform" },
+      { q: "How often is the health information updated?", a: "AAYUH regularly updates its content and features to improve accuracy and user experience.", cat: "platform" },
+      { q: "Can I create an account on AAYUH?", a: "Yes. Users can create an account to access personalized features such as medical history, reminders, and saved information.", cat: "features" },
+      { q: "How can I contact AAYUH?", a: "Users can contact AAYUH through the Contact Us page or official support email available on the website.", cat: "platform" },
+      { q: "Does AAYUH share my personal information with advertisers?", a: "No. AAYUH does not sell personal medical information to advertisers. Some third-party services may use cookies or analytics technologies according to their own privacy policies.", cat: "privacy" },
+      { q: "Is AAYUH suitable for children?", a: "AAYUH should be used under parental or guardian supervision for users below the applicable legal age in their country.", cat: "platform" },
+      { q: "Can I rely on the symptom checker for diagnosis?", a: "No. Symptom checkers provide general informational guidance only and cannot replace professional medical evaluation.", cat: "medical" },
+      { q: "What should I do if I find incorrect information?", a: "Users can report inaccurate or outdated information through the feedback or contact section of the website.", cat: "platform" },
+      { q: "Does AAYUH require internet access?", a: "Yes. Most AAYUH services require an active internet connection to function properly.", cat: "platform" }
+    ];
+
+    let activeCat = "all";
+    let counters = {};
+
+    function render() {
+      const container = document.getElementById("faqContainer");
+      const noResults = document.getElementById("noResults");
+
+      const filtered = faqs.filter(f => activeCat === "all" || f.cat === activeCat);
+
+      if (!filtered.length) {
+        container.innerHTML = "";
+        noResults.style.display = "block";
+        return;
+      }
+      noResults.style.display = "none";
+
+      const grouped = {};
+      filtered.forEach(f => {
+        if (!grouped[f.cat]) grouped[f.cat] = [];
+        grouped[f.cat].push(f);
+      });
+
+      counters = {};
+      container.innerHTML = Object.entries(grouped).map(([cat, items]) => {
+        if (!counters[cat]) counters[cat] = 0;
+        return `
+          <div class="faq-section">
+            <div class="section-header">
+              <div class="section-icon"><i class="ti ${sectionMeta[cat].icon}"></i></div>
+              <div class="section-label">${sectionMeta[cat].label}</div>
+            </div>
+            ${items.map((f, i) => {
+              const id = `faq-${cat}-${i}`;
+              const num = String(i + 1).padStart(2, '0');
+              return `
+                <div class="faq-item" id="${id}">
+                  <div class="faq-q" onclick="toggle('${id}')">
+                    <div class="faq-q-left">
+                      <div class="faq-num">${num}</div>
+                      <span>${f.q}</span>
+                    </div>
+                    <i class="ti ti-chevron-down faq-chevron"></i>
+                  </div>
+                  <div class="faq-a">
+                    <div class="faq-a-inner">${f.a}</div>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggle(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const isOpen = el.classList.contains("open");
+      // close all
+      document.querySelectorAll(".faq-item.open").forEach(e => e.classList.remove("open"));
+      if (!isOpen) el.classList.add("open");
+    }
+
+document.getElementById("catRow").addEventListener("click", e => {
+      const btn = e.target.closest(".cat-btn");
+      if (!btn) return;
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCat = btn.dataset.cat;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
