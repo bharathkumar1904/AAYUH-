@@ -100,80 +100,11 @@
         /* ── Page wrapper ── */
         .page-wrap {
             width: 100%;
-            max-width: 980px;
+            max-width: 680px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             align-items: center;
-        }
-
-        /* Inner row: sidebar + card side by side on desktop */
-        .content-row {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: stretch;
-        }
-
-        @media (min-width: 768px) {
-            .content-row {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-        }
-
-        /* ── Ad slots ── */
-        .ad-slot {
-            border-radius: var(--radius);
-            border: 1.5px dashed var(--border);
-            background: linear-gradient(135deg, #faf9f6 0%, #f3f0ea 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            color: var(--muted);
-            font-family: var(--font-body);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            transition: border-color .2s;
-            overflow: hidden;
-        }
-        .ad-slot:hover { border-color: var(--accent2); }
-
-        @keyframes pulse {
-            0%, 100% { opacity: .4; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.3); }
-        }
-
-        /* Side banner */
-        .ad-side {
-            width: 100%;
-            min-height: 100px;
-            flex-shrink: 0;
-        }
-        @media (min-width: 768px) {
-            .ad-side {
-                width: 240px;
-                min-height: 300px;
-                position: sticky;
-                top: 24px;
-            }
-        }
-
-        /* Bottom banner — full width, centered */
-        .ad-bottom {
-            width: 100%;
-            max-width: 980px;
-            min-height: 90px;
-            text-align: center;
-        }
-        .ad-bottom > * {
-            display: block;
-            margin: 0 auto;
         }
 
         /* ── Card ── */
@@ -385,18 +316,8 @@
 </head>
 <body>
 
-    <!-- ══ Main Layout ══ -->
     <div class="page-wrap">
-        <div class="content-row">
-
-            <!-- Side Ad (desktop) / Small Banner (mobile) -->
-            <div class="ad-slot ad-side">
-                <script async="async" data-cfasync="false" src="https://pl29549502.effectivecpmnetwork.com/524b0aded63375ff999c0d77762a1bce/invoke.js"></script>
-                <div id="container-524b0aded63375ff999c0d77762a1bce"></div>
-            </div>
-
-            <!-- Contact Card -->
-            <div class="card">
+        <div class="card">
             <div class="card-header">
                 <div class="eyebrow">Get in touch</div>
                 <h1>Send us a <span>Message</span></h1>
@@ -451,7 +372,7 @@
                     </div>
                     <div class="info-pill">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 10.5 19.79 19.79 0 0 1 1.62 2 2 2 0 0 1 3.62 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 7.91a16 16 0 0 0 8 8l.8-.8a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        +91 98765 43210
+                        +91 9989422865
                     </div>
                     <div class="info-pill">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -459,17 +380,9 @@
                     </div>
                 </div>
             </form>
-        </div><!-- /.card -->
-        </div><!-- /.content-row -->
-    </div><!-- /.page-wrap -->
-
-    <!-- ══ Bottom Banner Ad — full width centred ══ -->
-    <div class="ad-slot ad-bottom">
-        <script async="async" data-cfasync="false" src="https://pl29563401.effectivecpmnetwork.com/4d0ddff6ce49a14b046efc4686a17d4c/invoke.js"></script>
-        <div id="container-4d0ddff6ce49a14b046efc4686a17d4c"></div>
+        </div>
     </div>
 
-    <!-- Toast notification -->
     <div class="toast" id="toast"></div>
 
     <script src="backbutton.js"></script>
