@@ -113,14 +113,42 @@ img{display:block;}
 .map-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:9px 16px;font-size:0.79rem;font-weight:600;color:var(--ink2);transition:all 0.15s;}
 .map-btn:hover{background:var(--green-pale);border-color:var(--green-mid);color:var(--green);}
 
-/* DISCLAIMER */
-.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;}
+/* DISCLAIMER — upgraded for AdSense */
+.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;margin-bottom:1rem;}
 .disc-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+
+/* LEGAL FOOTER STRIP — new for AdSense */
+.legal-strip{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.1rem 1.4rem;display:flex;align-items:flex-start;gap:10px;font-size:0.76rem;color:var(--ink3);line-height:1.7;}
+.legal-strip svg{flex-shrink:0;margin-top:2px;color:var(--coral);}
+.legal-strip a{color:var(--coral);font-weight:700;text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.15s;}
+.legal-strip a:hover{border-bottom-color:var(--coral);}
+
+/* SITE FOOTER */
+.site-footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:28px 32px 22px;margin-top:2rem;}
+.sf-inner{max-width:1040px;margin:0 auto;}
+.sf-brand{font-family:'Bitter',serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.sf-brand em{font-style:italic;color:#f4a07a;font-weight:300;}
+.sf-tag{font-size:0.72rem;margin-bottom:18px;color:rgba(255,255,255,0.4);}
+.sf-links{display:flex;flex-wrap:wrap;gap:6px 4px;margin-bottom:18px;}
+.sf-links a{color:rgba(255,255,255,0.6);font-size:0.72rem;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);transition:background 0.15s,color 0.15s;}
+.sf-links a:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sf-div{height:1px;background:rgba(255,255,255,0.1);margin-bottom:14px;}
+.sf-copy{font-size:0.68rem;color:rgba(255,255,255,0.3);}
 
 /* ERROR */
 .err-state{text-align:center;padding:5rem 2rem;color:var(--ink3);}
 .err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
 .err-state p{font-size:0.85rem;line-height:1.6;}
+
+/* COOKIE BANNER */
+#cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0f1f1d;color:#e0f7f4;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,0.25);font-family:'Nunito',sans-serif;font-size:13px;line-height:1.6;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+#cookie-banner.show{transform:translateY(0);}
+.cb-text{flex:1;min-width:200px;color:rgba(255,255,255,0.78);}
+.cb-text a{color:#5eead4;text-decoration:underline;}
+.cb-acc{background:#0d9488;color:white;border:none;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background 0.2s;}
+.cb-acc:hover{background:#0f766e;}
+.cb-dec{background:transparent;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+@media(max-width:560px){#cookie-banner{padding:12px 16px;}.cookie-actions{width:100%;justify-content:flex-end;}}
 
 /* RESPONSIVE */
 @media(max-width:700px){
@@ -130,6 +158,8 @@ img{display:block;}
   .dis-hero{grid-template-columns:1fr;}
   .dis-hero-img{display:none;}
   .cards-grid{grid-template-columns:1fr;}
+  .sf-links{gap:5px;}
+  .site-footer{padding:22px 16px 18px;}
 }
 </style>
 </head>
@@ -162,6 +192,21 @@ img{display:block;}
   </div>
 </div>
 
+
+<!-- STATIC DISCLAIMER — always visible, seen by Google crawler -->
+<div style="max-width:1040px;margin:1.5rem auto 0;padding:0 1.5rem;">
+  <div style="background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:0.9rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;">
+    <span style="font-size:1.1rem;flex-shrink:0;margin-top:1px;">⚠️</span>
+    <span>
+      This is for <strong>educational purposes only</strong> and does not constitute medical advice, diagnosis, or treatment.
+      Always consult a qualified healthcare professional before making any health decisions.
+      Read our full <a href="Disclaimer.html" style="color:var(--coral);font-weight:700;text-decoration:none;border-bottom:1px solid var(--coral-mid);">Medical Disclaimer</a>,
+      <a href="Privacy Policy.html" style="color:var(--coral);font-weight:700;text-decoration:none;border-bottom:1px solid var(--coral-mid);">Privacy Policy</a>, and
+      <a href="Terms and Conditions.html" style="color:var(--coral);font-weight:700;text-decoration:none;border-bottom:1px solid var(--coral-mid);">Terms &amp; Conditions</a>.
+    </span>
+  </div>
+</div>
+
 <!-- MAIN RESULTS -->
 <div class="main" id="mainArea">
   <div class="idle">
@@ -170,6 +215,24 @@ img{display:block;}
     <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
   </div>
 </div>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="sf-inner">
+    <div class="sf-brand">Aayuh <em>Health</em></div>
+    <p class="sf-tag">Healthcare information platform — Educational purposes only</p>
+    <nav class="sf-links">
+      <a href="about.html">About Us</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>
+      <a href="Contact Us.html">Contact Us</a>
+      <a href="Disclaimer.html">Medical Disclaimer</a>
+      <a href="FAQ.html">FAQ</a>
+    </nav>
+    <div class="sf-div"></div>
+    <p class="sf-copy">© 2026 AAYUH. All Rights Reserved. · Andhra Pradesh, India · All health content is for educational purposes only.</p>
+  </div>
+</footer>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -358,6 +421,18 @@ async function lookupDisease() {
         <span class="disc-icon">⚠️</span>
         <span>This is for <strong>educational purposes only</strong> and does not constitute medical advice. Always consult a qualified healthcare professional before making any health decisions.</span>
       </div>
+
+      <div class="legal-strip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>
+          AAYUH provides health information for <strong>educational purposes only</strong> and does not provide medical advice, diagnosis, or treatment.
+          By using this page you agree to our
+          <a href="Disclaimer.html">Medical Disclaimer</a>,
+          <a href="Privacy Policy.html">Privacy Policy</a>, and
+          <a href="Terms and Conditions.html">Terms &amp; Conditions</a>.
+          This site uses Google AdSense — <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+        </span>
+      </div>
     `;
 
     btn.disabled = false;
@@ -394,7 +469,26 @@ function openMaps(query) {
   window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
 }
 </script>
+
 <script src="cordova.js"></script>
-<script src='backbutton.js'></script>
+<script src="backbutton.js"></script>
+
+<!-- Cookie Banner -->
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cb-text">
+    🍪 <strong style="color:#5eead4;">We use cookies</strong> to improve your experience and show relevant ads.
+    See our <a href="Privacy Policy.html">Privacy Policy</a> &amp;
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0;">
+    <button class="cb-dec" onclick="cbH('d')">Decline</button>
+    <button class="cb-acc" onclick="cbH('a')">✓ Accept</button>
+  </div>
+</div>
+<script>
+  (function(){if(!localStorage.getItem('aayuh_cc'))setTimeout(()=>document.getElementById('cookie-banner').classList.add('show'),800);})();
+  function cbH(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cookie-banner');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
+</script>
+
 </body>
 </html>

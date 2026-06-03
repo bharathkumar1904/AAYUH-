@@ -1,205 +1,474 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AAYUH - Privacy Policy</title>
-
+  <title>AAYUH — Privacy Policy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: Arial, sans-serif;
+    :root {
+      --teal:#0d9488;--teal-dark:#0f766e;--teal-deep:#134e4a;--teal-light:#ccfbf1;--teal-pale:#f0fdfa;
+      --amber:#d97706;--amber-light:#fef3c7;--ink:#0f1f1d;--ink-soft:#2d4a46;--muted:#6b8f8b;
+      --paper:#fafffe;--border:#d1faf4;--card:#ffffff;--radius-lg:20px;--radius-md:12px;--radius-sm:8px;
+      --font-display:'Fraunces',Georgia,serif;--font-body:'Plus Jakarta Sans',sans-serif;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.75;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.4;}
 
-    body{
-      background:#f4f7fb;
-      color:#333;
-      line-height:1.7;
-    }
+    /* HERO */
+    .hero{position:relative;background:linear-gradient(145deg,var(--teal-deep) 0%,var(--teal-dark) 50%,#0f766e 100%);padding:80px 24px 100px;text-align:center;overflow:hidden;z-index:1;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 0%,rgba(20,184,166,.25) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 100%,rgba(6,95,70,.5) 0%,transparent 60%);pointer-events:none;}
+    .hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.07);pointer-events:none;}
+    .hero-ring:nth-child(1){width:500px;height:500px;top:-180px;right:-120px;}
+    .hero-ring:nth-child(2){width:320px;height:320px;bottom:-100px;left:-60px;border-color:rgba(255,255,255,0.05);}
+    .hero-ring:nth-child(3){width:200px;height:200px;top:40px;left:10%;border-color:rgba(255,255,255,0.04);}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.9);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:30px;margin-bottom:24px;backdrop-filter:blur(8px);animation:fadeDown .6s ease both;}
+    .hero-badge::before{content:'';width:6px;height:6px;background:#5eead4;border-radius:50%;animation:pulse 2s ease infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,6vw,4rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px;animation:fadeDown .6s .1s ease both;}
+    .hero h1 em{font-style:italic;font-weight:300;color:#5eead4;}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,0.7);max-width:480px;margin:0 auto 28px;animation:fadeDown .6s .2s ease both;}
+    .hero-meta{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:12px;padding:6px 16px;border-radius:30px;animation:fadeDown .6s .3s ease both;}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:translateY(0);}}
+    .hero-wave{position:absolute;bottom:-1px;left:0;right:0;height:60px;}
 
-    header{
-      background:linear-gradient(135deg,#0f766e,#14b8a6);
-      color:white;
-      padding:40px 20px;
-      text-align:center;
-    }
+    /* TOC */
+    .toc-bar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;display:flex;gap:0;white-space:nowrap;}
+    .toc-bar::-webkit-scrollbar{display:none;}
+    .toc-link{display:inline-flex;align-items:center;gap:5px;padding:14px 14px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;letter-spacing:.02em;}
+    .toc-link:hover{color:var(--teal);border-bottom-color:var(--teal);}
 
-    header h1{
-      font-size:40px;
-      margin-bottom:10px;
-    }
+    /* LAYOUT */
+    .page-body{max-width:860px;margin:0 auto;padding:48px 24px 80px;position:relative;z-index:1;}
 
-    header p{
-      font-size:18px;
-      opacity:0.9;
-    }
+    /* SECTION CARD */
+    .section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 40px;margin-bottom:20px;position:relative;overflow:hidden;transition:box-shadow .3s,transform .3s;animation:fadeUp .5s ease both;}
+    .section-card:hover{box-shadow:0 8px 40px rgba(13,148,136,.1);transform:translateY(-2px);}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    .section-card:nth-child(1){animation-delay:.05s;}.section-card:nth-child(2){animation-delay:.10s;}.section-card:nth-child(3){animation-delay:.15s;}.section-card:nth-child(4){animation-delay:.20s;}.section-card:nth-child(5){animation-delay:.25s;}.section-card:nth-child(6){animation-delay:.30s;}.section-card:nth-child(7){animation-delay:.35s;}.section-card:nth-child(8){animation-delay:.40s;}.section-card:nth-child(9){animation-delay:.45s;}.section-card:nth-child(10){animation-delay:.50s;}.section-card:nth-child(11){animation-delay:.55s;}.section-card:nth-child(12){animation-delay:.60s;}.section-card:nth-child(13){animation-delay:.65s;}.section-card:nth-child(14){animation-delay:.70s;}.section-card:nth-child(15){animation-delay:.75s;}
+    .section-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),transparent);border-radius:4px 0 0 4px;opacity:0;transition:opacity .3s;}
+    .section-card:hover::before{opacity:1;}
+    .section-card.card-amber{background:linear-gradient(135deg,#fffbeb 0%,#fff8f0 100%);border-color:#fde68a;}
+    .section-card.card-amber::before{background:linear-gradient(180deg,var(--amber),transparent);}
+    .section-card.card-teal{background:linear-gradient(135deg,var(--teal-pale) 0%,#f0fffe 100%);border-color:var(--teal-light);}
+    .section-card.card-teal::before{background:linear-gradient(180deg,var(--teal),transparent);opacity:1;}
+    .section-num{position:absolute;top:20px;right:28px;font-family:var(--font-display);font-size:64px;font-weight:800;color:var(--teal-light);line-height:1;pointer-events:none;user-select:none;}
+    .card-amber .section-num{color:#fde68a;}
+    .section-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;}
+    .section-icon{width:42px;height:42px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--teal-pale);border:1px solid var(--teal-light);}
+    .card-amber .section-icon{background:#fef3c7;border-color:#fde68a;}
+    .section-title{font-family:var(--font-display);font-size:1.35rem;font-weight:600;color:var(--teal-deep);line-height:1.2;padding-top:6px;}
+    .card-amber .section-title{color:#92400e;}
+    .section-card p{font-size:14.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.8;}
+    .section-card p:last-child{margin-bottom:0;}
+    .policy-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:12px 0;}
+    .policy-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-soft);}
+    .policy-list li::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;flex-shrink:0;margin-top:7px;}
+    .card-amber .policy-list li::before{background:var(--amber);}
+    .tag-pill{display:inline-flex;align-items:center;gap:4px;background:var(--teal-light);color:var(--teal-deep);font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:.04em;text-transform:uppercase;}
+    .section-card a{color:var(--teal);text-decoration:none;font-weight:500;border-bottom:1px solid transparent;transition:border-color .2s,color .2s;}
+    .section-card a:hover{border-bottom-color:var(--teal);}
+    .contact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+    .contact-chip{display:flex;align-items:center;gap:8px;background:var(--teal-pale);border:1px solid var(--teal-light);border-radius:30px;padding:8px 16px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;border-bottom:none !important;}
+    .contact-chip:hover{background:var(--teal-light);border-color:var(--teal);transform:translateY(-1px);}
+    .chip-icon{font-size:15px;}
+    .opt-out-btn{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:white;font-size:13px;font-weight:600;padding:10px 20px;border-radius:30px;text-decoration:none;margin-top:12px;transition:background .2s,transform .2s,box-shadow .2s;border-bottom:none !important;}
+    .opt-out-btn:hover{background:#b45309;transform:translateY(-1px);box-shadow:0 4px 16px rgba(217,119,6,.3);}
 
-    .container{
-      max-width:1000px;
-      margin:40px auto;
-      background:white;
-      padding:40px;
-      border-radius:15px;
-      box-shadow:0 4px 15px rgba(0,0,0,0.1);
-    }
+    /* FOOTER */
+    footer{background:var(--teal-deep);color:white;padding:40px 24px 28px;text-align:center;position:relative;overflow:hidden;z-index:1;}
+    footer::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 50% -20%,rgba(20,184,166,.15) 0%,transparent 60%);}
+    .footer-brand{font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:white;margin-bottom:6px;}
+    .footer-brand em{font-style:italic;font-weight:300;color:#5eead4;}
+    .footer-tagline{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:28px;}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 4px;margin-bottom:24px;}
+    .footer-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);transition:background .2s,color .2s,border-color .2s;}
+    .footer-links a:hover{background:rgba(255,255,255,0.08);color:white;border-color:rgba(255,255,255,0.25);}
+    .footer-divider{width:60px;height:1px;background:rgba(255,255,255,0.15);margin:20px auto;}
+    .footer-copy{font-size:12px;color:rgba(255,255,255,0.4);}
 
-    h2{
-      color:#0f766e;
-      margin-top:30px;
-      margin-bottom:10px;
-    }
-
-    p{
-      margin-bottom:15px;
-    }
-
-    ul{
-      margin-left:25px;
-      margin-bottom:15px;
-    }
-
-    footer{
-      text-align:center;
-      padding:20px;
-      background:#0f766e;
-      color:white;
-      margin-top:40px;
-    }
-
-    a{
-      color:#14b8a6;
-      text-decoration:none;
-    }
-
-    a:hover{
-      text-decoration:underline;
-    }
-
-    @media(max-width:768px){
-      .container{
-        margin:20px;
-        padding:25px;
-      }
-
-      header h1{
-        font-size:30px;
-      }
+    @media(max-width:600px){
+      .section-card{padding:24px 20px;}.section-num{font-size:44px;top:14px;right:16px;}
+      .hero{padding:60px 20px 80px;}.toc-bar{padding:0 12px;}.toc-link{padding:12px 10px;font-size:11px;}
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>AAYUH Privacy Policy</h1>
-    <p>Your health data and privacy matter to us</p>
+  <header class="hero">
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-badge">Legal Document</div>
+    <h1>Privacy <em>Policy</em></h1>
+    <p class="hero-sub">How AAYUH collects, uses, and protects your health data — clearly explained.</p>
+    <div class="hero-meta">📅 Effective May 7, 2026 &nbsp;·&nbsp; Last updated May 2026</div>
+    <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#fafffe"/>
+    </svg>
   </header>
 
-  <div class="container">
+  <nav class="toc-bar">
+    <a class="toc-link" href="#collect">📋 Collection</a>
+    <a class="toc-link" href="#use">🔍 Usage</a>
+    <a class="toc-link" href="#medical">🏥 Medical Data</a>
+    <a class="toc-link" href="#cookies">🍪 Cookies</a>
+    <a class="toc-link" href="#adsense">📢 AdSense</a>
+    <a class="toc-link" href="#firebase">🔥 Firebase</a>
+    <a class="toc-link" href="#thirdparty">🔗 Third-Party</a>
+    <a class="toc-link" href="#retention">🗃️ Retention</a>
+    <a class="toc-link" href="#deletion">🗑️ Deletion</a>
+    <a class="toc-link" href="#rights">✅ Rights</a>
+    <a class="toc-link" href="#children">👶 Children</a>
+    <a class="toc-link" href="#disclaimer">⚕️ Disclaimer</a>
+    <a class="toc-link" href="#changes">🔄 Changes</a>
+    <a class="toc-link" href="#contact">📬 Contact</a>
+  </nav>
 
-    <p><strong>Effective Date:</strong> May 7, 2026</p>
+  <main class="page-body">
 
-    <p>
-      Welcome to <strong>AAYUH</strong>. Your privacy is important to us.
-      This Privacy Policy explains how we collect, use, and protect your information
-      when you use our healthcare and medicine platform.
-    </p>
+    <!-- Intro -->
+    <div class="section-card card-teal" style="margin-bottom:32px;">
+      <div class="section-head">
+        <div class="section-icon">👋</div>
+        <div><div class="section-title">Welcome to AAYUH</div></div>
+      </div>
+      <p>This Privacy Policy describes how <strong>AAYUH</strong> (<a href="https://aayuh.co.in" target="_blank">aayuh.co.in</a>) collects, uses, discloses, and safeguards your information when you use our healthcare and medicine platform. By using AAYUH you agree to the practices described here.</p>
+      <p style="margin-top:8px;">
+        <span class="tag-pill">🌐 Platform</span>&nbsp;
+        <span class="tag-pill">📍 Andhra Pradesh, India</span>&nbsp;
+        <span class="tag-pill">⚖️ Privacy Focused</span>
+      </p>
+    </div>
 
-    <h2>1. Information We Collect</h2>
+    <!-- 1 -->
+    <div class="section-card" id="collect">
+      <div class="section-num">1</div>
+      <div class="section-head"><div class="section-icon">📋</div><div class="section-title">Information We Collect</div></div>
+      <p>We may collect the following categories of information:</p>
+      <ul class="policy-list">
+        <li>Name and email address during signup or login</li>
+        <li>Medical history voluntarily added by users</li>
+        <li>Medicine search and browsing history within the app</li>
+        <li>Device type, browser information, and IP address</li>
+        <li>Location data — only when you explicitly grant permission</li>
+        <li>Contact form submissions including name, email, phone, and message</li>
+      </ul>
+    </div>
 
-    <p>We may collect the following information:</p>
+    <!-- 2 -->
+    <div class="section-card" id="use">
+      <div class="section-num">2</div>
+      <div class="section-head"><div class="section-icon">🔍</div><div class="section-title">How We Use Your Information</div></div>
+      <p>Your information is used exclusively to:</p>
+      <ul class="policy-list">
+        <li>Provide medicine recommendations and symptom checker features</li>
+        <li>Improve platform accuracy, performance, and user experience</li>
+        <li>Store your medical history securely for your personal reference</li>
+        <li>Provide nearby hospital, doctor, and pharmacy suggestions</li>
+        <li>Display relevant advertisements via Google AdSense</li>
+        <li>Send password reset and account-related transactional emails</li>
+      </ul>
+    </div>
 
-    <ul>
-      <li>Name and email address during signup/login</li>
-      <li>Medical history added by users</li>
-      <li>Medicine search history</li>
-      <li>Device and browser information</li>
-      <li>Location data (only if permission is granted)</li>
-    </ul>
+    <!-- 3 -->
+    <div class="section-card card-teal" id="medical">
+      <div class="section-num">3</div>
+      <div class="section-head"><div class="section-icon">🏥</div><div class="section-title">Medical Data Protection</div></div>
+      <p>Medical information you submit is stored in <strong>encrypted, secure databases</strong> and is used <em>only</em> to provide the healthcare features you requested.</p>
+      <p><strong>We never sell, share, or disclose medical data to advertisers, data brokers, or any third parties.</strong> Your health data belongs to you and remains under your full control at all times.</p>
+    </div>
 
-    <h2>2. How We Use Your Information</h2>
+    <!-- 4 -->
+    <div class="section-card" id="cookies">
+      <div class="section-num">4</div>
+      <div class="section-head"><div class="section-icon">🍪</div><div class="section-title">Cookies &amp; Tracking Technologies</div></div>
+      <p>Our website uses cookies and similar technologies to:</p>
+      <ul class="policy-list">
+        <li>Remember your login session across visits</li>
+        <li>Analyze website traffic and usage patterns via analytics</li>
+        <li>Personalize advertisements served by Google AdSense</li>
+        <li>Improve overall platform performance and responsiveness</li>
+      </ul>
+      <p style="margin-top:12px;">You can control or disable cookies through your browser settings. Note that disabling certain cookies may affect some features of the platform.</p>
+    </div>
 
-    <p>Your information is used to:</p>
+    <!-- 5 AdSense -->
+    <div class="section-card card-amber" id="adsense">
+      <div class="section-num">5</div>
+      <div class="section-head"><div class="section-icon">📢</div><div class="section-title">Google AdSense &amp; Advertising</div></div>
+      <p>AAYUH displays advertisements through <strong>Google AdSense</strong>. Google and its partners may use cookies, web beacons, and similar technologies to serve personalised ads based on your interests and previous browsing activity on this and other websites.</p>
+      <p>Google's advertising cookies enable it and its partners to serve ads based on your visit to AAYUH and/or other websites. This is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+      <p>You may <strong>opt out</strong> of personalised advertising at any time:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;">
+        <a class="opt-out-btn" href="https://www.google.com/settings/ads" target="_blank" rel="noopener">🔧 Google Ad Settings</a>
+        <a class="opt-out-btn" href="https://www.aboutads.info/choices/" target="_blank" rel="noopener" style="background:#92400e;">🚫 AboutAds Opt-Out</a>
+      </div>
+    </div>
 
-    <ul>
-      <li>Provide medicine recommendations</li>
-      <li>Improve symptom checker accuracy</li>
-      <li>Store medical history securely</li>
-      <li>Improve user experience and website performance</li>
-      <li>Provide nearby hospital suggestions</li>
-    </ul>
+    <!-- 6 -->
+    <div class="section-card" id="firebase">
+      <div class="section-num">6</div>
+      <div class="section-head"><div class="section-icon">🔥</div><div class="section-title">Firebase Services</div></div>
+      <p>We use <strong>Firebase</strong> (by Google) for authentication, data storage, and analytics. Information processed by Firebase is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. Firebase services we use include:</p>
+      <ul class="policy-list">
+        <li><strong>Firebase Authentication</strong> — secure login and registration</li>
+        <li><strong>Firebase Firestore</strong> — encrypted cloud database storage</li>
+        <li><strong>Firebase Analytics</strong> — anonymous usage statistics only</li>
+      </ul>
+    </div>
 
-    <h2>3. Data Security</h2>
+    <!-- 7 -->
+    <div class="section-card" id="thirdparty">
+      <div class="section-num">7</div>
+      <div class="section-head"><div class="section-icon">🔗</div><div class="section-title">Third-Party Services &amp; Links</div></div>
+      <p>AAYUH integrates the following third-party services:</p>
+      <ul class="policy-list">
+        <li>Firebase Authentication &amp; Firestore (Google)</li>
+        <li>Google Maps API — for nearby hospital and pharmacy features</li>
+        <li>Medicine information APIs — for drug data and dosage details</li>
+        <li>Google AdSense — for displaying advertisements</li>
+        <li>EmailJS — for processing contact form submissions</li>
+      </ul>
+      <p style="margin-top:12px;">Our site may also link to external hospitals, pharmacies, and healthcare providers. We are <strong>not responsible</strong> for the privacy practices or content of third-party websites.</p>
+    </div>
 
-    <p>
-      AAYUH uses secure technologies and encrypted databases to protect your personal
-      and medical information. We do not sell your data to third parties.
-    </p>
+    <!-- 8 -->
+    <div class="section-card" id="retention">
+      <div class="section-num">8</div>
+      <div class="section-head"><div class="section-icon">🗃️</div><div class="section-title">Data Retention</div></div>
+      <p>We retain your information only as long as necessary to provide our services:</p>
+      <ul class="policy-list">
+        <li>Account data is retained while your account is active</li>
+        <li>Medical history is stored until you delete it or request account deletion</li>
+        <li>Analytics data may be retained in <strong>anonymised</strong> form for service improvement</li>
+        <li>Contact form data is deleted after your query is resolved</li>
+      </ul>
+    </div>
 
-    <h2>4. Cookies</h2>
+    <!-- 9 -->
+    <div class="section-card card-teal" id="deletion">
+      <div class="section-num">9</div>
+      <div class="section-head"><div class="section-icon">🗑️</div><div class="section-title">Account &amp; Data Deletion</div></div>
+      <p>You may request complete deletion of your account and all associated personal data by contacting us at <a href="mailto:bharathkumar.ltd@gmail.com">bharathkumar.ltd@gmail.com</a>.</p>
+      <p>Upon identity verification, we will remove your account and associated information from all our systems within <strong>7–14 business days</strong>.</p>
+    </div>
 
-    <p>
-      Our website may use cookies to improve user experience, remember login sessions,
-      and analyze website traffic.
-    </p>
+    <!-- 10 -->
+    <div class="section-card" id="rights">
+      <div class="section-num">10</div>
+      <div class="section-head"><div class="section-icon">✅</div><div class="section-title">Your Rights</div></div>
+      <p>You have the right to:</p>
+      <ul class="policy-list">
+        <li>Access your stored personal information at any time</li>
+        <li>Request correction of any inaccurate data</li>
+        <li>Delete your account and all associated personal data</li>
+        <li>Disable location permissions at any time via your device settings</li>
+        <li>Opt out of personalised advertisements via Google Ad Settings</li>
+        <li>Withdraw consent for data processing where applicable</li>
+      </ul>
+    </div>
 
-    <h2>5. Third-Party Services</h2>
+    <!-- 11 -->
+    <div class="section-card" id="children">
+      <div class="section-num">11</div>
+      <div class="section-head"><div class="section-icon">👶</div><div class="section-title">Children's Privacy</div></div>
+      <p>AAYUH is not directed at children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal data, please contact us immediately and we will promptly delete it.</p>
+    </div>
 
-    <p>
-      AAYUH may use third-party services such as:
-    </p>
+    <!-- 12 Medical disclaimer amber -->
+    <div class="section-card card-amber" id="disclaimer">
+      <div class="section-num">12</div>
+      <div class="section-head"><div class="section-icon">⚕️</div><div class="section-title">Medical Disclaimer</div></div>
+      <p>All health information on AAYUH is provided for <strong>educational and informational purposes only</strong>. It is <em>not</em> a substitute for professional medical advice, diagnosis, or treatment.</p>
+      <p>Always consult a qualified healthcare professional before making any medical decisions. Read our full <a href="Disclaimer.html">Medical Disclaimer →</a></p>
+    </div>
 
-    <ul>
-      <li>Firebase Authentication</li>
-      <li>Google Maps API</li>
-      <li>Medicine information APIs</li>
-      <li>Google AdSense (for advertisements)</li>
-    </ul>
+    <!-- 13 -->
+    <div class="section-card" id="changes">
+      <div class="section-num">13</div>
+      <div class="section-head"><div class="section-icon">🔄</div><div class="section-title">Changes to This Policy</div></div>
+      <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. Updates will be posted on this page with a revised effective date. Continued use of AAYUH after any changes constitutes your acceptance of the updated policy.</p>
+    </div>
 
-    <p>
-      These services may collect limited information according to their own privacy policies.
-    </p>
+    <!-- 14 -->
+    <div class="section-card card-teal" id="contact">
+      <div class="section-num">14</div>
+      <div class="section-head"><div class="section-icon">📬</div><div class="section-title">Contact Us</div></div>
+      <p>If you have any questions, concerns, or data requests regarding this Privacy Policy, reach out to us:</p>
+      <div class="contact-row">
+        <a class="contact-chip" href="mailto:bharathkumar.ltd@gmail.com"><span class="chip-icon">📧</span> bharathkumar.ltd@gmail.com</a>
+        <a class="contact-chip" href="https://aayuh.co.in" target="_blank" rel="noopener"><span class="chip-icon">🌐</span> aayuh.co.in</a>
+        <div class="contact-chip"><span class="chip-icon">📍</span> Andhra Pradesh, India</div>
+        <a class="contact-chip" href="Contact Us.html"><span class="chip-icon">💬</span> Contact Form</a>
+      </div>
+    </div>
 
-    <h2>6. User Rights</h2>
-
-    <p>You have the right to:</p>
-
-    <ul>
-      <li>Access your stored information</li>
-      <li>Request correction of data</li>
-      <li>Delete your account and data</li>
-      <li>Disable location permissions anytime</li>
-    </ul>
-
-    <h2>7. Children's Privacy</h2>
-
-    <p>
-      AAYUH does not knowingly collect personal information from children under 13 years old.
-    </p>
-
-    <h2>8. Changes to Privacy Policy</h2>
-
-    <p>
-      We may update this Privacy Policy from time to time. Updates will be posted on this page.
-    </p>
-
-    <h2>9. Contact Us</h2>
-
-    <p>
-      If you have any questions regarding this Privacy Policy, contact us at:
-    </p>
-
-    <p>
-      📧 Email: <a href="mailto:bharathkumar.ltd@gmail.com">bharathkumar.ltd@gmail.com</a>
-    </p>
-
-  </div>
+  </main>
 
   <footer>
-    © 2026 AAYUH. All Rights Reserved.
+    <div class="footer-brand">AAY<em>UH</em></div>
+    <p class="footer-tagline">Your health companion — private by design</p>
+    <nav class="footer-links">
+      <a href="about.html">About Us</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>
+      <a href="Contact Us.html">Contact Us</a>
+      <a href="Disclaimer.html">Medical Disclaimer</a>
+    </nav>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">© 2026 AAYUH. All Rights Reserved. &nbsp;·&nbsp; Andhra Pradesh, India</p>
   </footer>
+
+<!-- ═══════════════════════════════════════════════════
+     AAYUH Cookie Consent Banner
+     INSTRUCTIONS: Paste this entire block just before
+     the closing </body> tag on EVERY page of your site.
+     ═══════════════════════════════════════════════════ -->
+
+<style>
+  #cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: #0f1f1d;
+    color: #e0f7f4;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+    font-family: 'Plus Jakarta Sans', 'DM Sans', Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #cookie-banner.show {
+    transform: translateY(0);
+  }
+
+  .cookie-text {
+    flex: 1;
+    min-width: 220px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cookie-text strong {
+    color: #5eead4;
+    font-size: 14px;
+  }
+
+  .cookie-text a {
+    color: #5eead4;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .cookie-btn-accept {
+    background: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .cookie-btn-accept:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+  }
+
+  .cookie-btn-decline {
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .cookie-btn-decline:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 560px) {
+    #cookie-banner { padding: 14px 16px; }
+    .cookie-actions { width: 100%; justify-content: flex-end; }
+  }
+</style>
+
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-text">
+    <strong>🍪 We use cookies</strong><br>
+    We use cookies to improve your experience and display relevant advertisements.
+    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
+    <a href="Privacy Policy.html">Privacy Policy</a>.
+    Google AdSense may also use cookies to personalise ads —
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
+    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Show banner only if consent not already given
+    var consent = localStorage.getItem('aayuh_cookie_consent');
+    if (!consent) {
+      setTimeout(function() {
+        var banner = document.getElementById('cookie-banner');
+        if (banner) banner.classList.add('show');
+      }, 800);
+    }
+  })();
+
+  function cookieAccept() {
+    localStorage.setItem('aayuh_cookie_consent', 'accepted');
+    hideBanner();
+  }
+
+  function cookieDecline() {
+    localStorage.setItem('aayuh_cookie_consent', 'declined');
+    hideBanner();
+  }
+
+  function hideBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.style.transition = 'transform 0.3s ease';
+      banner.style.transform = 'translateY(100%)';
+      setTimeout(function() { banner.style.display = 'none'; }, 300);
+    }
+  }
+</script>
+<!-- ═══════════════════════════════════════════════════ -->
 
 </body>
 </html>

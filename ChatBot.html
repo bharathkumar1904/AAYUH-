@@ -73,9 +73,15 @@ button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
 .disclaimer{
   background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);
   border-radius:var(--r2);padding:10px 16px;margin-bottom:10px;
-  font-size:.74rem;color:#9a3412;line-height:1.5;
+  font-size:.74rem;color:#9a3412;line-height:1.6;
   display:flex;gap:8px;align-items:flex-start;flex-shrink:0;
 }
+.disclaimer a{
+  color:#7c2d12;font-weight:700;
+  text-decoration:underline;text-underline-offset:2px;
+  transition:color .15s;
+}
+.disclaimer a:hover{color:#9a3412;}
 
 /* PROXY WARNING */
 .proxy-warn{
@@ -145,20 +151,10 @@ button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
 .bubble.error{background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.25);color:#9a3412;}
 
 /* ATTACHED PREVIEW IN BUBBLE */
-.attach-preview{
-  display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;
-}
-.attach-thumb{
-  position:relative;border-radius:10px;overflow:hidden;
-  border:1.5px solid rgba(255,255,255,.3);
-}
+.attach-preview{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;}
+.attach-thumb{position:relative;border-radius:10px;overflow:hidden;border:1.5px solid rgba(255,255,255,.3);}
 .attach-thumb img{width:120px;height:90px;object-fit:cover;display:block;}
-.attach-file-chip{
-  display:flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.3);
-  border-radius:9px;padding:6px 11px;font-size:.74rem;font-weight:600;color:#fff;
-  max-width:180px;
-}
+.attach-file-chip{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.3);border-radius:9px;padding:6px 11px;font-size:.74rem;font-weight:600;color:#fff;max-width:180px;}
 .attach-file-chip svg{flex-shrink:0;}
 
 /* TYPING */
@@ -175,31 +171,13 @@ button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
 .sug:hover{background:rgba(0,191,165,.1);border-color:var(--teal);}
 
 /* ATTACHMENT STAGING AREA */
-.staging{
-  display:none;flex-wrap:wrap;gap:8px;
-  padding:10px 14px;border-top:1px solid var(--bd2);
-  background:var(--sur2);flex-shrink:0;
-}
+.staging{display:none;flex-wrap:wrap;gap:8px;padding:10px 14px;border-top:1px solid var(--bd2);background:var(--sur2);flex-shrink:0;}
 .staging.has-items{display:flex;}
-.stage-item{
-  position:relative;display:flex;align-items:center;gap:6px;
-  background:#fff;border:1.5px solid var(--bd);border-radius:10px;
-  padding:5px 10px 5px 7px;font-size:.74rem;font-weight:600;color:var(--tx2);
-  max-width:200px;
-}
+.stage-item{position:relative;display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--bd);border-radius:10px;padding:5px 10px 5px 7px;font-size:.74rem;font-weight:600;color:var(--tx2);max-width:200px;}
 .stage-item img{width:36px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;}
-.stage-item .fname{
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  max-width:110px;font-size:.72rem;
-}
+.stage-item .fname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;font-size:.72rem;}
 .stage-item .fsize{font-size:.62rem;color:var(--mu);}
-.stage-remove{
-  width:18px;height:18px;border-radius:50%;
-  background:rgba(220,38,38,.12);color:var(--red);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.7rem;font-weight:800;cursor:pointer;flex-shrink:0;
-  margin-left:2px;transition:background .15s;
-}
+.stage-remove{width:18px;height:18px;border-radius:50%;background:rgba(220,38,38,.12);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;cursor:pointer;flex-shrink:0;margin-left:2px;transition:background .15s;}
 .stage-remove:hover{background:rgba(220,38,38,.25);}
 .file-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .fi-pdf{background:rgba(220,38,38,.1);}
@@ -208,54 +186,22 @@ button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;}
 .fi-img{background:rgba(0,137,123,.08);}
 
 /* INPUT AREA */
-.input-area{
-  padding:12px 14px;border-top:1.5px solid var(--bd);
-  background:var(--sur);display:flex;gap:9px;align-items:flex-end;
-  border-radius:0 0 var(--r) var(--r);flex-shrink:0;
-}
-textarea{
-  flex:1;border:1.5px solid var(--bd);border-radius:var(--r2);
-  padding:10px 13px;font-family:'Outfit',sans-serif;
-  font-size:.87rem;color:var(--tx);resize:none;outline:none;
-  min-height:44px;max-height:120px;transition:border .2s;
-  background:var(--bg);line-height:1.5;
-}
+.input-area{padding:12px 14px;border-top:1.5px solid var(--bd);background:var(--sur);display:flex;gap:9px;align-items:flex-end;border-radius:0 0 var(--r) var(--r);flex-shrink:0;}
+textarea{flex:1;border:1.5px solid var(--bd);border-radius:var(--r2);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:.87rem;color:var(--tx);resize:none;outline:none;min-height:44px;max-height:120px;transition:border .2s;background:var(--bg);line-height:1.5;}
 textarea:focus{border-color:var(--teal);background:#fff;box-shadow:0 0 0 3px rgba(0,191,165,.1);}
 textarea::placeholder{color:var(--mu);}
 
 /* TOOLBAR BUTTONS */
-.tool-btn{
-  width:40px;height:40px;border-radius:var(--r2);
-  display:flex;align-items:center;justify-content:center;
-  background:var(--sur2);border:1.5px solid var(--bd);
-  color:var(--tx2);font-size:1rem;
-  transition:all .18s;flex-shrink:0;cursor:pointer;
-}
+.tool-btn{width:40px;height:40px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;background:var(--sur2);border:1.5px solid var(--bd);color:var(--tx2);font-size:1rem;transition:all .18s;flex-shrink:0;cursor:pointer;}
 .tool-btn:hover{background:rgba(0,191,165,.12);border-color:var(--teal);color:var(--teal);}
 .tool-btn input[type=file]{display:none;}
 
-.send-btn{
-  width:44px;height:44px;border:none;border-radius:var(--r2);
-  background:linear-gradient(135deg,var(--teal-m),var(--teal-d));
-  color:#fff;font-size:1rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;flex-shrink:0;
-  box-shadow:0 4px 14px rgba(0,137,123,.3);
-}
+.send-btn{width:44px;height:44px;border:none;border-radius:var(--r2);background:linear-gradient(135deg,var(--teal-m),var(--teal-d));color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;box-shadow:0 4px 14px rgba(0,137,123,.3);}
 .send-btn:hover{transform:scale(1.06);box-shadow:0 6px 20px rgba(0,137,123,.4);}
 .send-btn:disabled{background:#b2dfdb;box-shadow:none;cursor:not-allowed;transform:none;}
 
 /* TOAST */
-#toast{
-  position:fixed;bottom:28px;left:50%;
-  transform:translateX(-50%) translateY(16px);
-  background:rgba(8,34,28,.96);backdrop-filter:blur(12px);
-  color:#fff;border-radius:99px;padding:10px 22px;
-  font-size:.8rem;font-weight:700;z-index:999;
-  opacity:0;transition:all .3s;pointer-events:none;
-  white-space:nowrap;box-shadow:var(--sh2);
-  border:1px solid rgba(255,255,255,.1);
-}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:rgba(8,34,28,.96);backdrop-filter:blur(12px);color:#fff;border-radius:99px;padding:10px 22px;font-size:.8rem;font-weight:700;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:var(--sh2);border:1px solid rgba(255,255,255,.1);}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* FILE LIMIT NOTICE */
@@ -286,9 +232,16 @@ textarea::placeholder{color:var(--mu);}
 
 <div class="main">
 
-  <!-- DISCLAIMER -->
+  <!-- DISCLAIMER — updated with links -->
   <div class="disclaimer">
-    ⚠️ <span><strong>Medical Disclaimer:</strong> BBot provides general health information only. It is NOT a substitute for professional medical advice. Always consult a qualified doctor for personal medical concerns or emergencies.</span>
+    ⚠️ <span>
+      <strong>Medical Disclaimer:</strong> BBot provides general health information only. It is NOT a substitute for professional medical advice. Always consult a qualified doctor for personal medical concerns or emergencies.
+      Read our
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>,
+      <a href="Privacy Policy.html">Privacy Policy</a>,
+      <a href="Disclaimer.html">Medical Disclaimer</a> and
+      <a href="about.html">About Us</a>.
+    </span>
   </div>
 
   <!-- PROXY WARNING -->
@@ -334,25 +287,19 @@ textarea::placeholder{color:var(--mu);}
 
     <!-- INPUT -->
     <div class="input-area">
-
-      <!-- IMAGE UPLOAD -->
       <label class="tool-btn" title="Attach image">
         📷
         <input type="file" id="imgInput" accept="image/*" multiple onchange="stageFiles(this.files,'image')"/>
       </label>
-
-      <!-- FILE UPLOAD (PDF, DOC, TXT) -->
       <label class="tool-btn" title="Attach file (PDF, DOC, TXT)">
         📎
         <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.txt,.csv" multiple onchange="stageFiles(this.files,'file')"/>
       </label>
-
       <textarea id="userInput"
         placeholder="Ask a medical question, or attach an image/file…"
         rows="1"
         onkeydown="handleKey(event)"
         oninput="autoResize(this)"></textarea>
-
       <button class="send-btn" id="sendBtn" onclick="sendMessage()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
@@ -365,105 +312,69 @@ textarea::placeholder{color:var(--mu);}
 
 <div id="toast"></div>
 
-<!-- Hidden PDF.js for text extraction -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <script>
-// ══════════════════════════════════════════════════════
-// CONFIG — no API key here, proxy only
-// ══════════════════════════════════════════════════════
 const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
-const AI_MODEL = 'llama-3.3-70b-versatile'; // model name hidden from UI
+const AI_MODEL = 'llama-3.3-70b-versatile';
 
-// PDF.js worker
 if (typeof pdfjsLib !== 'undefined') {
   pdfjsLib.GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 }
 
-// ══════════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════════
 let userProfile = {};
 let chatHistory = [];
 let sending     = false;
-let stagedFiles = [];   // [{name, size, type, dataUrl, extractedText}]
+let stagedFiles = [];
 
-// ══════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', async () => {
   userProfile = JSON.parse(localStorage.getItem('aayuh_profile') || '{}');
   renderProfileBanner();
-
-  // Ping proxy
   try {
     const r = await fetch(PROXY_URL, {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({model:AI_MODEL, messages:[], max_tokens:1})
     });
-    // Any response (even error) means proxy is running
     document.getElementById('proxyWarn').style.display = 'none';
   } catch {
     document.getElementById('proxyWarn').style.display = 'flex';
   }
-
   showWelcome();
 });
 
-// ══════════════════════════════════════════════════════
-// FILE STAGING
-// ══════════════════════════════════════════════════════
 async function stageFiles(files, kind) {
   if (stagedFiles.length + files.length > 5) {
     showToast('⚠️ Max 5 attachments per message'); return;
   }
-
   for (const f of files) {
     const maxMB = kind === 'image' ? 5 : 10;
     if (f.size > maxMB * 1024 * 1024) {
       showToast(`⚠️ ${f.name} exceeds ${maxMB}MB limit`); continue;
     }
-
     const entry = { name: f.name, size: f.size, type: kind, dataUrl: null, extractedText: null };
-
     if (kind === 'image') {
       entry.dataUrl = await readAsDataURL(f);
     } else {
-      // Extract text from PDFs; read raw for others
       if (f.type === 'application/pdf') {
         entry.extractedText = await extractPdfText(f);
       } else {
         entry.extractedText = await readAsText(f);
       }
     }
-
     stagedFiles.push(entry);
   }
-
-  // Reset inputs so same file can be re-added
   document.getElementById('imgInput').value  = '';
   document.getElementById('fileInput').value = '';
-
   renderStaging();
 }
 
 function readAsDataURL(file) {
-  return new Promise(res => {
-    const r = new FileReader();
-    r.onload = e => res(e.target.result);
-    r.readAsDataURL(file);
-  });
+  return new Promise(res => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsDataURL(file); });
 }
-
 function readAsText(file) {
-  return new Promise(res => {
-    const r = new FileReader();
-    r.onload = e => res(e.target.result);
-    r.readAsText(file);
-  });
+  return new Promise(res => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsText(file); });
 }
-
 async function extractPdfText(file) {
   if (typeof pdfjsLib === 'undefined') return '[PDF text extraction unavailable]';
   try {
@@ -476,9 +387,7 @@ async function extractPdfText(file) {
       text += content.items.map(s => s.str).join(' ') + '\n\n';
     }
     return text.trim().slice(0, 6000) || '[No readable text found in PDF]';
-  } catch {
-    return '[Could not extract PDF text]';
-  }
+  } catch { return '[Could not extract PDF text]'; }
 }
 
 function fmtSize(bytes) {
@@ -486,7 +395,6 @@ function fmtSize(bytes) {
   if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
   return (bytes/(1024*1024)).toFixed(1) + ' MB';
 }
-
 function fileIcon(name) {
   const ext = name.split('.').pop().toLowerCase();
   if (ext === 'pdf') return {icon:'📄', cls:'fi-pdf'};
@@ -494,42 +402,20 @@ function fileIcon(name) {
   if (ext === 'csv') return {icon:'📊', cls:'fi-txt'};
   return {icon:'📃', cls:'fi-txt'};
 }
-
 function renderStaging() {
   const area = document.getElementById('staging');
   if (!stagedFiles.length) { area.className='staging'; area.innerHTML=''; return; }
   area.className = 'staging has-items';
   area.innerHTML = stagedFiles.map((f,i) => {
     if (f.type === 'image') {
-      return `<div class="stage-item">
-        <img src="${f.dataUrl}" alt="${esc(f.name)}"/>
-        <div>
-          <div class="fname">${esc(f.name)}</div>
-          <div class="fsize">${fmtSize(f.size)}</div>
-        </div>
-        <div class="stage-remove" onclick="removeStaged(${i})">✕</div>
-      </div>`;
+      return `<div class="stage-item"><img src="${f.dataUrl}" alt="${esc(f.name)}"/><div><div class="fname">${esc(f.name)}</div><div class="fsize">${fmtSize(f.size)}</div></div><div class="stage-remove" onclick="removeStaged(${i})">✕</div></div>`;
     }
     const {icon, cls} = fileIcon(f.name);
-    return `<div class="stage-item">
-      <div class="file-icon ${cls}">${icon}</div>
-      <div>
-        <div class="fname">${esc(f.name)}</div>
-        <div class="fsize">${fmtSize(f.size)}</div>
-      </div>
-      <div class="stage-remove" onclick="removeStaged(${i})">✕</div>
-    </div>`;
+    return `<div class="stage-item"><div class="file-icon ${cls}">${icon}</div><div><div class="fname">${esc(f.name)}</div><div class="fsize">${fmtSize(f.size)}</div></div><div class="stage-remove" onclick="removeStaged(${i})">✕</div></div>`;
   }).join('');
 }
+function removeStaged(i) { stagedFiles.splice(i, 1); renderStaging(); }
 
-function removeStaged(i) {
-  stagedFiles.splice(i, 1);
-  renderStaging();
-}
-
-// ══════════════════════════════════════════════════════
-// SYSTEM PROMPT
-// ══════════════════════════════════════════════════════
 function buildSystemPrompt() {
   let ctx = '';
   const name   = userProfile.fullName || 'there';
@@ -573,107 +459,65 @@ STRICT RULES — follow at ALL times:
 ${ctx}`;
 }
 
-// ══════════════════════════════════════════════════════
-// BUILD USER CONTENT with attachments
-// ══════════════════════════════════════════════════════
 function buildUserContent(text) {
-  // If no attachments, just a string
   if (!stagedFiles.length) return text;
-
-  // Build multi-part content for the proxy
-  // Images go as base64, files go as appended text
-  const parts = [];
   let extraText = text;
-
   const images = stagedFiles.filter(f => f.type === 'image');
   const docs   = stagedFiles.filter(f => f.type === 'file');
-
   if (docs.length) {
-    docs.forEach(d => {
-      extraText += `\n\n[Attached file: ${d.name}]\n${d.extractedText || '[No text extracted]'}`;
-    });
+    docs.forEach(d => { extraText += `\n\n[Attached file: ${d.name}]\n${d.extractedText || '[No text extracted]'}`; });
   }
-
-  // Via proxy: send a single text message that includes
-  // extracted file text. Images are described by filename;
-  // we include the
-  // data URLs as a note so BBot can acknowledge them.
   if (images.length) {
     const imgNames = images.map(i => i.name).join(', ');
     extraText += `\n\n[User has attached ${images.length} image(s): ${imgNames}. Acknowledge the attachment and provide relevant medical guidance noting you cannot diagnose from images alone.]`;
   }
-
   return extraText;
 }
 
-// ══════════════════════════════════════════════════════
-// SEND MESSAGE
-// ══════════════════════════════════════════════════════
 async function sendMessage() {
   if (sending) return;
-
   const input   = document.getElementById('userInput');
   const rawText = input.value.trim();
-
   if (!rawText && !stagedFiles.length) return;
-
   const displayText = rawText || '📎 Sent attachment(s)';
   const fullContent = buildUserContent(rawText || 'Please review the attached file(s) and provide relevant medical information.');
-
   input.value = '';
   input.style.height = 'auto';
   hideSuggestions();
   sending = true;
   document.getElementById('sendBtn').disabled = true;
-
-  // Show user bubble with attachments
   appendUserMsg(displayText, [...stagedFiles]);
   const attachedForHistory = [...stagedFiles];
   stagedFiles = [];
   renderStaging();
-
   chatHistory.push({ role: 'user', content: fullContent });
   showTyping();
-
   try {
-    const messages = [
-      { role: 'system', content: buildSystemPrompt() },
-      ...chatHistory
-    ];
-
+    const messages = [{ role: 'system', content: buildSystemPrompt() }, ...chatHistory];
     const res = await fetch(PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: AI_MODEL, messages, temperature: 0.4, max_tokens: 1400 })
     });
-
     hideTyping();
     document.getElementById('proxyWarn').style.display = 'none';
-
     if (!res.ok) {
       const err = await res.json().catch(()=>({}));
       appendMsg('bot', `⚠️ Error: ${err?.error?.message || 'HTTP '+res.status}`, 'error');
       finishSend(); return;
     }
-
     const data  = await res.json();
     const reply = data?.choices?.[0]?.message?.content;
-
     if (!reply) { appendMsg('bot','⚠️ No response. Please try again.','error'); finishSend(); return; }
-
     const isRefused = reply.toLowerCase().includes("only designed to answer medical");
     appendMsg('bot', reply, isRefused ? 'refused' : '');
     chatHistory.push({ role: 'assistant', content: reply });
     saveChatHistory();
-
   } catch (e) {
     hideTyping();
     document.getElementById('proxyWarn').style.display = 'flex';
-    appendMsg('bot',
-      '⚠️ **Cannot connect to proxy server.**\n\nRun in your terminal:\n`node server.js`\n\nThen try again.',
-      'error');
+    appendMsg('bot', '⚠️ **Cannot connect to proxy server.**\n\nRun in your terminal:\n`node server.js`\n\nThen try again.', 'error');
   }
-
   finishSend();
 }
 
@@ -683,25 +527,16 @@ function finishSend() {
   document.getElementById('userInput').focus();
 }
 
-// ══════════════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════════════
 function appendUserMsg(text, files) {
   const wrap = document.getElementById('messages');
   const div  = document.createElement('div');
   div.className = 'msg user';
-
   const av = document.createElement('div');
-  av.className = 'msg-av';
-  av.textContent = '👤';
-
+  av.className = 'msg-av'; av.textContent = '👤';
   const col = document.createElement('div');
   col.className = 'msg-col';
-
   const bub = document.createElement('div');
   bub.className = 'bubble';
-
-  // Show attachment previews inside bubble
   if (files.length) {
     const prev = document.createElement('div');
     prev.className = 'attach-preview';
@@ -709,60 +544,37 @@ function appendUserMsg(text, files) {
       if (f.type === 'image') {
         prev.innerHTML += `<div class="attach-thumb"><img src="${f.dataUrl}" alt="${esc(f.name)}"/></div>`;
       } else {
-        const {icon} = fileIcon(f.name);
-        prev.innerHTML += `<div class="attach-file-chip">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          ${esc(f.name)}
-        </div>`;
+        prev.innerHTML += `<div class="attach-file-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${esc(f.name)}</div>`;
       }
     });
     bub.appendChild(prev);
   }
-
   if (text && text !== '📎 Sent attachment(s)') {
-    const p = document.createElement('p');
-    p.textContent = text;
-    bub.appendChild(p);
+    const p = document.createElement('p'); p.textContent = text; bub.appendChild(p);
   }
-
   const ts = document.createElement('div');
-  ts.className = 'ts';
-  ts.textContent = now();
-
-  col.appendChild(bub);
-  col.appendChild(ts);
-  div.appendChild(av);
-  div.appendChild(col);
-  wrap.appendChild(div);
-  wrap.scrollTop = wrap.scrollHeight;
+  ts.className = 'ts'; ts.textContent = now();
+  col.appendChild(bub); col.appendChild(ts);
+  div.appendChild(av); div.appendChild(col);
+  wrap.appendChild(div); wrap.scrollTop = wrap.scrollHeight;
 }
 
 function appendMsg(role, text, cls='') {
   const wrap = document.getElementById('messages');
   const div  = document.createElement('div');
   div.className = `msg ${role}`;
-
   const av = document.createElement('div');
-  av.className = 'msg-av';
-  av.textContent = role === 'bot' ? '🩺' : '👤';
-
+  av.className = 'msg-av'; av.textContent = role === 'bot' ? '🩺' : '👤';
   const col = document.createElement('div');
   col.className = 'msg-col';
-
   const bub = document.createElement('div');
   bub.className = `bubble ${cls}`;
   bub.innerHTML = formatText(text);
-
   const ts = document.createElement('div');
-  ts.className = 'ts';
-  ts.textContent = now();
-
-  col.appendChild(bub);
-  col.appendChild(ts);
-  div.appendChild(av);
-  div.appendChild(col);
-  wrap.appendChild(div);
-  wrap.scrollTop = wrap.scrollHeight;
+  ts.className = 'ts'; ts.textContent = now();
+  col.appendChild(bub); col.appendChild(ts);
+  div.appendChild(av); div.appendChild(col);
+  wrap.appendChild(div); wrap.scrollTop = wrap.scrollHeight;
 }
 
 function showTyping() {
@@ -771,8 +583,7 @@ function showTyping() {
   div.className = 'typing-wrap'; div.id = 'typing';
   div.innerHTML = `<div class="msg-av" style="background:linear-gradient(135deg,#00bfa5,#00534a);border-radius:9px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;">🩺</div>
     <div class="typing-bubble"><span></span><span></span><span></span></div>`;
-  wrap.appendChild(div);
-  wrap.scrollTop = wrap.scrollHeight;
+  wrap.appendChild(div); wrap.scrollTop = wrap.scrollHeight;
 }
 function hideTyping() { const t=document.getElementById('typing'); if(t) t.remove(); }
 
@@ -785,9 +596,6 @@ function showWelcome() {
   );
 }
 
-// ══════════════════════════════════════════════════════
-// PROFILE BANNER
-// ══════════════════════════════════════════════════════
 function renderProfileBanner() {
   const tags=document.getElementById('profileTags'), banner=document.getElementById('profileBanner');
   const items=[];
@@ -805,9 +613,6 @@ function renderProfileBanner() {
   }
 }
 
-// ══════════════════════════════════════════════════════
-// HISTORY
-// ══════════════════════════════════════════════════════
 function saveChatHistory() {
   localStorage.setItem('aayuh_bbot_history', JSON.stringify(chatHistory.slice(-20)));
 }
@@ -818,9 +623,6 @@ function clearChat() {
   showToast('🗑️ Chat cleared');
 }
 
-// ══════════════════════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════════════════════
 function formatText(t) {
   t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
   t = t.replace(/`([^`]+)`/g,'<code style="background:rgba(0,137,123,.1);padding:1px 5px;border-radius:4px;font-size:.82rem;font-family:monospace;">$1</code>');
@@ -858,5 +660,44 @@ function showToast(msg){
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('userInput').blur();});
 </script>
 <script src='backbutton.js'></script>
+
+<style>
+  #cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0f1f1d;color:#e0f7f4;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,0.25);font-family:'Outfit',sans-serif;font-size:13.5px;line-height:1.6;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+  #cookie-banner.show{transform:translateY(0);}
+  .cookie-text{flex:1;min-width:220px;color:rgba(255,255,255,0.8);}
+  .cookie-text strong{color:#5eead4;font-size:14px;}
+  .cookie-text a{color:#5eead4;text-decoration:underline;text-underline-offset:2px;}
+  .cookie-actions{display:flex;gap:10px;flex-shrink:0;align-items:center;}
+  .cookie-btn-accept{background:#0d9488;color:white;border:none;border-radius:8px;padding:9px 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s,transform .15s;letter-spacing:.02em;}
+  .cookie-btn-accept:hover{background:#0f766e;transform:translateY(-1px);}
+  .cookie-btn-decline{background:transparent;color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:9px 16px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:color .2s,border-color .2s;}
+  .cookie-btn-decline:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3);}
+  @media(max-width:560px){#cookie-banner{padding:14px 16px;}.cookie-actions{width:100%;justify-content:flex-end;}}
+</style>
+
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-text">
+    <strong>🍪 We use cookies</strong><br>
+    We use cookies to improve your experience and display relevant advertisements.
+    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
+    <a href="Privacy Policy.html">Privacy Policy</a>.
+    Google AdSense may also use cookies to personalise ads —
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
+    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var consent=localStorage.getItem('aayuh_cookie_consent');
+    if(!consent){setTimeout(function(){var b=document.getElementById('cookie-banner');if(b)b.classList.add('show');},800);}
+  })();
+  function cookieAccept(){localStorage.setItem('aayuh_cookie_consent','accepted');hideBanner();}
+  function cookieDecline(){localStorage.setItem('aayuh_cookie_consent','declined');hideBanner();}
+  function hideBanner(){var b=document.getElementById('cookie-banner');if(b){b.style.transition='transform 0.3s ease';b.style.transform='translateY(100%)';setTimeout(function(){b.style.display='none';},300);}}
+</script>
 </body>
 </html>

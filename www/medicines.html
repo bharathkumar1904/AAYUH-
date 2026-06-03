@@ -1,209 +1,798 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Aayuh – Medicine Info</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aayuh — Medicine Information</title>
+<meta name="description" content="Free medicine information tool. Search any medicine for usage, dosage, timing, side effects and how to use safely."/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d1117;
+  --bg2:#161b22;
+  --bg3:#21262d;
+  --surface:#1c2128;
+  --surface2:#252d38;
+  --white:#f0f6fc;
+  --white2:#c9d1d9;
+  --muted:#8b949e;
+  --border:#30363d;
+  --border2:#444c56;
 
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f8f7;
-      padding: 30px;
-    }
-    h2 {
-      color: #00796b;
-    }
-    .note {
-      margin: 15px 0;
-      padding: 12px;
-      background-color: #e3f2fd;
-      border-left: 5px solid #2196f3;
-      border-radius: 4px;
-      color: #0d47a1;
-      font-size: 15px;
-    }
-    input[type="text"] {
-      padding: 10px;
-      width: 280px;
-      font-size: 16px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      background-color: #00796b;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    #result {
-      margin-top: 20px;
-      padding: 15px;
-      background-color: #e0f2f1;
-      border-left: 5px solid #00796b;
-      border-radius: 4px;
-    }
-    #disclaimer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #555;
-      background-color: #fff3cd;
-      padding: 15px;
-      border-left: 5px solid #ffc107;
-      border-radius: 4px;
-    }
-  </style>
+  --emerald:#2ea043;--emerald2:#238636;--emerald-pale:rgba(46,160,67,.12);--emerald-glow:rgba(46,160,67,.25);
+  --sky:#58a6ff;--sky-pale:rgba(88,166,255,.12);--sky-glow:rgba(88,166,255,.2);
+  --gold:#e3b341;--gold-pale:rgba(227,179,65,.12);--gold-glow:rgba(227,179,65,.2);
+  --rose:#f85149;--rose-pale:rgba(248,81,73,.1);--rose-glow:rgba(248,81,73,.2);
+  --violet:#bc8cff;--violet-pale:rgba(188,140,255,.12);--violet-glow:rgba(188,140,255,.2);
+  --teal:#39d353;
+
+  --font-display:'Playfair Display',serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--white2);min-height:100vh;overflow-x:hidden;}
+button{font-family:var(--font-body);cursor:pointer;border:none;}
+a{color:var(--sky);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ── ANIMATED BG ── */
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(48,54,61,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(48,54,61,.4) 1px,transparent 1px);
+  background-size:32px 32px;}
+.bg-glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px);opacity:.15;}
+.g1{width:500px;height:500px;background:var(--emerald);top:-100px;right:-100px;animation:drift 12s ease-in-out infinite alternate;}
+.g2{width:400px;height:400px;background:var(--sky);bottom:-80px;left:-80px;animation:drift 16s ease-in-out infinite alternate-reverse;}
+.g3{width:300px;height:300px;background:var(--violet);top:50%;left:50%;transform:translate(-50%,-50%);animation:drift 20s ease-in-out infinite alternate;}
+@keyframes drift{0%{transform:translate(0,0);}100%{transform:translate(30px,20px);}}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.85);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--white);display:flex;align-items:center;gap:8px;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald);animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.8);}}
+.logo em{font-style:italic;color:var(--emerald);font-weight:400;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{font-size:.72rem;font-weight:500;color:var(--muted);padding:5px 12px;border-radius:6px;transition:all .2s;border:1px solid transparent;}
+.nav-link:hover{color:var(--white2);background:var(--bg3);border-color:var(--border);text-decoration:none;}
+.nav-link.active{color:var(--emerald);background:var(--emerald-pale);border-color:rgba(46,160,67,.3);}
+
+/* ── PAGE ── */
+.page{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:2rem 1.2rem 4rem;}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:2.5rem 1rem 2rem;margin-bottom:1.5rem;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--emerald-pale);border:1px solid rgba(46,160,67,.3);border-radius:99px;padding:4px 14px;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--emerald);margin-bottom:1.2rem;}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--emerald);animation:pulse-dot 1.5s ease-in-out infinite;}
+.hero-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:.6rem;}
+.hero-title span{color:var(--emerald);font-style:italic;}
+.hero-sub{font-size:.85rem;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.7;}
+
+/* ── DISCLAIMER BAND ── */
+.disc-band{background:linear-gradient(135deg,rgba(227,179,65,.08),rgba(227,179,65,.04));border:1px solid rgba(227,179,65,.25);border-radius:12px;padding:.85rem 1.1rem;display:flex;gap:10px;align-items:flex-start;margin-bottom:1.5rem;}
+.disc-ico{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.disc-title{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem;}
+.disc-text{font-size:.73rem;color:rgba(227,179,65,.8);line-height:1.55;}
+.disc-links{display:flex;gap:8px;margin-top:.4rem;flex-wrap:wrap;}
+.disc-link{font-size:.65rem;font-weight:600;color:var(--gold);background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.25);padding:2px 9px;border-radius:5px;transition:all .15s;}
+.disc-link:hover{background:rgba(227,179,65,.22);text-decoration:none;}
+
+/* ── SEARCH CARD ── */
+.search-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.search-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--emerald),var(--sky),var(--violet));opacity:.7;}
+.sc-lbl{font-size:.63rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--emerald);margin-bottom:.35rem;display:flex;align-items:center;gap:6px;}
+.sc-lbl::before{content:'';width:8px;height:8px;border-radius:2px;background:var(--emerald);}
+.sc-heading{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.25rem;}
+.sc-sub{font-size:.73rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.5;}
+
+.inp-lbl{font-size:.65rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;}
+.inp-row{display:flex;gap:8px;margin-bottom:1rem;}
+.med-inp{flex:1;padding:11px 15px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:10px;font-family:var(--font-body);font-size:.87rem;color:var(--white2);outline:none;transition:all .2s;}
+.med-inp:focus{border-color:var(--emerald);box-shadow:0 0 0 3px var(--emerald-glow);background:var(--surface2);}
+.med-inp::placeholder{color:var(--muted);}
+.go-btn{display:flex;align-items:center;gap:7px;padding:11px 18px;background:var(--emerald2);color:#fff;font-weight:600;font-size:.84rem;border-radius:10px;transition:all .2s;white-space:nowrap;flex-shrink:0;position:relative;overflow:hidden;}
+.go-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);opacity:0;transition:opacity .2s;}
+.go-btn:hover::after{opacity:1;}
+.go-btn:hover{background:var(--emerald);box-shadow:0 0 16px var(--emerald-glow);}
+.go-btn:disabled{opacity:.4;cursor:not-allowed;}
+.ai-pill{display:flex;align-items:center;gap:5px;padding:11px 13px;background:var(--violet-pale);border:1.5px solid rgba(188,140,255,.25);border-radius:10px;font-size:.76rem;font-weight:600;color:var(--violet);white-space:nowrap;flex-shrink:0;transition:all .2s;}
+.ai-pill:hover{background:rgba(188,140,255,.2);box-shadow:0 0 12px var(--violet-glow);}
+.ai-pill:disabled{opacity:.4;cursor:not-allowed;}
+
+.quick-lbl{font-size:.6rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;}
+.pills{display:flex;flex-wrap:wrap;gap:5px;}
+.pill{font-size:.66rem;font-weight:500;padding:4px 11px;border-radius:99px;border:1px solid var(--border2);color:var(--muted);background:var(--bg3);cursor:pointer;transition:all .18s;}
+.pill:hover{border-color:var(--emerald);color:var(--emerald);background:var(--emerald-pale);box-shadow:0 0 8px var(--emerald-glow);}
+
+.hint-box{background:var(--sky-pale);border:1px solid rgba(88,166,255,.2);border-radius:10px;padding:.7rem 1rem;display:flex;gap:8px;margin-top:.9rem;}
+.hint-ico{font-size:.88rem;flex-shrink:0;}
+.hint-txt{font-size:.71rem;color:rgba(88,166,255,.9);line-height:1.55;}
+.hint-txt b{font-weight:700;color:var(--sky);}
+
+/* ── IDLE ── */
+.idle{text-align:center;padding:3.5rem 1.5rem;}
+.idle-rings{position:relative;width:80px;height:80px;margin:0 auto 1.2rem;}
+.idle-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--border2);}
+.idle-ring:nth-child(1){animation:ring-pulse 3s ease-in-out infinite;}
+.idle-ring:nth-child(2){inset:8px;animation:ring-pulse 3s ease-in-out .5s infinite;}
+.idle-ring:nth-child(3){inset:16px;border-color:var(--emerald);opacity:.4;animation:ring-pulse 3s ease-in-out 1s infinite;}
+.idle-ico-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
+@keyframes ring-pulse{0%,100%{opacity:.3;transform:scale(1);}50%{opacity:.7;transform:scale(1.03);}}
+.idle h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.35rem;}
+.idle p{font-size:.78rem;color:var(--muted);line-height:1.7;}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:3rem 1.5rem;}
+.load-track{width:200px;height:3px;background:var(--bg3);border-radius:99px;margin:0 auto 1rem;overflow:hidden;}
+.load-bar{height:100%;background:linear-gradient(90deg,var(--emerald),var(--sky));border-radius:99px;animation:load-sweep 1.5s ease-in-out infinite;}
+@keyframes load-sweep{0%{width:0%;margin-left:0%;}50%{width:60%;margin-left:20%;}100%{width:0%;margin-left:100%;}}
+.loading h3{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.2rem;}
+.loading p{font-size:.74rem;color:var(--muted);}
+
+/* ── RESULT CARD ── */
+.result-wrap{animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* MED HERO */
+.med-hero{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;position:relative;}
+.med-hero-bar{height:3px;background:linear-gradient(90deg,var(--emerald),var(--sky),var(--violet));}
+.med-hero-body{padding:1.4rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;}
+.med-emoji{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;}
+.med-info{}
+.med-category{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--emerald);margin-bottom:.3rem;display:flex;align-items:center;gap:6px;}
+.med-category::before{content:'';width:16px;height:1px;background:var(--emerald);}
+.med-name{font-family:var(--font-display);font-size:1.6rem;font-weight:900;color:var(--white);line-height:1.1;margin-bottom:.3rem;}
+.med-brands{display:flex;flex-wrap:wrap;gap:5px;margin-top:.5rem;}
+.brand-tag{font-family:var(--font-mono);font-size:.6rem;font-weight:500;padding:2px 8px;border-radius:4px;background:var(--bg3);color:var(--muted);border:1px solid var(--border);}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.info-full{grid-column:1/-1;}
+
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem;transition:border-color .2s;}
+.info-card:hover{border-color:var(--border2);}
+.ic-header{display:flex;align-items:center;gap:9px;margin-bottom:.7rem;}
+.ic-badge{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.b-emerald{background:var(--emerald-pale);border:1px solid rgba(46,160,67,.2);}
+.b-sky{background:var(--sky-pale);border:1px solid rgba(88,166,255,.2);}
+.b-gold{background:var(--gold-pale);border:1px solid rgba(227,179,65,.2);}
+.b-rose{background:var(--rose-pale);border:1px solid rgba(248,81,73,.2);}
+.b-violet{background:var(--violet-pale);border:1px solid rgba(188,140,255,.2);}
+.b-teal{background:rgba(57,211,83,.1);border:1px solid rgba(57,211,83,.2);}
+.ic-title{font-size:.72rem;font-weight:700;color:var(--white);letter-spacing:.02em;}
+.ic-sub{font-size:.6rem;color:var(--muted);margin-top:1px;}
+.ic-body{font-size:.78rem;color:var(--white2);line-height:1.7;}
+
+/* TIMING CHIP */
+.timing-chip{display:inline-flex;align-items:center;gap:6px;background:var(--gold-pale);border:1px solid rgba(227,179,65,.3);color:var(--gold);font-size:.72rem;font-weight:600;padding:5px 12px;border-radius:7px;margin-bottom:.6rem;font-family:var(--font-mono);}
+
+/* SIDE EFFECTS TAGS */
+.se-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.se-tag{font-size:.65rem;font-weight:500;padding:3px 10px;border-radius:5px;background:var(--rose-pale);color:var(--rose);border:1px solid rgba(248,81,73,.2);}
+
+/* HOW TO USE STEPS */
+.steps{display:flex;flex-direction:column;gap:8px;}
+.step{display:flex;gap:10px;align-items:flex-start;}
+.step-n{width:22px;height:22px;border-radius:6px;background:var(--emerald-pale);border:1px solid rgba(46,160,67,.25);color:var(--emerald);font-size:.64rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:var(--font-mono);}
+.step-t{font-size:.78rem;color:var(--white2);line-height:1.6;}
+
+/* WARNING CARD */
+.warn-card{background:var(--rose-pale);border:1px solid rgba(248,81,73,.2);border-radius:12px;padding:.9rem 1.1rem;display:flex;gap:9px;align-items:flex-start;margin-bottom:10px;}
+.warn-ico{font-size:.95rem;flex-shrink:0;}
+.warn-text{font-size:.76rem;color:var(--rose);line-height:1.6;font-weight:500;}
+
+/* AI SOURCE */
+.ai-src{display:flex;align-items:center;gap:8px;padding:.6rem .9rem;background:var(--bg3);border:1px solid var(--border);border-radius:9px;margin-top:8px;}
+.ai-src-badge{font-family:var(--font-mono);font-size:.58rem;font-weight:500;padding:2px 7px;border-radius:4px;background:var(--violet-pale);color:var(--violet);border:1px solid rgba(188,140,255,.25);}
+.ai-src-text{font-size:.64rem;color:var(--muted);}
+
+/* ERROR */
+.err-card{background:var(--surface);border:1px solid rgba(248,81,73,.25);border-radius:16px;padding:1.6rem;text-align:center;animation:fadeUp .3s ease;}
+.err-ico{font-size:2rem;margin-bottom:.7rem;}
+.err-title{font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.4rem;}
+.err-text{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;}
+.err-tips{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;text-align:left;display:flex;flex-direction:column;gap:6px;}
+.err-tip{font-size:.73rem;color:var(--white2);display:flex;gap:8px;line-height:1.5;}
+
+/* ── FOOTER PAGES (T&C, Disclaimer, About) ── */
+.footer-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:2rem;}
+.footer-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;text-align:center;cursor:pointer;transition:all .2s;}
+.footer-card:hover{border-color:var(--border2);background:var(--surface2);transform:translateY(-2px);}
+.fc-ico{font-size:1.3rem;margin-bottom:.4rem;}
+.fc-title{font-size:.72rem;font-weight:700;color:var(--white);margin-bottom:.2rem;}
+.fc-sub{font-size:.62rem;color:var(--muted);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:800;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:80vh;display:flex;flex-direction:column;animation:slide-up .25s ease;}
+@keyframes slide-up{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-hdr{padding:1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.modal-title{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--white);}
+.modal-x{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;transition:all .15s;}
+.modal-x:hover{background:var(--border);color:var(--white);}
+.modal-body{overflow-y:auto;padding:1.2rem 1.4rem;}
+.modal-body h3{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--white);margin:1rem 0 .4rem;}
+.modal-body h3:first-child{margin-top:0;}
+.modal-body p{font-size:.78rem;color:var(--white2);line-height:1.75;margin-bottom:.7rem;}
+.modal-body ul{padding-left:1.2rem;margin-bottom:.7rem;}
+.modal-body li{font-size:.78rem;color:var(--white2);line-height:1.75;margin-bottom:.25rem;}
+.modal-body .last-updated{font-size:.65rem;color:var(--muted);margin-top:1rem;font-family:var(--font-mono);}
+.modal-body a{color:var(--sky);}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:500px){
+  .inp-row{flex-wrap:wrap;}
+  .go-btn{flex:1;}
+  .info-grid{grid-template-columns:1fr;}
+  .footer-cards{grid-template-columns:1fr;}
+  .nav-links{gap:3px;}
+  .nav-link{padding:4px 8px;font-size:.66rem;}
+}
+</style>
 </head>
-
 <body>
 
-<h2>🔍 Search for Medicine Information</h2>
+<div class="bg-grid"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<div class="bg-glow g3"></div>
 
-<div class="note">
-💡 Please search using <b>generic names</b> (e.g., Paracetamol, Ibuprofen, Azithromycin) instead of Indian brand names (e.g., Dolo 650, Crocin, Azithral) for better results.
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Aayuh <em>Health</em>
+  </div>
+  <div class="nav-links">
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <span class="nav-link active">Medicine</span>
+    <a href="#" class="nav-link" onclick="openModal('about');return false;">About</a>
+  </div>
 </div>
 
-<input type="text" id="medicineInput" placeholder="Enter medicine name">
-<button onclick="searchMedicine()">Search</button>
+<div class="page">
 
-<div id="result"></div>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow"><div class="hero-dot"></div>AI-Powered · Free · Instant</div>
+    <h1 class="hero-title">Medicine <span>Information</span></h1>
+    <p class="hero-sub">Search any medicine by generic or brand name. Get instant usage, dosage, timing, side effects and step-by-step instructions — powered by Groq AI.</p>
+  </div>
 
-<div id="disclaimer">
-⚠️ Information is fetched from a public drug database.  
-This is for educational purposes only.  
-Always consult a doctor before using any medicine.
+  <!-- DISCLAIMER BAND -->
+  <div class="disc-band">
+    <div class="disc-ico">⚠️</div>
+    <div>
+      <div class="disc-title">Medical Disclaimer</div>
+      <div class="disc-text">This tool provides <strong>educational information only</strong>. It is not a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before taking any medicine.</div>
+      <div class="disc-links">
+        <a href="#" class="disc-link" onclick="openModal('disclaimer');return false;">Full Disclaimer</a>
+        <a href="#" class="disc-link" onclick="openModal('tnc');return false;">Terms &amp; Conditions</a>
+        <a href="#" class="disc-link" onclick="openModal('privacy');return false;">Privacy Policy</a>
+        <a href="#" class="disc-link" onclick="openModal('about');return false;">About Aayuh</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH CARD -->
+  <div class="search-card">
+    <div class="sc-lbl">Search Medicine</div>
+    <div class="sc-heading">What medicine do you want to know about?</div>
+    <p class="sc-sub">Generic names, Indian brand names, and international names all work.</p>
+
+    <div class="inp-lbl">Medicine Name</div>
+    <div class="inp-row">
+      <input type="text" id="medInput" class="med-inp" placeholder="e.g. Paracetamol, Dolo 650, Metformin…"
+        onkeydown="if(event.key==='Enter')doSearch()"/>
+      <button class="go-btn" id="goBtn" onclick="doSearch()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        Search
+      </button>
+      <button class="ai-pill" id="aiBtn" onclick="doSearch()" title="Powered by Groq AI">
+        🤖 AI
+      </button>
+    </div>
+
+    <div class="quick-lbl">Quick Search</div>
+    <div class="pills">
+      <button class="pill" onclick="qs('Paracetamol')">Paracetamol</button>
+      <button class="pill" onclick="qs('Ibuprofen')">Ibuprofen</button>
+      <button class="pill" onclick="qs('Azithromycin')">Azithromycin</button>
+      <button class="pill" onclick="qs('Cetirizine')">Cetirizine</button>
+      <button class="pill" onclick="qs('Metformin')">Metformin</button>
+      <button class="pill" onclick="qs('Omeprazole')">Omeprazole</button>
+      <button class="pill" onclick="qs('Amoxicillin')">Amoxicillin</button>
+      <button class="pill" onclick="qs('Aspirin')">Aspirin</button>
+      <button class="pill" onclick="qs('Dolo 650')">Dolo 650</button>
+      <button class="pill" onclick="qs('Pantoprazole')">Pantoprazole</button>
+      <button class="pill" onclick="qs('Vitamin D3')">Vitamin D3</button>
+      <button class="pill" onclick="qs('Montelukast')">Montelukast</button>
+    </div>
+
+    <div class="hint-box">
+      <div class="hint-ico">💡</div>
+      <div class="hint-txt">Indian brand names like <b>Dolo 650 → Paracetamol</b>, <b>Azithral → Azithromycin</b>, <b>Crocin → Paracetamol</b> are automatically converted.</div>
+    </div>
+  </div>
+
+  <!-- RESULT AREA -->
+  <div id="resultArea">
+    <div class="idle">
+      <div class="idle-rings">
+        <div class="idle-ring"></div>
+        <div class="idle-ring"></div>
+        <div class="idle-ring"></div>
+        <div class="idle-ico-inner">💊</div>
+      </div>
+      <h3>Search a medicine above</h3>
+      <p>Get complete information including usage, dosage,<br/>timing, side effects &amp; step-by-step instructions.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER CARDS -->
+  <div class="footer-cards">
+    <div class="footer-card" onclick="openModal('about')">
+      <div class="fc-ico">🏥</div>
+      <div class="fc-title">About Aayuh</div>
+      <div class="fc-sub">Our mission &amp; team</div>
+    </div>
+    <div class="footer-card" onclick="openModal('tnc')">
+      <div class="fc-ico">📋</div>
+      <div class="fc-title">Terms &amp; Conditions</div>
+      <div class="fc-sub">Usage rules &amp; policies</div>
+    </div>
+    <div class="footer-card" onclick="openModal('privacy')">
+      <div class="fc-ico">🔒</div>
+      <div class="fc-title">Privacy Policy</div>
+      <div class="fc-sub">How we handle data</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:1.5rem;font-size:.65rem;color:var(--muted);font-family:var(--font-mono);">
+    © 2025 Aayuh Health · <a href="#" onclick="openModal('disclaimer');return false;">Disclaimer</a> · <a href="#" onclick="openModal('tnc');return false;">T&amp;C</a> · <a href="#" onclick="openModal('privacy');return false;">Privacy</a> · <a href="#" onclick="openModal('about');return false;">About</a>
+  </div>
+
+</div>
+
+<!-- ── MODALS ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="outsideClose(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modalTitle">Title</div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+firebase.initializeApp({apiKey:"AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",authDomain:"aayuh-c9a87.firebaseapp.com",projectId:"aayuh-c9a87"});
+firebase.auth().onAuthStateChanged(u=>{if(!u)window.location.href='index.html';});
+
+const PROXY = 'https://aayuh-production.up.railway.app/chat';
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+const brandMap = {
+  "dolo 650":"paracetamol","dolo":"paracetamol","crocin":"paracetamol","calpol":"paracetamol",
+  "sumo":"paracetamol","metacin":"paracetamol","pyrigesic":"paracetamol","tylenol":"paracetamol",
+  "azithral":"azithromycin","zithromax":"azithromycin","azee":"azithromycin",
+  "allegra":"fexofenadine","cetzine":"cetirizine","okacet":"cetirizine","zyrtec":"cetirizine","alerid":"cetirizine",
+  "montek lc":"montelukast","pan 40":"pantoprazole","pan":"pantoprazole","pantocid":"pantoprazole",
+  "omez":"omeprazole","prilosec":"omeprazole","razo":"rabeprazole","rablet":"rabeprazole",
+  "augmentin":"amoxicillin clavulanate","mox":"amoxicillin","novamox":"amoxicillin",
+  "disprin":"aspirin","ecosprin":"aspirin","loprin":"aspirin",
+  "glycomet":"metformin","glucophage":"metformin","obimet":"metformin",
+  "shelcal":"calcium carbonate","limcee":"ascorbic acid",
+  "combiflam":"ibuprofen paracetamol","brufen":"ibuprofen","advil":"ibuprofen",
+  "voveran":"diclofenac","volini":"diclofenac","voltaren":"diclofenac",
+  "zincovit":"multivitamin zinc","becosules":"multivitamin b complex"
+};
+
+function qs(name){ document.getElementById('medInput').value=name; doSearch(); }
+
+function setBusy(on){
+  const b=document.getElementById('goBtn'), a=document.getElementById('aiBtn');
+  b.disabled=a.disabled=on;
+  b.innerHTML=on
+    ?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M12 2a10 10 0 0 1 0 20A10 10 0 0 1 2 12"/></svg> Searching…`
+    :`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+}
+
+function showLoad(name){
+  document.getElementById('resultArea').innerHTML=`
+  <div class="loading">
+    <div class="load-track"><div class="load-bar"></div></div>
+    <h3>Searching for ${esc(name)}…</h3>
+    <p>Querying Groq AI + FDA database</p>
+  </div>`;
+}
+
+async function doSearch(){
+  const raw = document.getElementById('medInput').value.trim();
+  if(!raw){ document.getElementById('medInput').focus(); return; }
+  const lower   = raw.toLowerCase();
+  const generic = brandMap[lower] || raw;
+  const isBrand = !!brandMap[lower];
+  setBusy(true); showLoad(generic);
+
+  // FDA (best-effort)
+  let fdaUsage = '';
+  try{
+    const fr = await fetch(`https://api.fda.gov/drug/label.json?search=${encodeURIComponent(generic)}&limit=1`);
+    if(fr.ok){ const fj=await fr.json(); fdaUsage=(fj.results?.[0]?.indications_and_usage?.[0]||'').replace(/\n/g,' ').split('.').slice(0,2).join('.')+'.'; }
+  }catch{}
+
+  // Groq AI
+  const prompt=`You are a medical information assistant. Provide clear, patient-friendly information about "${generic}".
+Return ONLY a valid JSON object with NO markdown, NO backticks, NO extra text:
+{
+  "name":"proper name of medicine",
+  "category":"drug category e.g. Analgesic / Antibiotic / Antidiabetic",
+  "emoji":"single most relevant emoji",
+  "brandNames":["3-5 Indian brand names"],
+  "usage":"2-3 sentences what this medicine treats in simple patient-friendly language",
+  "dosage":"typical adult dose with strength, frequency and duration",
+  "timing":"exactly when to take: before/after food, time of day, interval",
+  "timingBadge":"short text for badge e.g. After food · Every 6–8 hrs",
+  "sideEffects":["common side effect 1","common side effect 2","common side effect 3","common side effect 4","common side effect 5"],
+  "howToUse":["step 1","step 2","step 3","step 4"],
+  "warnings":"most important warning in 1-2 sentences",
+  "interactions":"1 sentence about key drug or food interactions"
+}
+Plain English only. No jargon.`;
+
+  let ai=null;
+  try{
+    const r=await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'user',content:prompt}],temperature:0.2,max_tokens:1000})});
+    if(!r.ok) throw new Error('Proxy '+r.status);
+    const raw2=(await r.json()).choices[0].message.content.trim();
+    const m=raw2.match(/\{[\s\S]*\}/);
+    if(m) ai=JSON.parse(m[0]);
+  }catch(e){console.error(e);}
+
+  setBusy(false);
+
+  if(!ai){
+    document.getElementById('resultArea').innerHTML=`
+    <div class="err-card">
+      <div class="err-ico">⚠️</div>
+      <div class="err-title">Could not retrieve information</div>
+      <div class="err-text">The AI service is temporarily unavailable or could not parse the medicine name. Please try again.</div>
+      <div class="err-tips">
+        <div class="err-tip">💡 <span>Try a generic name: <b>Paracetamol</b> instead of <b>Dolo 650</b></span></div>
+        <div class="err-tip">🔄 <span>Check your internet connection and retry</span></div>
+        <div class="err-tip">✏️ <span>Check the spelling of the medicine name</span></div>
+      </div>
+    </div>`; return;
+  }
+
+  const usage   = ai.usage || fdaUsage || 'Information not available.';
+  const sides   = (ai.sideEffects||[]).slice(0,6);
+  const steps   = (ai.howToUse||[]).slice(0,5);
+  const brands  = (ai.brandNames||[]).slice(0,5);
+  const emoji   = ai.emoji || '💊';
+
+  document.getElementById('resultArea').innerHTML=`
+  <div class="result-wrap">
+
+    <div class="med-hero">
+      <div class="med-hero-bar"></div>
+      <div class="med-hero-body">
+        <div class="med-emoji">${esc(emoji)}</div>
+        <div class="med-info">
+          <div class="med-category">${esc(ai.category||'Medicine')}</div>
+          <div class="med-name">${esc(ai.name||generic)}</div>
+          ${isBrand?`<div style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">Searched as: <span style="color:var(--sky)">${esc(raw)}</span> → converted to generic</div>`:''}
+          <div class="med-brands">${brands.map(b=>`<span class="brand-tag">${esc(b)}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+
+    ${ai.warnings?`<div class="warn-card"><div class="warn-ico">🚫</div><div class="warn-text"><b>Warning:</b> ${esc(ai.warnings)}</div></div>`:''}
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="ic-header"><div class="ic-badge b-sky">🩺</div><div><div class="ic-title">Usage</div><div class="ic-sub">What it treats</div></div></div>
+        <div class="ic-body">${esc(usage)}</div>
+      </div>
+
+      <div class="info-card">
+        <div class="ic-header"><div class="ic-badge b-emerald">💊</div><div><div class="ic-title">Dosage</div><div class="ic-sub">How much to take</div></div></div>
+        <div class="ic-body">${esc(ai.dosage||'As prescribed by doctor.')}</div>
+      </div>
+
+      <div class="info-card info-full">
+        <div class="ic-header"><div class="ic-badge b-gold">⏰</div><div><div class="ic-title">Timing</div><div class="ic-sub">When and how often</div></div></div>
+        <div class="timing-chip">⏰ ${esc(ai.timingBadge||ai.timing||'As directed')}</div>
+        <div class="ic-body">${esc(ai.timing||'')}</div>
+      </div>
+
+      <div class="info-card info-full">
+        <div class="ic-header"><div class="ic-badge b-rose">⚠️</div><div><div class="ic-title">Side Effects</div><div class="ic-sub">Possible reactions — see doctor if severe</div></div></div>
+        <div class="se-tags">${sides.map(s=>`<span class="se-tag">${esc(s)}</span>`).join('')}</div>
+      </div>
+
+      <div class="info-card info-full">
+        <div class="ic-header"><div class="ic-badge b-teal">✅</div><div><div class="ic-title">How to Use</div><div class="ic-sub">Step-by-step instructions</div></div></div>
+        <div class="steps">${steps.map((s,i)=>`<div class="step"><div class="step-n">${i+1}</div><div class="step-t">${esc(s)}</div></div>`).join('')}</div>
+      </div>
+
+      ${ai.interactions?`<div class="info-card info-full">
+        <div class="ic-header"><div class="ic-badge b-violet">🔗</div><div><div class="ic-title">Drug Interactions</div><div class="ic-sub">Important combinations to avoid</div></div></div>
+        <div class="ic-body">${esc(ai.interactions)}</div>
+      </div>`:''}
+
+    </div>
+
+    <div class="ai-src">
+      <span class="ai-src-badge">Groq AI</span>
+      <span class="ai-src-text">Generated by LLaMA 3.3-70B via Groq. For educational purposes only — not medical advice.</span>
+    </div>
+
+  </div>`;
+}
+
+/* ── MODALS ── */
+const MODALS = {
+  disclaimer:{
+    title:'⚠️ Medical Disclaimer',
+    body:`
+<h3>Educational Purpose Only</h3>
+<p>All medicine information provided by Aayuh Health is strictly for <strong>educational and informational purposes only</strong>. This content is not intended to be a substitute for professional medical advice, diagnosis, or treatment.</p>
+<h3>No Doctor-Patient Relationship</h3>
+<p>Use of Aayuh Health does not create a doctor-patient relationship. The information provided does not constitute medical advice and should not be relied upon as such.</p>
+<h3>Always Consult a Healthcare Provider</h3>
+<p>Always seek the advice of your physician, pharmacist, or other qualified healthcare provider with any questions you may have regarding a medical condition or medicine. Never disregard professional medical advice or delay seeking it because of something you read on Aayuh Health.</p>
+<h3>AI-Generated Content</h3>
+<p>Medicine information on this platform is generated by artificial intelligence (Groq AI / LLaMA model) and supplemented by the FDA public drug database. AI can make errors. Always verify critical information with a licensed pharmacist or doctor.</p>
+<h3>Emergency Situations</h3>
+<p>If you are experiencing a medical emergency, call your local emergency number (112 in India) immediately. Do not rely on this application for emergency medical guidance.</p>
+<p class="last-updated">Last updated: January 2025 · Aayuh Health</p>`
+  },
+  tnc:{
+    title:'📋 Terms &amp; Conditions',
+    body:`
+<h3>1. Acceptance of Terms</h3>
+<p>By accessing and using Aayuh Health ("the App"), you accept and agree to be bound by these Terms and Conditions. If you do not agree, please do not use this application.</p>
+<h3>2. Use of the Application</h3>
+<p>Aayuh Health is provided for personal, non-commercial, informational use only. You agree not to use the application for any unlawful purpose or in any way that could harm other users or third parties.</p>
+<h3>3. Medical Information Disclaimer</h3>
+<p>The information provided is for educational purposes only. Aayuh Health and its developers are not liable for any health decisions made based on information provided by this application. Always consult a qualified medical professional.</p>
+<h3>4. Intellectual Property</h3>
+<p>All content, design, and code in Aayuh Health is the intellectual property of Aayuh Health developers. Unauthorized reproduction or distribution is prohibited.</p>
+<h3>5. Third-Party APIs</h3>
+<p>This application uses third-party services including Groq AI, the FDA Open Data API, and OpenStreetMap. Use of these services is subject to their respective terms of service.</p>
+<h3>6. Limitation of Liability</h3>
+<p>To the maximum extent permitted by law, Aayuh Health and its developers shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from use or inability to use this application.</p>
+<h3>7. Changes to Terms</h3>
+<p>We reserve the right to modify these terms at any time. Continued use of the application after changes constitutes acceptance of the new terms.</p>
+<h3>8. Governing Law</h3>
+<p>These terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in India.</p>
+<h3>9. Contact</h3>
+<p>For questions about these terms, contact us through the Aayuh Health application.</p>
+<p class="last-updated">Last updated: January 2025 · Aayuh Health</p>`
+  },
+  privacy:{
+    title:'🔒 Privacy Policy',
+    body:`
+<h3>Information We Collect</h3>
+<p>Aayuh Health collects minimal personal information. When you use our application, we may collect:</p>
+<ul>
+  <li>Authentication information (email) through Firebase Authentication</li>
+  <li>Search queries you enter (medicine names, disease names, locations)</li>
+  <li>Device information for app functionality</li>
+</ul>
+<h3>How We Use Your Information</h3>
+<p>Information collected is used solely to provide and improve the Aayuh Health service. We do not sell, trade, or rent your personal information to third parties.</p>
+<h3>Third-Party Services</h3>
+<p>We use the following third-party services, each with their own privacy policies:</p>
+<ul>
+  <li><strong>Firebase (Google)</strong> — Authentication and data storage</li>
+  <li><strong>Groq AI</strong> — AI-powered information generation</li>
+  <li><strong>FDA Open API</strong> — Public drug database (no personal data sent)</li>
+  <li><strong>OpenStreetMap / Nominatim</strong> — Free mapping services</li>
+</ul>
+<h3>Location Data</h3>
+<p>If you use the "Find Nearby Doctors" feature, your location is used only to search for nearby medical facilities. Location data is not stored on our servers.</p>
+<h3>Data Security</h3>
+<p>We implement appropriate security measures to protect your information. However, no internet transmission is 100% secure.</p>
+<h3>Children's Privacy</h3>
+<p>Aayuh Health is not directed at children under 13. We do not knowingly collect personal information from children under 13.</p>
+<h3>Your Rights</h3>
+<p>You have the right to access, correct, or delete your personal data. Contact us through the app to exercise these rights.</p>
+<p class="last-updated">Last updated: January 2025 · Aayuh Health</p>`
+  },
+  about:{
+    title:'🏥 About Aayuh Health',
+    body:`
+<h3>Our Mission</h3>
+<p>Aayuh Health is a free, AI-powered healthcare information app designed to make medical knowledge accessible to everyone in India and beyond. We believe everyone deserves easy access to reliable health information.</p>
+<h3>What We Offer</h3>
+<ul>
+  <li>💊 <strong>Medicine Information</strong> — Usage, dosage, timing, side effects for any medicine</li>
+  <li>🩺 <strong>Disease Information</strong> — Symptoms, treatments, prevention tips</li>
+  <li>🏥 <strong>Find Nearby Doctors</strong> — Locate hospitals and clinics near you</li>
+  <li>💬 <strong>AI Health Assistant</strong> — Ask any health question</li>
+</ul>
+<h3>Technology</h3>
+<p>Aayuh Health is built with modern web technologies and powered by:</p>
+<ul>
+  <li>Groq AI (LLaMA 3.3-70B) for intelligent health information</li>
+  <li>FDA Open Data API for verified drug information</li>
+  <li>Firebase for secure authentication</li>
+  <li>OpenStreetMap for free location services</li>
+</ul>
+<h3>Free Forever</h3>
+<p>Aayuh Health is and will remain free to use. We are committed to providing accessible healthcare information without barriers.</p>
+<h3>Disclaimer</h3>
+<p>Aayuh Health provides informational content only. We are not a medical provider. Always consult a qualified doctor for medical advice.</p>
+<p class="last-updated">Version 1.0 · © 2025 Aayuh Health · Made with ❤️ for better healthcare access</p>`
+  }
+};
+
+function openModal(key){
+  const m=MODALS[key]; if(!m) return;
+  document.getElementById('modalTitle').innerHTML=m.title;
+  document.getElementById('modalBody').innerHTML=m.body;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+function outsideClose(e){ if(e.target===document.getElementById('modalOverlay')) closeModal(); }
+</script>
+<!-- ═══════════════════════════════════════════════════
+     AAYUH Cookie Consent Banner
+     INSTRUCTIONS: Paste this entire block just before
+     the closing </body> tag on EVERY page of your site.
+     ═══════════════════════════════════════════════════ -->
+
+<style>
+  #cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: #0f1f1d;
+    color: #e0f7f4;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+    font-family: 'Plus Jakarta Sans', 'DM Sans', Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #cookie-banner.show {
+    transform: translateY(0);
+  }
+
+  .cookie-text {
+    flex: 1;
+    min-width: 220px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cookie-text strong {
+    color: #5eead4;
+    font-size: 14px;
+  }
+
+  .cookie-text a {
+    color: #5eead4;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .cookie-btn-accept {
+    background: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .cookie-btn-accept:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+  }
+
+  .cookie-btn-decline {
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .cookie-btn-decline:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 560px) {
+    #cookie-banner { padding: 14px 16px; }
+    .cookie-actions { width: 100%; justify-content: flex-end; }
+  }
+</style>
+
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-text">
+    <strong>🍪 We use cookies</strong><br>
+    We use cookies to improve your experience and display relevant advertisements.
+    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
+    <a href="Privacy Policy.html">Privacy Policy</a>.
+    Google AdSense may also use cookies to personalise ads —
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
+    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
+  </div>
 </div>
 
 <script>
-/* ---------------- Indian Brand → Generic Map ---------------- */
-const indianBrandMap = {
-  "dolo 650": "paracetamol",
-  "crocin": "paracetamol",
-  "calpol": "paracetamol",
-  "sumo": "paracetamol",
-  "azithral": "azithromycin",
-  "allegra": "fexofenadine",
-  "cetzine": "cetirizine",
-  "okacet": "cetirizine",
-  "montek lc": "montelukast",
-  "pan 40": "pantoprazole",
-  "omez": "omeprazole"
-};
+  (function() {
+    // Show banner only if consent not already given
+    var consent = localStorage.getItem('aayuh_cookie_consent');
+    if (!consent) {
+      setTimeout(function() {
+        var banner = document.getElementById('cookie-banner');
+        if (banner) banner.classList.add('show');
+      }, 800);
+    }
+  })();
 
-/* ---------------- Simplify medical text ---------------- */
-function simplify(text) {
-  if (!text) return "Information not available.";
-  return text.replace(/\n/g, " ").split(".").slice(0, 2).join(".") + ".";
-}
-
-/* ---------------- Simple usage explanations ---------------- */
-function getSimpleUsage(name) {
-  name = name.toLowerCase();
-
-  if (name.includes("paracetamol")) {
-    return {
-      timing: "After food, every 4–6 hours if needed",
-      explanation:
-        "Used to reduce fever and body pain. Do not take more than 4 tablets a day."
-    };
+  function cookieAccept() {
+    localStorage.setItem('aayuh_cookie_consent', 'accepted');
+    hideBanner();
   }
 
-  if (name.includes("ibuprofen")) {
-    return {
-      timing: "After food",
-      explanation:
-        "Used for pain and swelling. Always take after meals to protect your stomach."
-    };
+  function cookieDecline() {
+    localStorage.setItem('aayuh_cookie_consent', 'declined');
+    hideBanner();
   }
 
-  if (name.includes("cetirizine") || name.includes("fexofenadine")) {
-    return {
-      timing: "Once daily (preferably night)",
-      explanation:
-        "Used for allergy symptoms like sneezing, itching, or runny nose."
-    };
+  function hideBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.style.transition = 'transform 0.3s ease';
+      banner.style.transform = 'translateY(100%)';
+      setTimeout(function() { banner.style.display = 'none'; }, 300);
+    }
   }
-
-  if (name.includes("azithromycin") || name.includes("amoxicillin")) {
-    return {
-      timing: "Morning or night at fixed time",
-      explanation:
-        "Antibiotic medicine. Complete the full course even if you feel better."
-    };
-  }
-
-  return {
-    timing: "As prescribed by a doctor",
-    explanation:
-      "Use only under medical advice."
-  };
-}
-
-/* ---------------- Main search function ---------------- */
-async function searchMedicine() {
-  const input = document.getElementById("medicineInput").value.trim();
-  const result = document.getElementById("result");
-
-  if (!input) {
-    result.innerHTML = "❌ Please enter a medicine name.";
-    return;
-  }
-
-  let searchName = input.toLowerCase();
-
-  if (indianBrandMap[searchName]) {
-    searchName = indianBrandMap[searchName];
-  }
-
-  result.innerHTML = "🔄 Fetching medicine information...";
-
-  try {
-    const response = await fetch(
-      `https://api.fda.gov/drug/label.json?search=${encodeURIComponent(searchName)}&limit=1`
-    );
-
-    if (!response.ok) throw new Error();
-
-    const data = await response.json();
-    const med = data.results[0];
-
-    const use = simplify(med.indications_and_usage?.[0]);
-    const dosage = simplify(med.dosage_and_administration?.[0]);
-    const sideEffects = simplify(med.adverse_reactions?.[0]);
-    const simple = getSimpleUsage(searchName);
-
-    result.innerHTML = `
-      <h3>${med.openfda?.generic_name?.[0] || searchName}</h3>
-
-      <p><strong>Use:</strong> ${use}</p>
-      <p><strong>Dosage:</strong> ${dosage}</p>
-      <p><strong>⏰ Timing:</strong> ${simple.timing}</p>
-      <p><strong>Side Effects:</strong> ${sideEffects}</p>
-
-      <hr>
-
-      <p><strong>🧠 Simple Explanation:</strong><br>
-      ${simple.explanation}</p>
-    `;
-  } catch {
-    result.innerHTML = `
-      ❌ Medicine not found in database.<br><br>
-
-      💡 <strong>Tip:</strong> This may be an Indian brand name.<br>
-      Try searching using the generic name.<br><br>
-
-      <b>Examples:</b><br>
-      Dolo 650 → Paracetamol<br>
-      Azithral → Azithromycin<br>
-      Crocin → Paracetamol
-    `;
-  }
-}
 </script>
-
-<script src='backbutton.js'></script>
+<!-- ═══════════════════════════════════════════════════ -->
+<script src="backbutton.js"></script>
 </body>
 </html>

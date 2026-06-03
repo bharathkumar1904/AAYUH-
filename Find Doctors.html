@@ -3,501 +3,838 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aayuh — Disease Info</title>
+<title>Aayuh — Find Nearby Doctors</title>
 <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#fdfcf8;--bg2:#f5f3ee;--bg3:#ede9e0;--white:#ffffff;
-  --coral:#e05a3a;--coral2:#c44a2c;--coral-pale:#fef0ec;--coral-mid:#f9d0c4;
-  --green:#2d7a4f;--green2:#235f3d;--green-pale:#edf7f1;--green-mid:#b8e4cb;
-  --amber:#b5670f;--amber-pale:#fef7ec;--amber-mid:#fde4b0;
-  --blue:#1a5fa8;--blue-pale:#edf3fc;
+  --bg:#f8f7f3;--bg2:#f0ede6;--white:#fff;
+  --teal:#0f6e56;--teal2:#085041;--teal-pale:#e1f5ee;--teal-mid:#9fe1cb;
+  --coral:#d85a30;--coral-pale:#faece7;--coral-mid:#f5c4b3;
+  --amber:#b87a0f;--amber-pale:#faeeda;--amber-mid:#fac775;
+  --blue:#185fa5;--blue-pale:#e6f1fb;--blue-mid:#b5d4f4;
+  --purple:#534ab7;--purple-pale:#eeedfe;--purple-mid:#afa9ec;
   --ink:#1c1a17;--ink2:#4a4540;--ink3:#8a8278;--ink4:#b5b0a8;
   --border:#e2ddd4;--border2:#cdc7bc;
 }
-html{scroll-behavior:smooth;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:80px;}
-a{text-decoration:none;color:inherit;}
+html,body{min-height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);}
 button{font-family:'Nunito',sans-serif;cursor:pointer;border:none;}
-img{display:block;}
+a{text-decoration:none;color:inherit;}
 
 /* TOPBAR */
-.topbar{background:var(--ink);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;}
-.topbar-logo{font-family:'Bitter',serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:0.01em;}
-.topbar-logo em{font-style:italic;color:#f4a07a;font-weight:300;}
-.topbar-back{font-size:0.75rem;font-weight:600;color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:6px;transition:color 0.15s;}
-.topbar-back:hover{color:#fff;}
+.topbar{background:var(--ink);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:600;}
+.logo{font-family:'Bitter',serif;font-size:1.15rem;font-weight:700;color:#fff;}
+.logo em{font-style:italic;color:#f4a07a;font-weight:300;}
+.back{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.5);transition:color .15s;}
+.back:hover{color:#fff;}
 
-/* SEARCH HERO */
-.search-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:3rem 2rem 2.5rem;text-align:center;}
-.sh-label{display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral);margin-bottom:0.8rem;}
-.sh-title{font-family:'Bitter',serif;font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:0.5rem;}
-.sh-title em{font-style:italic;color:var(--coral);font-weight:300;}
-.sh-sub{font-size:0.88rem;color:var(--ink3);font-weight:400;margin-bottom:2rem;line-height:1.6;}
-.search-row{display:flex;max-width:600px;margin:0 auto 1.2rem;background:var(--white);border:1.5px solid var(--border2);border-radius:50px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
-.search-row:focus-within{border-color:var(--coral);box-shadow:0 0 0 4px rgba(224,90,58,0.1);}
-.search-row input{flex:1;border:none;outline:none;background:transparent;padding:14px 20px;font-family:'Nunito',sans-serif;font-size:0.93rem;color:var(--ink);}
-.search-row input::placeholder{color:var(--ink4);}
-.search-row button{background:var(--coral);color:#fff;padding:14px 26px;font-weight:700;font-size:0.84rem;border-radius:0 48px 48px 0;transition:background 0.15s;white-space:nowrap;}
-.search-row button:hover{background:var(--coral2);}
-.search-row button:disabled{opacity:0.5;cursor:not-allowed;}
-.pills{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
-.pill{font-size:0.72rem;font-weight:600;padding:5px 13px;border-radius:99px;border:1px solid var(--border2);color:var(--ink3);background:var(--white);cursor:pointer;transition:all 0.15s;}
-.pill:hover{border-color:var(--coral);color:var(--coral);background:var(--coral-pale);}
+/* PAGE */
+.page{max-width:680px;margin:0 auto;padding:1.2rem 1rem 5.5rem;}
 
-/* MAIN */
-.main{max-width:1040px;margin:0 auto;padding:2.5rem 1.5rem 2rem;}
+/* SEARCH CARD */
+.s-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.s-title{font-family:'Bitter',serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:.15rem;}
+.s-title em{font-style:italic;color:var(--teal);font-weight:300;}
+.s-sub{font-size:.71rem;color:var(--ink3);margin-bottom:.8rem;line-height:1.5;}
+.ai-badge{display:inline-flex;align-items:center;gap:4px;background:var(--teal-pale);border:1px solid var(--teal-mid);color:var(--teal);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:99px;margin-bottom:.85rem;}
 
-/* IDLE */
-.idle{text-align:center;padding:5rem 2rem;color:var(--ink3);}
-.idle-icon{width:72px;height:72px;border-radius:50%;background:var(--bg2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem;}
-.idle h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
-.idle p{font-size:0.85rem;font-weight:400;line-height:1.6;}
+.two-inp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ig-lbl{font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.32rem;display:flex;align-items:center;gap:5px;}
+.ld{width:5px;height:5px;border-radius:50%;background:var(--teal);display:inline-block;}
+.ld.c{background:var(--coral);}
+.inp{width:100%;padding:9px 12px;border:1.5px solid var(--border2);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s,box-shadow .2s;}
+.inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(15,110,86,.1);}
+.inp::placeholder{color:var(--ink4);}
+.loc-row{display:flex;gap:6px;}
+.loc-row .inp{flex:1;}
+.gps-btn{display:flex;align-items:center;gap:4px;padding:9px 10px;background:var(--teal-pale);border:1.5px solid var(--teal-mid);border-radius:10px;color:var(--teal);font-size:.68rem;font-weight:700;white-space:nowrap;flex-shrink:0;transition:all .15s;}
+.gps-btn:hover{background:var(--teal-mid);}
+.gps-btn:disabled{opacity:.5;cursor:not-allowed;}
 
-/* LOADING */
-.loading{text-align:center;padding:5rem 2rem;}
-.load-ring{width:48px;height:48px;margin:0 auto 1.2rem;border:3px solid var(--border);border-top-color:var(--coral);border-radius:50%;animation:spin 0.75s linear infinite;}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:.5rem;}
+.pill{font-size:.63rem;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid var(--border2);color:var(--ink3);background:var(--white);cursor:pointer;transition:all .15s;}
+.pill.on,.pill:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-pale);}
+
+.go-btn{width:100%;padding:12px;background:var(--teal);color:#fff;font-weight:700;font-size:.9rem;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:.85rem;transition:background .15s;}
+.go-btn:hover{background:var(--teal2);}
+.go-btn:disabled{opacity:.5;cursor:not-allowed;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading h3{font-family:'Bitter',serif;font-size:1rem;color:var(--ink2);margin-bottom:4px;}
-.loading p{font-size:0.8rem;color:var(--ink3);}
-
-/* DISEASE HERO */
-.dis-hero{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr 160px;gap:0;}
-.dis-hero-body{padding:2rem 2rem 1.8rem;}
-.dis-source-row{display:flex;align-items:center;gap:8px;margin-bottom:0.8rem;flex-wrap:wrap;}
-.source-tag{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:4px;}
-.tag-wiki{background:var(--blue-pale);color:var(--blue);}
-.tag-ai{background:var(--amber-pale);color:var(--amber);}
-.dis-name{font-family:'Bitter',serif;font-size:2.2rem;font-weight:700;color:var(--ink);margin-bottom:0.6rem;line-height:1.1;}
-.dis-desc{font-size:0.88rem;color:var(--ink2);line-height:1.75;margin-bottom:1.2rem;font-weight:400;max-width:540px;}
-.dis-link{display:inline-flex;align-items:center;gap:5px;font-size:0.75rem;font-weight:700;color:var(--coral);border:1px solid var(--coral-mid);border-radius:6px;padding:5px 12px;background:var(--coral-pale);transition:all 0.15s;}
-.dis-link:hover{background:var(--coral-mid);}
-.dis-hero-img{background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden;border-left:1px solid var(--border);}
-.dis-hero-img img{width:100%;height:100%;object-fit:cover;}
-.dis-hero-img .no-img{font-size:3rem;color:var(--ink4);}
-
-/* SECTION LABEL */
-.section-label{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.9rem;display:flex;align-items:center;gap:8px;}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
-
-/* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem;}
-.info-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.2s,box-shadow 0.2s;}
-.info-card:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(28,26,23,0.07);}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
-.card-chip{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.chip-coral{background:var(--coral-pale);}
-.chip-green{background:var(--green-pale);}
-.chip-amber{background:var(--amber-pale);}
-.chip-blue{background:var(--blue-pale);}
-.card-title{font-size:0.82rem;font-weight:700;color:var(--ink);letter-spacing:0.03em;}
-.card-source{font-size:0.65rem;color:var(--ink4);margin-top:1px;}
-.info-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
-.info-list li{display:flex;align-items:flex-start;gap:9px;font-size:0.82rem;color:var(--ink2);line-height:1.55;}
-.li-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.dot-coral{background:var(--coral);}
-.dot-green{background:var(--green);}
-.dot-amber{background:var(--amber);}
-.dot-blue{background:var(--blue);}
-
-/* AI PENDING */
-.ai-pending{display:flex;flex-direction:column;gap:8px;padding:4px 0;}
-.ai-pending-row{display:flex;align-items:center;gap:8px;background:var(--amber-pale);border-radius:8px;padding:10px 12px;font-size:0.78rem;font-weight:600;color:var(--amber);}
-.ai-mini-spin{width:14px;height:14px;flex-shrink:0;border:2px solid rgba(181,103,15,0.2);border-top-color:var(--amber);border-radius:50%;animation:spin 0.7s linear infinite;}
-.ai-placeholder{height:10px;border-radius:4px;background:var(--border);margin-top:4px;}
+.spinning{animation:spin .8s linear infinite;display:inline-block;}
 
 /* MAP */
-.map-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;}
-.map-btns{display:flex;gap:9px;flex-wrap:wrap;margin-top:0.9rem;}
-.map-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:9px 16px;font-size:0.79rem;font-weight:600;color:var(--ink2);transition:all 0.15s;}
-.map-btn:hover{background:var(--green-pale);border-color:var(--green-mid);color:var(--green);}
+.map-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+#map{height:270px;width:100%;background:var(--bg2);}
+.map-bar{background:var(--white);border-top:1px solid var(--border);padding:7px 12px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.mb-lbl{font-size:.62rem;font-weight:700;color:var(--ink3);}
+.mb-btn{padding:4px 11px;background:var(--bg2);border:1px solid var(--border2);border-radius:7px;font-size:.66rem;font-weight:700;color:var(--ink2);cursor:pointer;transition:all .15s;}
+.mb-btn:hover,.mb-btn.on{background:var(--teal-pale);border-color:var(--teal);color:var(--teal);}
+.mb-r{margin-left:auto;font-size:.58rem;color:var(--ink4);}
 
-/* DISCLAIMER */
-.disclaimer{background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:12px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:10px;font-size:0.78rem;color:var(--amber);line-height:1.6;margin-bottom:1.5rem;}
-.disc-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+/* SECTION LABEL */
+.sec{font-size:.6rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin:1rem 0 .6rem;display:flex;align-items:center;gap:6px;}
+.sec::after{content:'';flex:1;height:1px;background:var(--border);}
+.sc{font-size:.62rem;font-weight:600;color:var(--teal);background:var(--teal-pale);padding:2px 7px;border-radius:99px;}
 
-/* ERROR */
-.err-state{text-align:center;padding:5rem 2rem;color:var(--ink3);}
-.err-state h3{font-family:'Bitter',serif;font-size:1.2rem;color:var(--ink2);margin-bottom:0.4rem;}
-.err-state p{font-size:0.85rem;line-height:1.6;}
+/* RESULT GRID — 2 cols */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.5rem;}
 
-/* WEB AD BANNER — shown only on web, hidden in APK */
-.web-ad{display:flex;flex-direction:column;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:10px;margin-bottom:1.5rem;position:relative;}
-.web-ad .ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
-.web-ad .close-ad{position:absolute;top:6px;right:8px;background:var(--border);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);display:flex;align-items:center;justify-content:center;}
+/* RESULT CARD */
+.rcard{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:.9rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:.5rem;}
+.rcard:hover{border-color:var(--teal-mid);box-shadow:0 4px 16px rgba(15,110,86,.1);transform:translateY(-2px);}
+.rcard.best{border-color:var(--teal);border-width:2px;}
+.best-badge{display:inline-flex;align-items:center;gap:3px;background:var(--teal-pale);color:var(--teal);font-size:.56rem;font-weight:700;padding:2px 7px;border-radius:99px;text-transform:uppercase;align-self:flex-start;}
+.rc-head{display:flex;align-items:flex-start;gap:8px;}
+.rc-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.ic-d{background:var(--blue-pale);}
+.ic-h{background:var(--coral-pale);}
+.ic-p{background:var(--purple-pale);}
+.rc-name{font-family:'Bitter',serif;font-size:.85rem;font-weight:700;color:var(--ink);line-height:1.2;}
+.rc-spec{font-size:.66rem;color:var(--ink3);font-weight:600;margin-top:1px;}
 
-/* STICKY BOTTOM — web only */
-.ad-sticky{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;background:#fff;border-top:1px solid var(--border);padding:6px 0 4px;z-index:9999;box-shadow:0 -2px 12px rgba(28,26,23,0.08);}
-.ad-sticky .ad-label{font-size:0.55rem;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
-.ad-sticky .close-ad{position:absolute;top:4px;right:8px;background:var(--border);border:none;border-radius:50%;width:20px;height:20px;font-size:0.7rem;cursor:pointer;color:var(--ink3);display:flex;align-items:center;justify-content:center;}
+/* INFO ROWS */
+.irows{display:flex;flex-direction:column;gap:4px;}
+.ir{display:flex;align-items:flex-start;gap:5px;font-size:.7rem;color:var(--ink2);line-height:1.4;}
+.ir-i{width:15px;text-align:center;font-size:.7rem;flex-shrink:0;margin-top:.05rem;}
+.ir-v{flex:1;}
+.ir-v b{font-weight:700;color:var(--ink);}
+.na{color:var(--ink4);font-style:italic;}
+.stars{color:var(--amber);letter-spacing:1px;}
+.dist-val{color:var(--teal);font-weight:700;}
 
-/* RESPONSIVE */
-@media(max-width:700px){
-  .topbar{padding:10px 16px;}
-  .search-hero{padding:2rem 1.2rem 2rem;}
-  .main{padding:1.5rem 1rem 2rem;}
-  .dis-hero{grid-template-columns:1fr;}
-  .dis-hero-img{display:none;}
-  .cards-grid{grid-template-columns:1fr;}
+/* ACTIONS */
+.rc-acts{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:.1rem;}
+.rca{padding:5px 3px;border-radius:7px;font-size:.64rem;font-weight:700;transition:all .15s;cursor:pointer;border:none;text-align:center;}
+.a-map{background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-mid);}
+.a-map:hover{background:var(--teal-mid);}
+.a-dir{background:var(--blue-pale);color:var(--blue);border:1px solid var(--blue-mid);}
+.a-dir:hover{background:var(--blue-mid);}
+.a-osm{background:var(--bg2);color:var(--ink2);border:1px solid var(--border2);}
+.a-osm:hover{background:var(--border);}
+.a-ai{background:var(--amber-pale);color:var(--amber);border:1px solid var(--amber-mid);}
+.a-ai:hover{background:var(--amber-mid);}
+
+/* SKELETON */
+.skel{background:linear-gradient(90deg,var(--bg2) 25%,var(--bg) 50%,var(--bg2) 75%);background-size:200% 100%;animation:shim 1.3s infinite;border-radius:7px;}
+@keyframes shim{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.sk-c{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:.9rem;display:flex;flex-direction:column;gap:8px;}
+.sk-r{display:flex;gap:8px;align-items:center;}
+.sk-sq{width:34px;height:34px;border-radius:9px;flex-shrink:0;}
+.sk-l{height:8px;border-radius:5px;}
+
+/* IDLE */
+.idle{text-align:center;padding:2.5rem 1rem;color:var(--ink3);}
+.idle-ico{font-size:2rem;margin-bottom:.6rem;opacity:.35;}
+.idle h3{font-family:'Bitter',serif;font-size:.95rem;color:var(--ink2);margin-bottom:.2rem;}
+.idle p{font-size:.74rem;line-height:1.6;}
+
+/* BOTTOM BAR */
+.btm-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:.65rem 1rem;display:flex;align-items:center;gap:.75rem;box-shadow:0 -4px 20px rgba(0,0,0,.07);z-index:500;}
+.disc{flex:1;font-size:.68rem;color:var(--amber);background:var(--amber-pale);border:1px solid var(--amber-mid);border-radius:8px;padding:.45rem .75rem;line-height:1.5;}
+.chat-fab{display:flex;align-items:center;gap:5px;padding:.6rem 1rem;background:var(--teal);color:#fff;border-radius:10px;font-size:.74rem;font-weight:700;white-space:nowrap;transition:background .15s;flex-shrink:0;}
+.chat-fab:hover{background:var(--teal2);}
+
+/* CHATBOT OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(28,26,23,.45);z-index:700;display:none;align-items:flex-end;justify-content:center;}
+.overlay.open{display:flex;}
+.cpanel{background:var(--white);width:100%;max-width:680px;height:72vh;border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:up .25s ease;}
+@keyframes up{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.cp-hdr{padding:.85rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0;}
+.cp-ttl{font-family:'Bitter',serif;font-size:.98rem;font-weight:700;color:var(--ink);}
+.cp-x{width:27px;height:27px;border-radius:50%;background:var(--bg);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.78rem;cursor:pointer;transition:all .15s;}
+.cp-x:hover{background:var(--border);}
+.chat-msgs{flex:1;overflow-y:auto;padding:.85rem 1.2rem;display:flex;flex-direction:column;gap:9px;}
+.msg{max-width:92%;animation:fu .2s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.mb{align-self:flex-start;}.mu{align-self:flex-end;}
+.bub{padding:8px 13px;border-radius:13px;font-size:.79rem;line-height:1.6;}
+.mb .bub{background:var(--bg2);border:1px solid var(--border);color:var(--ink2);border-radius:4px 13px 13px 13px;}
+.mu .bub{background:var(--teal);color:#fff;border-radius:13px 13px 4px 13px;}
+.av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;margin-bottom:2px;}
+.av-b{background:var(--teal-pale);color:var(--teal);}
+.av-u{background:var(--amber-pale);color:var(--amber);}
+.mmeta{font-size:.59rem;color:var(--ink4);margin-top:2px;padding:0 2px;}
+.tbub{display:flex;align-items:center;gap:4px;padding:9px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:4px 13px 13px 13px;width:fit-content;}
+.td{width:5px;height:5px;border-radius:50%;background:var(--ink4);animation:tb 1.4s infinite both;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes tb{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1);opacity:1;}}
+.chat-foot{padding:.7rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:7px;align-items:flex-end;background:var(--bg2);flex-shrink:0;}
+.chat-ta{flex:1;padding:8px 12px;border:1.5px solid var(--border2);border-radius:9px;font-family:'Nunito',sans-serif;font-size:.79rem;color:var(--ink);background:var(--white);outline:none;resize:none;min-height:36px;max-height:88px;transition:border-color .2s;}
+.chat-ta:focus{border-color:var(--teal);}
+.send-btn{padding:8px 14px;background:var(--teal);color:#fff;border-radius:8px;font-weight:700;font-size:.75rem;transition:background .15s;}
+.send-btn:hover{background:var(--teal2);}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* Leaflet popup */
+.leaflet-popup-content{font-family:'Nunito',sans-serif;margin:10px 13px;min-width:170px;}
+.lp-n{font-family:'Bitter',serif;font-size:.87rem;font-weight:700;margin-bottom:2px;}
+.lp-a{font-size:.69rem;color:#8a8278;margin-bottom:6px;}
+.lp-acts{display:flex;gap:6px;}
+.lp-btn{padding:5px 10px;border-radius:6px;font-size:.67rem;font-weight:700;cursor:pointer;border:none;font-family:'Nunito',sans-serif;}
+.lp-g{background:#e1f5ee;color:#0f6e56;}
+.lp-b{background:#e6f1fb;color:#185fa5;}
+
+@media(max-width:480px){
+  .two-inp{grid-template-columns:1fr;}
+  .rgrid{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-logo">Aayuh <em>Health</em></div>
-  <a href="dashboard.html" class="topbar-back">← Back to Dashboard</a>
+  <div class="logo">Aayuh <em>Health</em></div>
+  <a href="dashboard.html" class="back">← Dashboard</a>
 </div>
 
-<!-- SEARCH HERO -->
-<div class="search-hero">
-  <div class="sh-label">Medical Reference</div>
-  <h1 class="sh-title">Disease <em>Information</em> Lookup</h1>
-  <p class="sh-sub">Search any condition for symptoms, treatment, AI-powered prevention advice and nearby care.</p>
-  <div class="search-row">
-    <input type="text" id="diseaseInput" placeholder="Enter a disease name, e.g. diabetes, malaria..."
-      onkeydown="if(event.key==='Enter')lookupDisease()"/>
-    <button id="searchBtn" onclick="lookupDisease()">Search</button>
+<div class="page">
+
+  <!-- SEARCH -->
+  <div class="s-card">
+    <div class="s-title">Find <em>Nearby</em> Doctors</div>
+    <p class="s-sub">AI-powered recommendations with real map locations — completely free.</p>
+    <div class="ai-badge">⚡ Powered by Groq AI · Free Map · No API Key</div>
+
+    <div class="two-inp">
+      <div>
+        <div class="ig-lbl"><span class="ld"></span>Enter Disease</div>
+        <input id="diseaseInput" class="inp" type="text" placeholder="e.g. diabetes, fever…"
+          onkeydown="if(event.key==='Enter')go()"/>
+        <div class="pills">
+          <button class="pill" onclick="setD(this,'Diabetes')">Diabetes</button>
+          <button class="pill" onclick="setD(this,'Fever')">Fever</button>
+          <button class="pill" onclick="setD(this,'Hypertension')">Hypertension</button>
+          <button class="pill" onclick="setD(this,'Chest Pain')">Chest Pain</button>
+          <button class="pill" onclick="setD(this,'Back Pain')">Back Pain</button>
+          <button class="pill" onclick="setD(this,'Skin Rash')">Skin Rash</button>
+          <button class="pill" onclick="setD(this,'Dental Pain')">Dental</button>
+          <button class="pill" onclick="setD(this,'Eye Problem')">Eye</button>
+        </div>
+      </div>
+      <div>
+        <div class="ig-lbl"><span class="ld c"></span>Enter Location</div>
+        <div class="loc-row">
+          <input id="locInput" class="inp" type="text" placeholder="City or area…"
+            onkeydown="if(event.key==='Enter')go()"/>
+          <button class="gps-btn" id="gpsBtn" onclick="getGPS()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+              <circle cx="12" cy="12" r="8" stroke-dasharray="4 2"/>
+            </svg>GPS
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button class="go-btn" id="goBtn" onclick="go()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Search
+    </button>
   </div>
-  <div class="pills">
-    <button class="pill" onclick="quickSearch('diabetes')">Diabetes</button>
-    <button class="pill" onclick="quickSearch('hypertension')">Hypertension</button>
-    <button class="pill" onclick="quickSearch('malaria')">Malaria</button>
-    <button class="pill" onclick="quickSearch('asthma')">Asthma</button>
-    <button class="pill" onclick="quickSearch('dengue')">Dengue</button>
-    <button class="pill" onclick="quickSearch('tuberculosis')">Tuberculosis</button>
-    <button class="pill" onclick="quickSearch('anemia')">Anemia</button>
+
+  <!-- MAP -->
+  <div class="map-wrap">
+    <div id="map"></div>
+    <div class="map-bar">
+      <span class="mb-lbl">Show:</span>
+      <button class="mb-btn on" id="fAll"  onclick="filterMarkers('all')">All</button>
+      <button class="mb-btn"   id="fDoc"  onclick="filterMarkers('doctor')">Doctors</button>
+      <button class="mb-btn"   id="fHosp" onclick="filterMarkers('hospital')">Hospitals</button>
+      <button class="mb-btn"   id="fPh"   onclick="filterMarkers('pharmacy')">Pharmacies</button>
+      <span class="mb-r">© OpenStreetMap contributors</span>
+    </div>
   </div>
-</div>
 
-<!-- MAIN RESULTS -->
-<div class="main" id="mainArea">
-  <div class="idle">
-    <div class="idle-icon">🩺</div>
-    <h3>Search a disease to get started</h3>
-    <p>Type any disease name above — from common colds to chronic conditions.<br>Get symptoms, treatments, prevention tips, and AI-generated dietary advice.</p>
+  <!-- RESULTS -->
+  <div id="resArea">
+    <div class="idle">
+      <div class="idle-ico">🏥</div>
+      <h3>Enter your condition &amp; location</h3>
+      <p>Groq AI will suggest real nearby doctors &amp; hospitals<br/>pinned on the map with directions.</p>
+    </div>
   </div>
+
 </div>
 
-<!-- WEB AD (hidden in APK via JS) -->
-<div class="web-ad" id="webAdMid">
-  <button class="close-ad" onclick="document.getElementById('webAdMid').style.display='none'">✕</button>
-  <div class="ad-label">Advertisement</div>
-  <script>
-    atOptions = {
-      'key' : 'dd845ccaa883c88140268a86042e83bf',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+<!-- BOTTOM BAR -->
+<div class="btm-bar">
+  <div class="disc"><strong>⚠️ Disclaimer:</strong> AI-generated suggestions. Always verify before visiting. Not a substitute for medical advice.</div>
+  <button class="chat-fab" onclick="openChat()">💬 Open Chatbot</button>
 </div>
 
-<!-- STICKY BOTTOM AD (web only, hidden in APK) -->
-<div class="ad-sticky" id="adSticky">
-  <button class="close-ad" onclick="document.getElementById('adSticky').style.display='none';document.body.style.paddingBottom='0'">✕</button>
-  <div class="ad-label">Advertisement</div>
-  <script>
-    atOptions = {
-      'key' : 'dd845ccaa883c88140268a86042e83bf',
-      'format' : 'iframe',
-      'height' : 50,
-      'width' : 320,
-      'params' : {}
-    };
-  </script>
-  <script src="https://www.highperformanceformat.com/dd845ccaa883c88140268a86042e83bf/invoke.js"></script>
+<!-- CHATBOT OVERLAY -->
+<div class="overlay" id="overlay" onclick="outsideClose(event)">
+  <div class="cpanel">
+    <div class="cp-hdr">
+      <div class="cp-ttl">💬 Aayuh AI Assistant</div>
+      <button class="cp-x" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="msg mb">
+        <div class="av av-b">AI</div>
+        <div class="bub">👋 Hi! Ask me anything about your condition, which doctor to see, what to expect, or any health questions.</div>
+        <div class="mmeta">Aayuh AI · now</div>
+      </div>
+    </div>
+    <div class="chat-foot">
+      <textarea class="chat-ta" id="chatIn" placeholder="Ask about your condition…" rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"
+        oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,88)+'px'"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendChat()">Send</button>
+    </div>
+  </div>
 </div>
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
-// ── FIREBASE ──
-const firebaseConfig = {
-  apiKey: "AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",
-  authDomain: "aayuh-c9a87.firebaseapp.com",
-  projectId: "aayuh-c9a87"
-};
-firebase.initializeApp(firebaseConfig);
-firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.html"; });
+firebase.initializeApp({apiKey:"AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",authDomain:"aayuh-c9a87.firebaseapp.com",projectId:"aayuh-c9a87"});
+firebase.auth().onAuthStateChanged(u=>{if(!u)window.location.href='index.html';});
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const PROXY = 'https://aayuh-production.up.railway.app/chat';
 
-// ── DETECT APK vs WEB ──
-const isAPK = (typeof cordova !== 'undefined') || window.location.protocol === 'file:';
+// ── MAP INIT ──
+const map = L.map('map', {zoomControl: true}).setView([20.5937, 78.9629], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 19
+}).addTo(map);
 
-// Hide web ads in APK — AdMob handles ads there
-if (isAPK) {
-  document.getElementById('webAdMid').style.display = 'none';
-  document.getElementById('adSticky').style.display = 'none';
-  document.body.style.paddingBottom = '60px'; // space for AdMob banner
-}
-
-// ── PROXY URL ──
-const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
-
-// ── LOCAL FALLBACK DATA ──
-const diseaseData = {
-  diabetes: {
-    symptoms: ["Frequent urination", "Excessive thirst", "Fatigue"],
-    diet: ["Whole grains", "Leafy vegetables"],
-    dos: ["Exercise regularly"],
-    donts: ["Avoid sugar"]
-  }
-};
-
-// ── SMART EXTRACTOR ──
-function extractSections(text) {
-  const sentences = text.split(".");
-  let symptoms = [], prevention = [], treatment = [], lifestyle = [];
-  sentences.forEach(s => {
-    const line = s.toLowerCase();
-    if (line.includes("symptom")||line.includes("fever")||line.includes("pain")||line.includes("cough")||line.includes("fatigue"))
-      symptoms.push(s.trim());
-    if (line.includes("prevent")||line.includes("avoid")||line.includes("reduce risk"))
-      prevention.push(s.trim());
-    if (line.includes("treat")||line.includes("medication")||line.includes("therapy"))
-      treatment.push(s.trim());
-    if (line.includes("diet")||line.includes("eat")||line.includes("exercise")||line.includes("healthy"))
-      lifestyle.push(s.trim());
+function mkIcon(emoji, bg) {
+  return L.divIcon({
+    html: `<div style="width:34px;height:34px;border-radius:50%;background:${bg};border:2.5px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1;">${emoji}</div>`,
+    className: '', iconSize: [34,34], iconAnchor: [17,34], popupAnchor: [0,-36]
   });
-  return {
-    symptoms:   symptoms.slice(0,5),
-    prevention: prevention.slice(0,5),
-    treatment:  treatment.slice(0,5),
-    lifestyle:  lifestyle.slice(0,5)
-  };
+}
+const ICONS = {
+  doctor:   mkIcon('👨‍⚕️','#185fa5'),
+  hospital: mkIcon('🏥','#d85a30'),
+  pharmacy: mkIcon('💊','#534ab7'),
+  user:     mkIcon('🟢','#0f6e56')
+};
+
+// ── STATE ──
+let userPin = null, userLatLng = null;
+let allMarkers = [];   // {lm, type}
+let chatHistory = [];
+let currentDisease = '', currentLocation = '';
+let busy = false;
+
+// ── HELPERS ──
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const ft  = () => new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+function setD(el, name) {
+  document.getElementById('diseaseInput').value = name;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
 }
 
-// ── AI ADVICE (with retry) ──
-async function getGroqAdvice(diseaseName, retries = 2) {
-  const prompt = `For the disease "${diseaseName}", return ONLY a raw JSON object, no markdown, no backticks:
-{"prevention":["tip1","tip2","tip3","tip4","tip5"],"diet":["food1","food2","food3","food4","food5"],"donts":["avoid1","avoid2","avoid3","avoid4"]}
-Each item max 12 words. Be medically accurate and practical.`;
-
-  for (let i = 0; i <= retries; i++) {
+// ── GPS ──
+async function getGPS() {
+  const btn = document.getElementById('gpsBtn');
+  if (!navigator.geolocation) { alert('GPS not supported'); return; }
+  btn.disabled = true; btn.textContent = '…';
+  navigator.geolocation.getCurrentPosition(async pos => {
+    userLatLng = [pos.coords.latitude, pos.coords.longitude];
     try {
-      const r = await fetch(PROXY_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.2,
-          max_tokens: 600
-        })
-      });
-      if (!r.ok) throw new Error('Proxy error ' + r.status);
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`, {headers:{'Accept-Language':'en'}});
       const d = await r.json();
-      const txt = d.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
-      const m = txt.match(/\{[\s\S]*\}/);
-      if (!m) throw new Error('No JSON');
-      return JSON.parse(m[0]);
-    } catch(e) {
-      if (i === retries) throw e;
-      await new Promise(res => setTimeout(res, 1500)); // wait 1.5s before retry
+      document.getElementById('locInput').value =
+        d.address.city || d.address.town || d.address.village || d.address.county ||
+        `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+    } catch {
+      document.getElementById('locInput').value = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
     }
-  }
+    placeUserPin(userLatLng);
+    map.setView(userLatLng, 14);
+    resetGPSBtn();
+  }, () => { alert('Could not get GPS. Please type your location.'); resetGPSBtn(); });
+}
+function resetGPSBtn() {
+  const btn = document.getElementById('gpsBtn');
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8" stroke-dasharray="4 2"/></svg>GPS`;
+}
+function placeUserPin(ll) {
+  if (userPin) map.removeLayer(userPin);
+  userPin = L.marker(ll, {icon: ICONS.user, zIndexOffset: 1000}).addTo(map).bindPopup('<b>📍 Your location</b>');
 }
 
-// ── RENDER HELPERS ──
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// ── FILTER ──
+function filterMarkers(type) {
+  ['fAll','fDoc','fHosp','fPh'].forEach(id => document.getElementById(id).classList.remove('on'));
+  document.getElementById(type==='all'?'fAll':type==='doctor'?'fDoc':type==='hospital'?'fHosp':'fPh').classList.add('on');
+  allMarkers.forEach(m => { if (type==='all'||m.type===type) m.lm.addTo(map); else map.removeLayer(m.lm); });
+}
+function clearMarkers() { allMarkers.forEach(m => map.removeLayer(m.lm)); allMarkers = []; }
 
-function renderCard(emoji, chipClass, title, source, items, dotClass, isAI) {
-  const tag = isAI
-    ? `<span class="source-tag tag-ai">AI</span>`
-    : `<span class="source-tag tag-wiki">Wikipedia</span>`;
-  const listItems = (items||[]).filter(Boolean).map(i =>
-    `<li><span class="li-dot ${dotClass}"></span>${esc(i)}</li>`
-  ).join('') || `<li><span class="li-dot ${dotClass}"></span>No data available</li>`;
-  return `<div class="info-card">
-    <div class="card-header">
-      <div class="card-chip ${chipClass}">${emoji}</div>
-      <div><div class="card-title">${title}</div><div class="card-source">${source} ${tag}</div></div>
-    </div>
-    <ul class="info-list">${listItems}</ul>
+// ── GROQ CALL ──
+async function groq(messages, max_tokens=1400, temperature=0.3) {
+  const r = await fetch(PROXY, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ model:'llama-3.3-70b-versatile', messages, temperature, max_tokens })
+  });
+  if (!r.ok) throw new Error('Proxy ' + r.status);
+  return (await r.json()).choices[0].message.content.trim();
+}
+
+// ── GEOCODE via Nominatim ──
+async function geocode(location) {
+  const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`, {headers:{'Accept-Language':'en'}});
+  const d = await r.json();
+  if (!d.length) return null;
+  return [parseFloat(d[0].lat), parseFloat(d[0].lon)];
+}
+
+// ── SKELETON ──
+function showSkeleton() {
+  const sc = () => `<div class="sk-c">
+    <div class="sk-r"><div class="skel sk-sq"></div><div style="flex:1"><div class="skel sk-l" style="width:70%;margin-bottom:6px"></div><div class="skel sk-l" style="width:45%"></div></div></div>
+    <div class="skel sk-l" style="width:88%"></div><div class="skel sk-l" style="width:65%"></div><div class="skel sk-l" style="width:75%"></div>
   </div>`;
+  document.getElementById('resArea').innerHTML = `<div class="sec">Loading results…</div><div class="rgrid">${sc()}${sc()}</div><div class="rgrid">${sc()}${sc()}</div>`;
 }
 
-function renderAIPlaceholderCard(emoji, chipClass, title) {
-  return `<div class="info-card">
-    <div class="card-header">
-      <div class="card-chip ${chipClass}">${emoji}</div>
-      <div><div class="card-title">${title}</div><div class="card-source">Powered by AI &nbsp;<span class="source-tag tag-ai">AI</span></div></div>
-    </div>
-    <div class="ai-pending">
-      <div class="ai-pending-row"><div class="ai-mini-spin"></div>Generating AI advice...</div>
-      <div class="ai-placeholder" style="width:90%"></div>
-      <div class="ai-placeholder" style="width:75%"></div>
-      <div class="ai-placeholder" style="width:82%"></div>
-    </div>
-  </div>`;
+// ── STAR HTML ──
+function starsOf(n) {
+  const f = Math.round(Math.min(5, Math.max(0, n)));
+  return `<span class="stars">${'★'.repeat(f)}${'☆'.repeat(5-f)}</span>`;
 }
 
-// ── URL PARAMS ──
-window.onload = () => {
-  const params = new URLSearchParams(window.location.search);
-  const s = params.get("search");
-  if (s) { document.getElementById("diseaseInput").value = s; lookupDisease(); }
-};
+// ── MAIN SEARCH ──
+async function go() {
+  const disease  = document.getElementById('diseaseInput').value.trim();
+  const location = document.getElementById('locInput').value.trim();
+  if (!disease)  { alert('Please enter a disease or condition.'); return; }
+  if (!location) { alert('Please enter your location or use GPS.'); return; }
+  if (busy) return;
 
-function quickSearch(name) {
-  document.getElementById("diseaseInput").value = name;
-  lookupDisease();
-}
-
-// ── MAIN LOOKUP ──
-async function lookupDisease() {
-  const input = document.getElementById("diseaseInput").value.trim().toLowerCase();
-  const area  = document.getElementById("mainArea");
-  const btn   = document.getElementById("searchBtn");
-
-  if (!input) {
-    area.innerHTML = `<div class="err-state"><h3>Please enter a disease name</h3><p>Type something in the search box above.</p></div>`;
-    return;
-  }
-
+  busy = true;
+  currentDisease = disease; currentLocation = location;
+  const btn = document.getElementById('goBtn');
   btn.disabled = true;
-  btn.textContent = 'Searching…';
-  area.innerHTML = `<div class="loading"><div class="load-ring"></div><h3>Fetching medical data</h3><p>Searching Wikipedia database…</p></div>`;
+  btn.innerHTML = `<span class="spinning">⏳</span> Searching…`;
+  showSkeleton();
 
+  // Geocode the location
+  let center = userLatLng;
+  if (!center) {
+    center = await geocode(location);
+    if (!center) {
+      alert(`Could not find "${location}". Try a more specific location or use GPS.`);
+      resetGoBtn(); busy = false; return;
+    }
+  }
+  userLatLng = center;
+  map.setView(center, 14);
+  placeUserPin(center);
+  clearMarkers();
+
+  // Ask Groq for nearby places with approximate coordinates
+  const prompt = `You are a medical location assistant. For disease "${disease}" near "${location}" (lat:${center[0].toFixed(4)}, lng:${center[1].toFixed(4)}), generate realistic nearby doctors, hospitals, and pharmacies.
+
+IMPORTANT: Return ONLY a valid JSON object. No markdown, no backticks, no explanation.
+
+Use this exact format:
+{
+  "doctors": [
+    {
+      "name": "Full clinic or doctor name",
+      "specialty": "Relevant medical specialty",
+      "address": "Street area, ${location}",
+      "phone": "local phone number or empty string",
+      "rating": 4.3,
+      "fee": "₹200–₹500 or Free",
+      "distance": "1.2 km",
+      "lat": ${(center[0] + (Math.random()-0.5)*0.03).toFixed(5)},
+      "lng": ${(center[1] + (Math.random()-0.5)*0.03).toFixed(5)},
+      "open": true
+    }
+  ],
+  "hospitals": [
+    {
+      "name": "Hospital name",
+      "type": "Government / Private / Multispecialty",
+      "address": "Area, ${location}",
+      "phone": "phone or empty",
+      "rating": 4.1,
+      "distance": "2.5 km",
+      "lat": ${(center[0] + (Math.random()-0.5)*0.04).toFixed(5)},
+      "lng": ${(center[1] + (Math.random()-0.5)*0.04).toFixed(5)},
+      "open24h": true
+    }
+  ],
+  "pharmacies": [
+    {
+      "name": "Pharmacy name",
+      "address": "Area, ${location}",
+      "phone": "",
+      "distance": "0.5 km",
+      "lat": ${(center[0] + (Math.random()-0.5)*0.02).toFixed(5)},
+      "lng": ${(center[1] + (Math.random()-0.5)*0.02).toFixed(5)},
+      "open24h": false
+    }
+  ]
+}
+
+Rules:
+- 5 doctors, 4 hospitals, 3 pharmacies
+- lat/lng must be realistically near ${center[0].toFixed(4)}, ${center[1].toFixed(4)} (within 0.05 degrees)
+- Names must sound local and realistic for ${location}, India
+- Specialty must match the disease "${disease}"
+- Ratings between 3.8 and 4.9
+- Distances between 0.3 km and 6 km
+- Return ONLY the JSON object, nothing else`;
+
+  let data;
   try {
-    const res  = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(input)}`);
-    const data = await res.json();
-
-    if (data.type === "https://mediawiki.org/wiki/HyperSwitch/errors/not_found") {
-      area.innerHTML = `<div class="err-state"><h3>Disease not found</h3><p>Try a different spelling or use a more common medical name.</p></div>`;
-      btn.disabled = false; btn.textContent = 'Search'; return;
-    }
-
-    const description = data.extract || "";
-    const image       = data.thumbnail ? data.thumbnail.source : "";
-    const medline     = `https://medlineplus.gov/search/?query=${encodeURIComponent(input)}`;
-    const extracted   = extractSections(description);
-    const local       = diseaseData[input];
-    const symptoms    = (local?.symptoms?.length ? local.symptoms : extracted.symptoms).filter(Boolean);
-    const treatment   = extracted.treatment.filter(Boolean);
-    const displayName = input.charAt(0).toUpperCase() + input.slice(1);
-
-    area.innerHTML = `
-      <div class="dis-hero">
-        <div class="dis-hero-body">
-          <div class="dis-source-row">
-            <span class="source-tag tag-wiki">Wikipedia</span>
-            <span class="source-tag tag-ai">AI-Enhanced</span>
-          </div>
-          <div class="dis-name">${esc(displayName)}</div>
-          <p class="dis-desc">${esc(description.length > 380 ? description.slice(0,380) + '…' : description)}</p>
-          <a href="${medline}" target="_blank" rel="noopener" class="dis-link">More info on MedlinePlus →</a>
-        </div>
-        <div class="dis-hero-img">
-          ${image
-            ? `<img src="${esc(image)}" alt="${esc(displayName)}" onerror="this.parentElement.innerHTML='<div class=no-img>🩺</div>'"/>`
-            : `<div class="no-img">🩺</div>`}
-        </div>
-      </div>
-
-      <div class="section-label">From Wikipedia</div>
-      <div class="cards-grid" id="wikiGrid">
-        ${renderCard('🤒','chip-coral','Symptoms','Clinical presentation',symptoms,'dot-coral',false)}
-        ${renderCard('💊','chip-blue','Treatment','Medical management',treatment,'dot-blue',false)}
-      </div>
-
-      <div class="section-label">AI-powered advice</div>
-      <div class="cards-grid" id="aiGrid">
-        ${renderAIPlaceholderCard('🛡️','chip-green','Prevention tips')}
-        ${renderAIPlaceholderCard('🥗','chip-amber','Diet & nutrition')}
-        ${renderAIPlaceholderCard('🚫','chip-coral',"Don'ts & warnings")}
-      </div>
-
-      <div class="map-card">
-        <div class="section-label" style="margin-bottom:0.5rem">Find nearby care</div>
-        <div class="map-btns">
-          <button class="map-btn" onclick="openMaps('${esc(input)} hospital')">🏥 Nearby hospitals</button>
-          <button class="map-btn" onclick="openMaps('${esc(input)} specialist doctor')">👨‍⚕️ Nearby doctors</button>
-          <button class="map-btn" onclick="openMaps('pharmacy near me')">💊 Nearby pharmacy</button>
-        </div>
-      </div>
-
-      <div class="disclaimer">
-        <span class="disc-icon">⚠️</span>
-        <span>This is for <strong>educational purposes only</strong> and does not constitute medical advice. Always consult a qualified healthcare professional before making any health decisions.</span>
-      </div>
-    `;
-
-    btn.disabled = false;
-    btn.textContent = 'Search';
-
-    // AI cards (async with retry)
-    const aiGrid = document.getElementById('aiGrid');
-    try {
-      const ai = await getGroqAdvice(input);
-      if (aiGrid) {
-        aiGrid.innerHTML =
-          renderCard('🛡️','chip-green','Prevention tips','AI-generated',ai.prevention||[],'dot-green',true) +
-          renderCard('🥗','chip-amber','Diet & nutrition','AI-generated',ai.diet||[],'dot-amber',true) +
-          renderCard('🚫','chip-coral',"Don'ts & warnings",'AI-generated',ai.donts||[],'dot-coral',true);
-      }
-    } catch(_) {
-      const fallbackPrev  = (local?.dos?.length  ? local.dos  : extracted.prevention).filter(Boolean);
-      const fallbackDiet  = (local?.diet?.length ? local.diet : extracted.lifestyle).filter(Boolean);
-      const fallbackDonts = local?.donts?.length ? local.donts : ["Avoid self-medication","Avoid ignoring symptoms","Avoid an unhealthy lifestyle"];
-      if (aiGrid) {
-        aiGrid.innerHTML =
-          renderCard('🛡️','chip-green','Prevention tips','From Wikipedia',fallbackPrev,'dot-green',false) +
-          renderCard('🥗','chip-amber','Diet & nutrition','From Wikipedia',fallbackDiet,'dot-amber',false) +
-          renderCard('🚫','chip-coral',"Don'ts & warnings",'General advice',fallbackDonts,'dot-coral',false);
-      }
-    }
-
-  } catch(err) {
-    area.innerHTML = `<div class="err-state"><h3>Could not fetch data</h3><p>Please check your internet connection and try again.</p></div>`;
-    btn.disabled = false; btn.textContent = 'Search';
+    const raw = await groq([{role:'user', content: prompt}], 1400, 0.4);
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('No JSON in response');
+    data = JSON.parse(m[0]);
+  } catch(e) {
+    console.error('Groq/parse error:', e);
+    document.getElementById('resArea').innerHTML = `<div class="idle"><div class="idle-ico">⚠️</div><h3>Could not load results</h3><p>AI service error. Please try again.<br><small style="color:var(--ink4)">${esc(e.message)}</small></p></div>`;
+    resetGoBtn(); busy = false; return;
   }
+
+  // Place markers on map
+  const bounds = [];
+  bounds.push(center);
+
+  function addPin(item, type) {
+    const ll = [parseFloat(item.lat), parseFloat(item.lng)];
+    if (isNaN(ll[0]) || isNaN(ll[1])) return;
+    const icon = ICONS[type] || ICONS.doctor;
+    const lm = L.marker(ll, {icon}).addTo(map);
+    const dirUrl = `https://www.openstreetmap.org/directions?from=${center[0]},${center[1]}&to=${ll[0]},${ll[1]}`;
+    const osmUrl = `https://www.openstreetmap.org/?mlat=${ll[0]}&mlon=${ll[1]}#map=17/${ll[0]}/${ll[1]}`;
+    lm.bindPopup(`
+      <div class="lp-n">${esc(item.name)}</div>
+      <div class="lp-a">${esc(item.address||'')}</div>
+      ${item.phone ? `<div style="font-size:.67rem;color:#8a8278;margin-bottom:5px;">📞 ${esc(item.phone)}</div>` : ''}
+      <div class="lp-acts">
+        <button class="lp-btn lp-g" onclick="window.open('${dirUrl}','_blank')">Directions</button>
+        <button class="lp-btn lp-b" onclick="window.open('${osmUrl}','_blank')">View</button>
+      </div>`);
+    lm.on('click', () => map.setView(ll, 17));
+    allMarkers.push({lm, type});
+    bounds.push(ll);
+  }
+
+  (data.doctors   || []).forEach(d => addPin(d, 'doctor'));
+  (data.hospitals || []).forEach(h => addPin(h, 'hospital'));
+  (data.pharmacies|| []).forEach(p => addPin(p, 'pharmacy'));
+
+  if (bounds.length > 1) {
+    map.fitBounds(bounds, {padding: [40, 40]});
+  }
+
+  renderResults(data, center);
+  resetGoBtn(); busy = false;
 }
 
-function openMaps(query) {
-  window.open(`https://www.google.com/maps/search/${encodeURIComponent(query)}`, "_blank");
+function renderResults(data, center) {
+  const area = document.getElementById('resArea');
+  let html = '';
+
+  function pairCards(arr, kind) {
+    if (!arr || !arr.length) return '';
+    const label = kind==='doctor' ? 'Doctor Name' : kind==='hospital' ? 'Hospital Name' : 'Pharmacy';
+    let s = `<div class="sec">${label} <span class="sc">${arr.length} found</span></div>`;
+    for (let i = 0; i < arr.length; i += 2) {
+      s += `<div class="rgrid">`;
+      s += buildCard(arr[i],   kind, i===0);
+      if (arr[i+1]) s += buildCard(arr[i+1], kind, false);
+      s += `</div>`;
+    }
+    return s;
+  }
+
+  html += pairCards(data.doctors,    'doctor');
+  html += pairCards(data.hospitals,  'hospital');
+  html += pairCards(data.pharmacies, 'pharmacy');
+
+  if (!html) {
+    html = `<div class="idle"><div class="idle-ico">🔍</div><h3>No results returned</h3><p>Try a different location or disease name.</p></div>`;
+  }
+
+  area.innerHTML = html;
 }
 
-// ── ADMOB FOR APK ──
-document.addEventListener('deviceready', function() {
-  if (typeof admob === 'undefined') return;
+function buildCard(item, kind, isTop) {
+  const ll = [parseFloat(item.lat), parseFloat(item.lng)];
+  const llValid = !isNaN(ll[0]) && !isNaN(ll[1]);
+  const dirUrl  = llValid ? `https://www.openstreetmap.org/directions?from=&to=${ll[0]},${ll[1]}` : '#';
+  const osmUrl  = llValid ? `https://www.openstreetmap.org/?mlat=${ll[0]}&mlon=${ll[1]}#map=17/${ll[0]}/${ll[1]}` : '#';
+  const ico     = kind==='doctor' ? '👨‍⚕️' : kind==='hospital' ? '🏥' : '💊';
+  const icoClass= kind==='doctor' ? 'ic-d'  : kind==='hospital' ? 'ic-h' : 'ic-p';
+  const rating  = parseFloat(item.rating || 0);
+  const hasRating = rating > 0;
+  const spec    = item.specialty || item.type || (kind==='pharmacy'?'Pharmacy':'Healthcare');
 
-  // Banner Ad — shows at bottom
-  admob.banner.config({
-    id: 'ca-app-pub-3213067385857659/1648637518', // your real banner ID
-    isTesting: false,
-    autoShow: true,
-    position: admob.banner.POSITION.BOTTOM_CENTER
-  });
-  admob.banner.prepare();
-  admob.banner.show();
+  const openTag = item.open24h ? `<span style="color:var(--teal);font-size:.64rem;font-weight:700;">⏰ Open 24h</span>` :
+                  item.open    ? `<span style="color:var(--teal);font-size:.64rem;font-weight:700;">✅ Open Now</span>` :
+                  `<span style="color:var(--ink4);font-size:.64rem;">Hours vary</span>`;
 
-  // Interstitial Ad — shows between searches
-  admob.interstitial.config({
-    id: 'ca-app-pub-3213067385857659/1648637518',
-    isTesting: false,
-    autoShow: false
-  });
-  admob.interstitial.prepare();
+  return `<div class="rcard ${isTop?'best':''}" onclick="${llValid ? `focusPin(${ll[0]},${ll[1]})` : ''}">
+    ${isTop ? `<div class="best-badge">⭐ Nearest</div>` : ''}
+    <div class="rc-head">
+      <div class="rc-ico ${icoClass}">${ico}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="rc-name">${esc(item.name)}</div>
+        <div class="rc-spec">${esc(spec)}</div>
+      </div>
+    </div>
+    <div class="irows">
+      <div class="ir">
+        <span class="ir-i">⭐</span>
+        <span class="ir-v"><b>Rating:</b> ${hasRating ? `${starsOf(rating)} ${rating.toFixed(1)}` : '<span class="na">N/A</span>'}</span>
+      </div>
+      ${item.fee ? `<div class="ir"><span class="ir-i">💰</span><span class="ir-v"><b>Price:</b> ${esc(item.fee)}</span></div>` : ''}
+      <div class="ir">
+        <span class="ir-i">📍</span>
+        <span class="ir-v"><b>Location:</b> ${item.address ? esc(item.address) : '<span class="na">Not listed</span>'}</span>
+      </div>
+      <div class="ir">
+        <span class="ir-i">🗺</span>
+        <span class="ir-v"><b>Direction:</b> ${llValid ? `<a href="${dirUrl}" target="_blank" style="color:var(--teal);font-weight:600;">Get directions →</a>` : '<span class="na">N/A</span>'}</span>
+      </div>
+      <div class="ir">
+        <span class="ir-i">📏</span>
+        <span class="ir-v"><b>Distance from you:</b> <span class="dist-val">${esc(item.distance||'N/A')}</span></span>
+      </div>
+      <div class="ir">
+        <span class="ir-i">📞</span>
+        <span class="ir-v"><b>Phone:</b> ${item.phone ? `<a href="tel:${esc(item.phone)}" style="color:var(--teal)">${esc(item.phone)}</a>` : '<span class="na">Not listed</span>'}</span>
+      </div>
+      <div class="ir"><span class="ir-i">🕐</span><span class="ir-v">${openTag}</span></div>
+    </div>
+    <div class="rc-acts">
+      <button class="rca a-map" onclick="event.stopPropagation();${llValid?`focusPin(${ll[0]},${ll[1]})`:''}">📍 Map</button>
+      <button class="rca a-dir" onclick="event.stopPropagation();window.open('${dirUrl}','_blank')">🗺 Directions</button>
+      <button class="rca a-osm" onclick="event.stopPropagation();window.open('${osmUrl}','_blank')">🔍 View</button>
+      <button class="rca a-ai"  onclick="event.stopPropagation();askAI('${esc(item.name)}')">💬 Ask AI</button>
+    </div>
+  </div>`;
+}
 
-}, false);
+function focusPin(lat, lng) {
+  map.setView([lat, lng], 17);
+  const f = allMarkers.find(m => Math.abs(m.lm.getLatLng().lat - lat) < 0.0005 && Math.abs(m.lm.getLatLng().lng - lng) < 0.0005);
+  if (f) f.lm.openPopup();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
 
-// Show interstitial every 3 searches
-let searchCount = 0;
-function showInterstitialIfReady() {
-  searchCount++;
-  if (searchCount % 3 === 0 && typeof admob !== 'undefined') {
-    admob.interstitial.show();
-    setTimeout(() => admob.interstitial.prepare(), 2000);
+function resetGoBtn() {
+  const btn = document.getElementById('goBtn');
+  btn.disabled = false;
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+}
+
+// ── CHAT ──
+function openChat()  { document.getElementById('overlay').classList.add('open'); }
+function closeChat() { document.getElementById('overlay').classList.remove('open'); }
+function outsideClose(e) { if (e.target === document.getElementById('overlay')) closeChat(); }
+
+function askAI(name) {
+  document.getElementById('chatIn').value = `Tell me about visiting ${name} for ${currentDisease || 'my condition'} and what I should know.`;
+  openChat();
+  setTimeout(() => sendChat(), 80);
+}
+
+function addMsg(role, html) {
+  const a = document.getElementById('chatMsgs'), isBot = role==='bot';
+  const d = document.createElement('div');
+  d.className = `msg m${isBot?'b':'u'}`;
+  d.innerHTML = `<div class="av av-${isBot?'b':'u'}">${isBot?'AI':'You'}</div>
+    <div class="bub">${html}</div><div class="mmeta">${isBot?'Aayuh AI':'You'} · ${ft()}</div>`;
+  a.appendChild(d); a.scrollTop = a.scrollHeight;
+}
+function showTyping() {
+  const a = document.getElementById('chatMsgs'), d = document.createElement('div');
+  d.className='msg mb'; d.id='typi';
+  d.innerHTML=`<div class="av av-b">AI</div><div class="tbub"><span class="td"></span><span class="td"></span><span class="td"></span></div>`;
+  a.appendChild(d); a.scrollTop = a.scrollHeight;
+}
+function hideTyping() { const t=document.getElementById('typi'); if(t) t.remove(); }
+
+async function sendChat() {
+  const inp=document.getElementById('chatIn'), btn=document.getElementById('sendBtn');
+  const text=inp.value.trim();
+  if (!text||btn.disabled) return;
+  inp.value=''; inp.style.height='auto'; btn.disabled=true;
+  addMsg('user', esc(text));
+  chatHistory.push({role:'user', content:text});
+  showTyping();
+  const sys = currentDisease
+    ? `You are a helpful medical assistant. User searched for "${currentDisease}" doctors near "${currentLocation}". Give concise practical advice in plain text under 120 words. No markdown.`
+    : `You are Aayuh, a medical assistant. Give concise practical health advice in plain text under 120 words. No markdown.`;
+  try {
+    const reply = await groq([{role:'system',content:sys}, ...chatHistory.slice(-6)], 400, 0.35);
+    hideTyping();
+    addMsg('bot', esc(reply).replace(/\n/g,'<br>'));
+    chatHistory.push({role:'assistant', content:reply});
+  } catch {
+    hideTyping();
+    addMsg('bot','❌ Could not reach AI. Please try again.');
   }
+  btn.disabled = false;
 }
 </script>
+<!-- ═══════════════════════════════════════════════════
+     AAYUH Cookie Consent Banner
+     INSTRUCTIONS: Paste this entire block just before
+     the closing </body> tag on EVERY page of your site.
+     ═══════════════════════════════════════════════════ -->
+
+<style>
+  #cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: #0f1f1d;
+    color: #e0f7f4;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+    font-family: 'Plus Jakarta Sans', 'DM Sans', Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #cookie-banner.show {
+    transform: translateY(0);
+  }
+
+  .cookie-text {
+    flex: 1;
+    min-width: 220px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cookie-text strong {
+    color: #5eead4;
+    font-size: 14px;
+  }
+
+  .cookie-text a {
+    color: #5eead4;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .cookie-btn-accept {
+    background: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .cookie-btn-accept:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+  }
+
+  .cookie-btn-decline {
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .cookie-btn-decline:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 560px) {
+    #cookie-banner { padding: 14px 16px; }
+    .cookie-actions { width: 100%; justify-content: flex-end; }
+  }
+</style>
+
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-text">
+    <strong>🍪 We use cookies</strong><br>
+    We use cookies to improve your experience and display relevant advertisements.
+    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
+    <a href="Privacy Policy.html">Privacy Policy</a>.
+    Google AdSense may also use cookies to personalise ads —
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
+    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Show banner only if consent not already given
+    var consent = localStorage.getItem('aayuh_cookie_consent');
+    if (!consent) {
+      setTimeout(function() {
+        var banner = document.getElementById('cookie-banner');
+        if (banner) banner.classList.add('show');
+      }, 800);
+    }
+  })();
+
+  function cookieAccept() {
+    localStorage.setItem('aayuh_cookie_consent', 'accepted');
+    hideBanner();
+  }
+
+  function cookieDecline() {
+    localStorage.setItem('aayuh_cookie_consent', 'declined');
+    hideBanner();
+  }
+
+  function hideBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.style.transition = 'transform 0.3s ease';
+      banner.style.transform = 'translateY(100%)';
+      setTimeout(function() { banner.style.display = 'none'; }, 300);
+    }
+  }
+</script>
+<!-- ═══════════════════════════════════════════════════ -->
 <script src="cordova.js"></script>
-<script src='backbutton.js'></script>
+<script src="backbutton.js"></script>
+
 </body>
 </html>

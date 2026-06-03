@@ -50,6 +50,23 @@
   .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--ink-soft); }
   .trust-icon { width: 20px; height: 20px; }
 
+  /* ── STATIC DISCLAIMER BANNER (always visible — required for AdSense) ── */
+  .static-disclaimer {
+    background: var(--amber-pale);
+    border-top: 1px solid rgba(200,129,58,0.25);
+    border-bottom: 1px solid rgba(200,129,58,0.25);
+    padding: 0.9rem 3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.78rem;
+    color: var(--amber);
+    line-height: 1.65;
+  }
+  .static-disclaimer .disc-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .static-disclaimer a { color: var(--sage-dark); font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(46,80,57,0.3); transition: border-color 0.15s; }
+  .static-disclaimer a:hover { border-bottom-color: var(--sage-dark); }
+
   /* SECTIONS */
   .section { padding: 6rem 3rem; }
   .section-inner { max-width: 1100px; margin: 0 auto; }
@@ -141,6 +158,24 @@
 
   .disclaimer-box { background: var(--cream); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1.5rem; font-size: 0.78rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
 
+  /* ── LEGAL STRIP (below results) ── */
+  .legal-strip {
+    background: var(--sage-pale);
+    border: 1px solid rgba(74,124,89,0.2);
+    border-radius: 10px;
+    padding: 0.9rem 1.2rem;
+    margin-top: 1rem;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .legal-strip svg { flex-shrink: 0; margin-top: 2px; stroke: var(--sage); }
+  .legal-strip a { color: var(--sage-dark); font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(46,80,57,0.3); transition: border-color 0.15s; }
+  .legal-strip a:hover { border-bottom-color: var(--sage); }
+
   /* FEATURES */
   .features-section { padding: 5rem 3rem; background: var(--sage-pale); }
   .features-inner { max-width: 1100px; margin: 0 auto; }
@@ -150,13 +185,27 @@
   .feature-title { font-weight: 500; font-size: 1rem; color: var(--ink); margin-bottom: 0.4rem; }
   .feature-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
 
-  /* FOOTER */
-  footer { background: var(--ink); padding: 3.5rem 3rem; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+  /* ── FOOTER (upgraded for AdSense) ── */
+  footer { background: var(--ink); padding: 3.5rem 3rem 2.5rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; margin-bottom: 2rem; }
   .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: white; }
   .footer-logo span { color: var(--sage-light); }
   .footer-tag { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 4px; font-weight: 300; }
-  .footer-disclaimer { font-size: 0.75rem; color: rgba(255,255,255,0.25); max-width: 460px; line-height: 1.65; font-weight: 300; }
+  .footer-disclaimer { font-size: 0.75rem; color: rgba(255,255,255,0.28); max-width: 460px; line-height: 1.65; font-weight: 300; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: 6px 5px; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.2rem; }
+  .footer-links a { color: rgba(255,255,255,0.55); font-size: 0.75rem; font-weight: 400; padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-decoration: none; letter-spacing: 0.03em; transition: background 0.15s, color 0.15s; }
+  .footer-links a:hover { background: rgba(255,255,255,0.07); color: white; }
+  .footer-copy { font-size: 0.68rem; color: rgba(255,255,255,0.22); }
+
+  /* COOKIE BANNER */
+  #cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 99999; background: #0f1f1d; color: #e0f7f4; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; box-shadow: 0 -4px 24px rgba(0,0,0,0.25); font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.6; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  #cookie-banner.show { transform: translateY(0); }
+  .cb-text { flex: 1; min-width: 200px; color: rgba(255,255,255,0.78); }
+  .cb-text a { color: #5eead4; text-decoration: underline; }
+  .cb-acc { background: #0d9488; color: white; border: none; border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+  .cb-acc:hover { background: #0f766e; }
+  .cb-dec { background: transparent; color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 14px; font-size: 12px; cursor: pointer; font-family: inherit; }
 
   @media (max-width: 700px) {
     nav { padding: 1rem 1.2rem; }
@@ -165,6 +214,7 @@
     .form-row { grid-template-columns: 1fr; }
     footer { padding: 2.5rem 1.5rem; }
     .hero { padding: 7rem 1.5rem 3rem; }
+    .static-disclaimer { padding: 0.9rem 1.5rem; }
   }
 </style>
 </head>
@@ -212,6 +262,20 @@
     </div>
   </div>
 </section>
+
+<!-- ── STATIC DISCLAIMER BANNER — always visible to Google crawler ── -->
+<div class="static-disclaimer">
+  <span class="disc-icon">⚠️</span>
+  <span>
+    <strong>For educational purposes only.</strong>
+    Aayuh does not provide medical advice, diagnosis, or treatment. AI-generated suggestions are informational only and must not replace professional medical consultation.
+    Always consult a qualified healthcare professional before making health decisions.
+    Read our <a href="Disclaimer.html">Medical Disclaimer</a>,
+    <a href="Privacy Policy.html">Privacy Policy</a>, and
+    <a href="Terms and Conditions.html">Terms &amp; Conditions</a>.
+    In an emergency call <strong>112</strong> or visit the nearest hospital immediately.
+  </span>
+</div>
 
 <!-- HOW IT WORKS -->
 <section class="section" id="how">
@@ -304,6 +368,20 @@
     </div>
 
     <div class="results-wrap" id="resultsWrap" style="display:none;"></div>
+
+    <!-- Legal strip always visible inside checker -->
+    <div class="legal-strip" style="margin-top:2rem;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>
+        Results are for <strong>educational purposes only</strong> and do not constitute medical advice or diagnosis.
+        AI-generated suggestions may be inaccurate — always consult a qualified healthcare professional.
+        By using this tool you agree to our
+        <a href="Disclaimer.html">Medical Disclaimer</a>,
+        <a href="Privacy Policy.html">Privacy Policy</a>, and
+        <a href="Terms and Conditions.html">Terms &amp; Conditions</a>.
+        This site uses Google AdSense — <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+      </span>
+    </div>
   </div>
 </section>
 
@@ -337,23 +415,32 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- FOOTER — upgraded with all legal links -->
 <footer>
   <div class="footer-inner">
-    <div>
-      <div class="footer-logo">Aa<span>yuh</span></div>
-      <div class="footer-tag">Intelligent health analysis</div>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Aa<span>yuh</span></div>
+        <div class="footer-tag">Intelligent health analysis — Educational purposes only</div>
+      </div>
+      <div class="footer-disclaimer">
+        Aayuh is an informational tool only. It does not provide medical advice, diagnosis, or treatment.
+        Always consult a qualified healthcare professional. In an emergency, contact emergency services immediately.
+      </div>
     </div>
-    <div class="footer-disclaimer">
-      Aayuh is an informational tool only. It does not provide medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional. In an emergency, contact emergency services immediately.
-    </div>
+    <nav class="footer-links">
+      <a href="about.html">About Us</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>
+      <a href="Contact Us.html">Contact Us</a>
+      <a href="Disclaimer.html">Medical Disclaimer</a>
+      <a href="FAQ.html">FAQ</a>
+    </nav>
+    <p class="footer-copy">© 2026 AAYUH. All Rights Reserved. · Andhra Pradesh, India</p>
   </div>
 </footer>
 
 <script>
-  // ──────────────────────────────────────────────────────────────
-  // CHANGE 1: Proxy URL — no API key in this file at all
-  // ──────────────────────────────────────────────────────────────
   const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
 
   function chip(el, sym) {
@@ -383,10 +470,6 @@
     rw.style.display = 'block';
   }
 
-  // ──────────────────────────────────────────────────────────────
-  // CHANGE 2: callAI now fetches PROXY_URL — no Authorization
-  //           header, no API key anywhere in this file
-  // ──────────────────────────────────────────────────────────────
   async function callAI(sym, age, sex) {
     const prompt = `You are a clinical symptom analysis AI. A patient reports:
 Age: ${age} years | Sex: ${sex} | Reported symptoms: ${sym}
@@ -407,13 +490,13 @@ Analyse and return ONLY a raw JSON object — absolutely no markdown, no backtic
 
 Rules:
 - List 3 to 5 most likely conditions ranked by symptom_match_pct descending
-- symptom_match_pct: integer from 15 to 90 — how much of this disease's total symptom profile the patient's reported symptoms cover
-- remaining_symptoms: 2 to 5 concise symptom names the patient has NOT mentioned but are classically associated with this condition — these are what to watch for
+- symptom_match_pct: integer from 15 to 90
+- remaining_symptoms: 2 to 5 concise symptom names not mentioned but classically associated
 - description: plain English, one sentence, no jargon
 - triage per condition: "routine", "urgent", or "emergency"
 - Top-level triage: most critical level across all conditions listed`;
 
-    const r = await fetch(PROXY_URL, {        // ← hits localhost:3001, not Groq
+    const r = await fetch(PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -424,13 +507,13 @@ Rules:
       })
     });
 
-    if (r.status === 502) throw new Error('Proxy server error. Make sure server.js is running on port 3001.');
+    if (r.status === 502) throw new Error('Proxy server error. Make sure server.js is running.');
     if (!r.ok) throw new Error('The analysis service encountered an error (' + r.status + '). Please try again.');
 
     const rd = await r.json();
     const raw = rd.choices?.[0]?.message?.content || '';
     const txt = raw.trim().replace(/```json|```/g, '').trim();
-    if (!txt) throw new Error('No response received from the analysis engine. Please try again.');
+    if (!txt) throw new Error('No response received. Please try again.');
 
     let parsed;
     try { parsed = JSON.parse(txt); }
@@ -498,7 +581,10 @@ Rules:
       </div>`;
     });
 
-    html += `<div class="disclaimer-box">Aayuh is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional. In an emergency, call emergency services immediately.</div>`;
+    html += `<div class="disclaimer-box">
+      ⚠️ Aayuh is for informational purposes only and does not constitute medical advice, diagnosis, or treatment.
+      Always consult a qualified healthcare professional. In an emergency, call <strong>112</strong> immediately.
+    </div>`;
 
     const rw = document.getElementById('resultsWrap');
     rw.innerHTML = html;
@@ -541,7 +627,25 @@ Rules:
     btn.disabled = false;
   }
 </script>
+
+<!-- Cookie Banner -->
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cb-text">
+    🍪 <strong style="color:#5eead4;">We use cookies</strong> to improve your experience and show relevant ads.
+    See our <a href="Privacy Policy.html">Privacy Policy</a> &amp;
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0;">
+    <button class="cb-dec" onclick="cbH('d')">Decline</button>
+    <button class="cb-acc" onclick="cbH('a')">✓ Accept</button>
+  </div>
+</div>
+<script>
+  (function(){if(!localStorage.getItem('aayuh_cc'))setTimeout(()=>document.getElementById('cookie-banner').classList.add('show'),800);})();
+  function cbH(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cookie-banner');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
+</script>
+
 <script src="cordova.js"></script>
-<script src='backbutton.js'></script>
+<script src="backbutton.js"></script>
 </body>
 </html>

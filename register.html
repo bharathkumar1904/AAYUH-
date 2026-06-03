@@ -644,5 +644,150 @@
   });
 </script>
 <script src='backbutton.js'></script>
+<!-- ═══════════════════════════════════════════════════
+     AAYUH Cookie Consent Banner
+     INSTRUCTIONS: Paste this entire block just before
+     the closing </body> tag on EVERY page of your site.
+     ═══════════════════════════════════════════════════ -->
+
+<style>
+  #cookie-banner {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: #0f1f1d;
+    color: #e0f7f4;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
+    font-family: 'Plus Jakarta Sans', 'DM Sans', Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  #cookie-banner.show {
+    transform: translateY(0);
+  }
+
+  .cookie-text {
+    flex: 1;
+    min-width: 220px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cookie-text strong {
+    color: #5eead4;
+    font-size: 14px;
+  }
+
+  .cookie-text a {
+    color: #5eead4;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .cookie-btn-accept {
+    background: #0d9488;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .cookie-btn-accept:hover {
+    background: #0f766e;
+    transform: translateY(-1px);
+  }
+
+  .cookie-btn-decline {
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .cookie-btn-decline:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  @media (max-width: 560px) {
+    #cookie-banner { padding: 14px 16px; }
+    .cookie-actions { width: 100%; justify-content: flex-end; }
+  }
+</style>
+
+<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
+  <div class="cookie-text">
+    <strong>🍪 We use cookies</strong><br>
+    We use cookies to improve your experience and display relevant advertisements.
+    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
+    <a href="Privacy Policy.html">Privacy Policy</a>.
+    Google AdSense may also use cookies to personalise ads —
+    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
+    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Show banner only if consent not already given
+    var consent = localStorage.getItem('aayuh_cookie_consent');
+    if (!consent) {
+      setTimeout(function() {
+        var banner = document.getElementById('cookie-banner');
+        if (banner) banner.classList.add('show');
+      }, 800);
+    }
+  })();
+
+  function cookieAccept() {
+    localStorage.setItem('aayuh_cookie_consent', 'accepted');
+    hideBanner();
+  }
+
+  function cookieDecline() {
+    localStorage.setItem('aayuh_cookie_consent', 'declined');
+    hideBanner();
+  }
+
+  function hideBanner() {
+    var banner = document.getElementById('cookie-banner');
+    if (banner) {
+      banner.style.transition = 'transform 0.3s ease';
+      banner.style.transform = 'translateY(100%)';
+      setTimeout(function() { banner.style.display = 'none'; }, 300);
+    }
+  }
+</script>
+<!-- ═══════════════════════════════════════════════════ -->
 </body>
 </html>

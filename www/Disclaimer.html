@@ -1,243 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AAYUH - Medical Disclaimer</title>
-
+  <title>AAYUH — Medical Disclaimer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,800;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: Arial, sans-serif;
+    :root {
+      --teal:#0d9488;--teal-dark:#0f766e;--teal-deep:#134e4a;--teal-light:#ccfbf1;--teal-pale:#f0fdfa;
+      --amber:#d97706;--amber-dark:#92400e;--amber-light:#fef3c7;--amber-border:#fde68a;
+      --red:#dc2626;--red-light:#fef2f2;--red-border:#fecaca;
+      --ink:#0f1f1d;--ink-soft:#2d4a46;--muted:#6b8f8b;
+      --paper:#fafffe;--border:#d1faf4;--card:#ffffff;
+      --font-display:'Fraunces',Georgia,serif;--font-body:'Plus Jakarta Sans',sans-serif;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.75;overflow-x:hidden;}
 
-    body{
-      background:#f4f7fb;
-      color:#333;
-      line-height:1.8;
-    }
+    /* noise */
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      opacity:0.5;}
 
-    header{
-      background:linear-gradient(135deg,#0f766e,#14b8a6);
-      color:white;
-      text-align:center;
-      padding:45px 20px;
-    }
+    /* HERO */
+    .hero{position:relative;background:linear-gradient(150deg,#7c2d12 0%,#9a3412 40%,#c2410c 100%);padding:76px 24px 96px;text-align:center;overflow:hidden;z-index:1;}
+    .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(251,191,36,.15) 0%,transparent 60%),
+                 radial-gradient(ellipse 50% 60% at 90% 90%,rgba(0,0,0,.25) 0%,transparent 60%);}
+    .hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.06);pointer-events:none;}
+    .hero-ring:nth-child(1){width:520px;height:520px;top:-200px;right:-140px;}
+    .hero-ring:nth-child(2){width:340px;height:340px;bottom:-120px;left:-80px;border-color:rgba(255,255,255,0.04);}
 
-    header h1{
-      font-size:40px;
-      margin-bottom:10px;
-    }
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.9);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:30px;margin-bottom:22px;backdrop-filter:blur(8px);animation:fadeD .6s ease both;}
+    .hero-badge::before{content:'⚕';font-size:14px;}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:14px;animation:fadeD .6s .1s ease both;}
+    .hero h1 em{font-style:italic;font-weight:300;color:#fbbf24;}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,0.72);max-width:500px;margin:0 auto 26px;animation:fadeD .6s .2s ease both;}
+    .hero-meta{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.6);font-size:12px;padding:6px 16px;border-radius:30px;animation:fadeD .6s .3s ease both;}
+    @keyframes fadeD{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+    .hero-wave{position:absolute;bottom:-1px;left:0;right:0;height:60px;}
 
-    header p{
-      font-size:18px;
-      opacity:0.95;
-    }
+    /* TOC */
+    .toc-bar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 20px;overflow-x:auto;display:flex;white-space:nowrap;}
+    .toc-bar::-webkit-scrollbar{display:none;}
+    .toc-link{display:inline-flex;align-items:center;gap:5px;padding:13px 13px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+    .toc-link:hover{color:#c2410c;border-bottom-color:#c2410c;}
 
-    .container{
-      max-width:1000px;
-      margin:40px auto;
-      background:white;
-      padding:40px;
-      border-radius:15px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    }
+    /* LAYOUT */
+    .page-body{max-width:860px;margin:0 auto;padding:44px 24px 80px;position:relative;z-index:1;}
 
-    h2{
-      color:#0f766e;
-      margin-top:30px;
-      margin-bottom:12px;
-    }
+    /* EMERGENCY BANNER — top of page */
+    .emergency-banner{background:linear-gradient(135deg,var(--red-light),#fff5f5);border:2px solid var(--red-border);border-radius:16px;padding:24px 28px;margin-bottom:32px;display:flex;gap:18px;align-items:flex-start;animation:fadeU .4s ease both;}
+    .emergency-icon{font-size:32px;flex-shrink:0;margin-top:2px;}
+    .emergency-title{font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--red);margin-bottom:6px;}
+    .emergency-body{font-size:14px;color:#7f1d1d;line-height:1.7;}
+    .emergency-body strong{color:var(--red);}
 
-    p{
-      margin-bottom:16px;
-    }
+    /* CARD */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px 38px;margin-bottom:18px;position:relative;overflow:hidden;transition:box-shadow .3s,transform .3s;animation:fadeU .5s ease both;}
+    .card:hover{box-shadow:0 8px 40px rgba(194,65,12,.08);transform:translateY(-2px);}
+    @keyframes fadeU{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .card:nth-child(2){animation-delay:.05s;}.card:nth-child(3){animation-delay:.10s;}.card:nth-child(4){animation-delay:.15s;}.card:nth-child(5){animation-delay:.20s;}.card:nth-child(6){animation-delay:.25s;}.card:nth-child(7){animation-delay:.30s;}.card:nth-child(8){animation-delay:.35s;}.card:nth-child(9){animation-delay:.40s;}
 
-    ul{
-      margin-left:25px;
-      margin-bottom:20px;
-    }
+    .card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#c2410c,transparent);border-radius:4px 0 0 4px;opacity:0;transition:opacity .3s;}
+    .card:hover::before{opacity:1;}
 
-    li{
-      margin-bottom:10px;
-    }
+    /* amber card */
+    .card.amber{background:linear-gradient(135deg,var(--amber-light),#fffdf5);border-color:var(--amber-border);}
+    .card.amber::before{background:linear-gradient(180deg,var(--amber),transparent);opacity:1;}
 
-    .warning{
-      background:#fff3cd;
-      border-left:6px solid #ff9800;
-      padding:18px;
-      margin:25px 0;
-      border-radius:8px;
-    }
+    /* teal card */
+    .card.teal{background:linear-gradient(135deg,var(--teal-pale),#f5fffe);border-color:var(--teal-light);}
+    .card.teal::before{background:linear-gradient(180deg,var(--teal),transparent);opacity:1;}
 
-    footer{
-      background:#0f766e;
-      color:white;
-      text-align:center;
-      padding:18px;
-      margin-top:40px;
-    }
+    .card-num{position:absolute;top:18px;right:24px;font-family:var(--font-display);font-size:60px;font-weight:800;color:#fef2f2;line-height:1;pointer-events:none;user-select:none;}
+    .amber .card-num{color:var(--amber-border);}
+    .teal .card-num{color:var(--teal-light);}
 
-    a{
-      color:#14b8a6;
-      text-decoration:none;
-    }
+    .card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+    .card-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#fff0ed;border:1px solid #fecaca;}
+    .amber .card-icon{background:var(--amber-light);border-color:var(--amber-border);}
+    .teal .card-icon{background:var(--teal-pale);border-color:var(--teal-light);}
+    .card-title{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:#7c2d12;line-height:1.2;padding-top:6px;}
+    .amber .card-title{color:var(--amber-dark);}
+    .teal .card-title{color:var(--teal-deep);}
 
-    a:hover{
-      text-decoration:underline;
-    }
+    .card p{font-size:14.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.8;}
+    .card p:last-child{margin-bottom:0;}
 
-    @media(max-width:768px){
+    .dlist{list-style:none;display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+    .dlist li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-soft);padding:10px 14px;background:rgba(255,255,255,0.7);border-radius:10px;border:1px solid rgba(220,38,38,.1);}
+    .dlist li::before{content:'';width:6px;height:6px;background:#c2410c;border-radius:50%;flex-shrink:0;margin-top:7px;}
+    .amber .dlist li{border-color:rgba(217,119,6,.15);}
+    .amber .dlist li::before{background:var(--amber);}
+    .teal .dlist li{border-color:var(--border);}
+    .teal .dlist li::before{background:var(--teal);}
 
-      header h1{
-        font-size:30px;
-      }
+    .card a{color:var(--teal);text-decoration:none;font-weight:500;border-bottom:1px solid transparent;transition:border-color .2s;}
+    .card a:hover{border-bottom-color:var(--teal);}
 
-      .container{
-        margin:20px;
-        padding:25px;
-      }
+    /* contact chips */
+    .contact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+    .chip{display:flex;align-items:center;gap:7px;background:var(--teal-pale);border:1px solid var(--teal-light);border-radius:30px;padding:8px 16px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:background .2s,transform .2s;border-bottom:none !important;}
+    .chip:hover{background:var(--teal-light);transform:translateY(-1px);}
+
+    /* FOOTER */
+    footer{background:var(--teal-deep);color:white;padding:38px 24px 26px;text-align:center;position:relative;overflow:hidden;z-index:1;}
+    footer::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 50% -10%,rgba(20,184,166,.12) 0%,transparent 60%);}
+    .footer-brand{font-family:var(--font-display);font-size:1.7rem;font-weight:800;color:white;margin-bottom:5px;}
+    .footer-brand em{font-style:italic;font-weight:300;color:#5eead4;}
+    .footer-tag{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:20px;}
+    .footer-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:13px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);transition:background .2s,color .2s;}
+    .footer-links a:hover{background:rgba(255,255,255,.08);color:white;}
+    .footer-div{width:50px;height:1px;background:rgba(255,255,255,.15);margin:16px auto;}
+    .footer-copy{font-size:12px;color:rgba(255,255,255,.35);}
+
+    /* back to top */
+    .btt{position:fixed;bottom:28px;right:26px;width:44px;height:44px;background:linear-gradient(135deg,#c2410c,#ea580c);color:white;border:none;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 6px 20px rgba(194,65,12,.4);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;}
+    .btt.show{opacity:1;pointer-events:auto;}
+    .btt:hover{transform:translateY(-3px);}
+
+    @media(max-width:600px){
+      .card{padding:22px 18px;}.card-num{font-size:44px;top:12px;right:14px;}
+      .hero{padding:56px 18px 76px;}.toc-link{padding:11px 10px;font-size:11px;}
+      .emergency-banner{flex-direction:column;gap:10px;}
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>AAYUH Medical Disclaimer</h1>
-    <p>Important information regarding the use of AAYUH services</p>
+  <header class="hero">
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-badge">Medical Disclaimer</div>
+    <h1>Important <em>Health Notice</em></h1>
+    <p class="hero-sub">Please read this disclaimer carefully before using any health information on AAYUH.</p>
+    <div class="hero-meta">📅 Effective May 7, 2026 &nbsp;·&nbsp; Last updated May 2026</div>
+    <svg class="hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#fafffe"/>
+    </svg>
   </header>
 
-  <div class="container">
+  <nav class="toc-bar">
+    <a class="toc-link" href="#purpose">📖 Purpose</a>
+    <a class="toc-link" href="#notadvice">🚫 Not Advice</a>
+    <a class="toc-link" href="#emergency">🚨 Emergency</a>
+    <a class="toc-link" href="#accuracy">📊 Accuracy</a>
+    <a class="toc-link" href="#ai">🤖 AI Features</a>
+    <a class="toc-link" href="#medicines">💊 Medicines</a>
+    <a class="toc-link" href="#symptoms">🩺 Symptoms</a>
+    <a class="toc-link" href="#thirdparty">🔗 Third-Party</a>
+    <a class="toc-link" href="#responsibility">👤 Responsibility</a>
+    <a class="toc-link" href="#liability">⚖️ Liability</a>
+    <a class="toc-link" href="#contact">📬 Contact</a>
+  </nav>
 
-    <p><strong>Effective Date:</strong> May 7, 2026</p>
+  <main class="page-body">
 
-    <div class="warning">
-      <strong>Warning:</strong> AAYUH is designed only for educational and informational purposes.
-      It should not be considered a substitute for professional medical advice,
-      diagnosis, or treatment.
+    <!-- Emergency Banner -->
+    <div class="emergency-banner" id="emergency">
+      <div class="emergency-icon">🚨</div>
+      <div>
+        <div class="emergency-title">Medical Emergency? Act Immediately.</div>
+        <div class="emergency-body">
+          If you believe you are experiencing a medical emergency — chest pain, difficulty breathing,
+          severe bleeding, loss of consciousness, or stroke symptoms — <strong>do not use this website</strong>.
+          Call <strong>112</strong> (India) or visit your nearest emergency hospital immediately.
+          AAYUH cannot and should not be used in emergencies.
+        </div>
+      </div>
     </div>
 
-    <h2>1. No Professional Medical Advice</h2>
+    <!-- 1 Purpose -->
+    <div class="card teal" id="purpose">
+      <div class="card-num">1</div>
+      <div class="card-head"><div class="card-icon">📖</div><div class="card-title">Purpose of Information</div></div>
+      <p>All health content on AAYUH — including medicine details, disease information, symptom suggestions, blog articles, and health tips — is provided <strong>strictly for educational and informational purposes only</strong>.</p>
+      <p>AAYUH is a health learning platform designed to help users understand medical concepts, not to replace qualified healthcare professionals or clinical services.</p>
+    </div>
 
-    <p>
-      The content available on AAYUH, including medicine information,
-      symptom checker results, disease details, blogs, and recommendations,
-      is provided for general awareness only.
-    </p>
+    <!-- 2 Not advice -->
+    <div class="card amber" id="notadvice">
+      <div class="card-num">2</div>
+      <div class="card-head"><div class="card-icon">🚫</div><div class="card-title">Not Medical Advice</div></div>
+      <p><strong>AAYUH does not provide medical advice, diagnosis, or treatment.</strong> The information on this website should never be used as a substitute for consultation with a qualified healthcare professional.</p>
+      <ul class="dlist">
+        <li>Do not self-diagnose based on information from this platform</li>
+        <li>Do not start, stop, or change medication based on content here</li>
+        <li>Always consult a licensed doctor before making health decisions</li>
+        <li>Seek a pharmacist's guidance before taking any new medicine</li>
+      </ul>
+    </div>
 
-    <p>
-      Always seek advice from qualified doctors, pharmacists,
-      or healthcare professionals before taking any medication
-      or making health-related decisions.
-    </p>
+    <!-- 3 Accuracy -->
+    <div class="card" id="accuracy">
+      <div class="card-num">3</div>
+      <div class="card-head"><div class="card-icon">📊</div><div class="card-title">Accuracy &amp; Completeness</div></div>
+      <p>While AAYUH strives to provide accurate and up-to-date health information sourced from recognised references, we <strong>do not guarantee the completeness, accuracy, or reliability</strong> of any content on this platform.</p>
+      <p>Medical knowledge evolves rapidly. Information that was accurate at the time of publication may become outdated. Always verify important health information with a licensed healthcare professional.</p>
+    </div>
 
-    <h2>2. Emergency Situations</h2>
+    <!-- 4 AI -->
+    <div class="card amber" id="ai">
+      <div class="card-num">4</div>
+      <div class="card-head"><div class="card-icon">🤖</div><div class="card-title">AI-Powered Features Disclaimer</div></div>
+      <p>AAYUH may include AI-assisted features such as symptom checkers or health chatbots. <strong>Any AI-generated health suggestions are provided for informational purposes only</strong> and must not be considered professional medical advice.</p>
+      <ul class="dlist">
+        <li>AI suggestions are not reviewed by medical professionals</li>
+        <li>AI outputs may be incomplete, incorrect, or not applicable to your situation</li>
+        <li>Never rely on AI-generated health outputs for clinical decisions</li>
+      </ul>
+    </div>
 
-    <p>
-      Do not rely on AAYUH during medical emergencies.
-      If you experience serious symptoms such as:
-    </p>
+    <!-- 5 Medicines -->
+    <div class="card" id="medicines">
+      <div class="card-num">5</div>
+      <div class="card-head"><div class="card-icon">💊</div><div class="card-title">Medicine Information</div></div>
+      <p>Medicine details available on AAYUH — including uses, dosage, side effects, and warnings — are provided for general awareness only. They are sourced from publicly available references and are not a substitute for the advice of a licensed pharmacist or prescribing doctor.</p>
+      <ul class="dlist">
+        <li>Never self-medicate based solely on information from this platform</li>
+        <li>Dosage requirements vary per individual — always consult a doctor</li>
+        <li>Drug interactions may not be fully captured here</li>
+        <li>AAYUH does not sell, prescribe, or recommend any specific medicine</li>
+      </ul>
+    </div>
 
-    <ul>
-      <li>Chest pain</li>
-      <li>Difficulty breathing</li>
-      <li>Severe bleeding</li>
-      <li>Loss of consciousness</li>
-      <li>Stroke symptoms</li>
-    </ul>
+    <!-- 6 Symptoms -->
+    <div class="card" id="symptoms">
+      <div class="card-num">6</div>
+      <div class="card-head"><div class="card-icon">🩺</div><div class="card-title">Symptom Checker Disclaimer</div></div>
+      <p>The symptom checker feature on AAYUH provides possible health-related informational suggestions based on user inputs. <strong>This is not a clinical diagnosis tool</strong> and results should not be treated as an official medical diagnosis.</p>
+      <p>Results may vary and can be inaccurate. Always consult a qualified healthcare professional for proper medical evaluation and diagnosis.</p>
+    </div>
 
-    <p>
-      Please contact emergency medical services or visit the nearest hospital immediately.
-    </p>
+    <!-- 7 Third-party -->
+    <div class="card" id="thirdparty">
+      <div class="card-num">7</div>
+      <div class="card-head"><div class="card-icon">🔗</div><div class="card-title">Third-Party Services &amp; Links</div></div>
+      <p>AAYUH may use or link to third-party services including medicine databases, Google Maps, hospital directories, and external healthcare providers. We are <strong>not responsible</strong> for the content, accuracy, availability, or privacy practices of any external website or service.</p>
+    </div>
 
-    <h2>3. Medicine Information</h2>
+    <!-- 8 Responsibility -->
+    <div class="card teal" id="responsibility">
+      <div class="card-num">8</div>
+      <div class="card-head"><div class="card-icon">👤</div><div class="card-title">User Responsibility</div></div>
+      <p>By using AAYUH, you acknowledge and agree that:</p>
+      <ul class="dlist">
+        <li>You use this platform entirely at your own risk</li>
+        <li>Medical decisions should never depend solely on this platform</li>
+        <li>You are responsible for decisions made based on information obtained here</li>
+        <li>Professional consultation is necessary for any health concern</li>
+        <li>You will not use AAYUH as a replacement for emergency medical services</li>
+      </ul>
+    </div>
 
-    <p>
-      Medicine details provided on AAYUH may include:
-    </p>
+    <!-- 9 Liability -->
+    <div class="card" id="liability">
+      <div class="card-num">9</div>
+      <div class="card-head"><div class="card-icon">⚖️</div><div class="card-title">Limitation of Liability</div></div>
+      <p>AAYUH and its developers shall not be held responsible for any loss, injury, health complication, or damages — direct or indirect — resulting from the use of, or reliance on, information available on this platform.</p>
+      <p>This disclaimer applies to all content types including articles, symptom suggestions, medicine details, AI responses, and third-party linked content.</p>
+    </div>
 
-    <ul>
-      <li>Uses of medicines</li>
-      <li>Dosage information</li>
-      <li>Side effects</li>
-      <li>Warnings and precautions</li>
-    </ul>
+    <!-- 10 Changes -->
+    <div class="card" id="changes">
+      <div class="card-num">10</div>
+      <div class="card-head"><div class="card-icon">🔄</div><div class="card-title">Changes to This Disclaimer</div></div>
+      <p>We may update this Medical Disclaimer periodically. Updates will be posted on this page with a revised effective date. Continued use of AAYUH after any changes constitutes your acceptance of the updated disclaimer.</p>
+    </div>
 
-    <p>
-      While we try to keep information accurate and updated,
-      AAYUH does not guarantee completeness, reliability, or accuracy.
-    </p>
+    <!-- 11 Contact -->
+    <div class="card teal" id="contact">
+      <div class="card-num">11</div>
+      <div class="card-head"><div class="card-icon">📬</div><div class="card-title">Contact Us</div></div>
+      <p>If you have questions about this disclaimer or our health content, please reach out:</p>
+      <div class="contact-row">
+        <a class="chip" href="mailto:bharathkumar.ltd@gmail.com"><span>📧</span> bharathkumar.ltd@gmail.com</a>
+        <a class="chip" href="https://aayuh.co.in" target="_blank"><span>🌐</span> aayuh.co.in</a>
+        <div class="chip"><span>📍</span> Andhra Pradesh, India</div>
+        <a class="chip" href="Contact Us.html"><span>💬</span> Contact Form</a>
+      </div>
+    </div>
 
-    <h2>4. Symptom Checker Disclaimer</h2>
-
-    <p>
-      The symptom checker feature provides possible health-related suggestions
-      based on user inputs and should not be treated as an official diagnosis.
-    </p>
-
-    <p>
-      Results may vary and can be inaccurate. Always consult a healthcare professional
-      for proper medical evaluation.
-    </p>
-
-    <h2>5. External Links and Third-Party Services</h2>
-
-    <p>
-      AAYUH may use third-party APIs and services such as:
-    </p>
-
-    <ul>
-      <li>Medicine databases</li>
-      <li>Google Maps API</li>
-      <li>Firebase services</li>
-      <li>Hospital location services</li>
-    </ul>
-
-    <p>
-      We are not responsible for the content, availability,
-      or accuracy of third-party services.
-    </p>
-
-    <h2>6. User Responsibility</h2>
-
-    <p>
-      By using AAYUH, users agree that:
-    </p>
-
-    <ul>
-      <li>They use the platform at their own risk</li>
-      <li>Medical decisions should not depend solely on the platform</li>
-      <li>Professional consultation is necessary for proper treatment</li>
-    </ul>
-
-    <h2>7. Limitation of Liability</h2>
-
-    <p>
-      AAYUH and its developers shall not be held responsible
-      for any loss, injury, or damages resulting from the use
-      of information available on this platform.
-    </p>
-
-    <h2>8. Contact Information</h2>
-
-    <p>
-      If you have questions about this disclaimer,
-      contact us at:
-    </p>
-
-    <p>
-      📧 Email:
-      <a href="mailto:bharathkumar.ltd">bharathkumar.ltd@gmail.com</a>
-    </p>
-
-  </div>
+  </main>
 
   <footer>
-    © 2026 AAYUH. All Rights Reserved.
+    <div class="footer-brand">AAY<em>UH</em></div>
+    <p class="footer-tag">Healthcare Information Platform — Educational Purposes Only</p>
+    <nav class="footer-links">
+      <a href="about.html">About Us</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>
+      <a href="Contact Us.html">Contact Us</a>
+      <a href="Disclaimer.html">Medical Disclaimer</a>
+    </nav>
+    <div class="footer-div"></div>
+    <p class="footer-copy">© 2026 AAYUH. All Rights Reserved. &nbsp;·&nbsp; Andhra Pradesh, India</p>
   </footer>
 
+  <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- Cookie Banner -->
+  <style>
+    #cb{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0f1f1d;color:#e0f7f4;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,.25);font-family:var(--font-body);font-size:13px;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
+    #cb.show{transform:translateY(0);}
+    .cb-text{flex:1;min-width:200px;color:rgba(255,255,255,.78);}
+    .cb-text a{color:#5eead4;text-decoration:underline;}
+    .cb-acc{background:#0d9488;color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
+    .cb-acc:hover{background:#0f766e;}
+    .cb-dec{background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:9px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+  </style>
+  <div id="cb">
+    <div class="cb-text">🍪 We use cookies to improve your experience and show relevant ads. See our <a href="Privacy Policy.html">Privacy Policy</a>.</div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button class="cb-dec" onclick="cbHide('d')">Decline</button>
+      <button class="cb-acc" onclick="cbHide('a')">✓ Accept</button>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',scrollY>300));
+    (function(){if(!localStorage.getItem('aayuh_cc'))setTimeout(()=>document.getElementById('cb').classList.add('show'),800);})();
+    function cbHide(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cb');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
+  </script>
+<script src="backbutton.js"></script>
 </body>
 </html>

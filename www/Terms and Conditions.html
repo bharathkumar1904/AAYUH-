@@ -1,606 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AAYUH! | Terms & Conditions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <title>AAYUH — Terms &amp; Conditions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,800;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --teal-deep: #00696f;
-      --teal-mid: #00868e;
-      --teal-light: #00b4be;
-      --teal-glow: rgba(0, 180, 190, 0.15);
-      --gold: #e9a84c;
-      --gold-light: #f5c97a;
-      --bg: #f0f7f8;
-      --card: #ffffff;
-      --text: #1a2b2c;
-      --text-soft: #4a6b6d;
-      --border: rgba(0, 134, 142, 0.15);
-      --shadow: 0 8px 40px rgba(0, 105, 111, 0.10);
-      --radius: 20px;
+    :root{
+      --teal:#0d9488;--teal-dark:#0f766e;--teal-deep:#134e4a;--teal-light:#ccfbf1;--teal-pale:#f0fdfa;
+      --amber:#d97706;--amber-dark:#92400e;--amber-light:#fef3c7;--amber-border:#fde68a;
+      --red:#dc2626;--red-dark:#7f1d1d;--red-light:#fff1f2;--red-border:#fecdd3;
+      --ink:#0f1f1d;--ink-soft:#2d4a46;--muted:#6b8f8b;
+      --paper:#fafffe;--border:#d1faf4;--card:#ffffff;
+      --font-display:'Fraunces',Georgia,serif;--font-body:'Plus Jakarta Sans',sans-serif;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.75;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");opacity:.5;}
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.75;
-      min-height: 100vh;
-    }
+    /* HERO */
+    .hero{position:relative;background:linear-gradient(148deg,var(--teal-deep) 0%,#0e6b64 45%,var(--teal) 100%);padding:76px 24px 96px;text-align:center;overflow:hidden;z-index:1;}
+    .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 75% 55% at 18% 5%,rgba(20,184,166,.22) 0%,transparent 60%),
+                 radial-gradient(ellipse 55% 65% at 88% 95%,rgba(6,78,59,.55) 0%,transparent 60%);}
+    .ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.06);pointer-events:none;}
+    .ring:nth-child(1){width:540px;height:540px;top:-200px;right:-150px;}
+    .ring:nth-child(2){width:360px;height:360px;bottom:-130px;left:-90px;border-color:rgba(255,255,255,.04);}
+    .ring:nth-child(3){width:220px;height:220px;top:30px;left:8%;border-color:rgba(255,255,255,.03);}
 
-    /* HERO HEADER */
-    header {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(145deg, #00535a 0%, #007b83 45%, #009fa9 100%);
-      padding: 70px 24px 90px;
-      text-align: center;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(0,220,235,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 80% 70%, rgba(233,168,76,0.10) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    header::after {
-      content: '';
-      position: absolute;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.07);
-      top: -180px; right: -120px;
-      pointer-events: none;
-    }
-    .header-inner { position: relative; z-index: 1; }
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.22);
-      backdrop-filter: blur(12px);
-      padding: 8px 22px;
-      border-radius: 50px;
-      margin-bottom: 24px;
-    }
-    .logo-badge .pulse {
-      width: 9px; height: 9px;
-      background: var(--gold-light);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(1.4); }
-    }
-    .logo-badge span {
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.9);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 8vw, 72px);
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-    header h1 span { color: var(--gold-light); }
-    header .subtitle {
-      margin-top: 14px;
-      font-size: 17px;
-      color: rgba(255,255,255,0.78);
-      font-weight: 400;
-      letter-spacing: 0.03em;
-    }
-    .header-wave {
-      position: absolute;
-      bottom: -1px; left: 0; right: 0;
-    }
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:30px;margin-bottom:22px;backdrop-filter:blur(8px);animation:fd .6s ease both;}
+    .hero-badge .dot{width:7px;height:7px;background:#5eead4;border-radius:50%;animation:pulse 2s ease infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.5);}}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:14px;animation:fd .6s .1s ease both;}
+    .hero h1 em{font-style:italic;font-weight:300;color:#5eead4;}
+    .hero-sub{font-size:15px;color:rgba(255,255,255,.72);max-width:500px;margin:0 auto 26px;animation:fd .6s .2s ease both;}
+    .meta-row{display:inline-flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;animation:fd .6s .3s ease both;}
+    .meta-chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);font-size:12px;padding:5px 14px;border-radius:30px;}
+    @keyframes fd{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+    .wave{position:absolute;bottom:-1px;left:0;right:0;height:60px;}
 
-    /* TOC NAV */
-    .toc-strip {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 16px rgba(0,105,111,0.07);
-    }
-    .toc-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding: 12px 0;
-    }
-    .toc-inner::-webkit-scrollbar { display: none; }
-    .toc-chip {
-      flex-shrink: 0;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-soft);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .toc-chip:hover {
-      background: var(--teal-glow);
-      color: var(--teal-deep);
-      border-color: var(--teal-light);
-    }
+    /* TOC */
+    .toc-bar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 20px;overflow-x:auto;display:flex;white-space:nowrap;}
+    .toc-bar::-webkit-scrollbar{display:none;}
+    .toc-link{display:inline-flex;align-items:center;padding:13px 12px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+    .toc-link:hover{color:var(--teal);border-bottom-color:var(--teal);}
 
-    /* MAIN */
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 48px 24px 80px;
-    }
-    .meta-bar {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 18px 24px;
-      background: var(--card);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13.5px;
-      color: var(--text-soft);
-    }
-    .meta-item .icon {
-      width: 30px; height: 30px;
-      background: var(--teal-glow);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-    }
+    /* LAYOUT */
+    .page-body{max-width:860px;margin:0 auto;padding:44px 24px 80px;position:relative;z-index:1;}
 
-    /* SECTION CARD */
-    .section {
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 34px 36px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-      transition: box-shadow 0.25s;
-      animation: fadeUp 0.5s ease both;
-    }
-    .section:hover {
-      box-shadow: 0 12px 50px rgba(0,105,111,0.14);
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .section-num {
-      flex-shrink: 0;
-      width: 42px; height: 42px;
-      background: linear-gradient(135deg, var(--teal-mid), var(--teal-light));
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      font-weight: 700;
-      color: white;
-      font-family: 'Playfair Display', serif;
-      box-shadow: 0 4px 12px rgba(0, 134, 142, 0.3);
-    }
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 21px;
-      font-weight: 700;
-      color: var(--teal-deep);
-      line-height: 1.3;
-    }
-    p {
-      font-size: 15.5px;
-      color: var(--text-soft);
-      margin-bottom: 12px;
-    }
-    ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    ul li {
-      font-size: 15.5px;
-      color: var(--text-soft);
-      padding: 10px 14px 10px 44px;
-      background: var(--bg);
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      position: relative;
-    }
-    ul li::before {
-      content: '✦';
-      position: absolute;
-      left: 14px;
-      top: 50%; transform: translateY(-50%);
-      font-size: 11px;
-      color: var(--teal-light);
-    }
+    /* meta bar */
+    .info-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+    .info-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13.5px;color:var(--ink-soft);}
+    .info-pill .pip{width:28px;height:28px;background:var(--teal-pale);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
 
-    /* WARNING BOX */
-    .warning {
-      background: linear-gradient(135deg, #fffbeb, #fff8e0);
-      border: 1.5px solid #f5c97a;
-      border-radius: 16px;
-      padding: 26px 28px;
-      margin: 28px 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .warning::before {
-      content: '⚕';
-      position: absolute;
-      right: 20px; top: 16px;
-      font-size: 52px;
-      opacity: 0.08;
-    }
-    .warning-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px;
-      font-weight: 700;
-      color: #92600a;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .warning p {
-      color: #7c6000;
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.7;
-    }
+    /* CARD */
+    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px 38px;margin-bottom:18px;position:relative;overflow:hidden;transition:box-shadow .3s,transform .3s;animation:fu .5s ease both;}
+    .card:hover{box-shadow:0 8px 40px rgba(13,148,136,.1);transform:translateY(-2px);}
+    @keyframes fu{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .card:nth-child(1){animation-delay:.04s;}.card:nth-child(2){animation-delay:.08s;}.card:nth-child(3){animation-delay:.12s;}.card:nth-child(4){animation-delay:.16s;}.card:nth-child(5){animation-delay:.20s;}.card:nth-child(6){animation-delay:.24s;}.card:nth-child(7){animation-delay:.28s;}.card:nth-child(8){animation-delay:.32s;}.card:nth-child(9){animation-delay:.36s;}.card:nth-child(10){animation-delay:.40s;}.card:nth-child(11){animation-delay:.44s;}.card:nth-child(12){animation-delay:.48s;}.card:nth-child(13){animation-delay:.52s;}.card:nth-child(14){animation-delay:.56s;}
 
-    /* CONTACT */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 10px;
-    }
-    .contact-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      background: var(--bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-    .contact-card .icon { font-size: 22px; flex-shrink: 0; }
-    .contact-card strong {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--teal-deep);
-    }
+    .card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--teal),transparent);border-radius:4px 0 0 4px;opacity:0;transition:opacity .3s;}
+    .card:hover::before{opacity:1;}
+    .card.amber{background:linear-gradient(135deg,var(--amber-light),#fffdf5);border-color:var(--amber-border);}
+    .card.amber::before{background:linear-gradient(180deg,var(--amber),transparent);opacity:1;}
+    .card.teal{background:linear-gradient(135deg,var(--teal-pale),#f5fffe);border-color:var(--teal-light);}
+    .card.teal::before{background:linear-gradient(180deg,var(--teal),transparent);opacity:1;}
+
+    /* NEW: Red warning card for third-party data disclaimer */
+    .card.danger{background:linear-gradient(135deg,var(--red-light),#fff8f8);border-color:var(--red-border);border-width:2px;}
+    .card.danger::before{background:linear-gradient(180deg,var(--red),transparent);opacity:1;}
+    .card.danger:hover{box-shadow:0 8px 40px rgba(220,38,38,.12);}
+    .card.danger .cnum{color:var(--red-border);}
+    .card.danger .ctitle{color:var(--red-dark);}
+    .card.danger .cicon{background:var(--red-light);border-color:var(--red-border);}
+    .card.danger .tlist li{border-color:rgba(220,38,38,.15);}
+    .card.danger .tlist li::before{background:var(--red);}
+    .card.danger a{color:var(--red);}
+    .warning-banner{display:flex;align-items:flex-start;gap:12px;background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:13.5px;color:var(--red-dark);line-height:1.6;}
+    .warning-banner .wb-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+    .source-tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+    .source-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.18);color:var(--red-dark);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;}
+
+    .cnum{position:absolute;top:18px;right:22px;font-family:var(--font-display);font-size:58px;font-weight:800;color:var(--teal-light);line-height:1;pointer-events:none;user-select:none;}
+    .amber .cnum{color:var(--amber-border);}
+
+    .chead{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+    .cicon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:var(--teal-pale);border:1px solid var(--teal-light);}
+    .amber .cicon{background:var(--amber-light);border-color:var(--amber-border);}
+    .ctitle{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--teal-deep);line-height:1.2;padding-top:6px;}
+    .amber .ctitle{color:var(--amber-dark);}
+
+    .card p{font-size:14.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.8;}
+    .card p:last-child{margin-bottom:0;}
+
+    .tlist{list-style:none;display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+    .tlist li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-soft);padding:10px 14px;background:rgba(255,255,255,.65);border-radius:10px;border:1px solid rgba(13,148,136,.1);}
+    .tlist li::before{content:'';width:6px;height:6px;background:var(--teal);border-radius:50%;flex-shrink:0;margin-top:7px;}
+    .amber .tlist li{border-color:rgba(217,119,6,.15);}
+    .amber .tlist li::before{background:var(--amber);}
+
+    .card a{color:var(--teal);text-decoration:none;font-weight:500;border-bottom:1px solid transparent;transition:border-color .2s;}
+    .card a:hover{border-bottom-color:var(--teal);}
+
+    /* service tags */
+    .stags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+    .stag{display:inline-flex;align-items:center;gap:5px;background:var(--teal-pale);border:1px solid var(--teal-light);color:var(--teal-deep);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;}
+
+    /* contact chips */
+    .contact-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+    .chip{display:flex;align-items:center;gap:7px;background:var(--teal-pale);border:1px solid var(--teal-light);border-radius:30px;padding:8px 16px;font-size:13px;color:var(--ink-soft);text-decoration:none;transition:background .2s,transform .2s;border-bottom:none !important;}
+    .chip:hover{background:var(--teal-light);transform:translateY(-1px);}
 
     /* FOOTER */
-    footer {
-      background: linear-gradient(135deg, #00535a, #007b83);
-      color: rgba(255,255,255,0.75);
-      text-align: center;
-      padding: 36px 24px;
-    }
-    .footer-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 900;
-      color: white;
-      margin-bottom: 8px;
-    }
-    .footer-logo span { color: var(--gold-light); }
-    footer p { font-size: 13px; margin: 0; }
-    footer a { color: var(--teal-light); text-decoration: none; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
+    footer{background:var(--teal-deep);color:white;padding:38px 24px 26px;text-align:center;position:relative;overflow:hidden;z-index:1;}
+    footer::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 50% -10%,rgba(20,184,166,.12) 0%,transparent 60%);}
+    .fbrand{font-family:var(--font-display);font-size:1.7rem;font-weight:800;color:white;margin-bottom:5px;}
+    .fbrand em{font-style:italic;font-weight:300;color:#5eead4;}
+    .ftag{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+    .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:20px;}
+    .flinks a{color:rgba(255,255,255,.65);text-decoration:none;font-size:13px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);transition:background .2s,color .2s;}
+    .flinks a:hover{background:rgba(255,255,255,.08);color:white;}
+    .fdiv{width:50px;height:1px;background:rgba(255,255,255,.15);margin:16px auto;}
+    .fcopy{font-size:12px;color:rgba(255,255,255,.35);}
 
-    /* BACK TO TOP */
-    .back-top {
-      position: fixed;
-      bottom: 30px; right: 28px;
-      width: 46px; height: 46px;
-      background: linear-gradient(135deg, var(--teal-mid), var(--teal-light));
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0,134,142,0.35);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s, transform 0.2s;
-    }
-    .back-top.visible { opacity: 1; pointer-events: auto; }
-    .back-top:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,134,142,0.45); }
+    .btt{position:fixed;bottom:28px;right:26px;width:44px;height:44px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:white;border:none;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:0 6px 20px rgba(13,148,136,.4);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;}
+    .btt.show{opacity:1;pointer-events:auto;}
+    .btt:hover{transform:translateY(-3px);}
 
-    @media (max-width: 640px) {
-      .section { padding: 24px 20px; }
-      .contact-grid { grid-template-columns: 1fr; }
-      header { padding: 50px 20px 70px; }
+    @media(max-width:600px){
+      .card{padding:22px 18px;}.cnum{font-size:44px;top:12px;right:14px;}
+      .hero{padding:56px 18px 76px;}.info-bar{gap:8px;}
+      .toc-link{padding:11px 9px;font-size:11px;}
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <div class="logo-badge">
-        <div class="pulse"></div>
-        <span>Healthcare Platform</span>
-      </div>
-      <h1>AAYUH<span>!</span></h1>
-      <p class="subtitle">Terms &amp; Conditions — Please read carefully before using our platform</p>
+  <header class="hero">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="hero-badge"><div class="dot"></div>Legal Document</div>
+    <h1>Terms &amp; <em>Conditions</em></h1>
+    <p class="hero-sub">Please read these terms carefully before using the AAYUH platform and its services.</p>
+    <div class="meta-row">
+      <div class="meta-chip">📅 Last Updated: May 2026</div>
+      <div class="meta-chip">🇮🇳 Governed by Laws of India</div>
+      <div class="meta-chip">📜 14 Clauses</div>
     </div>
-    <svg class="header-wave" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0 30 C360 60 1080 0 1440 30 L1440 60 L0 60 Z" fill="#f0f7f8"/>
+    <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="#fafffe"/>
     </svg>
   </header>
 
-  <!-- TABLE OF CONTENTS NAV -->
-  <nav class="toc-strip" aria-label="Quick navigation">
-    <div class="toc-inner">
-      <a class="toc-chip" href="#acceptance">Acceptance</a>
-      <a class="toc-chip" href="#about">About</a>
-      <a class="toc-chip" href="#disclaimer">Disclaimer</a>
-      <a class="toc-chip" href="#accounts">Accounts</a>
-      <a class="toc-chip" href="#information">Information</a>
-      <a class="toc-chip" href="#privacy">Privacy</a>
-      <a class="toc-chip" href="#thirdparty">Third-Party</a>
-      <a class="toc-chip" href="#ip">IP Rights</a>
-      <a class="toc-chip" href="#liability">Liability</a>
-      <a class="toc-chip" href="#contact">Contact</a>
-    </div>
+  <nav class="toc-bar">
+    <a class="toc-link" href="#acceptance">✅ Acceptance</a>
+    <a class="toc-link" href="#about">ℹ️ About</a>
+    <a class="toc-link" href="#disclaimer">⚕️ Medical</a>
+    <a class="toc-link" href="#accuracy">⚠️ Accuracy</a>
+    <a class="toc-link" href="#accounts">🔐 Accounts</a>
+    <a class="toc-link" href="#conduct">📋 Conduct</a>
+    <a class="toc-link" href="#information">📖 Information</a>
+    <a class="toc-link" href="#privacy">🔒 Privacy</a>
+    <a class="toc-link" href="#thirdparty">🔗 Third-Party</a>
+    <a class="toc-link" href="#ip">©️ IP Rights</a>
+    <a class="toc-link" href="#liability">⚖️ Liability</a>
+    <a class="toc-link" href="#termination">🚫 Termination</a>
+    <a class="toc-link" href="#law">🏛️ Law</a>
+    <a class="toc-link" href="#changes">🔄 Changes</a>
+    <a class="toc-link" href="#contact">📬 Contact</a>
   </nav>
 
-  <!-- MAIN -->
-  <main>
+  <main class="page-body">
 
-    <!-- META BAR -->
-    <div class="meta-bar">
-      <div class="meta-item">
-        <div class="icon">📅</div>
-        <span><strong>Last Updated:</strong> October 2025</span>
-      </div>
-      <div class="meta-item">
-        <div class="icon">🇮🇳</div>
-        <span><strong>Governed by:</strong> Laws of India</span>
-      </div>
-      <div class="meta-item">
-        <div class="icon">📜</div>
-        <span><strong>Sections:</strong> 13 Clauses</span>
-      </div>
+    <!-- Meta info bar -->
+    <div class="info-bar">
+      <div class="info-pill"><div class="pip">📅</div><span><strong>Effective:</strong> May 7, 2026</span></div>
+      <div class="info-pill"><div class="pip">🌐</div><span><strong>Website:</strong> aayuh.co.in</span></div>
+      <div class="info-pill"><div class="pip">📍</div><span><strong>Location:</strong> Andhra Pradesh, India</span></div>
     </div>
 
-    <p style="font-size:16px; color:#4a6b6d; margin-bottom:32px;">
-      Welcome to <strong style="color:#00696f;">AAYUH!</strong> By using our website and services, you agree to the following Terms &amp; Conditions. We encourage you to read all sections carefully.
-    </p>
-
-    <!-- 1. ACCEPTANCE -->
-    <div class="section" id="acceptance" style="animation-delay:0.05s">
-      <div class="section-header">
-        <div class="section-num">1</div>
-        <h2>Acceptance of Terms</h2>
-      </div>
-      <p>By accessing or using AAYUH!, you confirm that you have read, understood, and accepted these Terms in full. Continued use of the platform constitutes your ongoing acceptance.</p>
+    <!-- intro -->
+    <div class="card teal" style="margin-bottom:28px;">
+      <div class="chead"><div class="cicon">👋</div><div class="ctitle">Welcome to AAYUH</div></div>
+      <p>By accessing or using AAYUH (<a href="https://aayuh.co.in" target="_blank">aayuh.co.in</a>), you agree to be bound by these Terms &amp; Conditions. If you do not agree with any part of these terms, please discontinue use of the platform immediately.</p>
+      <p>AAYUH is a healthcare information and medicine learning platform. It is <strong>not a healthcare provider</strong> and does not provide medical services.</p>
     </div>
 
-    <!-- 2. ABOUT -->
-    <div class="section" id="about" style="animation-delay:0.10s">
-      <div class="section-header">
-        <div class="section-num">2</div>
-        <h2>About AAYUH!</h2>
+    <!-- 1 Acceptance -->
+    <div class="card" id="acceptance">
+      <div class="cnum">1</div>
+      <div class="chead"><div class="cicon">✅</div><div class="ctitle">Acceptance of Terms</div></div>
+      <p>By accessing or using AAYUH, you confirm that you have read, understood, and accept these Terms &amp; Conditions in full. Continued use of the platform constitutes your ongoing acceptance of these terms and any future updates.</p>
+      <p>If you are using AAYUH on behalf of an organisation, you represent that you have the authority to bind that organisation to these terms.</p>
+    </div>
+
+    <!-- 2 About -->
+    <div class="card" id="about">
+      <div class="cnum">2</div>
+      <div class="chead"><div class="cicon">ℹ️</div><div class="ctitle">About AAYUH</div></div>
+      <p>AAYUH is a healthcare information and medicine learning platform that offers the following features:</p>
+      <ul class="tlist">
+        <li>Search medicines and understand their uses and general effects</li>
+        <li>Educational symptom-based health suggestions</li>
+        <li>Find nearby hospitals, doctors, and pharmacies</li>
+        <li>Securely store and manage personal medical history</li>
+        <li>Access health articles and educational content</li>
+        <li>AI-assisted health information features (for educational use only)</li>
+      </ul>
+      <p style="margin-top:12px;">AAYUH is an <strong>informational platform only</strong> and is not a licensed healthcare provider.</p>
+    </div>
+
+    <!-- 3 Medical -->
+    <div class="card amber" id="disclaimer">
+      <div class="cnum">3</div>
+      <div class="chead"><div class="cicon">⚕️</div><div class="ctitle">Medical Information Limitation</div></div>
+      <p>AAYUH is an <strong>informational platform and not a healthcare provider</strong>. All health content is for educational purposes only and does not constitute medical advice, diagnosis, or treatment.</p>
+      <ul class="tlist">
+        <li>Do not use AAYUH as a substitute for professional medical consultation</li>
+        <li>Always consult a licensed doctor before making health or medication decisions</li>
+        <li>We do not guarantee the accuracy or completeness of any health information</li>
+        <li>In a medical emergency, call 112 or visit the nearest hospital immediately</li>
+      </ul>
+      <p style="margin-top:12px;">For full details, read our <a href="Disclaimer.html">Medical Disclaimer</a>.</p>
+    </div>
+
+    <!-- 3A No Liability for Third-Party Data Accuracy — NEW SECTION -->
+    <div class="card danger" id="accuracy">
+      <div class="cnum">3A</div>
+      <div class="chead"><div class="cicon">⚠️</div><div class="ctitle">No Liability for Accuracy of Medicine &amp; Health Data</div></div>
+
+      <div class="warning-banner">
+        <span class="wb-icon">🚨</span>
+        <span><strong>Important Notice:</strong> All medicine information, disease histories, health advice, and related content displayed on AAYUH is sourced from various third-party databases, APIs, and public health repositories. AAYUH does <strong>not independently verify, author, or guarantee</strong> the accuracy, completeness, or timeliness of this data.</span>
       </div>
-      <p>AAYUH! is a healthcare information and medicine learning platform offering the following features:</p>
-      <ul>
-        <li>Search medicines and understand their usage and effects</li>
-        <li>Get symptom-based educational suggestions</li>
-        <li>Find nearby hospitals and healthcare providers</li>
-        <li>Store and manage medical history digitally</li>
+
+      <p>By using AAYUH, you expressly acknowledge and agree that:</p>
+      <ul class="tlist">
+        <li>Medicine details (including uses, dosages, side effects, and interactions) are aggregated from external third-party sources and may not always be accurate, current, or complete</li>
+        <li>Disease history information, symptom suggestions, and health advisories displayed on the platform are sourced from publicly available medical databases and do not reflect independent clinical research by AAYUH</li>
+        <li>Health advice, articles, or AI-generated suggestions provided by the platform are for general educational reference only and may not apply to your specific medical condition or circumstances</li>
+        <li>AAYUH makes no representations or warranties — express or implied — regarding the correctness, reliability, or fitness for purpose of any health or medicine content sourced from third parties</li>
+        <li>Any discrepancies, errors, omissions, or outdated information originating from third-party data sources are beyond AAYUH's control and direct responsibility</li>
+      </ul>
+
+      <p style="margin-top:14px;"><strong>Sources may include, but are not limited to:</strong></p>
+      <div class="source-tags">
+        <div class="source-tag">💊 Medicine Databases &amp; APIs</div>
+        <div class="source-tag">🏥 Public Health Repositories</div>
+        <div class="source-tag">🤖 AI-Generated Content</div>
+        <div class="source-tag">📰 Third-Party Health Articles</div>
+        <div class="source-tag">🔬 Open Medical Datasets</div>
+      </div>
+
+      <div class="warning-banner" style="margin-top:14px;">
+        <span class="wb-icon">⚖️</span>
+        <span>AAYUH, its developers, and its team <strong>shall not be held liable</strong> for any harm, loss, adverse health outcomes, or damages — whether direct or indirect — arising from reliance on medicine data, disease-related information, or health advice sourced from or displayed via third-party providers on this platform. You use all such information entirely at your own risk.</span>
+      </div>
+
+      <p style="margin-top:12px;">Always cross-verify any medicine or health information with a <strong>qualified healthcare professional</strong> before making any clinical or personal health decisions.</p>
+    </div>
+
+    <!-- 4 Accounts -->
+    <div class="card" id="accounts">
+      <div class="cnum">4</div>
+      <div class="chead"><div class="cicon">🔐</div><div class="ctitle">User Accounts</div></div>
+      <p>Users are responsible for maintaining the confidentiality of their account credentials.</p>
+      <ul class="tlist">
+        <li>You may sign in using Email/Password or Google authentication</li>
+        <li>You are solely responsible for all activity that occurs under your account</li>
+        <li>Never share your login credentials with any third party</li>
+        <li>Notify us immediately if you suspect unauthorised access to your account</li>
+        <li>You must provide accurate information during registration</li>
       </ul>
     </div>
 
-    <!-- 3. DISCLAIMER -->
-    <div class="section" id="disclaimer" style="animation-delay:0.15s">
-      <div class="section-header">
-        <div class="section-num">3</div>
-        <h2>Medical Disclaimer &amp; Legal Protection</h2>
-      </div>
-      <div class="warning">
-        <div class="warning-title">⚠️ Important Medical Disclaimer</div>
-        <p>AAYUH! does <strong>NOT</strong> provide medical advice, diagnosis, or treatment. All content is strictly for educational and informational purposes. Before taking any medicine or making health decisions, consult a qualified healthcare professional. We are not legally responsible for any issues arising from using this platform.</p>
-      </div>
-      <ul>
-        <li>You use AAYUH! entirely at your own risk</li>
-        <li>We do not guarantee 100% accuracy of any information provided</li>
-        <li>Always verify important health information with a licensed doctor</li>
-        <li>We are not liable for misuse or over-reliance on platform information</li>
+    <!-- 5 Conduct -->
+    <div class="card" id="conduct">
+      <div class="cnum">5</div>
+      <div class="chead"><div class="cicon">📋</div><div class="ctitle">User Responsibilities &amp; Conduct</div></div>
+      <p>Users agree to use the AAYUH platform lawfully and responsibly. You must not:</p>
+      <ul class="tlist">
+        <li>Use the platform for any unlawful or fraudulent purpose</li>
+        <li>Attempt to access other users' accounts or data</li>
+        <li>Upload or transmit harmful, offensive, or misleading content</li>
+        <li>Attempt to reverse-engineer, copy, or replicate any part of the platform</li>
+        <li>Use automated tools to scrape or extract data from the platform</li>
       </ul>
     </div>
 
-    <!-- 4. ACCOUNTS -->
-    <div class="section" id="accounts" style="animation-delay:0.20s">
-      <div class="section-header">
-        <div class="section-num">4</div>
-        <h2>User Accounts</h2>
+    <!-- 6 Information -->
+    <div class="card" id="information">
+      <div class="cnum">6</div>
+      <div class="chead"><div class="cicon">📖</div><div class="ctitle">Use of Information</div></div>
+      <p>All information available on AAYUH is strictly informational and educational. It must never be used as a substitute for professional medical advice, examination, diagnosis, or treatment. Users act on any information from this platform entirely at their own risk.</p>
+    </div>
+
+    <!-- 7 Privacy -->
+    <div class="card teal" id="privacy">
+      <div class="cnum">7</div>
+      <div class="chead"><div class="cicon">🔒</div><div class="ctitle">Privacy Policy</div></div>
+      <p>Your use of AAYUH is also governed by our <a href="Privacy Policy.html">Privacy Policy</a>, which is incorporated into these Terms by reference. Please read it carefully to understand how we collect, store, and use your personal data.</p>
+      <p>AAYUH uses Google AdSense to display advertisements. Google may use cookies for ad personalisation. See our Privacy Policy for full details and opt-out options.</p>
+    </div>
+
+    <!-- 8 Third-party -->
+    <div class="card" id="thirdparty">
+      <div class="cnum">8</div>
+      <div class="chead"><div class="cicon">🔗</div><div class="ctitle">Third-Party Services</div></div>
+      <p>AAYUH integrates with the following trusted third-party services. Their respective terms and privacy policies apply independently:</p>
+      <div class="stags">
+        <div class="stag">🔥 Firebase (Google)</div>
+        <div class="stag">🗺️ Google Maps API</div>
+        <div class="stag">📢 Google AdSense</div>
+        <div class="stag">📧 EmailJS</div>
+        <div class="stag">💊 Medicine APIs</div>
       </div>
-      <ul>
-        <li>Users can sign in using Email or Google authentication</li>
-        <li>You are solely responsible for maintaining the security of your account</li>
-        <li>Never share your login credentials with anyone</li>
+      <p style="margin-top:12px;">We are not responsible for the availability, accuracy, or privacy practices of third-party services or linked external websites.</p>
+    </div>
+
+    <!-- 9 IP -->
+    <div class="card" id="ip">
+      <div class="cnum">9</div>
+      <div class="chead"><div class="cicon">©️</div><div class="ctitle">Intellectual Property</div></div>
+      <p>All content, branding, logos, design elements, code, and software on AAYUH are the exclusive intellectual property of AAYUH unless otherwise stated, and are protected under applicable Indian copyright and trademark laws.</p>
+      <ul class="tlist">
+        <li>Unauthorised reproduction or distribution of any content is prohibited</li>
+        <li>You may not use AAYUH's name, logo, or branding without written permission</li>
+        <li>User-submitted content remains the property of the user</li>
       </ul>
     </div>
 
-    <!-- 5. INFORMATION -->
-    <div class="section" id="information" style="animation-delay:0.25s">
-      <div class="section-header">
-        <div class="section-num">5</div>
-        <h2>Use of Information</h2>
-      </div>
-      <p>All information available on AAYUH! is strictly informational and educational in nature. It should never be used as a substitute for professional medical advice, examination, diagnosis, or treatment.</p>
+    <!-- 10 Liability -->
+    <div class="card amber" id="liability">
+      <div class="cnum">10</div>
+      <div class="chead"><div class="cicon">⚖️</div><div class="ctitle">Limitation of Liability</div></div>
+      <p>AAYUH and its developers, team members, and affiliates shall not be held responsible for any direct, indirect, incidental, special, or consequential damages arising from:</p>
+      <ul class="tlist">
+        <li>Use of or inability to use the platform</li>
+        <li>Reliance on any information provided on the platform</li>
+        <li>Unauthorised access to your data</li>
+        <li>Any interruption, suspension, or termination of service</li>
+      </ul>
     </div>
 
-    <!-- 6. PRIVACY -->
-    <div class="section" id="privacy" style="animation-delay:0.30s">
-      <div class="section-header">
-        <div class="section-num">6</div>
-        <h2>Privacy Policy</h2>
-      </div>
-      <p>Your privacy matters to us. Please read our <a href="Privacy Policy.html" style="color:var(--teal-mid); font-weight:600;">Privacy Policy</a> to understand how we collect, store, and use your personal data when you interact with our platform.</p>
+    <!-- 11 Termination -->
+    <div class="card" id="termination">
+      <div class="cnum">11</div>
+      <div class="chead"><div class="cicon">🚫</div><div class="ctitle">Termination</div></div>
+      <p>We reserve the right to suspend or permanently terminate accounts that violate these Terms, engage in abusive behaviour, or misuse the platform — without prior notice or liability. Users may also delete their own accounts at any time by contacting us.</p>
     </div>
 
-    <!-- 7. THIRD PARTY -->
-    <div class="section" id="thirdparty" style="animation-delay:0.35s">
-      <div class="section-header">
-        <div class="section-num">7</div>
-        <h2>Third-Party Services</h2>
-      </div>
-      <p>AAYUH! integrates with trusted third-party services including <strong>Firebase</strong>, <strong>Google Maps API</strong>, and other providers to enhance platform functionality. Their respective terms and privacy policies apply independently.</p>
+    <!-- 12 Law -->
+    <div class="card teal" id="law">
+      <div class="cnum">12</div>
+      <div class="chead"><div class="cicon">🏛️</div><div class="ctitle">Governing Law</div></div>
+      <p>These Terms &amp; Conditions are governed by and construed in accordance with the <strong>laws of India</strong>. Any disputes arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts in <strong>Andhra Pradesh, India</strong>.</p>
     </div>
 
-    <!-- 8. IP -->
-    <div class="section" id="ip" style="animation-delay:0.38s">
-      <div class="section-header">
-        <div class="section-num">8</div>
-        <h2>Intellectual Property</h2>
-      </div>
-      <p>All branding, code, design elements, and content on AAYUH! are the exclusive intellectual property of AAYUH! and are protected under applicable copyright and trademark laws. Unauthorized reproduction is prohibited.</p>
+    <!-- 13 Changes -->
+    <div class="card" id="changes">
+      <div class="cnum">13</div>
+      <div class="chead"><div class="cicon">🔄</div><div class="ctitle">Changes to These Terms</div></div>
+      <p>We reserve the right to update or modify these Terms at any time. Changes will be posted on this page with an updated effective date. Continued use of AAYUH after any changes constitutes your acceptance of the revised Terms. We encourage you to review this page periodically.</p>
     </div>
 
-    <!-- 9. LIABILITY -->
-    <div class="section" id="liability" style="animation-delay:0.41s">
-      <div class="section-header">
-        <div class="section-num">9</div>
-        <h2>Limitation of Liability</h2>
-      </div>
-      <p>AAYUH! and its team shall not be held responsible for any direct, indirect, incidental, or consequential damages or losses arising from the use of this platform, including reliance on any information provided herein.</p>
-    </div>
-
-    <!-- 10. CHANGES -->
-    <div class="section" id="changes" style="animation-delay:0.43s">
-      <div class="section-header">
-        <div class="section-num">10</div>
-        <h2>Changes to Terms</h2>
-      </div>
-      <p>We reserve the right to update or modify these Terms at any time without prior notice. Changes take effect immediately upon posting. Continued use of AAYUH! after changes constitutes acceptance of the revised Terms.</p>
-    </div>
-
-    <!-- 11. TERMINATION -->
-    <div class="section" id="termination" style="animation-delay:0.45s">
-      <div class="section-header">
-        <div class="section-num">11</div>
-        <h2>Termination</h2>
-      </div>
-      <p>Accounts found to be in violation of our community standards or these Terms may be suspended or permanently terminated at our sole discretion, without prior notice or liability.</p>
-    </div>
-
-    <!-- 12. GOVERNING LAW -->
-    <div class="section" id="law" style="animation-delay:0.47s">
-      <div class="section-header">
-        <div class="section-num">12</div>
-        <h2>Governing Law</h2>
-      </div>
-      <p>These Terms and Conditions are governed by and construed in accordance with the <strong>laws of India</strong>. Any disputes shall be subject to the exclusive jurisdiction of Indian courts.</p>
-    </div>
-
-    <!-- 13. CONTACT -->
-    <div class="section" id="contact" style="animation-delay:0.50s">
-      <div class="section-header">
-        <div class="section-num">13</div>
-        <h2>Contact Us</h2>
-      </div>
-      <p>Have questions about these Terms? Reach out to us — we're happy to help.</p>
-      <div class="contact-grid">
-        <div class="contact-card">
-          <div class="icon">📧</div>
-          <div>
-            <strong>Email</strong>
-            bharathkumar.ltd@gmail.com
-          </div>
-        </div>
-        <div class="contact-card">
-          <div class="icon">📍</div>
-          <div>
-            <strong>Location</strong>
-            India
-          </div>
-        </div>
+    <!-- 14 Contact -->
+    <div class="card teal" id="contact">
+      <div class="cnum">14</div>
+      <div class="chead"><div class="cicon">📬</div><div class="ctitle">Contact Us</div></div>
+      <p>Have questions about these Terms? We're happy to help.</p>
+      <div class="contact-row">
+        <a class="chip" href="mailto:bharathkumar.ltd@gmail.com"><span>📧</span> bharathkumar.ltd@gmail.com</a>
+        <a class="chip" href="https://aayuh.co.in" target="_blank"><span>🌐</span> aayuh.co.in</a>
+        <div class="chip"><span>📍</span> Andhra Pradesh, India</div>
+        <a class="chip" href="Contact Us.html"><span>💬</span> Contact Form</a>
       </div>
     </div>
 
   </main>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">AAYUH<span>!</span></div>
-    <p>Healthcare Information &amp; Medicine Learning Platform</p>
-    <p style="margin-top:10px;">© 2025 AAYUH! · All Rights Reserved · <a href="Privacy Policy.html">Privacy Policy</a></p>
+    <div class="fbrand">AAY<em>UH</em></div>
+    <p class="ftag">Healthcare Information Platform — Not a Medical Provider</p>
+    <nav class="flinks">
+      <a href="about.html">About Us</a>
+      <a href="Privacy Policy.html">Privacy Policy</a>
+      <a href="Terms and Conditions.html">Terms &amp; Conditions</a>
+      <a href="Contact Us.html">Contact Us</a>
+      <a href="Disclaimer.html">Medical Disclaimer</a>
+    </nav>
+    <div class="fdiv"></div>
+    <p class="fcopy">© 2026 AAYUH. All Rights Reserved. &nbsp;·&nbsp; Andhra Pradesh, India</p>
   </footer>
 
-  <!-- BACK TO TOP -->
-  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+  <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+  <!-- Cookie Banner -->
+  <style>
+    #cb{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0f1f1d;color:#e0f7f4;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,.25);font-family:var(--font-body);font-size:13px;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
+    #cb.show{transform:translateY(0);}
+    .cb-t{flex:1;min-width:200px;color:rgba(255,255,255,.78);}
+    .cb-t a{color:#5eead4;text-decoration:underline;}
+    .cb-a{background:#0d9488;color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+    .cb-d{background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:9px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+  </style>
+  <div id="cb">
+    <div class="cb-t">🍪 We use cookies to improve your experience and show relevant ads. See our <a href="Privacy Policy.html">Privacy Policy</a>.</div>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button class="cb-d" onclick="cbH('d')">Decline</button>
+      <button class="cb-a" onclick="cbH('a')">✓ Accept</button>
+    </div>
+  </div>
   <script>
-    window.addEventListener('scroll', () => {
-      document.getElementById('backTop').classList.toggle('visible', window.scrollY > 300);
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.section').forEach(s => {
-      s.style.opacity = '0';
-      s.style.transform = 'translateY(20px)';
-      s.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(s);
-    });
+    window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',scrollY>300));
+    (function(){if(!localStorage.getItem('aayuh_cc'))setTimeout(()=>document.getElementById('cb').classList.add('show'),800);})();
+    function cbH(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cb');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
   </script>
-
+<script src="backbutton.js"></script>
 </body>
 </html>
