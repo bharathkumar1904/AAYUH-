@@ -217,29 +217,6 @@
     .btn-login:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,137,123,0.4); }
     .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-    /* Google button */
-    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; color: var(--text-muted); font-size: 0.82rem; }
-    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e8f5f3; }
-
-    .btn-google {
-      width: 100%;
-      padding: 0.85rem;
-      background: white;
-      border: 2px solid #e8f5f3;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      transition: all 0.2s;
-      color: var(--text);
-    }
-    .btn-google:hover { border-color: var(--teal); background: var(--teal-light); }
-
     /* Forgot password link */
     .forgot-link {
       text-align: right;
@@ -397,14 +374,6 @@
     <!-- Login form (hidden until session check done) -->
     <div id="loginForm" style="display:none;">
 
-      <!-- Google Login -->
-      <button class="btn-google" onclick="loginWithGoogle()">
-        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
-        Continue with Google
-      </button>
-
-      <div class="divider">or login with email</div>
-
       <!-- Email -->
       <div class="input-group">
         <span class="input-icon">📧</span>
@@ -472,34 +441,18 @@
   const auth = firebase.auth();
   auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-  // ✅ SESSION CHECK — existing user → dashboard, new user → show form
+  // Session check — existing user → dashboard, new user → show form
   auth.onAuthStateChanged(user => {
     document.getElementById('sessionLoader').style.display = 'none';
 
     if (user) {
-      // ✅ Already logged in → go to dashboard
       showSuccess('👋 Welcome back ' + (user.displayName || '') + '! Redirecting...');
       document.getElementById('successMsg').style.display = 'flex';
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
     } else {
-      // 🆕 New/logged out user → show login form
       document.getElementById('loginForm').style.display = 'block';
     }
   });
-
-  // ✅ Handle Google redirect result (for APK)
-  auth.getRedirectResult()
-    .then(result => {
-      if (result && result.user) {
-        showSuccess('🎉 Welcome ' + result.user.displayName + '! Redirecting...');
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-      }
-    })
-    .catch(error => {
-      if (error.code && error.code !== 'auth/no-auth-event') {
-        showError('Google error: ' + error.message);
-      }
-    });
 
   // Toggle password visibility
   function togglePw() {
@@ -542,46 +495,22 @@
     btn.disabled = true;
 
     try {
-      const result = await auth.signInWithEmailAndPassword(email, password);
+      await auth.signInWithEmailAndPassword(email, password);
       showSuccess('✅ Login successful! Taking you to dashboard...');
       setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
     } catch (err) {
       const msgs = {
-        'auth/user-not-found':     '❌ No account found with this email. <a href="register.html" style="color:#c62828;font-weight:600;">Sign up instead?</a>',
-        'auth/wrong-password':     '🔒 Wrong password. Try again or reset it.',
-        'auth/invalid-email':      '📧 Please enter a valid email address.',
-        'auth/too-many-requests':  '⏳ Too many attempts. Please wait a moment.',
-        'auth/user-disabled':      '🚫 This account has been disabled.',
-        'auth/network-request-failed': '🌐 Network error. Check your connection.'
+        'auth/user-not-found':         '❌ No account found with this email.',
+        'auth/wrong-password':          '🔒 Wrong password. Try again or reset it.',
+        'auth/invalid-email':           '📧 Please enter a valid email address.',
+        'auth/too-many-requests':       '⏳ Too many attempts. Please wait a moment.',
+        'auth/user-disabled':           '🚫 This account has been disabled.',
+        'auth/network-request-failed':  '🌐 Network error. Check your connection.'
       };
-      document.getElementById('errorText').innerHTML = msgs[err.code] || err.message;
+      document.getElementById('errorText').textContent = msgs[err.code] || err.message;
       document.getElementById('errorMsg').style.display = 'flex';
       btn.innerHTML = '🚀 Login to Dashboard';
       btn.disabled = false;
-    }
-  }
-
-  // Google login (popup for web, redirect for APK)
-  function loginWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const isCapacitor = window.Capacitor !== undefined;
-
-    if (isCapacitor) {
-      auth.signInWithRedirect(provider);
-    } else {
-      auth.signInWithPopup(provider)
-        .then(result => {
-          showSuccess('🎉 Welcome ' + result.user.displayName + '! Redirecting...');
-          setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-        })
-        .catch(error => {
-          const msgs = {
-            'auth/popup-blocked': '🚫 Popup blocked! Please allow popups for this site.',
-            'auth/cancelled-popup-request': '❌ Sign-in was cancelled.',
-            'auth/network-request-failed': '🌐 Network error. Check your connection.'
-          };
-          showError(msgs[error.code] || error.message);
-        });
     }
   }
 
@@ -628,12 +557,8 @@
   });
 </script>
 <script src='backbutton.js'></script>
-<!-- ═══════════════════════════════════════════════════
-     AAYUH Cookie Consent Banner
-     INSTRUCTIONS: Paste this entire block just before
-     the closing </body> tag on EVERY page of your site.
-     ═══════════════════════════════════════════════════ -->
 
+<!-- Cookie Consent Banner -->
 <style>
   #cookie-banner {
     position: fixed;
@@ -654,72 +579,24 @@
     transform: translateY(100%);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-
-  #cookie-banner.show {
-    transform: translateY(0);
-  }
-
-  .cookie-text {
-    flex: 1;
-    min-width: 220px;
-    color: rgba(255,255,255,0.8);
-  }
-
-  .cookie-text strong {
-    color: #5eead4;
-    font-size: 14px;
-  }
-
-  .cookie-text a {
-    color: #5eead4;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .cookie-actions {
-    display: flex;
-    gap: 10px;
-    flex-shrink: 0;
-    align-items: center;
-  }
-
+  #cookie-banner.show { transform: translateY(0); }
+  .cookie-text { flex: 1; min-width: 220px; color: rgba(255,255,255,0.8); }
+  .cookie-text strong { color: #5eead4; font-size: 14px; }
+  .cookie-text a { color: #5eead4; text-decoration: underline; text-underline-offset: 2px; }
+  .cookie-actions { display: flex; gap: 10px; flex-shrink: 0; align-items: center; }
   .cookie-btn-accept {
-    background: #0d9488;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 22px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
+    background: #0d9488; color: white; border: none; border-radius: 8px;
+    padding: 9px 22px; font-size: 13px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em;
   }
-
-  .cookie-btn-accept:hover {
-    background: #0f766e;
-    transform: translateY(-1px);
-  }
-
+  .cookie-btn-accept:hover { background: #0f766e; transform: translateY(-1px); }
   .cookie-btn-decline {
-    background: transparent;
-    color: rgba(255,255,255,0.45);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 9px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: color 0.2s, border-color 0.2s;
+    background: transparent; color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+    padding: 9px 16px; font-size: 12px; font-weight: 500; cursor: pointer;
+    font-family: inherit; transition: color 0.2s, border-color 0.2s;
   }
-
-  .cookie-btn-decline:hover {
-    color: rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.3);
-  }
-
+  .cookie-btn-decline:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
   @media (max-width: 560px) {
     #cookie-banner { padding: 14px 16px; }
     .cookie-actions { width: 100%; justify-content: flex-end; }
@@ -743,7 +620,6 @@
 
 <script>
   (function() {
-    // Show banner only if consent not already given
     var consent = localStorage.getItem('aayuh_cookie_consent');
     if (!consent) {
       setTimeout(function() {
@@ -772,6 +648,6 @@
     }
   }
 </script>
-<!-- ═══════════════════════════════════════════════════ -->
+
 </body>
 </html>
