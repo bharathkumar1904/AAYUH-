@@ -3,7 +3,7 @@ medicine intelligence, medical history tracking, emergency SOS, and doctor
 discovery - served as a Progressive Web App **and** an Android app from a
 single codebase.
 
-**Live Demo:** http://aayuh.vercel.app/
+**Live Demo:** http://aayuh.vercel.app/, https://aayuh.co.in/
 
 ## Key Highlights
 - **AI Healthcare Engine** - Symptom checker, health chatbot and medicine
