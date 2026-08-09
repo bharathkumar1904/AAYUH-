@@ -53,7 +53,7 @@ FDA API (drug data)
 4. Android: `npx cap add android` → build APK in Android Studio. (Full setup in docs)
 
 ## Project Structure
-(simplified tree here)
+www/, android/, server.js, medical_histories etc.
 
 ## Deployment
 - Web: **Vercel** (`vercel.json` static build)
