@@ -334,23 +334,23 @@
       </div>
       <div class="form-group">
         <label class="form-label" for="symIn">Describe your symptoms</label>
-        <textarea class="form-textarea" id="symIn" placeholder="e.g. I have had a severe headache for 2 days, mild fever, sore throat and feel very tired..."></textarea>
+        <textarea class="form-textarea" id="symIn" placeholder="Choose chips or enter comma-separated symptoms, e.g. headache, high_fever, cough"></textarea>
         <div class="chips-wrap">
           <span class="chip" onclick="chip(this,'headache')">Headache</span>
-          <span class="chip" onclick="chip(this,'fever')">Fever</span>
+          <span class="chip" onclick="chip(this,'high_fever')">Fever</span>
           <span class="chip" onclick="chip(this,'cough')">Cough</span>
           <span class="chip" onclick="chip(this,'fatigue')">Fatigue</span>
           <span class="chip" onclick="chip(this,'nausea')">Nausea</span>
-          <span class="chip" onclick="chip(this,'chest pain')">Chest pain</span>
-          <span class="chip" onclick="chip(this,'shortness of breath')">Shortness of breath</span>
-          <span class="chip" onclick="chip(this,'sore throat')">Sore throat</span>
+          <span class="chip" onclick="chip(this,'chest_pain')">Chest pain</span>
+          <span class="chip" onclick="chip(this,'breathlessness')">Shortness of breath</span>
+          <span class="chip" onclick="chip(this,'sore_throat')">Sore throat</span>
           <span class="chip" onclick="chip(this,'dizziness')">Dizziness</span>
-          <span class="chip" onclick="chip(this,'abdominal pain')">Abdominal pain</span>
-          <span class="chip" onclick="chip(this,'rash')">Rash</span>
-          <span class="chip" onclick="chip(this,'joint pain')">Joint pain</span>
-          <span class="chip" onclick="chip(this,'back pain')">Back pain</span>
+          <span class="chip" onclick="chip(this,'abdominal_pain')">Abdominal pain</span>
+          <span class="chip" onclick="chip(this,'skin_rash')">Rash</span>
+          <span class="chip" onclick="chip(this,'joint_pain')">Joint pain</span>
+          <span class="chip" onclick="chip(this,'back_pain')">Back pain</span>
           <span class="chip" onclick="chip(this,'vomiting')">Vomiting</span>
-          <span class="chip" onclick="chip(this,'runny nose')">Runny nose</span>
+          <span class="chip" onclick="chip(this,'runny_nose')">Runny nose</span>
           <span class="chip" onclick="chip(this,'chills')">Chills</span>
         </div>
       </div>
@@ -602,26 +602,47 @@ Rules:
     rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function normalizeMLSymptoms(symptoms) {
+    const aliases = {
+      fever: 'high_fever',
+      'chest pain': 'chest_pain',
+      'shortness of breath': 'breathlessness',
+      'sore throat': 'sore_throat',
+      'abdominal pain': 'abdominal_pain',
+      rash: 'skin_rash',
+      'joint pain': 'joint_pain',
+      'back pain': 'back_pain',
+      'runny nose': 'runny_nose'
+    };
+
+    return symptoms
+      .map(symptom => symptom.trim().toLowerCase())
+      .filter(Boolean)
+      .map(symptom => aliases[symptom] || symptom.replace(/\s+/g, '_'));
+  }
+
   async function callML(symptoms) {
     try {
       const res = await fetch(`${ML_API}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ symptoms: symptoms.split(',').map(s => s.trim()) })
+        body: JSON.stringify({ symptoms: normalizeMLSymptoms(symptoms) })
       });
       if (!res.ok) throw new Error('ML API error: ' + res.status);
       const data = await res.json();
+      if (!data.matched_symptoms?.length) {
+        throw new Error('No recognised symptoms were found. Use the chips or comma-separated symptom names.');
+      }
 
       const conditions = (data.conditions || []).slice(0, 5).map(c => ({
         name: c.disease,
         symptom_match_pct: Math.round(c.probability),
         description: c.description,
         remaining_symptoms: [],
-        triage: c.probability > 60 ? 'urgent' : 'routine'
+        triage: data.triage?.level || 'routine'
       }));
 
-      const topTriage = conditions[0]?.triage || 'routine';
-      return { conditions, triage: topTriage };
+      return { conditions, triage: data.triage?.level || 'routine' };
     } catch (e) {
       throw new Error('ML API error: ' + e.message);
     }
@@ -673,7 +694,5 @@ Rules:
   function cbH(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cookie-banner');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
 </script>
 
-<script src="cordova.js"></script>
-<script src="backbutton.js"></script>
 </body>
 </html>
