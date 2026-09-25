@@ -246,7 +246,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(u => { if (!u) window.location.href = "index.html"; });
 
-const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
+const PROXY_URL = 'https://aayuh-proxy.onrender.com/chat';
 
 const diseaseData = {
   diabetes: {

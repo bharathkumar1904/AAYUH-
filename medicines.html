@@ -377,7 +377,7 @@ a:hover{text-decoration:underline;}
 firebase.initializeApp({apiKey:"AIzaSyDVZNBKutvRFrQOFQunVgSBwJFLMvrct0Q",authDomain:"aayuh-c9a87.firebaseapp.com",projectId:"aayuh-c9a87"});
 firebase.auth().onAuthStateChanged(u=>{if(!u)window.location.href='index.html';});
 
-const PROXY = 'https://aayuh-production.up.railway.app/chat';
+const PROXY = 'https://aayuh-proxy.onrender.com/chat';
 const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 const brandMap = {

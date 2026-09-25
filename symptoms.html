@@ -441,7 +441,7 @@
 </footer>
 
 <script>
-  const PROXY_URL = 'https://aayuh-production.up.railway.app/chat';
+  const PROXY_URL = 'https://aayuh-proxy.onrender.com/chat';
 
   function chip(el, sym) {
     el.classList.toggle('on');
@@ -601,6 +601,31 @@ Rules:
     rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  async function callML(symptoms) {
+    try {
+      const res = await fetch(`${ML_API}/predict`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symptoms: symptoms.split(',').map(s => s.trim()) })
+      });
+      if (!res.ok) throw new Error('ML API error: ' + res.status);
+      const data = await res.json();
+
+      const conditions = (data.conditions || []).slice(0, 5).map(c => ({
+        name: c.disease,
+        symptom_match_pct: Math.round(c.probability),
+        description: c.description,
+        remaining_symptoms: [],
+        triage: c.probability > 60 ? 'urgent' : 'routine'
+      }));
+
+      const topTriage = conditions[0]?.triage || 'routine';
+      return { conditions, triage: topTriage };
+    } catch (e) {
+      throw new Error('ML API error: ' + e.message);
+    }
+  }
+
   async function runDiagnosis() {
     const age = document.getElementById('ageIn').value.trim();
     const sex = document.getElementById('sexIn').value;
@@ -616,7 +641,9 @@ Rules:
     setLoad('Analysing your symptoms...');
 
     try {
-      const result = await callAI(sym, age, sex);
+      // Use ML API for symptom checker
+      const symptoms = sym.split(',').map(s => s.trim());
+      const result = await callML(symptoms);
       hideLoad();
       renderResults(result);
     } catch (e) {
