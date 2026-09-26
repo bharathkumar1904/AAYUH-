@@ -139,7 +139,10 @@
   .cond-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px; font-weight: 300; }
 
   /* Match meter */
-  .match-section { margin-bottom: 14px; }
+  .match-section { margin-bottom: 14px; border-radius: 12px; padding: 8px; margin-left: -8px; margin-right: -8px; transition: background 0.2s; }
+  .match-section.expandable { cursor: pointer; }
+  .match-section.expandable:hover { background: var(--sage-pale); }
+  .match-section.expandable:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
   .match-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
   .match-label { font-size: 0.72rem; font-weight: 500; color: var(--ink-soft); letter-spacing: 0.06em; text-transform: uppercase; }
   .match-pct-wrap { display: flex; align-items: baseline; gap: 3px; }
@@ -151,6 +154,10 @@
   .fill-mid  { background: linear-gradient(90deg, #4a9b6a, #70c090); }
   .fill-high { background: linear-gradient(90deg, #2e7d55, #4a7c59); }
   .match-caption { font-size: 0.75rem; color: var(--ink-faint); margin-top: 4px; }
+  .match-caret { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-left: 7px; border-radius: 50%; background: var(--sage-pale); color: var(--sage-dark); font-size: 0.62rem; line-height: 1; transition: transform 0.25s ease, background 0.2s ease; }
+  .match-section.expandable:hover .match-caret { background: rgba(74,124,89,0.18); }
+  .condition-card.open .match-caret { transform: rotate(180deg); }
+  .condition-card.open .remaining-section { animation: fadeUp 0.3s ease both; }
 
   /* Remaining symptoms */
   .remaining-section { background: var(--sage-pale); border-radius: 10px; padding: 1rem 1.2rem; }
@@ -529,6 +536,7 @@ Rules:
       <span class="triage-badge ${tClass}">${tLabel}</span>
     </div>`;
 
+    let idx = 0;
     (conditions || []).forEach((c) => {
       const pct = Math.max(0, Math.min(100, Math.round(c.symptom_match_pct || 0)));
       const fillClass = pct >= 65 ? 'fill-high' : pct >= 40 ? 'fill-mid' : 'fill-low';
@@ -538,21 +546,24 @@ Rules:
       const totalSymptoms = c.total_symptoms ?? 0;
       const needed = 100 - pct;
 
+      const canExpand = remaining.length > 0;
+
       html += `<div class="condition-card">
         <div class="cond-top">
           <div class="cond-heading">
             <button type="button" class="cond-name" onclick="toggleRemaining(this)">${escapeHtml(c.name)}</button>
-            <div class="cond-hint">${remaining.length > 0 ? `${remaining.length} symptoms not matched yet — click to view` : 'All known symptoms matched'}</div>
+            <div class="cond-hint">${canExpand ? `${remaining.length} more symptoms to watch for &middot; tap the percentage to see them` : 'All known symptoms matched'}</div>
           </div>
           <span class="triage-badge ${ctClass}">${ctLabel}</span>
         </div>
         ${c.description ? `<div class="cond-desc">${escapeHtml(c.description)}</div>` : ''}
-        <div class="match-section">
+        <div class="match-section${canExpand ? ' expandable' : ''}"${canExpand ? ` role="button" tabindex="0" aria-expanded="false" aria-controls="rem-${idx}" onclick="toggleRemaining(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleRemaining(this);}"` : ''}>
           <div class="match-header">
             <span class="match-label">Symptom match</span>
             <div class="match-pct-wrap">
               <span class="match-pct">${pct}</span>
               <span class="match-pct-unit">% of full picture</span>
+              ${canExpand ? '<span class="match-caret">&#9662;</span>' : ''}
             </div>
           </div>
           <div class="match-track">
@@ -560,14 +571,15 @@ Rules:
           </div>
           <div class="match-caption">${matchedCount} of ${totalSymptoms} symptoms matched &middot; ${needed}% more to complete the clinical picture</div>
         </div>
-        ${remaining.length > 0 ? `
-        <div class="remaining-section" style="display:none;">
+        ${canExpand ? `
+        <div class="remaining-section" id="rem-${idx}" style="display:none;">
           <div class="remaining-title">Remaining symptoms for this condition</div>
           <div class="remaining-list">
             ${remaining.map(s => `<span class="rem-chip">${escapeHtml(prettifySymptom(s))}</span>`).join('')}
           </div>
         </div>` : ''}
       </div>`;
+      idx++;
     });
 
     html += `<div class="disclaimer-box">
@@ -590,18 +602,21 @@ Rules:
     rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function toggleRemaining(button) {
-    const card = button.closest('.condition-card');
+  function toggleRemaining(el) {
+    const card = el.closest('.condition-card');
     const panel = card.querySelector('.remaining-section');
     const hint = card.querySelector('.cond-hint');
     if (!panel) return;
 
-    const opening = panel.style.display === 'none';
+    const opening = !card.classList.contains('open');
+    card.classList.toggle('open', opening);
     panel.style.display = opening ? 'block' : 'none';
+    const trigger = card.querySelector('.match-section[aria-expanded]');
+    if (trigger) trigger.setAttribute('aria-expanded', String(opening));
     if (hint) {
       hint.textContent = opening
-        ? 'Click to hide remaining symptoms'
-        : `${panel.querySelectorAll('.rem-chip').length} symptoms not matched yet — click to view`;
+        ? 'Tap again to hide'
+        : `${panel.querySelectorAll('.rem-chip').length} more symptoms to watch for · tap the percentage to see them`;
     }
   }
 
