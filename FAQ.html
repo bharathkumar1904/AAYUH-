@@ -551,8 +551,6 @@
       { q: "Can I trust the medicine information on AAYUH?", a: "AAYUH collects medicine and health-related information from publicly available and reliable medical sources. However, users should always consult a qualified doctor or pharmacist before taking any medication.", cat: "medical" },
       { q: "Is my medical history safe on AAYUH?", a: "Yes. AAYUH takes reasonable measures to protect user data and privacy. However, users should avoid sharing highly sensitive personal information unnecessarily online.", cat: "privacy" },
       { q: "Is AAYUH free to use?", a: "Yes. Most features of AAYUH are free for users.", cat: "platform" },
-      { q: "Why does AAYUH display advertisements?", a: "Advertisements help support the platform, maintain servers, improve features, and keep AAYUH free for users.", cat: "privacy" },
-      { q: "Does AAYUH endorse the ads shown on the website?", a: "No. Advertisements displayed on AAYUH may be provided by third-party advertising partners. AAYUH does not directly endorse or guarantee products or services shown in advertisements.", cat: "privacy" },
       { q: "Can I use AAYUH in emergencies?", a: "No. In medical emergencies, immediately contact your doctor, local hospital, or emergency services. AAYUH is not an emergency service.", cat: "medical" },
       { q: "Does AAYUH store prescriptions?", a: "If users choose to upload or save prescriptions or medical records, they are stored securely for easier access and tracking.", cat: "features" },
       { q: "Can users track medicine reminders on AAYUH?", a: "Yes. AAYUH may provide reminder and health management features to help users remember medicines, injections, and daily health routines.", cat: "features" },
@@ -560,7 +558,6 @@
       { q: "How often is the health information updated?", a: "AAYUH regularly updates its content and features to improve accuracy and user experience.", cat: "platform" },
       { q: "Can I create an account on AAYUH?", a: "Yes. Users can create an account to access personalized features such as medical history, reminders, and saved information.", cat: "features" },
       { q: "How can I contact AAYUH?", a: "Users can contact AAYUH through the Contact Us page or official support email available on the website.", cat: "platform" },
-      { q: "Does AAYUH share my personal information with advertisers?", a: "No. AAYUH does not sell personal medical information to advertisers. Some third-party services may use cookies or analytics technologies according to their own privacy policies.", cat: "privacy" },
       { q: "Is AAYUH suitable for children?", a: "AAYUH should be used under parental or guardian supervision for users below the applicable legal age in their country.", cat: "platform" },
       { q: "Can I rely on the symptom checker for diagnosis?", a: "No. Symptom checkers provide general informational guidance only and cannot replace professional medical evaluation.", cat: "medical" },
       { q: "What should I do if I find incorrect information?", a: "Users can report inaccurate or outdated information through the feedback or contact section of the website.", cat: "platform" },
@@ -648,143 +645,12 @@ document.getElementById("catRow").addEventListener("click", e => {
      ═══════════════════════════════════════════════════ -->
 
 <style>
-  #cookie-banner {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 99999;
-    background: #0f1f1d;
-    color: #e0f7f4;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
-    font-family: 'Plus Jakarta Sans', 'DM Sans', Arial, sans-serif;
-    font-size: 13.5px;
-    line-height: 1.6;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  #cookie-banner.show {
-    transform: translateY(0);
-  }
-
-  .cookie-text {
-    flex: 1;
-    min-width: 220px;
-    color: rgba(255,255,255,0.8);
-  }
-
-  .cookie-text strong {
-    color: #5eead4;
-    font-size: 14px;
-  }
-
-  .cookie-text a {
-    color: #5eead4;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .cookie-actions {
-    display: flex;
-    gap: 10px;
-    flex-shrink: 0;
-    align-items: center;
-  }
-
-  .cookie-btn-accept {
-    background: #0d9488;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 22px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
-  }
-
-  .cookie-btn-accept:hover {
-    background: #0f766e;
-    transform: translateY(-1px);
-  }
-
-  .cookie-btn-decline {
-    background: transparent;
-    color: rgba(255,255,255,0.45);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 9px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .cookie-btn-decline:hover {
-    color: rgba(255,255,255,0.7);
-    border-color: rgba(255,255,255,0.3);
-  }
 
   @media (max-width: 560px) {
-    #cookie-banner { padding: 14px 16px; }
-    .cookie-actions { width: 100%; justify-content: flex-end; }
   }
 </style>
 
-<div id="cookie-banner" role="dialog" aria-label="Cookie consent">
-  <div class="cookie-text">
-    <strong>🍪 We use cookies</strong><br>
-    We use cookies to improve your experience and display relevant advertisements.
-    By clicking <em>Accept</em>, you agree to our use of cookies as described in our
-    <a href="Privacy Policy.html">Privacy Policy</a>.
-    Google AdSense may also use cookies to personalise ads —
-    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">manage ad preferences</a>.
-  </div>
-  <div class="cookie-actions">
-    <button class="cookie-btn-decline" onclick="cookieDecline()">Decline</button>
-    <button class="cookie-btn-accept" onclick="cookieAccept()">✓ Accept All</button>
-  </div>
-</div>
 
-<script>
-  (function() {
-    // Show banner only if consent not already given
-    var consent = localStorage.getItem('aayuh_cookie_consent');
-    if (!consent) {
-      setTimeout(function() {
-        var banner = document.getElementById('cookie-banner');
-        if (banner) banner.classList.add('show');
-      }, 800);
-    }
-  })();
-
-  function cookieAccept() {
-    localStorage.setItem('aayuh_cookie_consent', 'accepted');
-    hideBanner();
-  }
-
-  function cookieDecline() {
-    localStorage.setItem('aayuh_cookie_consent', 'declined');
-    hideBanner();
-  }
-
-  function hideBanner() {
-    var banner = document.getElementById('cookie-banner');
-    if (banner) {
-      banner.style.transition = 'transform 0.3s ease';
-      banner.style.transform = 'translateY(100%)';
-      setTimeout(function() { banner.style.display = 'none'; }, 300);
-    }
-  }
-</script>
 <!-- ═══════════════════════════════════════════════════ -->
 </body>
 </html>

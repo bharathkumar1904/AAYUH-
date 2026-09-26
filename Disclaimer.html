@@ -303,28 +303,9 @@
 
   <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-  <!-- Cookie Banner -->
-  <style>
-    #cb{position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0f1f1d;color:#e0f7f4;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 24px rgba(0,0,0,.25);font-family:var(--font-body);font-size:13px;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
-    #cb.show{transform:translateY(0);}
-    .cb-text{flex:1;min-width:200px;color:rgba(255,255,255,.78);}
-    .cb-text a{color:#5eead4;text-decoration:underline;}
-    .cb-acc{background:#0d9488;color:white;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;}
-    .cb-acc:hover{background:#0f766e;}
-    .cb-dec{background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:9px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
-  </style>
-  <div id="cb">
-    <div class="cb-text">🍪 We use cookies to improve your experience and show relevant ads. See our <a href="Privacy Policy.html">Privacy Policy</a>.</div>
-    <div style="display:flex;gap:8px;flex-shrink:0;">
-      <button class="cb-dec" onclick="cbHide('d')">Decline</button>
-      <button class="cb-acc" onclick="cbHide('a')">✓ Accept</button>
-    </div>
-  </div>
-  <script>
-    window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',scrollY>300));
-    (function(){if(!localStorage.getItem('aayuh_cc'))setTimeout(()=>document.getElementById('cb').classList.add('show'),800);})();
-    function cbHide(v){localStorage.setItem('aayuh_cc',v);var b=document.getElementById('cb');b.style.transition='transform .3s ease';b.style.transform='translateY(100%)';}
-  </script>
+<script>
+  window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',scrollY>300));
+</script>
 <script src="backbutton.js"></script>
 </body>
 </html>
