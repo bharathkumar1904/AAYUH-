@@ -132,7 +132,10 @@
   .condition-card:nth-child(4) { animation-delay: 0.15s; }
   .condition-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
   .cond-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 12px; }
-  .cond-name { font-weight: 500; font-size: 1.08rem; color: var(--ink); }
+  .cond-heading { min-width: 0; }
+  .cond-name { font-family: inherit; font-weight: 500; font-size: 1.08rem; color: var(--ink); background: none; border: none; padding: 0; text-align: left; cursor: pointer; }
+  .cond-name:hover { color: var(--sage-dark); }
+  .cond-hint { font-size: 0.72rem; color: var(--ink-faint); margin-top: 4px; }
   .cond-desc { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.65; margin-bottom: 16px; font-weight: 300; }
 
   /* Match meter */
@@ -157,6 +160,11 @@
   .rem-chip { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; background: white; border: 1px solid rgba(74,124,89,0.2); color: var(--sage-dark); }
 
   .disclaimer-box { background: var(--cream); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1.5rem; font-size: 0.78rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+
+  .info-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.6rem; }
+  .info-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sage-dark); background: var(--sage-pale); border-radius: 20px; padding: 4px 12px; margin-bottom: 1rem; }
+  .info-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.75; font-weight: 300; margin: 0 0 0.9rem; }
+  .info-card p:last-child { margin-bottom: 0; }
 
   /* ── LEGAL STRIP (below results) ── */
   .legal-strip {
@@ -471,63 +479,48 @@
     rw.style.display = 'block';
   }
 
-  async function callAI(sym, age, sex) {
-    const prompt = `You are a clinical symptom analysis AI. A patient reports:
-Age: ${age} years | Sex: ${sex} | Reported symptoms: ${sym}
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
 
-Analyse and return ONLY a raw JSON object — absolutely no markdown, no backticks, no extra text:
-{
-  "conditions": [
-    {
-      "name": "Condition name",
-      "triage": "routine",
-      "description": "One clear sentence describing this condition.",
-      "symptom_match_pct": 65,
-      "remaining_symptoms": ["symptom A", "symptom B", "symptom C"]
-    }
-  ],
-  "triage": "routine"
-}
+  function prettifySymptom(symptom) {
+    return symptom.replace(/_/g, ' ').replace(/\s*\(\s*typhos\s*\)/i, '').trim();
+  }
+
+  async function callGroqFallback(sym) {
+    const prompt = `A user could not get a match from a clinical symptom-matching model.
+
+Reported symptoms: ${sym}
+
+Write a short, safe, general health information response in plain English (under 180 words) using these headings:
+Possible common causes
+What you can do now
+When to seek medical care
 
 Rules:
-- List 3 to 5 most likely conditions ranked by symptom_match_pct descending
-- symptom_match_pct: integer from 15 to 90
-- remaining_symptoms: 2 to 5 concise symptom names not mentioned but classically associated
-- description: plain English, one sentence, no jargon
-- triage per condition: "routine", "urgent", or "emergency"
-- Top-level triage: most critical level across all conditions listed`;
+- Do not diagnose and do not claim any condition is confirmed
+- Never name a specific medicine or dose; say to ask a pharmacist or doctor
+- Mention emergency warning signs and advise urgent care when relevant
+- Use short paragraphs, no markdown, no bullet symbols`;
 
     const r = await fetch(PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.2,
-        max_tokens: 1200
+        temperature: 0.3,
+        max_tokens: 700
       })
     });
 
-    if (r.status === 502) throw new Error('Proxy server error. Make sure server.js is running.');
-    if (!r.ok) throw new Error('The analysis service encountered an error (' + r.status + '). Please try again.');
+    if (!r.ok) throw new Error('AI assistant unavailable (' + r.status + '). Please try again.');
 
-    const rd = await r.json();
-    const raw = rd.choices?.[0]?.message?.content || '';
-    const txt = raw.trim().replace(/```json|```/g, '').trim();
-    if (!txt) throw new Error('No response received. Please try again.');
-
-    let parsed;
-    try { parsed = JSON.parse(txt); }
-    catch {
-      const match = txt.match(/\{[\s\S]*\}/);
-      if (match) {
-        try { parsed = JSON.parse(match[0]); }
-        catch { throw new Error('Could not read the analysis response. Please try again.'); }
-      } else {
-        throw new Error('Could not read the analysis response. Please try again.');
-      }
-    }
-    return parsed;
+    const data = await r.json();
+    const text = (data.choices?.[0]?.message?.content || '').trim();
+    if (!text) throw new Error('No response received. Please try again.');
+    return text;
   }
 
   function triageInfo(t) {
@@ -547,18 +540,23 @@ Rules:
     </div>`;
 
     (conditions || []).forEach((c) => {
-      const pct = Math.min(90, Math.max(15, Math.round(c.symptom_match_pct || 50)));
+      const pct = Math.max(0, Math.min(100, Math.round(c.symptom_match_pct || 0)));
       const fillClass = pct >= 65 ? 'fill-high' : pct >= 40 ? 'fill-mid' : 'fill-low';
       const [ctLabel, ctClass] = triageInfo(c.triage || 'routine');
-      const remaining = (c.remaining_symptoms || []).slice(0, 5);
+      const remaining = c.remaining_symptoms || [];
+      const matchedCount = c.matched_count ?? 0;
+      const totalSymptoms = c.total_symptoms ?? 0;
       const needed = 100 - pct;
 
       html += `<div class="condition-card">
         <div class="cond-top">
-          <div class="cond-name">${c.name}</div>
+          <div class="cond-heading">
+            <button type="button" class="cond-name" onclick="toggleRemaining(this)">${escapeHtml(c.name)}</button>
+            <div class="cond-hint">${remaining.length > 0 ? `${remaining.length} symptoms not matched yet — click to view` : 'All known symptoms matched'}</div>
+          </div>
           <span class="triage-badge ${ctClass}">${ctLabel}</span>
         </div>
-        ${c.description ? `<div class="cond-desc">${c.description}</div>` : ''}
+        ${c.description ? `<div class="cond-desc">${escapeHtml(c.description)}</div>` : ''}
         <div class="match-section">
           <div class="match-header">
             <span class="match-label">Symptom match</span>
@@ -570,13 +568,13 @@ Rules:
           <div class="match-track">
             <div class="match-fill ${fillClass}" style="width:0%" data-width="${pct}"></div>
           </div>
-          <div class="match-caption">${needed}% more symptoms would complete the full clinical picture</div>
+          <div class="match-caption">${matchedCount} of ${totalSymptoms} symptoms matched &middot; ${needed}% more to complete the clinical picture</div>
         </div>
         ${remaining.length > 0 ? `
-        <div class="remaining-section">
-          <div class="remaining-title">Watch for these additional symptoms</div>
+        <div class="remaining-section" style="display:none;">
+          <div class="remaining-title">Remaining symptoms for this condition</div>
           <div class="remaining-list">
-            ${remaining.map(s => `<span class="rem-chip">${s}</span>`).join('')}
+            ${remaining.map(s => `<span class="rem-chip">${escapeHtml(prettifySymptom(s))}</span>`).join('')}
           </div>
         </div>` : ''}
       </div>`;
@@ -602,6 +600,55 @@ Rules:
     rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function toggleRemaining(button) {
+    const card = button.closest('.condition-card');
+    const panel = card.querySelector('.remaining-section');
+    const hint = card.querySelector('.cond-hint');
+    if (!panel) return;
+
+    const opening = panel.style.display === 'none';
+    panel.style.display = opening ? 'block' : 'none';
+    if (hint) {
+      hint.textContent = opening
+        ? 'Click to hide remaining symptoms'
+        : `${panel.querySelectorAll('.rem-chip').length} symptoms not matched yet — click to view`;
+    }
+  }
+
+  function renderInfo(text) {
+    const cleaned = text
+      .replace(/```[a-z]*|```/gi, '')
+      .replace(/^#{1,6}\s*/gm, '')
+      .replace(/\*\*/g, '')
+      .trim();
+
+    const paragraphs = cleaned
+      .split(/\n{2,}/)
+      .map(p => p.trim())
+      .filter(Boolean)
+      .map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`)
+      .join('');
+
+    const html = `<h3 class="results-title">General information</h3>
+      <div class="triage-overall">
+        <span class="triage-label">Symptom match:</span>
+        <span class="triage-badge t-routine">Not available</span>
+      </div>
+      <div class="info-card">
+        <span class="info-badge">AI information — not a diagnosis</span>
+        ${paragraphs}
+      </div>
+      <div class="disclaimer-box">
+        ⚠️ Aayuh is for informational purposes only and does not constitute medical advice, diagnosis, or treatment.
+        Always consult a qualified healthcare professional. In an emergency, call <strong>112</strong> immediately.
+      </div>`;
+
+    const rw = document.getElementById('resultsWrap');
+    rw.innerHTML = html;
+    rw.style.display = 'block';
+    rw.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function normalizeMLSymptoms(symptoms) {
     const aliases = {
       fever: 'high_fever',
@@ -622,30 +669,27 @@ Rules:
   }
 
   async function callML(symptoms) {
-    try {
-      const res = await fetch(`${ML_API}/predict`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ symptoms: normalizeMLSymptoms(symptoms) })
-      });
-      if (!res.ok) throw new Error('ML API error: ' + res.status);
-      const data = await res.json();
-      if (!data.matched_symptoms?.length) {
-        throw new Error('No recognised symptoms were found. Use the chips or comma-separated symptom names.');
-      }
+    const res = await fetch(`${ML_API}/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symptoms: normalizeMLSymptoms(symptoms) })
+    });
+    if (!res.ok) throw new Error('ML service unavailable (' + res.status + ').');
 
-      const conditions = (data.conditions || []).slice(0, 5).map(c => ({
-        name: c.disease,
-        symptom_match_pct: Math.round(c.probability),
-        description: c.description,
-        remaining_symptoms: [],
-        triage: data.triage?.level || 'routine'
-      }));
+    const data = await res.json();
+    if (!data.matched_symptoms?.length) return null;
 
-      return { conditions, triage: data.triage?.level || 'routine' };
-    } catch (e) {
-      throw new Error('ML API error: ' + e.message);
-    }
+    const conditions = (data.conditions || []).slice(0, 5).map(c => ({
+      name: c.disease,
+      symptom_match_pct: c.match_percentage ?? Math.round(c.probability),
+      description: c.description,
+      remaining_symptoms: c.remaining_symptoms || [],
+      matched_count: c.matched_count,
+      total_symptoms: c.total_symptoms,
+      triage: data.triage?.level || 'routine'
+    }));
+
+    return { conditions, triage: data.triage?.level || 'routine' };
   }
 
   async function runDiagnosis() {
@@ -663,17 +707,31 @@ Rules:
     setLoad('Analysing your symptoms...');
 
     try {
-      // Use ML API for symptom checker
-      const symptoms = sym.split(',').map(s => s.trim());
-      const result = await callML(symptoms);
-      hideLoad();
-      renderResults(result);
-    } catch (e) {
-      hideLoad();
-      showError(e.message);
-    }
+      const result = await callML(sym.split(',').map(s => s.trim()));
 
-    btn.disabled = false;
+      if (result) {
+        hideLoad();
+        renderResults(result);
+        return;
+      }
+
+      setLoad('No symptom match found. Asking the AI assistant...');
+      const info = await callGroqFallback(sym);
+      hideLoad();
+      renderInfo(info);
+    } catch (error) {
+      try {
+        setLoad('Symptom matching is unavailable. Asking the AI assistant...');
+        const info = await callGroqFallback(sym);
+        hideLoad();
+        renderInfo(info);
+      } catch (fallbackError) {
+        hideLoad();
+        showError(fallbackError.message);
+      }
+    } finally {
+      btn.disabled = false;
+    }
   }
 </script>
 
