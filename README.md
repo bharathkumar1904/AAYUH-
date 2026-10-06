@@ -57,7 +57,7 @@ www/, android/, server.js, medical_histories etc.
 
 ## Deployment
 - Web: **Vercel** (`vercel.json` static build)
-- API: **Railway** (`aayuh-production.up.railway.app`) with keep-alive
+- API: **Render** (`https://aayuh-proxy.onrender.com`) with keep-alive
 - Android: Capacitor + Capgo for OTA updates
 
 ## Security & Privacy 🚀
