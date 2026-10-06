@@ -1,4 +1,4 @@
-# AAYUH — AI-Assisted Health Information Platform
+# AAYUH  AI-Assisted Health Information Platform
 
 ## Abstract
 
