@@ -35,11 +35,11 @@ single codebase.
 |-------|-----------|------|
 | Frontend | HTML5, CSS3, JavaScript (ES6+), Web App Manifest, Service Worker | Responsive multi-page app + offline-capable PWA |
 | AI | Groq Cloud (Llama 3.3-70B Versatile) | Symptom analysis, medicine explainers, chatbot |
-| Backend Proxy | Node.js + Express (`server.js`), Railway | Hides GROQ_API_KEY, CORS, keep-alive health checks |
+| Backend Proxy | Node.js + Express (`server.js`), Render | Hides GROQ_API_KEY, CORS, keep-alive health checks |
 | Drug Data | USFDA open.fda.gov drug/label API | Real drug label & interaction data |
 | Auth & DB | Firebase Authentication + Firebase Firestore | Users, sessions, medical history storage |
 | Mobile | Capacitor 8 (Android), Capgo updater | APK build + over-the-air updates |
-| Hosting | Vercel (static), Railway (proxy) | Global CDN + API uptime |
+| Hosting | Vercel (static), Render (proxy) | Global CDN + API uptime |
 
 ## Architecture
 Browser / PWA / Android App (front-end fetches) → Vercel static hosting →
@@ -57,7 +57,11 @@ www/, android/, server.js, medical_histories etc.
 
 ## Deployment
 - Web: **Vercel** (`vercel.json` static build)
+<<<<<<< HEAD
 - API: **Render** (`https://aayuh-proxy.onrender.com`) with keep-alive
+=======
+- API: **Render** (`aayuh-production.up.Render.app`) with keep-alive
+>>>>>>> 506dd63 (docs: fix README (Render proxy, correct description) and add verified abstract)
 - Android: Capacitor + Capgo for OTA updates
 
 ## Security & Privacy 🚀
@@ -72,3 +76,4 @@ www/, android/, server.js, medical_histories etc.
 
 ## Contact
 Built by Bharat Kumar Peddireddy (bharathkumarnaidu8143@gmail.com,https://github.com/bharathkumar1904/AAYUH-). Report issues via /issues.
+
